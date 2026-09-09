@@ -42,6 +42,18 @@ def _install_reference_msda() -> None:
     sys.modules["MultiScaleDeformableAttention"] = module
 
 
+def _guard_legacy_torchvision_version_parser():
+    """Keep pinned MOTR's float-based 0.x check on the modern code path."""
+
+    import torchvision
+
+    original = torchvision.__version__
+    match = re.match(r"^(\d+)\.(\d+)", original)
+    if match and int(match.group(1)) == 0 and int(match.group(2)) >= 7:
+        torchvision.__version__ = "1.0.0-modelforge-compat"
+    return torchvision, original
+
+
 def _sha256(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as source:
@@ -339,6 +351,7 @@ def _run_upstream_motr(
     arguments = build_upstream_submit_arguments(dataset, checkpoint_path, output, sequence.name)
     original_path = list(sys.path)
     sys.path.insert(0, str(upstream))
+    torchvision, torchvision_version = _guard_legacy_torchvision_version_parser()
     try:
         _install_reference_msda()
         from main import get_args_parser
@@ -353,6 +366,7 @@ def _run_upstream_motr(
         model = model.cuda()
         Detector(args, model=model, seq_num=sequence.name).detect()
     finally:
+        torchvision.__version__ = torchvision_version
         sys.path[:] = original_path
     upstream_predictions = output / "upstream" / "predictions" / f"{sequence.name}.txt"
     if not upstream_predictions.is_file():

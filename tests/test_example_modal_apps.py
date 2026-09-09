@@ -291,6 +291,20 @@ def test_soccernet_installs_inference_only_reference_attention_without_upstream_
         shim.ms_deform_attn_backward()
 
 
+def test_soccernet_guards_pinned_upstream_float_version_parser(monkeypatch):
+    source_root = EXAMPLES / "soccernet-tracking" / "src"
+    monkeypatch.syspath_prepend(str(source_root))
+    from soccernet_motr.infer import _guard_legacy_torchvision_version_parser
+
+    fake = types.SimpleNamespace(__version__="0.21.0")
+    monkeypatch.setitem(sys.modules, "torchvision", fake)
+    module, original = _guard_legacy_torchvision_version_parser()
+
+    assert module is fake
+    assert original == "0.21.0"
+    assert module.__version__ == "1.0.0-modelforge-compat"
+
+
 def test_soccernet_explicit_registered_train_sequence_does_not_require_test_split(tmp_path, monkeypatch):
     source_root = EXAMPLES / "soccernet-tracking" / "src"
     monkeypatch.syspath_prepend(str(source_root))
