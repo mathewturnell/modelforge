@@ -261,14 +261,14 @@
       "sha256": "e0e968aef3318f7eab2529bd21e6ec07dccdccd00f89b639ff9992b54f574efb"
     },
     {
-      "bytes": 8832,
+      "bytes": 8910,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/release-status.md",
-      "sha256": "2671614d6374989ab0c41ee31af62b37cb4e40f17efab677de287fd19b9b35bb"
+      "sha256": "b5de2aeb152ba6ddf276b9bf8a366a5c0f3df1b926db0975c1868a235cabe315"
     },
     {
       "bytes": 5763,

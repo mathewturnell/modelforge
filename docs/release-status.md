@@ -77,11 +77,12 @@ a bounded semantic HTML table, and Qwen rendered checked assistant text at
 artifacts returned authenticated 32-byte `206` ranges and exact content-range
 headers; every non-video artifact returned its registered byte count.
 Scientific telemetry and live provider usage remain unavailable rather than
-zero. The Modal monthly summary moved from USD 12.98947888 to USD 13.67947888,
-an exact gross metered increase of USD 0.69 against the authorized USD 10
-ceiling; current billed cost remained USD 0 after account credits/free storage.
-The detailed hourly report showed USD 0.69118354 as intervals settled, which is
-consistent with the monthly summary's cent-rounded increase. After evidence
+zero. The operator recorded a pre-run Modal monthly value of USD 12.98947888,
+but did not retain that initial summary file; the retained final summary is USD
+13.67947888 with billed cost still USD 0 after account credits/free storage.
+The two retained detailed hourly reports independently sum to USD 0.69118354,
+which substantiates spend below the authorized USD 10 ceiling and is consistent
+with the monthly values' cent-rounded USD 0.69 difference. After evidence
 capture, all four exact acceptance apps were stopped, all four dedicated input
 volumes were deleted, and the environment reported no deployed app, volume, or
 active container. Declared resource plans remain disclosures, not quotes or
