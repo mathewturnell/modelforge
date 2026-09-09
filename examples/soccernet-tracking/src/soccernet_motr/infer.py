@@ -283,8 +283,7 @@ def build_upstream_submit_arguments(
 def _official_sequence(dataset: Path, sample_index: int, sequence_path: Path | None = None):
     report = dataset / "adapter_report.json"
     images_root = dataset / "MOT17-SoccerNet" / "images"
-    test_root = images_root / "test"
-    if not report.is_file() or not test_root.is_dir():
+    if not report.is_file() or not images_root.is_dir():
         raise ValueError(
             "A non-smoke checkpoint requires the selected official SoccerNet MOTR adapter"
         )
@@ -304,6 +303,9 @@ def _official_sequence(dataset: Path, sample_index: int, sequence_path: Path | N
         if len(relative.parts) != 2 or tuple(relative.parts) not in registered:
             raise ValueError("Selected sequence is not registered by the official SoccerNet adapter")
         return load_sequence(selected, require_gt=False, invalid_box_policy="drop")
+    test_root = images_root / "test"
+    if not test_root.is_dir():
+        raise ValueError("The default official SoccerNet selection requires a test split")
     sequences = discover_sequences(test_root, require_gt=False)
     if not 0 <= sample_index < len(sequences):
         raise ValueError(f"Sample index must be between 0 and {len(sequences) - 1}")

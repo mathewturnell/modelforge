@@ -291,6 +291,25 @@ def test_soccernet_installs_inference_only_reference_attention_without_upstream_
         shim.ms_deform_attn_backward()
 
 
+def test_soccernet_explicit_registered_train_sequence_does_not_require_test_split(tmp_path, monkeypatch):
+    source_root = EXAMPLES / "soccernet-tracking" / "src"
+    monkeypatch.syspath_prepend(str(source_root))
+    from soccernet_motr import infer as module
+
+    images = tmp_path / "MOT17-SoccerNet" / "images"
+    sequence = images / "train" / "SNMOT-060"
+    sequence.mkdir(parents=True)
+    (tmp_path / "adapter_report.json").write_text(json.dumps({
+        "format": "soccernet-to-motr-adapter/v1",
+        "synthetic": False,
+        "sequences": [{"split": "train", "sequence": "SNMOT-060"}],
+    }), encoding="utf-8")
+    sentinel = object()
+    monkeypatch.setattr(module, "load_sequence", lambda *args, **kwargs: sentinel)
+
+    assert module._official_sequence(tmp_path, 0, sequence) is sentinel
+
+
 def test_soccernet_modal_dataset_archive_is_exact_and_rejects_links(tmp_path):
     module = _import("soccernet-tracking", modal_module=_fake_modal())
     archive = tmp_path / "bounded.tar"
