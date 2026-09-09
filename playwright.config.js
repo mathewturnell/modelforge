@@ -21,6 +21,6 @@ export default defineConfig({
     trace: "retain-on-failure",
     video: process.env.CI ? "retain-on-failure" : "off",
     browserName: "chromium",
-    channel: process.env.MODELFORGE_BROWSER_CHANNEL || "chrome",
+    channel: process.env.MODELFORGE_BROWSER_CHANNEL || "chromium",
   },
 });

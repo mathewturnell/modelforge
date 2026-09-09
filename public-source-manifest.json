@@ -1,14 +1,14 @@
 {
   "files": [
     {
-      "bytes": 4910,
+      "bytes": 4854,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": ".github/workflows/ci.yml",
-      "sha256": "d63018e9960f6b4ae4c691f49cec719958fa078ce23fa6ac55db6e70c86a6d77"
+      "sha256": "e8486d2628723f027a46119180910cc80dd9753a823da3f3734095f291f32a55"
     },
     {
       "bytes": 495,
@@ -271,14 +271,14 @@
       "sha256": "0a9dfe50d96ce0b25e7b22a68fd39f4db7448c41a9c062275054b203eb094af1"
     },
     {
-      "bytes": 5917,
+      "bytes": 5977,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/ux-qualification.md",
-      "sha256": "8349d4554dd6e7e1ced5bed29246c5b646ec1abbb0ef75c3089532b06aa302ae"
+      "sha256": "c6c4149938948776d7134f6114d7ad8d0ae8084889c5d6903a860cc1535519e1"
     },
     {
       "bytes": 16785,
@@ -869,14 +869,14 @@
       "sha256": "27e4aad8c48b4db2752872cc8ef645730e91a4401c3d8b05d59eff958f6ff574"
     },
     {
-      "bytes": 787,
+      "bytes": 789,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "playwright.config.js",
-      "sha256": "6e465e6fd6b6300b71391f4a9b08a0b2de269e6ac27e2f22dc9489a87fa3cc19"
+      "sha256": "7bafec5487a8d0c8a5cccb289bc5f1218af1c0bcfdee808f5d216d9fef8cdf1f"
     },
     {
       "bytes": 3821,

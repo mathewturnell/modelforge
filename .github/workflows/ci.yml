@@ -63,20 +63,18 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci --ignore-scripts
-      - name: Install locked Playwright video helper
-        run: npx playwright install ffmpeg
+      - name: Install locked Playwright browser and video helper
+        run: npx playwright install chromium
       - run: python -m pip install -r requirements-ci.txt
       - run: python -m build --wheel
       - name: Install built candidate
         run: |
           python -m venv /tmp/modelforge-browser-installed
           /tmp/modelforge-browser-installed/bin/pip install --no-deps dist/*.whl
-      - name: Verify system Chrome
-        run: google-chrome --version
       - name: Run public browser journeys
         env:
           MODELFORGE_TEST_PYTHON: /tmp/modelforge-browser-installed/bin/python
-          MODELFORGE_BROWSER_CHANNEL: chrome
+          MODELFORGE_BROWSER_CHANNEL: chromium
         run: npm run test:browser
       - name: Retain bounded browser failure evidence
         if: failure()

@@ -2,10 +2,11 @@
 
 The public-alpha browser gate runs the built package with its real loopback
 server, shared services, local executor, disposable state, and redistributable
-fixtures. Playwright uses system Chrome, one worker, no retries, accessible
-selectors, and bounded observable waits. External provider behavior is mocked
-only at the provider-status boundary; ordinary CI has no credentials, GPU,
-private assets, model download, paid execution, or network dependency.
+fixtures. Playwright uses its version-locked Chromium build, one worker, no
+retries, accessible selectors, and bounded observable waits. External provider
+behavior is mocked only at the provider-status boundary; ordinary CI has no
+credentials, GPU, private assets, model download, paid execution, or runtime
+network dependency.
 
 | Journey | Automated evidence |
 | --- | --- |
@@ -73,6 +74,7 @@ Run locally with:
 
 ```bash
 npm ci
+npx playwright install chromium
 npm run test:browser
 ```
 
