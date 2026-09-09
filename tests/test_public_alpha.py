@@ -162,6 +162,8 @@ def test_static_client_retains_auth_per_tab_and_handles_blocked_popups():
     assert "const epoch = ++renderEpoch" in source
     assert "if (epoch !== renderEpoch)" in source
     assert 'result.setAttribute("aria-label", "Checked assistant response")' in source
+    assert 'artifact.kind === "table"' in source
+    assert "renderTableResult(JSON.parse(await blob.text()), artifact)" in source
     assert "if (!response.ok) throw new Error" in source
     assert "clearTimeout(pollTimer)" in source
     assert "current.project_id !== project.id" in source

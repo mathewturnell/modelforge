@@ -210,6 +210,55 @@ function previewError(message) {
   node("result-preview").append(alert);
 }
 
+function renderTableResult(value, artifact) {
+  const candidates = Array.isArray(value)
+    ? value
+    : Object.values(value || {}).filter(item => Array.isArray(item));
+  const rows = (Array.isArray(value) ? candidates : candidates[0] || []).slice(0, 100);
+  const columns = [...new Set(rows.flatMap(row => (
+    row && typeof row === "object" && !Array.isArray(row) ? Object.keys(row) : ["value"]
+  )))].slice(0, 20);
+  if (!rows.length || !columns.length) {
+    const fallback = document.createElement("pre");
+    fallback.setAttribute("aria-label", `Checked table result ${artifact.name}`);
+    fallback.textContent = JSON.stringify(value, null, 2);
+    return fallback;
+  }
+  const scroll = document.createElement("div");
+  scroll.className = "result-table-scroll";
+  const table = document.createElement("table");
+  const caption = document.createElement("caption");
+  caption.textContent = artifact.name;
+  table.append(caption);
+  const head = document.createElement("thead");
+  const header = document.createElement("tr");
+  for (const column of columns) {
+    const cell = document.createElement("th");
+    cell.scope = "col";
+    cell.textContent = column;
+    header.append(cell);
+  }
+  head.append(header);
+  table.append(head);
+  const body = document.createElement("tbody");
+  for (const row of rows) {
+    const line = document.createElement("tr");
+    const record = row && typeof row === "object" && !Array.isArray(row) ? row : {value: row};
+    for (const column of columns) {
+      const cell = document.createElement("td");
+      const cellValue = record[column];
+      cell.textContent = cellValue === null || cellValue === undefined
+        ? ""
+        : typeof cellValue === "object" ? JSON.stringify(cellValue) : String(cellValue);
+      line.append(cell);
+    }
+    body.append(line);
+  }
+  table.append(body);
+  scroll.append(table);
+  return scroll;
+}
+
 async function loadArtifactPreview(run, artifact, epoch) {
   const path = artifactUrl(run, artifact);
   try {
@@ -229,6 +278,9 @@ async function loadArtifactPreview(run, artifact, epoch) {
       const result = document.createElement("pre");
       result.setAttribute("aria-label", "Checked assistant response");
       result.textContent = await blob.text();
+      if (epoch === renderEpoch) node("result-preview").append(result);
+    } else if (artifact.kind === "table" && artifact.content_type === "application/json") {
+      const result = renderTableResult(JSON.parse(await blob.text()), artifact);
       if (epoch === renderEpoch) node("result-preview").append(result);
     }
   } catch (error) {
@@ -409,7 +461,11 @@ function renderRun(run) {
     link.dataset.artifactId = artifact.id;
     link.addEventListener("click", event => openArtifact(event, link, artifact));
     artifacts.append(link);
-    if (artifact.content_type === "video/mp4" || artifact.kind === "assistant-text") loadArtifactPreview(run, artifact, epoch);
+    if (
+      artifact.content_type === "video/mp4"
+      || artifact.kind === "assistant-text"
+      || (artifact.kind === "table" && artifact.content_type === "application/json")
+    ) loadArtifactPreview(run, artifact, epoch);
     if (artifact.kind === "process-log") loadProcessLog(run, artifact, epoch);
   }
 }
