@@ -1,8 +1,13 @@
 import {defineConfig} from "@playwright/test";
 
+const snapshotPathTemplate = process.env.GITHUB_ACTIONS === "true"
+  ? "{testDir}/{testFilePath}-snapshots/{arg}-github-ubuntu-24.04{ext}"
+  : "{testDir}/{testFilePath}-snapshots/{arg}-{platform}{ext}";
+
 export default defineConfig({
   testDir: "./browser-tests/journeys",
   outputDir: process.env.MODELFORGE_PLAYWRIGHT_OUTPUT_ROOT || "./test-results",
+  snapshotPathTemplate,
   timeout: 90_000,
   expect: {timeout: 10_000},
   fullyParallel: false,

@@ -63,11 +63,14 @@ def test_reviewed_environment_templates_are_not_classified_as_credentials():
 
 def test_only_named_visual_baselines_are_accepted_as_binary_fixtures():
     scanner = _scanner()
-    approved = (
-        "browser-tests/journeys/first-use.spec.js-snapshots/"
-        "first-use-mobile-390-linux.png"
-    )
-    assert scanner._category_for_path(approved) is None
+    expected = {
+        "browser-tests/journeys/first-use.spec.js-snapshots/first-use-desktop-linux.png",
+        "browser-tests/journeys/first-use.spec.js-snapshots/first-use-mobile-390-linux.png",
+        "browser-tests/journeys/first-use.spec.js-snapshots/first-use-desktop-github-ubuntu-24.04.png",
+        "browser-tests/journeys/first-use.spec.js-snapshots/first-use-mobile-390-github-ubuntu-24.04.png",
+    }
+    assert scanner.APPROVED_BINARY_FIXTURES == expected
+    assert all(scanner._category_for_path(path) is None for path in expected)
     assert scanner._category_for_path("docs/unreviewed-screenshot.png") == (
         "private_binary_or_execution_material"
     )

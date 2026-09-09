@@ -141,6 +141,16 @@
       "sha256": "dcff3e663cfe20b2c3d86947c3de56506f33df253c9e376361f3a6d9757d5a6c"
     },
     {
+      "bytes": 549588,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "repository-source"
+      },
+      "path": "browser-tests/journeys/first-use.spec.js-snapshots/first-use-desktop-github-ubuntu-24.04.png",
+      "sha256": "2fc9da547342caaa1cc14da2d88c6759a6c584378a5bcd98f36d3d7bd89188d9"
+    },
+    {
       "bytes": 543956,
       "license": "Apache-2.0",
       "mode": "100644",
@@ -149,6 +159,16 @@
       },
       "path": "browser-tests/journeys/first-use.spec.js-snapshots/first-use-desktop-linux.png",
       "sha256": "5c941cf7dd5affb13c676dd28744de6bc17d97bac8c18176d8fb043689a128b5"
+    },
+    {
+      "bytes": 471295,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "repository-source"
+      },
+      "path": "browser-tests/journeys/first-use.spec.js-snapshots/first-use-mobile-390-github-ubuntu-24.04.png",
+      "sha256": "5fc67b14260cd0cfdcd5f35f9367941b34e13d1b25ed35bb4ba96bd2e12bb9a0"
     },
     {
       "bytes": 456811,
@@ -271,14 +291,14 @@
       "sha256": "0a9dfe50d96ce0b25e7b22a68fd39f4db7448c41a9c062275054b203eb094af1"
     },
     {
-      "bytes": 5977,
+      "bytes": 6195,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/ux-qualification.md",
-      "sha256": "c6c4149938948776d7134f6114d7ad8d0ae8084889c5d6903a860cc1535519e1"
+      "sha256": "1f0b5a0affadfc404af50a6b2faa03aea9bf15a6dffbceb79a15ff3dc210f852"
     },
     {
       "bytes": 16785,
@@ -869,14 +889,14 @@
       "sha256": "27e4aad8c48b4db2752872cc8ef645730e91a4401c3d8b05d59eff958f6ff574"
     },
     {
-      "bytes": 789,
+      "bytes": 1017,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "playwright.config.js",
-      "sha256": "7bafec5487a8d0c8a5cccb289bc5f1218af1c0bcfdee808f5d216d9fef8cdf1f"
+      "sha256": "a827d4621e70980efdb3500e71ce2ce36768dc3fc748ed3b8b6a23af7fd4f52a"
     },
     {
       "bytes": 3821,
@@ -909,14 +929,14 @@
       "sha256": "132c5267d55bcc27b0f0c5681891766a7b66165460c97541dfd7a841f407882a"
     },
     {
-      "bytes": 7731,
+      "bytes": 7934,
       "license": "Apache-2.0",
       "mode": "100755",
       "origin": {
         "kind": "repository-source"
       },
       "path": "scripts/scan_public_candidate.py",
-      "sha256": "83ef3c5396ada964bc7ba8078bee65e192a76f3dd55ecb4146d9b057389873fc"
+      "sha256": "6ef4a6a82f8d2dbfbc8c78cc24fd8c9c270b355b00b228b58790d42cef8dc25d"
     },
     {
       "bytes": 6281,
@@ -1559,14 +1579,14 @@
       "sha256": "eacac0b2d6b80960d43cd59bcbbfab0f3bc3920d9ea33926c2cdf41657502f07"
     },
     {
-      "bytes": 2573,
+      "bytes": 2942,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "tests/test_public_scan.py",
-      "sha256": "e2f7795ea2a1be94f4df3bc46ebd74f83406366884cc07c5de64bd1e73ab7b47"
+      "sha256": "fc350c87b8f4708b5531570edcd9e87b47b8f45a499d7170d7dc53ca01dccbf3"
     },
     {
       "bytes": 10531,

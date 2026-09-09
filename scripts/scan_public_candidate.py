@@ -32,7 +32,9 @@ GENERATED_PARTS = {
     "dist", "html-report", "node_modules", "playwright-report", "test-results",
 }
 APPROVED_BINARY_FIXTURES = {
+    "browser-tests/journeys/first-use.spec.js-snapshots/first-use-desktop-github-ubuntu-24.04.png",
     "browser-tests/journeys/first-use.spec.js-snapshots/first-use-desktop-linux.png",
+    "browser-tests/journeys/first-use.spec.js-snapshots/first-use-mobile-390-github-ubuntu-24.04.png",
     "browser-tests/journeys/first-use.spec.js-snapshots/first-use-mobile-390-linux.png",
 }
 PATTERNS = {

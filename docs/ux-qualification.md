@@ -22,13 +22,15 @@ network dependency.
 | UX/accessibility | Desktop and 390-pixel layouts, no page-wide horizontal overflow, keyboard reachability, visible focus, form labels, landmarks, automated axe checks, and Chrome accessibility-tree exposure of setup order, qualification, navigation, and the primary action. |
 
 Two stable first-use baselines—desktop and 390 pixels—were regenerated for the
-explicit external-setup flow and manually reviewed. At desktop width, the setup
-sequence reads before qualification and workbench actions; at 390 pixels,
-commands wrap within the card, status pairs become a single readable column,
-and the workbench remains keyboard-operable without page-wide horizontal
-overflow. Visual comparison supplements behavioral assertions; it does not
-replace them and baseline changes must be reviewed rather than accepted
-automatically.
+explicit external-setup flow and manually reviewed. GitHub Actions keeps a
+separate reviewed Ubuntu 24.04 pair because its installed font metrics differ
+from the qualified workstation; both environments use the same locked Chromium
+renderer and strict pixel comparison. At desktop width, the setup sequence
+reads before qualification and workbench actions; at 390 pixels, commands wrap
+within the card, status pairs become a single readable column, and the
+workbench remains keyboard-operable without page-wide horizontal overflow.
+Visual comparison supplements behavioral assertions; it does not replace them
+and baseline changes must be reviewed rather than accepted automatically.
 
 The Chrome accessibility tree was inspected directly and exposes the ordered
 setup instructions, qualification region, project navigation, run evidence,
