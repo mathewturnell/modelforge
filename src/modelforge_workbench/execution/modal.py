@@ -13,6 +13,7 @@ import json
 import os
 import re
 import stat
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Mapping
@@ -188,6 +189,7 @@ class ModalExecutionHandle:
         self._output_limit_bytes = output_limit_bytes
         self._on_event = on_event
         self._output: ExecutionOutput | None = None
+        self._cancellation_requested = False
 
     @property
     def identity(self) -> ProviderExecutionIdentity:
@@ -209,6 +211,8 @@ class ModalExecutionHandle:
             getattr(self._modal, "exception", object()), "RemoteError", None,
         )
         return (
+            self._cancellation_requested
+            and
             isinstance(remote_error, type)
             and isinstance(exc, remote_error)
             and self._provider_reports_terminated()
@@ -217,15 +221,22 @@ class ModalExecutionHandle:
     def _provider_reports_terminated(self) -> bool:
         """Confirm the root provider input was terminated after cancellation."""
 
-        try:
-            graph = self._call.get_call_graph()
-        except BaseException:
-            return False
         call_id = str(getattr(self._call, "object_id", ""))
-        for item in graph:
-            if str(getattr(item, "function_call_id", "")) != call_id:
-                continue
-            return getattr(getattr(item, "status", None), "name", "") == "TERMINATED"
+        for attempt in range(6):
+            try:
+                graph = self._call.get_call_graph()
+            except BaseException:
+                return False
+            for item in graph:
+                if str(getattr(item, "function_call_id", "")) != call_id:
+                    continue
+                status = getattr(getattr(item, "status", None), "name", "")
+                if status == "TERMINATED":
+                    return True
+                if status not in {"PENDING", "RUNNING"}:
+                    return False
+            if attempt < 5:
+                time.sleep(0.5)
         return False
 
     def poll(self) -> int | None:
@@ -251,6 +262,7 @@ class ModalExecutionHandle:
                 **self._output.__dict__,
                 "cancellation": CancellationDelivery(True, False, False, False, False),
             })
+        self._cancellation_requested = True
         self._call.cancel()
         try:
             output = self._collect(timeout_seconds=5)

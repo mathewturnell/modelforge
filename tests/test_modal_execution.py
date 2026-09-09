@@ -63,6 +63,7 @@ class FakeCall:
         self.cancelled = False
         self.on_cancel = None
         self.remote_cancellation = False
+        self.pending_graph_reads = 0
 
     def get(self, timeout=None):
         if self.cancelled:
@@ -79,7 +80,9 @@ class FakeCall:
         self.cancelled = True
 
     def get_call_graph(self):
-        status = "TERMINATED" if self.cancelled else "PENDING"
+        status = "TERMINATED" if self.cancelled and self.pending_graph_reads == 0 else "PENDING"
+        if self.cancelled and self.pending_graph_reads:
+            self.pending_graph_reads -= 1
         return [SimpleNamespace(
             function_call_id=self.object_id,
             status=SimpleNamespace(name=status),
@@ -230,6 +233,22 @@ def test_modal_confirms_remote_error_only_with_provider_terminated_status(tmp_pa
 
     assert cancelled["status"] == "cancelled"
     assert cancelled["configuration"]["cancellation_confirmed_at"] is not None
+
+
+def test_modal_boundedly_waits_for_provider_termination_after_cancel(tmp_path):
+    call = FakeCall(result=None)
+    call.remote_cancellation = True
+    call.pending_graph_reads = 2
+    app = AlphaWorkbench(tmp_path / "state")
+    execution = app.start_example(
+        executor="modal", modal_environment="alpha-test",
+        billable_confirmed=True, modal_module=_fake_modal(call),
+    )
+
+    cancelled = app.cancel(execution.run_id)
+
+    assert cancelled["status"] == "cancelled"
+    assert call.pending_graph_reads == 0
 
 
 def test_modal_fc_call_recovers_into_same_durable_run(tmp_path):
