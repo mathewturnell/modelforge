@@ -116,18 +116,26 @@ def _normalize_project(value: Mapping[str, Any]) -> dict[str, Any]:
     }[kind]
     if result_protocol != expected_protocol:
         raise ValueError(f"{kind.title()} result protocol must be {expected_protocol}")
+    local_enabled = source.get("local_enabled", True)
+    if not isinstance(local_enabled, bool):
+        raise ValueError("Project local execution flag must be boolean")
     normalized_action = {
         "id": _identity(action.get("id"), "Action"),
         "kind": kind,
         "interface": interface,
         "display_name": str(action.get("display_name") or name)[:160],
         "result_protocol": result_protocol,
-        "interpreter": _absolute_regular(
-            action.get("interpreter"), "Project interpreter", preserve_invocation=True,
+        "interpreter": (
+            _absolute_regular(action.get("interpreter"), "Project interpreter", preserve_invocation=True)
+            if local_enabled else ""
         ),
-        "executable": _absolute_regular(action.get("executable"), "Project executable"),
-        "working_directory": _absolute_directory(
-            action.get("working_directory"), "Project working directory",
+        "executable": (
+            _absolute_regular(action.get("executable"), "Project executable")
+            if local_enabled else ""
+        ),
+        "working_directory": (
+            _absolute_directory(action.get("working_directory"), "Project working directory")
+            if local_enabled else ""
         ),
         "arguments": list(arguments),
         "environment": environment,
@@ -140,6 +148,7 @@ def _normalize_project(value: Mapping[str, Any]) -> dict[str, Any]:
         "name": name,
         "description": str(source.get("description") or "")[:500],
         "support_level": str(source.get("support_level") or "experimental"),
+        "local_enabled": local_enabled,
         "action": normalized_action,
         "bindings": _object(source.get("bindings") or {}, "Project bindings"),
     }
@@ -310,16 +319,18 @@ class ProjectRuntimeConfigurationService:
         action = project["action"]
         dataset = project.get("dataset")
         bindings = project.get("bindings") or {}
-        readiness = "ready"
-        reasons = []
-        for label, value in (
-            ("interpreter", action["interpreter"]),
-            ("executable", action["executable"]),
-            ("working directory", action["working_directory"]),
-        ):
-            if not Path(value).exists():
-                readiness = "unavailable"
-                reasons.append(f"Configured {label} is unavailable")
+        local_enabled = bool(project.get("local_enabled", True))
+        readiness = "ready" if local_enabled else "unavailable"
+        reasons = [] if local_enabled else ["Local execution is not configured"]
+        if local_enabled:
+            for label, value in (
+                ("interpreter", action["interpreter"]),
+                ("executable", action["executable"]),
+                ("working directory", action["working_directory"]),
+            ):
+                if not Path(value).exists():
+                    readiness = "unavailable"
+                    reasons.append(f"Configured {label} is unavailable")
         return {
             "id": project["id"],
             "name": project["name"],
@@ -332,6 +343,7 @@ class ProjectRuntimeConfigurationService:
             },
             "runtime_readiness": readiness,
             "readiness_reasons": reasons,
+            "local_enabled": local_enabled,
             "dataset": None if not dataset else {
                 "id": dataset["id"], "name": dataset["name"],
                 "sample_count": len(dataset["samples"]),

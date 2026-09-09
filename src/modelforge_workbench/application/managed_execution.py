@@ -103,6 +103,7 @@ class ManagedActionPlan:
     provider: str = "local"
     compute_target: str = "local"
     billable_confirmed: bool = False
+    deadline_seconds: float | None = None
 
     def __post_init__(self) -> None:
         if self.scope.project_id is None:
@@ -123,6 +124,13 @@ class ManagedActionPlan:
             raise ValueError("Modal execution requires explicit billable-action confirmation")
         if provider == "local" and self.billable_confirmed:
             raise ValueError("Local execution cannot carry billable-action confirmation")
+        deadline = self.deadline_seconds
+        if deadline is not None and (
+            isinstance(deadline, bool)
+            or not isinstance(deadline, (int, float))
+            or not 1 <= float(deadline) <= 7_200
+        ):
+            raise ValueError("Managed action deadline must be from 1 to 7200 seconds")
         object.__setattr__(self, "kind", handler.kind)
         object.__setattr__(self, "request", request)
         object.__setattr__(self, "result_protocol", str(self.result_protocol))
@@ -134,6 +142,9 @@ class ManagedActionPlan:
         )))
         object.__setattr__(self, "provider", provider)
         object.__setattr__(self, "compute_target", compute_target)
+        object.__setattr__(
+            self, "deadline_seconds", None if deadline is None else float(deadline),
+        )
 
 
 @dataclass(frozen=True)
@@ -241,6 +252,10 @@ class ManagedActionService:
             raise ValueError("Managed action identity must be 32 lowercase hex characters")
         return value
 
+    def _deadline(self, intent: ManagedActionIntent | ManagedActionPlan) -> float:
+        value = getattr(intent, "deadline_seconds", None)
+        return self.deadline_seconds if value is None else float(value)
+
     def _allocation(
         self, run_id: str, provider: str = "local", *, existing: bool = False,
     ) -> ExecutionAllocation:
@@ -287,6 +302,7 @@ class ManagedActionService:
 
     def start_plan(
         self, plan: ManagedActionPlan, binder: ActionBinder, *, on_event=None,
+        run_id: str | None = None,
     ) -> ManagedActionExecution:
         """Persist queued truth before binding request/output paths and spawning."""
 
@@ -294,10 +310,13 @@ class ManagedActionService:
             raise TypeError("Managed action start requires a ManagedActionPlan")
         if not hasattr(binder, "bind"):
             raise TypeError("Managed action plan requires an ActionBinder")
-        return self._start_plan(plan, binder.bind, on_event=on_event)
+        return self._start_plan(plan, binder.bind, on_event=on_event, run_id=run_id)
 
-    def _start_plan(self, intent, bind, *, on_event=None) -> ManagedActionExecution:
-        run_id = self._run_id()
+    def _start_plan(self, intent, bind, *, on_event=None, run_id=None) -> ManagedActionExecution:
+        deadline_seconds = self._deadline(intent)
+        run_id = self._run_id() if run_id is None else str(run_id).strip().casefold()
+        if not _RUN_ID.fullmatch(run_id):
+            raise ValueError("Managed action identity must be 32 lowercase hex characters")
         allocation = self._allocation(run_id, intent.provider)
         allocation = ExecutionAllocation(
             run_id,
@@ -323,7 +342,7 @@ class ManagedActionService:
             configuration={
                 "action_kind": intent.kind,
                 "result_protocol": intent.result_protocol,
-                "deadline_seconds": self.deadline_seconds,
+                "deadline_seconds": deadline_seconds,
                 "billable_action_confirmed": intent.billable_confirmed,
                 **thaw_json(intent.configuration),
             },
@@ -353,7 +372,7 @@ class ManagedActionService:
                     allocation,
                     True,
                     True,
-                    ExecutionLimits(256 * 1024, self.deadline_seconds),
+                    ExecutionLimits(256 * 1024, deadline_seconds),
                     bound.provider_invocation,
                 ),
                 capture_output=True,
@@ -418,11 +437,12 @@ class ManagedActionService:
         recover = getattr(executor, "recover", None)
         if not callable(recover):
             raise RuntimeError("Configured executor does not support recovery")
+        deadline_seconds = self._deadline(plan)
         handle = recover(
             backend_id,
             ExecutionBundle(
                 (), None, {}, allocation, True, True,
-                ExecutionLimits(256 * 1024, self.deadline_seconds), invocation,
+                ExecutionLimits(256 * 1024, deadline_seconds), invocation,
             ),
             capture_output=True,
             output_limit_bytes=256 * 1024,
@@ -452,7 +472,8 @@ class ManagedActionService:
         log_record = None
         try:
             try:
-                output = execution.handle.wait(self.deadline_seconds)
+                deadline_seconds = self._deadline(execution.intent)
+                output = execution.handle.wait(deadline_seconds)
             except ExecutionDeadlineExceeded:
                 output = execution.handle.cancel(
                     interrupt_grace_seconds=0, terminate_grace_seconds=2,
@@ -462,7 +483,7 @@ class ManagedActionService:
                 return self.runs.fail(
                     execution.intent.scope,
                     execution.run_id,
-                    error=f"Managed action exceeded its {self.deadline_seconds:g}-second deadline",
+                    error=f"Managed action exceeded its {deadline_seconds:g}-second deadline",
                     artifacts=(() if log_record is None else (log_record,)),
                 )
             if retain_process_log:
@@ -573,13 +594,27 @@ class ManagedActionService:
             )
         return self.runs.get(scope, run_id)
 
-    def cancel_active(self) -> tuple[dict, ...]:
-        """Boundedly stop every process still owned by this coordinator."""
+    def cancel_active(self, *, provider: str | None = None) -> tuple[dict, ...]:
+        """Boundedly stop attached work for one provider or every provider."""
 
         results = []
         for execution in tuple(self._active.values()):
+            if provider is not None and execution.intent.provider != provider:
+                continue
             results.append(self.cancel(execution.intent.scope, execution.run_id))
         return tuple(results)
+
+    def detach_active(self, *, provider: str) -> tuple[str, ...]:
+        """Drop only local observation of provider work without cancelling it."""
+
+        detached = []
+        for run_id, execution in tuple(self._active.items()):
+            if execution.intent.provider != provider:
+                continue
+            self._active.pop(run_id, None)
+            self.runs.detach(run_id)
+            detached.append(run_id)
+        return tuple(detached)
 
 
 # Compatibility name retained for existing Phase 3 consumers.

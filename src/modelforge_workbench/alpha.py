@@ -22,6 +22,10 @@ from .application.managed_execution import (
 )
 from .application.datasets import DatasetService
 from .application.project_actions import ProjectActionService
+from .application.modal_bindings import (
+    FileModalActionBindingRepository,
+    ModalActionBindingService,
+)
 from .application.runtime_configurations import (
     FileProjectRuntimeConfigurationRepository,
     ProjectRuntimeConfigurationService,
@@ -205,9 +209,12 @@ class AlphaWorkbench:
         self.runtime_configurations = ProjectRuntimeConfigurationService(
             FileProjectRuntimeConfigurationRepository(self.state_root),
         )
+        self.modal_bindings = ModalActionBindingService(
+            FileModalActionBindingRepository(self.state_root), self.projects,
+        )
         self.datasets = DatasetService(self.runtime_configurations)
         self.project_actions = ProjectActionService(
-            self.runtime_configurations, self.datasets, self.actions,
+            self.runtime_configurations, self.datasets, self.actions, self.modal_bindings,
         )
         self._live: dict[str, dict] = {}
 
@@ -226,6 +233,10 @@ class AlphaWorkbench:
             "action": {"id": "inference", "kind": "inference", "display_name": "Run local inference"},
             "runtime_readiness": "ready",
             "readiness_reasons": [],
+            "execution_targets": [{
+                "target": "local", "provider": "local", "billable": False,
+                "readiness": "ready",
+            }],
             "dataset": {"id": "synthetic", "name": "Authored values", "sample_count": 4},
             "bindings": [],
         }
@@ -236,6 +247,7 @@ class AlphaWorkbench:
                 item["id"] for item in capabilities["capabilities"]
                 if item["support"] == "supported"
             ]
+            runtime = self._with_execution_targets(runtime)
             configured.append(runtime)
         return [synthetic, *configured]
 
@@ -255,6 +267,46 @@ class AlphaWorkbench:
         self.runtime_configurations.repository.put(runtime)
         return self.project(runtime["id"])
 
+    def register_modal_action(self, path: str | Path) -> dict:
+        """Register a separate owner-authorized Modal target for one action."""
+
+        return self.modal_bindings.register_file(path)
+
+    def _with_execution_targets(self, runtime: dict) -> dict:
+        targets = []
+        if runtime.get("local_enabled", True):
+            targets.append({
+                "target": "local", "provider": "local", "billable": False,
+                "readiness": runtime["runtime_readiness"],
+            })
+        try:
+            modal = self.modal_bindings.public(self.modal_bindings.get(
+                runtime["id"], runtime["action"]["id"],
+            ))
+        except (KeyError, ValueError):
+            modal = None
+        if modal:
+            executor = self.actions.executors.get("modal")
+            modal_module = getattr(executor, "_modal_module", None) if executor else None
+            provider = self.modal_status(modal["environment"], modal_module=modal_module)
+            provider_ready = bool(provider.get("ready"))
+            targets.append({
+                "target": "modal", "provider": "modal", "billable": True,
+                **modal,
+                "readiness": "ready" if provider_ready else "unavailable",
+                "ready": provider_ready,
+                "provider_readiness": (
+                    "configured_not_live_verified" if provider_ready else "not_configured"
+                ),
+                "reasons": list(provider.get("reasons") or ()),
+            })
+        runtime["execution_targets"] = targets
+        ready = any(item.get("readiness") == "ready" for item in targets)
+        runtime["runtime_readiness"] = "ready" if ready else "unavailable"
+        if modal and not runtime.get("local_enabled", True):
+            runtime["readiness_reasons"] = []
+        return runtime
+
     def project(self, project_id: str) -> dict:
         if project_id == ALPHA_PROJECT:
             return self.list_projects()[0]
@@ -266,7 +318,7 @@ class AlphaWorkbench:
             item["id"] for item in capabilities["capabilities"]
             if item["support"] == "supported"
         ]
-        return runtime
+        return self._with_execution_targets(runtime)
 
     def list_samples(self, project_id: str, dataset_id: str, *, cursor=0, limit=50) -> dict:
         return self.datasets.list_samples(project_id, dataset_id, cursor=cursor, limit=limit)
@@ -311,9 +363,11 @@ class AlphaWorkbench:
         raise KeyError("Run was not found")
 
     def shutdown(self) -> tuple[dict, ...]:
-        """Boundedly cancel local processes still owned by this composition."""
+        """Cancel local work and detach from provider work without stopping it."""
 
-        return self.actions.cancel_active()
+        stopped = self.actions.cancel_active(provider="local")
+        self.actions.detach_active(provider="modal")
+        return stopped
 
     @staticmethod
     def modal_status(environment_name: str, *, modal_module=None) -> dict:
@@ -457,10 +511,29 @@ class AlphaWorkbench:
         return self.finish_example(execution)
 
     def start_project_action(self, project_id: str, payload: Mapping, *, on_started=None):
+        execution_request = payload.get("execution") if isinstance(payload, Mapping) else None
+        if isinstance(execution_request, Mapping) and execution_request.get("target") == "modal":
+            if "modal" not in self.actions.executors:
+                self._configure_modal()
+            binding = self.modal_bindings.get(
+                project_id, self.runtime_configurations.get(project_id)["action"]["id"],
+            )
+            executor = self.actions.executors["modal"]
+            readiness = self.modal_status(
+                binding["environment"], modal_module=getattr(executor, "_modal_module", None),
+            )
+            if not readiness.get("ready"):
+                raise ValueError(
+                    "; ".join(readiness.get("reasons") or ())
+                    or "Modal SDK credentials are not configured"
+                )
         run_key = ["pending"]
         self._live.setdefault(run_key[0], {})
         observe = _LiveEventProjection(lambda: self._live.setdefault(run_key[0], {}))
         execution = self.project_actions.start(project_id, payload, on_event=observe)
+        if isinstance(execution, dict):
+            self._live.pop("pending", None)
+            return self.artifacts.public_job(execution)
         if "pending" in self._live:
             self._live[execution.run_id] = self._live.pop("pending")
         run_key[0] = execution.run_id
@@ -474,9 +547,25 @@ class AlphaWorkbench:
         finally:
             self._live.pop(execution.run_id, None)
 
+    def recover_project_action(self, project_id: str, run_id: str):
+        """Reattach to the same durable Modal call; never submit a replacement."""
+
+        if "modal" not in self.actions.executors:
+            self._configure_modal()
+        execution = self.project_actions.recover_modal(project_id, run_id)
+        return execution
+
     def cancel(self, run_id: str, project_id: str = ALPHA_PROJECT) -> dict:
+        scope = RunScope(ALPHA_ORGANIZATION, project_id)
+        durable = self.runs.get(scope, run_id, include_artifacts=False)
+        if (
+            durable.get("provider") == "modal"
+            and durable.get("status") in {"queued", "running"}
+            and not self.runs.is_attached(run_id)
+        ):
+            self.recover_project_action(project_id, run_id)
         return self.artifacts.public_job(
-            self.actions.cancel(RunScope(ALPHA_ORGANIZATION, project_id), run_id),
+            self.actions.cancel(scope, run_id),
         )
 
     def open_artifact(self, run_id: str, artifact_id: str, project_id: str | None = None):

@@ -5,6 +5,8 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import threading
+import uuid
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Mapping
@@ -17,6 +19,11 @@ from .managed_execution import (
     ManagedActionExecution,
     ManagedActionPlan,
     ManagedLocalActionService,
+)
+from .execution import ProviderFunctionInvocation
+from .modal_bindings import (
+    ModalActionBindingService,
+    modal_action_binding_sha256,
 )
 from .runtime_configurations import ProjectRuntimeConfigurationService
 from .runs import RunScope
@@ -110,6 +117,45 @@ class RegisteredActionBinder:
         return BoundManagedAction(tuple(argv), Path(action["working_directory"]), environment)
 
 
+@dataclass(frozen=True)
+class RegisteredModalActionBinder:
+    """Bind only one owner-authorized deployed function after durable allocation."""
+
+    binding: Mapping[str, Any]
+    private_request: Mapping[str, Any]
+    action_kind: str
+
+    def bind(self, allocation) -> BoundManagedAction:
+        request_path = allocation.evidence_root / "request.json"
+        payload_bytes = _json_bytes(self.private_request)
+        if request_path.exists():
+            if request_path.is_symlink() or request_path.read_bytes() != payload_bytes:
+                raise OSError("Recovered provider request differs from durable evidence")
+        else:
+            request_path.write_bytes(payload_bytes)
+            os.chmod(request_path, 0o600)
+        binding_sha = modal_action_binding_sha256(self.binding)
+        return BoundManagedAction(
+            (), None, {},
+            ProviderFunctionInvocation(
+                provider="modal",
+                application=str(self.binding["application"]),
+                function=str(self.binding["function"]),
+                environment_name=str(self.binding["environment"]),
+                payload={
+                    "protocol": "modelforge.modal-project-action-request/v1",
+                    "run_id": allocation.execution_id,
+                    "binding_sha256": binding_sha,
+                    "project_id": self.binding["project_id"],
+                    "action_id": self.binding["action_id"],
+                    "action_kind": self.action_kind,
+                    "request": dict(self.private_request),
+                    "assets": [dict(item) for item in self.binding["assets"]],
+                },
+            ),
+        )
+
+
 class ProjectActionService:
     """Prepare real project actions without named-project logic in shared services."""
 
@@ -118,6 +164,7 @@ class ProjectActionService:
         projects: ProjectRuntimeConfigurationService,
         datasets: DatasetService,
         managed: ManagedLocalActionService,
+        modal_bindings: ModalActionBindingService | None = None,
         *,
         organization_id: str = "local-alpha",
         user_id: str = "local-user",
@@ -125,17 +172,31 @@ class ProjectActionService:
         self.projects = projects
         self.datasets = datasets
         self.managed = managed
+        self.modal_bindings = modal_bindings
         self.organization_id = organization_id
         self.user_id = user_id
+        self._launch_lock = threading.RLock()
 
-    def start(self, project_id: str, payload: Mapping[str, Any], *, on_event=None) -> ManagedActionExecution:
+    def start(
+        self, project_id: str, payload: Mapping[str, Any], *, on_event=None,
+    ) -> ManagedActionExecution | dict[str, Any]:
         project = self.projects.get(project_id)
         action = project["action"]
         kind = action["kind"]
+        execution_request = payload.get("execution") if isinstance(payload, Mapping) else None
+        managed_envelope = payload.get("protocol") == "modelforge.managed-action-request/v1"
+        if managed_envelope:
+            if not isinstance(execution_request, Mapping) or not isinstance(payload.get("input"), Mapping):
+                raise ValueError("Managed action request requires execution and input objects")
+            action_input = dict(payload["input"])
+            target = str(execution_request.get("target") or "").casefold()
+        else:
+            action_input = dict(payload)
+            target = "local"
         sample = None
         if kind == "inference":
-            dataset_id = str(payload.get("dataset_id") or "")
-            sample_id = str(payload.get("sample_id") or "")
+            dataset_id = str(action_input.get("dataset_id") or "")
+            sample_id = str(action_input.get("sample_id") or "")
             sample = self.datasets.resolve(project_id, dataset_id, sample_id)
             checkpoint = (project.get("bindings") or {}).get("checkpoint") or {}
             request = {
@@ -158,8 +219,8 @@ class ProjectActionService:
                 "protocol": "modelforge.prompt-request/v1",
                 "workflow": "prompt",
                 "action_id": action["id"],
-                "messages": payload.get("messages"),
-                "generation": payload.get("generation") or {},
+                "messages": action_input.get("messages"),
+                "generation": action_input.get("generation") or {},
             }
             validated = action_handler("prompt").validate_request(private_request).detached()
             request_digest = hashlib.sha256(_json_bytes(validated)).hexdigest()
@@ -178,14 +239,155 @@ class ProjectActionService:
             authorized = (str(model.get("path") or ""),)
         else:  # pragma: no cover - registration validator closes this set.
             raise ValueError("Registered action kind is unsupported")
-        configuration = self._execution_identity(project)
-        plan = ManagedActionPlan(
-            RunScope(self.organization_id, project["id"]), self.user_id, kind,
-            action["display_name"], request, action["result_protocol"], dataset_ref,
-            tuple(item for item in authorized if item), configuration,
+        if target == "local":
+            if managed_envelope and (
+                execution_request.get("billable_confirmed") not in (None, False)
+                or execution_request.get("binding_sha256") not in (None, "")
+            ):
+                raise ValueError("Local execution cannot carry Modal authority or confirmation")
+            if not project.get("local_enabled", True):
+                raise ValueError("Local execution is not configured for this project action")
+            configuration = self._execution_identity(project)
+            plan = ManagedActionPlan(
+                RunScope(self.organization_id, project["id"]), self.user_id, kind,
+                action["display_name"], request, action["result_protocol"], dataset_ref,
+                tuple(item for item in authorized if item), configuration,
+            )
+            return self.managed.start_plan(
+                plan, RegisteredActionBinder(project, private_request, sample), on_event=on_event,
+            )
+        if target != "modal" or not managed_envelope:
+            raise ValueError("Managed action execution target is unsupported")
+        return self._start_modal(
+            project, request, private_request, dataset_ref, sample,
+            execution_request, on_event=on_event,
         )
-        return self.managed.start_plan(
-            plan, RegisteredActionBinder(project, private_request, sample), on_event=on_event,
+
+    def _start_modal(
+        self, project, request, private_request, dataset_ref, sample, execution_request,
+        *, on_event=None,
+    ) -> ManagedActionExecution | dict[str, Any]:
+        if self.modal_bindings is None:
+            raise ValueError("Modal execution is not configured")
+        if execution_request.get("billable_confirmed") is not True:
+            raise ValueError("Modal execution requires explicit billable-action confirmation")
+        try:
+            idempotency_key = str(uuid.UUID(str(execution_request.get("idempotency_key") or "")))
+        except ValueError as exc:
+            raise ValueError("Managed action idempotency key must be a UUID") from exc
+        binding = self.modal_bindings.get(project["id"], project["action"]["id"])
+        binding_sha = modal_action_binding_sha256(binding)
+        if execution_request.get("binding_sha256") != binding_sha:
+            raise ValueError("Modal confirmation is stale; review the current binding and confirm again")
+        self._validate_modal_assets(project, sample, binding)
+        request_sha = hashlib.sha256(_json_bytes({
+            "project_id": project["id"],
+            "action_id": project["action"]["id"],
+            "binding_sha256": binding_sha,
+            "input": private_request,
+        })).hexdigest()
+        durable_request = {
+            **request,
+            "idempotency_key": idempotency_key,
+            "managed_request_sha256": request_sha,
+        }
+        public_binding = self.modal_bindings.public(binding)
+        plan = ManagedActionPlan(
+            RunScope(self.organization_id, project["id"]), self.user_id,
+            project["action"]["kind"], project["action"]["display_name"],
+            durable_request, project["action"]["result_protocol"], dataset_ref,
+            (), {
+                "modal": public_binding,
+                "idempotency_key": idempotency_key,
+                "managed_request_sha256": request_sha,
+            },
+            "modal", binding["compute"]["target"], True,
+            binding["compute"]["timeout_seconds"],
+        )
+        run_id = hashlib.sha256(
+            f"{self.organization_id}\0{project['id']}\0{project['action']['id']}\0{idempotency_key}".encode(),
+        ).hexdigest()[:32]
+        with self._launch_lock:
+            try:
+                existing = self.managed.runs.get(plan.scope, run_id)
+            except KeyError:
+                existing = None
+            if existing is not None:
+                if existing.get("request", {}).get("managed_request_sha256") != request_sha:
+                    raise ValueError("Managed action idempotency key was reused for different input")
+                return existing
+            try:
+                return self.managed.start_plan(
+                    plan,
+                    RegisteredModalActionBinder(binding, private_request, project["action"]["kind"]),
+                    on_event=on_event,
+                    run_id=run_id,
+                )
+            except FileExistsError:
+                try:
+                    existing = self.managed.runs.get(plan.scope, run_id)
+                except KeyError as exc:
+                    raise RuntimeError("Managed action allocation is already in progress") from exc
+                if existing.get("request", {}).get("managed_request_sha256") != request_sha:
+                    raise ValueError("Managed action idempotency key was reused for different input")
+                return existing
+
+    @staticmethod
+    def _validate_modal_assets(project, sample, binding) -> None:
+        assets = list(binding.get("assets") or ())
+        if sample is not None and not any(
+            item.get("verification") == "sha256"
+            and item.get("sha256") == sample.sha256
+            and item.get("size_bytes") == sample.size_bytes
+            and item.get("role") in {"input", "dataset"}
+            for item in assets
+        ):
+            raise ValueError("Selected input is not present in the owner-authorized Modal assets")
+        configured = project.get("bindings") or {}
+        checkpoint = configured.get("checkpoint") or {}
+        if checkpoint.get("sha256") and not any(
+            item.get("role") == "checkpoint"
+            and item.get("sha256") == checkpoint.get("sha256")
+            and item.get("size_bytes") == checkpoint.get("size_bytes")
+            for item in assets
+        ):
+            raise ValueError("Configured checkpoint differs from the owner-authorized Modal asset")
+        model = configured.get("model") or {}
+        if model.get("revision") and not any(
+            item.get("role") == "model"
+            and item.get("verification") == "revision"
+            and item.get("revision") == model.get("revision")
+            for item in assets
+        ):
+            raise ValueError("Configured model differs from the owner-authorized Modal asset")
+
+    def recover_modal(self, project_id: str, run_id: str, *, on_event=None) -> ManagedActionExecution:
+        project = self.projects.get(project_id)
+        action = project["action"]
+        scope = RunScope(self.organization_id, project_id)
+        durable = self.managed.runs.get(scope, run_id, include_artifacts=False)
+        if durable.get("provider") != "modal":
+            raise ValueError("Only a Modal project action can be recovered")
+        binding = self.modal_bindings.get(project_id, action["id"]) if self.modal_bindings else None
+        if binding is None:
+            raise ValueError("Modal execution is not configured")
+        binding_sha = modal_action_binding_sha256(binding)
+        if durable.get("configuration", {}).get("modal", {}).get("binding_sha256") != binding_sha:
+            raise ValueError("Modal recovery binding differs from the durable request")
+        request_path = self.managed.state_root / "runs" / "modal" / run_id / "evidence" / "request.json"
+        if request_path.is_symlink() or not request_path.is_file() or request_path.stat().st_size > 128 * 1024:
+            raise ValueError("Durable provider request evidence is unavailable")
+        private_request = json.loads(request_path.read_text(encoding="utf-8"))
+        configuration = durable.get("configuration", {})
+        plan = ManagedActionPlan(
+            scope, self.user_id, action["kind"], action["display_name"],
+            durable["request"], action["result_protocol"], durable.get("dataset_ref") or "",
+            (), configuration, "modal", durable["compute_target"], True,
+            configuration.get("deadline_seconds") or binding["compute"]["timeout_seconds"],
+        )
+        return self.managed.recover_plan(
+            plan, RegisteredModalActionBinder(binding, private_request, action["kind"]),
+            run_id, on_event=on_event,
         )
 
     def finish(self, execution: ManagedActionExecution) -> dict:
@@ -209,9 +411,9 @@ class ProjectActionService:
         if expected_request and expected_request.get("workflow") == "inference":
             input_identity = value.get("input_artifact") or {}
             model_identity = value.get("model_artifact") or {}
-            if input_identity.get("sha256") != expected_request.get("dataset_sample_sha256"):
+            if expected_request.get("dataset_sample_sha256") and input_identity.get("sha256") != expected_request.get("dataset_sample_sha256"):
                 raise OSError("Inference result input identity differs from the durable request")
-            if model_identity.get("sha256") != expected_request.get("checkpoint_sha256"):
+            if expected_request.get("checkpoint_sha256") and model_identity.get("sha256") != expected_request.get("checkpoint_sha256"):
                 raise OSError("Inference result checkpoint identity differs from the durable request")
         return value
 
@@ -284,4 +486,4 @@ class ProjectActionService:
         return artifacts
 
 
-__all__ = ["ProjectActionService", "RegisteredActionBinder"]
+__all__ = ["ProjectActionService", "RegisteredActionBinder", "RegisteredModalActionBinder"]

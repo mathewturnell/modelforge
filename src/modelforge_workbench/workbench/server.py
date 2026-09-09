@@ -315,6 +315,10 @@ class _Handler(BaseHTTPRequestHandler):
                 self._json(HTTPStatus.BAD_REQUEST, {"error": str(exc)[:300]})
                 return
 
+            if isinstance(execution, dict):
+                self._json(HTTPStatus.OK, execution)
+                return
+
             def finish_project():
                 try:
                     self.server.app.finish_project_action(execution)
@@ -324,9 +328,33 @@ class _Handler(BaseHTTPRequestHandler):
                     self.server.finishing.pop(execution.run_id, None)
 
             thread = threading.Thread(target=finish_project)
+            # Provider work outlives this loopback process. A local action is
+            # still owned by it and must finish or be cancelled on shutdown.
+            thread.daemon = execution.intent.provider != "local"
             self.server.finishing[execution.run_id] = thread
             thread.start()
             self._json(HTTPStatus.ACCEPTED, self.server.app.get_run(execution.run_id, parts[3]))
+            return
+        if len(parts) == 5 and parts[:3] == ["api", "v1", "runs"] and parts[4] == "recover":
+            try:
+                run = self.server.app.get_run(parts[3])
+                execution = self.server.app.recover_project_action(run["project_id"], parts[3])
+            except (KeyError, OSError, RuntimeError, ValueError) as exc:
+                self._json(HTTPStatus.BAD_REQUEST, {"error": str(exc)[:300]})
+                return
+
+            def finish_recovery():
+                try:
+                    self.server.app.finish_project_action(execution)
+                except Exception:
+                    pass
+                finally:
+                    self.server.finishing.pop(execution.run_id, None)
+
+            thread = threading.Thread(target=finish_recovery, daemon=True)
+            self.server.finishing[execution.run_id] = thread
+            thread.start()
+            self._json(HTTPStatus.ACCEPTED, self.server.app.get_run(execution.run_id, run["project_id"]))
             return
         if len(parts) == 5 and parts[:3] == ["api", "v1", "runs"] and parts[4] == "cancel":
             try:

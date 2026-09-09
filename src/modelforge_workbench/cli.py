@@ -50,6 +50,11 @@ def _parser() -> argparse.ArgumentParser:
     modal_commands = modal.add_subparsers(dest="modal_command", required=True)
     modal_status = modal_commands.add_parser("status")
     modal_status.add_argument("--environment", required=True)
+    modal_register = modal_commands.add_parser(
+        "register", help="Register an owner-only project Modal action binding",
+    )
+    modal_register.add_argument("--state-root", type=Path, required=True)
+    modal_register.add_argument("--config", type=Path, required=True)
 
     runs = commands.add_parser("runs", help="Inspect bundled-example run history")
     run_commands = runs.add_subparsers(dest="runs_command", required=True)
@@ -63,6 +68,14 @@ def _parser() -> argparse.ArgumentParser:
     action_run.add_argument("--state-root", type=Path, required=True)
     action_run.add_argument("--project", required=True)
     action_run.add_argument("--request", type=Path, required=True)
+    action_run.add_argument("--executor", choices=("local", "modal"), default="local")
+    action_run.add_argument("--confirm-billable", action="store_true")
+    action_run.add_argument("--binding-sha256")
+    action_run.add_argument("--idempotency-key")
+    action_recover = action_commands.add_parser("recover-modal")
+    action_recover.add_argument("--state-root", type=Path, required=True)
+    action_recover.add_argument("--project", required=True)
+    action_recover.add_argument("--run-id", required=True)
 
     browser = commands.add_parser("serve", help="Start the loopback workbench")
     browser.add_argument("--state-root", type=Path)
@@ -143,14 +156,31 @@ def main(argv=None) -> int:
                 modal_environment=args.modal_environment,
                 billable_confirmed=args.confirm_billable,
             )
-        elif args.command == "modal":
+        elif args.command == "modal" and args.modal_command == "status":
             value = AlphaWorkbench.modal_status(args.environment)
+        elif args.command == "modal":
+            value = AlphaWorkbench(args.state_root).register_modal_action(args.config)
         elif args.command == "runs":
             value = {"runs": AlphaWorkbench(args.state_root).list_runs(args.project)}
-        elif args.command == "action":
+        elif args.command == "action" and args.action_command == "run":
             payload = json.loads(args.request.read_text(encoding="utf-8"))
             app = AlphaWorkbench(args.state_root)
+            if args.executor == "modal":
+                payload = {
+                    "protocol": "modelforge.managed-action-request/v1",
+                    "execution": {
+                        "target": "modal",
+                        "idempotency_key": args.idempotency_key,
+                        "binding_sha256": args.binding_sha256,
+                        "billable_confirmed": args.confirm_billable,
+                    },
+                    "input": payload,
+                }
             execution = app.start_project_action(args.project, payload)
+            value = execution if isinstance(execution, dict) else app.finish_project_action(execution)
+        elif args.command == "action":
+            app = AlphaWorkbench(args.state_root)
+            execution = app.recover_project_action(args.project, args.run_id)
             value = app.finish_project_action(execution)
         elif args.command == "examples" and args.examples_command == "path":
             value = {"path": str(_examples_root())}

@@ -1,7 +1,7 @@
 # Copyright (C) 2026 Mathew Turnell
 # SPDX-License-Identifier: Apache-2.0
 
-"""Optional Modal execution adapter for the fixed public-alpha CPU example."""
+"""Optional Modal execution adapter for owner-authorized function calls."""
 
 from __future__ import annotations
 
@@ -31,6 +31,7 @@ MODAL_APP_NAME = "modelforge-alpha-synthetic"
 MODAL_FUNCTION_NAME = "run_synthetic_threshold"
 MODAL_TRANSPORT_PROTOCOL = "modelforge.modal-execution-result/v1"
 _CALL_ID = re.compile(r"^fc-[A-Za-z0-9_-]{2,200}$")
+_PROVIDER_NAME = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$")
 _FILE_NAME = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$")
 _MAX_TRANSPORT_BYTES = 3 * 1024 * 1024
 _MAX_ARTIFACT_BYTES = 2 * 1024 * 1024
@@ -92,7 +93,12 @@ def modal_readiness(environment_name: str, *, modal_module=None) -> dict:
 
 
 class ModalExecutor:
-    """Submit and recover one fixed deployed function through the Modal SDK."""
+    """Submit and recover a validated owner-authorized Modal function call.
+
+    Provider locators are resolved by the application binding service. This
+    adapter deliberately validates their shape but does not make authorization
+    decisions from project-authored or browser-controlled data.
+    """
 
     def __init__(self, *, modal_module=None) -> None:
         self._modal_module = modal_module
@@ -107,8 +113,12 @@ class ModalExecutor:
         invocation = bundle.provider_invocation
         if invocation is None or invocation.provider != "modal":
             raise ValueError("Modal execution requires a Modal provider invocation")
-        if invocation.application != MODAL_APP_NAME or invocation.function != MODAL_FUNCTION_NAME:
-            raise ValueError("Modal execution is limited to the packaged synthetic function")
+        if not _PROVIDER_NAME.fullmatch(invocation.application):
+            raise ValueError("Modal application identity is invalid")
+        if not _PROVIDER_NAME.fullmatch(invocation.function):
+            raise ValueError("Modal function identity is invalid")
+        if not _PROVIDER_NAME.fullmatch(invocation.environment_name):
+            raise ValueError("Modal environment identity is invalid")
         if bundle.allocation is None:
             raise ValueError("Modal execution requires an owned run allocation")
         if output_limit_bytes <= 0:
