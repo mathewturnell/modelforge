@@ -122,7 +122,7 @@
         },
         {
           "path": "src/soccernet_motr/infer.py",
-          "sha256": "69a784573969d3756ccf4b42c5f57092905b8f04b9b3d15ecc804fe7e5f1c79f",
+          "sha256": "275dcb135c65dc9ae2c5aad2d163f1820078b53de3fff7e5823974186c8b7f45",
           "origin": "ModelForge wrapper around external MOTR execution; no official MOTR file match was found.",
           "upstream_revision": "Targets megvii-research/MOTR 8690da3392159635ca37c31975126acf40220724 plus undistributed private bounded/progress modifications",
           "modifications": "Independent request construction, subprocess boundary, progress parsing, and result collection.",

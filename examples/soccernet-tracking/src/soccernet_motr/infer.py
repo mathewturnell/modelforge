@@ -54,6 +54,25 @@ def _guard_legacy_torchvision_version_parser():
     return torchvision, original
 
 
+def _guard_verified_checkpoint_load(torch_module, checkpoint_path: Path):
+    """Allow the digest-verified legacy checkpoint to retain its metadata."""
+
+    original = torch_module.load
+    expected = checkpoint_path.resolve()
+
+    def load(source, *args, **kwargs):
+        try:
+            selected = Path(source).resolve()
+        except (TypeError, ValueError):
+            selected = None
+        if selected == expected:
+            kwargs.setdefault("weights_only", False)
+        return original(source, *args, **kwargs)
+
+    torch_module.load = load
+    return original
+
+
 def _sha256(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as source:
@@ -352,6 +371,7 @@ def _run_upstream_motr(
     original_path = list(sys.path)
     sys.path.insert(0, str(upstream))
     torchvision, torchvision_version = _guard_legacy_torchvision_version_parser()
+    original_torch_load = _guard_verified_checkpoint_load(torch, checkpoint_path)
     try:
         _install_reference_msda()
         from main import get_args_parser
@@ -366,6 +386,7 @@ def _run_upstream_motr(
         model = model.cuda()
         Detector(args, model=model, seq_num=sequence.name).detect()
     finally:
+        torch.load = original_torch_load
         torchvision.__version__ = torchvision_version
         sys.path[:] = original_path
     upstream_predictions = output / "upstream" / "predictions" / f"{sequence.name}.txt"

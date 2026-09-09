@@ -305,6 +305,30 @@ def test_soccernet_guards_pinned_upstream_float_version_parser(monkeypatch):
     assert module.__version__ == "1.0.0-modelforge-compat"
 
 
+def test_soccernet_legacy_load_opt_out_is_limited_to_verified_checkpoint(tmp_path, monkeypatch):
+    source_root = EXAMPLES / "soccernet-tracking" / "src"
+    monkeypatch.syspath_prepend(str(source_root))
+    from soccernet_motr.infer import _guard_verified_checkpoint_load
+
+    calls = []
+    fake = types.SimpleNamespace(
+        load=lambda source, *args, **kwargs: calls.append((source, args, kwargs)) or "loaded",
+    )
+    checkpoint = tmp_path / "checkpoint.pth"
+    other = tmp_path / "other.pth"
+    checkpoint.touch()
+    other.touch()
+    original = _guard_verified_checkpoint_load(fake, checkpoint)
+
+    assert fake.load(checkpoint, map_location="cpu") == "loaded"
+    assert calls[-1][2] == {"map_location": "cpu", "weights_only": False}
+    assert fake.load(other, map_location="cpu") == "loaded"
+    assert calls[-1][2] == {"map_location": "cpu"}
+    assert fake.load(checkpoint, weights_only=True) == "loaded"
+    assert calls[-1][2] == {"weights_only": True}
+    assert original is not fake.load
+
+
 def test_soccernet_explicit_registered_train_sequence_does_not_require_test_split(tmp_path, monkeypatch):
     source_root = EXAMPLES / "soccernet-tracking" / "src"
     monkeypatch.syspath_prepend(str(source_root))
