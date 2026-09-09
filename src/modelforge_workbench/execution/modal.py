@@ -222,7 +222,7 @@ class ModalExecutionHandle:
         """Confirm the root provider input was terminated after cancellation."""
 
         call_id = str(getattr(self._call, "object_id", ""))
-        for attempt in range(6):
+        for attempt in range(41):
             try:
                 graph = self._call.get_call_graph()
             except BaseException:
@@ -235,7 +235,7 @@ class ModalExecutionHandle:
                     return True
                 if status not in {"PENDING", "RUNNING"}:
                     return False
-            if attempt < 5:
+            if attempt < 40:
                 time.sleep(0.5)
         return False
 
