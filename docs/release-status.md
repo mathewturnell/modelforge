@@ -87,8 +87,8 @@ volumes were deleted, and the environment reported no deployed app, volume, or
 active container. Declared resource plans remain disclosures, not quotes or
 budget enforcement.
 
-The revised wheel plus source distribution contain 272 archive members in
-total. The verifier inspected all 237 regular-file payloads and excluded 35
+The revised wheel plus source distribution contain 307 archive members in
+total. The verifier inspected all 271 regular-file payloads and excluded 36
 directory-container records because they carry no payload. Symbolic links and
 other non-regular members are rejected rather than counted as exclusions. This
 resolves the earlier count discrepancy: “total” described archive records,
