@@ -51,6 +51,17 @@ MAX_ARCHIVE_MEMBERS = 64
 _SEQUENCE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$")
 
 
+def _bind_input_identity(result: Path, input_sha256: str) -> dict:
+    """Bind the staged selection descriptor to the managed inference result."""
+
+    value = json.loads(result.read_text(encoding="utf-8"))
+    if not isinstance(value, dict):
+        raise ValueError("SoccerNet inference result must be an object")
+    value["input_artifact"] = {"sha256": input_sha256}
+    result.write_text(json.dumps(value, indent=2) + "\n", encoding="utf-8")
+    return value
+
+
 def _extract_bounded_dataset(archive: Path, destination: Path, *, split: str, sequence: str) -> Path:
     """Extract one content-bound 24-frame adapter tree without tar traversal."""
 
@@ -180,7 +191,7 @@ def _execute(payload: Mapping) -> dict:
                     model_artifact_id=str(action.get("checkpoint_id") or "motr-checkpoint"),
                     model_artifact_sha256=str(checkpoint_asset["sha256"]),
                 )
-            value = json.loads(result.read_text(encoding="utf-8"))
+            value = _bind_input_identity(result, str(selection_asset["sha256"]))
             primary = value["results"][0]
             manifest = output / primary["manifest_path"]
             manifest_value = json.loads(manifest.read_text(encoding="utf-8"))

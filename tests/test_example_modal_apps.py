@@ -389,6 +389,21 @@ def test_soccernet_modal_dataset_archive_is_exact_and_rejects_links(tmp_path):
         )
 
 
+def test_soccernet_modal_result_binds_selected_input_identity(tmp_path):
+    module = _import("soccernet-tracking", modal_module=_fake_modal())
+    result = tmp_path / "result.json"
+    result.write_text(json.dumps({
+        "format": "modelforge.inference-result/v1",
+        "model_artifact": {"sha256": "b" * 64},
+        "results": [],
+    }), encoding="utf-8")
+
+    value = module._bind_input_identity(result, "a" * 64)
+
+    assert value["input_artifact"] == {"sha256": "a" * 64}
+    assert json.loads(result.read_text(encoding="utf-8")) == value
+
+
 def test_tastematch_modal_path_is_explicitly_base_model_only():
     module = _import("tastematch")
     source = (EXAMPLES / "tastematch" / "modal_app.py").read_text(encoding="utf-8")
