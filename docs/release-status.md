@@ -118,7 +118,11 @@ verifiable speech capture; taking control was not appropriate. Automated
 390-pixel reflow, axe, keyboard, and Chrome accessibility-tree evidence must not
 be represented as those manual checks.
 
-The preferred GitHub destination, `mathewturnell/modelforge`, is currently an
-occupied private repository with its original multi-branch history. It was
-inspected read-only and left unchanged. The clean one-root candidate must not be
-pushed into that repository and made public while its private refs remain.
+The former GitHub repository has been renamed to the private
+`mathewturnell/modelforge-legacy` repository. It retains its original branches
+and tags and was inspected read-only and left unchanged. An authenticated
+lookup of `mathewturnell/modelforge` currently follows GitHub's rename redirect
+to that legacy repository, while the unauthenticated canonical URL has no
+public repository. Publication must create a new, clean
+`mathewturnell/modelforge` repository and push only this candidate's one-root
+`main` history; it must not import, replace, expose, or push any legacy ref.
