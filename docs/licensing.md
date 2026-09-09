@@ -9,19 +9,17 @@ source manifest describe this repository's distribution terms.
 
 The nineteen retained BDD100K, SoccerNet, TasteMatch, and Qwen Python files were
 reviewed individually. Seventeen appear to be independently authored ModelForge
-integration code. Repository history attributes their introduction to the
-Mathew Git identity, but that is evidence of origin, not proof of employment,
-contractor, contributor, or AI-assisted rights. They remain
-`LicenseRef-ModelForge-Pending` until the publishing rights holder confirms
-ownership or sufficient relicensing authority.
+integration code and are licensed under Apache-2.0. Repository history
+attributes their introduction to the Mathew Git identity, and Mathew Turnell
+confirmed sufficient publication and relicensing authority on 2026-09-10.
 
 BDD100K `inference_helpers.py` and `inference_runtime.py` closely adapt the
 MeMOTR/MOTR/Deformable-DETR inference implementation. The helper is classified
-`MIT AND Apache-2.0 AND LicenseRef-ModelForge-Pending`; the runtime is
-`MIT AND LicenseRef-ModelForge-Pending`. MeMOTR's MIT terms and the inherited
+`MIT AND Apache-2.0`; the runtime is also `MIT AND Apache-2.0`. MeMOTR's MIT
+terms and the inherited
 MOTR/Deformable-DETR/DETR attribution chain are retained for the upstream-
-derived portions, while the ModelForge changes remain pending ownership
-confirmation. `THIRD_PARTY_NOTICES` records those notices. This conservative
+derived portions, while the ModelForge changes are licensed under Apache-2.0.
+`THIRD_PARTY_NOTICES` records those notices. This conservative
 classification does not assert that the files are solely ModelForge-authored or
 that package-level Apache-2.0 metadata overrides them.
 
@@ -59,10 +57,10 @@ following primary sources:
 - <https://huggingface.co/google/siglip-so400m-patch14-384/tree/9fdffc58afc957d1a03a25b10dba0329ab15c2a3>
 - <https://huggingface.co/Qwen/Qwen2.5-7B-Instruct/tree/a09a35458c702b33eeacc393d103063234e8bc28>
 
-Public availability alone is not treated as redistribution permission. Before
-publication, the accountable rights holder must confirm the pending source
-rights and approve the exact revision, publishing identity, and final
-file-level license inventory. Contributions use Apache-2.0 section 5 while
+Public availability alone is not treated as redistribution permission. The
+accountable rights holder approved the recorded source rights, publishing
+identity, and file-level license inventory on 2026-09-10. Contributions use
+Apache-2.0 section 5 while
 contributors retain copyright; no CLA, assignment, company-exclusive licence,
 or separate commercial agreement is required. ModelForge name guidance is
 limited to truthful origin/compatibility and non-endorsement and makes no claim

@@ -41,7 +41,8 @@ CI runs retain bounded Playwright traces, screenshots, and server logs. See
 [docs/ux-qualification.md](docs/ux-qualification.md) for automated and manual
 coverage limits.
 
-Before publication, protect the default branch with these GitHub check names:
+After the initial private push and before public visibility, protect the default
+branch with these GitHub check names:
 
 - `public-alpha / test-build`
 - `public-alpha / browser-journeys`

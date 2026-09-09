@@ -21,24 +21,24 @@
       "sha256": "88b575ef0caf96b610aabb4a4eb7d51837879b8f5ed640d8c4edbf120628a340"
     },
     {
-      "bytes": 1081,
+      "bytes": 1093,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "CHANGELOG.md",
-      "sha256": "f3b77d98dda6138b71134fcf1b11755e5f5b54aa723fc2f6764d355aa504f03f"
+      "sha256": "31f2b3b1118d655a2b35f085a2cb422e65c12e4a28cb3f8c59054afc7bdcd44e"
     },
     {
-      "bytes": 2327,
+      "bytes": 2368,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "CONTRIBUTING.md",
-      "sha256": "a50c8f79c43cbe51e64293f2e260c6935656a28bf43f8e781405d9f7180bda64"
+      "sha256": "c82c46b4ae3df0f03f7b2a7db4b0aa450a1ae5adaad7549d012a748d792dbcee"
     },
     {
       "bytes": 11357,
@@ -61,34 +61,34 @@
       "sha256": "49dd60964469013a0b3f4a37814a3a589b53dae342a12db89b110ebaabb6ba4a"
     },
     {
-      "bytes": 506,
+      "bytes": 552,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "NOTICE",
-      "sha256": "6105d58807ac3b904ae69fe6f5cfdd78a964757c6ebe460515ccd422239ad0d3"
+      "sha256": "0dbc550b8221b74256e8e2f510772df999c88733d526430f89bc3d580f2e53d4"
     },
     {
-      "bytes": 1315,
+      "bytes": 1283,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "PROVENANCE.md",
-      "sha256": "901e61c1bf44272cf2139287674fd7b01e6c0409f9d5ca78f5e8154bfa451135"
+      "sha256": "7832e7a4708e7dc75740e4c6e8caa99cc23e682576e41ced44137c14df95e747"
     },
     {
-      "bytes": 9078,
+      "bytes": 9067,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "README.md",
-      "sha256": "6131dd84d4caf9c8d6070c8d86fd67ecf0dc137171f9e1833f6cd7334b6c10e1"
+      "sha256": "9b5e35d9aeee31dbc86c6c3db4b13bec19c7140009476fb93d2b229b7e86f3e7"
     },
     {
       "bytes": 1284,
@@ -101,14 +101,14 @@
       "sha256": "c6aa8894b0c44b54c12493bc569ac5741272a0f04b6b9c2fc2104e48b4884dbd"
     },
     {
-      "bytes": 3356,
+      "bytes": 3232,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "THIRD_PARTY_NOTICES",
-      "sha256": "a76e8bfaeeb0a1be34b8921d4a6ade5c291ffcb9366635e2c41bee584d5810dd"
+      "sha256": "db81bc1f3d1814e69147a44b80996b038149ffbe737ccaa593a1ad22890980da"
     },
     {
       "bytes": 8677,
@@ -231,14 +231,14 @@
       "sha256": "6f3253882b5fa1c3c14cfcf278eede942f10682ec2f159036685a15536aa3524"
     },
     {
-      "bytes": 4400,
+      "bytes": 4185,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/licensing.md",
-      "sha256": "18848d15b68ea7b416eda137f0b051fa1dff11b643adb37fb35070d864eeddaa"
+      "sha256": "177c8a5a40e71ce5c75d2848a6e1e435a87ea50a73fed3bb7d2d16901aa2781d"
     },
     {
       "bytes": 9777,
@@ -261,54 +261,54 @@
       "sha256": "e0e968aef3318f7eab2529bd21e6ec07dccdccd00f89b639ff9992b54f574efb"
     },
     {
-      "bytes": 8910,
+      "bytes": 8549,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/release-status.md",
-      "sha256": "b5de2aeb152ba6ddf276b9bf8a366a5c0f3df1b926db0975c1868a235cabe315"
+      "sha256": "0a9dfe50d96ce0b25e7b22a68fd39f4db7448c41a9c062275054b203eb094af1"
     },
     {
-      "bytes": 5763,
+      "bytes": 5917,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/ux-qualification.md",
-      "sha256": "a8f08f0e849eb384d08bf33d03dbb550fffed06a78c987146ae7d2cb86ad831b"
+      "sha256": "8349d4554dd6e7e1ced5bed29246c5b646ec1abbb0ef75c3089532b06aa302ae"
     },
     {
-      "bytes": 16841,
+      "bytes": 16785,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "example-source-inventory.json",
-      "sha256": "1fc030e19d031f3caf3d6b487fdd0bc1de3df0a82f8fa2c4cbd837a903f19864"
+      "sha256": "f5805558e62d3943f36fbf513ac6225f220ab6e3261e880b31dd9d99a75d7d41"
     },
     {
-      "bytes": 1512,
+      "bytes": 1458,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "examples/bdd100k-road-scene-lab/PROVENANCE.md",
-      "sha256": "5c255f50fc5d810afa7db9815ca47528c725936e4cfcef479196e8f568f26afd"
+      "sha256": "5f5a056eec7be61a84067804247b2b7eca3b9141f41a06794228a0a95d3f52d5"
     },
     {
-      "bytes": 3154,
+      "bytes": 3194,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "examples/bdd100k-road-scene-lab/README.md",
-      "sha256": "daaf8281f1a98cccdb874cc55b7ad0e82d00c015d895ed384fcf01d8b86d732e"
+      "sha256": "72c1c628ea89e0509b2d9965d4d34482061ac61941ec55392cdfa598e14ca184"
     },
     {
       "bytes": 1769,
@@ -331,8 +331,8 @@
       "sha256": "f967447aed00d4446d7f535f60c3ea72f76049ec9fb9fb884a02be9a04472449"
     },
     {
-      "bytes": 1025,
-      "license": "LicenseRef-ModelForge-Pending",
+      "bytes": 1063,
+      "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "retained-project-source",
@@ -340,11 +340,11 @@
         "provenance": "examples/bdd100k-road-scene-lab/PROVENANCE.md"
       },
       "path": "examples/bdd100k-road-scene-lab/infer_memotr_video.py",
-      "sha256": "281a6f0ab0b9f2b2d7dd94fa910fc6a74299ea8b762502c792f30c3ece6ebc94"
+      "sha256": "bf90a8312d62d4e1f6b7176a2db6034fb5aac07dbf5606f53dc9be6347264b3f"
     },
     {
-      "bytes": 5352,
-      "license": "LicenseRef-ModelForge-Pending",
+      "bytes": 5333,
+      "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "retained-project-source",
@@ -352,7 +352,7 @@
         "provenance": "examples/bdd100k-road-scene-lab/PROVENANCE.md"
       },
       "path": "examples/bdd100k-road-scene-lab/modal_app.py",
-      "sha256": "f4ac403c81265ea2a844fe20aa06b72cc9efffdb711fe687cc84a29be2361d38"
+      "sha256": "5b4458d93f7c557d42f365946edb836f77781e136853a06fd3c38a3ae590362f"
     },
     {
       "bytes": 483,
@@ -395,8 +395,8 @@
       "sha256": "5f5ed4abbe5b0c266cf1a44cd3e913d642516c3e5ed50c1dcbc99bf0db2d9990"
     },
     {
-      "bytes": 342,
-      "license": "LicenseRef-ModelForge-Pending",
+      "bytes": 380,
+      "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "retained-project-source",
@@ -404,11 +404,11 @@
         "provenance": "examples/bdd100k-road-scene-lab/PROVENANCE.md"
       },
       "path": "examples/bdd100k-road-scene-lab/src/bdd_memotr/__init__.py",
-      "sha256": "f4d5581c97df1db616290e7fcf7d40a44600b7239bd57d52e62e34abe9e2dbcc"
+      "sha256": "77cd0d16736522bd9b963cfb410663e654f97d572251d74ca7408a63077ddf04"
     },
     {
-      "bytes": 1730,
-      "license": "LicenseRef-ModelForge-Pending",
+      "bytes": 1768,
+      "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "retained-project-source",
@@ -416,11 +416,11 @@
         "provenance": "examples/bdd100k-road-scene-lab/PROVENANCE.md"
       },
       "path": "examples/bdd100k-road-scene-lab/src/bdd_memotr/contract.py",
-      "sha256": "b46e7a8aaa47fd42768a4ebca301661c5326544be510b9f86ea88286332759cb"
+      "sha256": "698e801298690ebfa046826249c1fc3fcc7337dd0289e2c1ca01a8ffe2fdae35"
     },
     {
-      "bytes": 4170,
-      "license": "MIT AND Apache-2.0 AND LicenseRef-ModelForge-Pending",
+      "bytes": 4232,
+      "license": "MIT AND Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "retained-project-source",
@@ -428,11 +428,11 @@
         "provenance": "examples/bdd100k-road-scene-lab/PROVENANCE.md"
       },
       "path": "examples/bdd100k-road-scene-lab/src/bdd_memotr/inference_helpers.py",
-      "sha256": "2d552be329b81d861914c70bfce4f161fd3b62242a35abec38920845215b2cff"
+      "sha256": "46427451b8174b9e7d8126c7bd9fd8d212cd02bee19cbc7ad25d3223f853165b"
     },
     {
-      "bytes": 17303,
-      "license": "MIT AND LicenseRef-ModelForge-Pending",
+      "bytes": 17365,
+      "license": "MIT AND Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "retained-project-source",
@@ -440,11 +440,11 @@
         "provenance": "examples/bdd100k-road-scene-lab/PROVENANCE.md"
       },
       "path": "examples/bdd100k-road-scene-lab/src/bdd_memotr/inference_runtime.py",
-      "sha256": "3f1936995e102e3c29117418dc8667fca54eabbec7107a0be1cadd3ed8987cca"
+      "sha256": "b13872a379df94b09c1c62d2b37022711de2af76d60234f9c97fe4a03ea53242"
     },
     {
-      "bytes": 1166,
-      "license": "LicenseRef-ModelForge-Pending",
+      "bytes": 1204,
+      "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "retained-project-source",
@@ -452,17 +452,17 @@
         "provenance": "examples/bdd100k-road-scene-lab/PROVENANCE.md"
       },
       "path": "examples/bdd100k-road-scene-lab/src/bdd_memotr/mapping.py",
-      "sha256": "c9ed48bc9505266f00017fb37ce1bf587589d95e356d11ba37daf75b04de8217"
+      "sha256": "64ea3129b916f958137521016e523d9323a74464fe57aab570591b28b6cd2dbe"
     },
     {
-      "bytes": 453,
+      "bytes": 421,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "examples/qwen-prompt-lab/PROVENANCE.md",
-      "sha256": "957e3fc3f2fa9100919ef268acc2190bd1e51aab9a3d508e03a8a2c0b415b16f"
+      "sha256": "079d064694e52b3586029fe109bc6195f309d418fe519491966349ecc0a96fc7"
     },
     {
       "bytes": 2911,
@@ -475,8 +475,8 @@
       "sha256": "f9b3e9f5c1126633bcfdd8bb04bf113ae183cc45aa107ecaf31700cbeaaecf0c"
     },
     {
-      "bytes": 4922,
-      "license": "LicenseRef-ModelForge-Pending",
+      "bytes": 4903,
+      "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "retained-project-source",
@@ -484,7 +484,7 @@
         "provenance": "examples/qwen-prompt-lab/PROVENANCE.md"
       },
       "path": "examples/qwen-prompt-lab/modal_app.py",
-      "sha256": "267dcf62d6f17e008bd0f6847d4e499dc91bfda55b103ed84b35f5eb1ff23192"
+      "sha256": "7fe0b0739ef9e0552bc7ad9b74ef209abce9227636017d5efa7a7675850ca759"
     },
     {
       "bytes": 402,
@@ -517,8 +517,8 @@
       "sha256": "92e103b58da8a8a23c94c8b48225624224cea06030b78af4b165bf5a052f1596"
     },
     {
-      "bytes": 8864,
-      "license": "LicenseRef-ModelForge-Pending",
+      "bytes": 8902,
+      "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "retained-project-source",
@@ -526,7 +526,7 @@
         "provenance": "examples/qwen-prompt-lab/PROVENANCE.md"
       },
       "path": "examples/qwen-prompt-lab/prompt.py",
-      "sha256": "6ce2be1514c7caed87aa8609cc21d347c1dddfc1f1bd7b40435f42c99bb3458e"
+      "sha256": "2cfa8a191ebafad80b91ff108a899b320fcd9658e52c187c45e2912cd6b97251"
     },
     {
       "bytes": 193,
@@ -559,14 +559,14 @@
       "sha256": "e767fbca99bf74a595ea3f28ec80222302362ceba5ac3533d1ecd02aeda91ec3"
     },
     {
-      "bytes": 1223,
+      "bytes": 1131,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "examples/soccernet-tracking/PROVENANCE.md",
-      "sha256": "4269d023f5d9ecb11e114c6caf1724a4bb95bd0d61dbd17777d2ae13b3dff29c"
+      "sha256": "9187e25c9055c23ca19417a8f16357095595173b8d18f2ae69269fca1f8e43f8"
     },
     {
       "bytes": 2958,
@@ -579,8 +579,8 @@
       "sha256": "d836781f1f9fb18eb17b87d8ca2e4429fbf1aee96152c275b50bad978f402cd9"
     },
     {
-      "bytes": 179,
-      "license": "LicenseRef-ModelForge-Pending",
+      "bytes": 217,
+      "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "retained-project-source",
@@ -588,11 +588,11 @@
         "provenance": "examples/soccernet-tracking/PROVENANCE.md"
       },
       "path": "examples/soccernet-tracking/infer.py",
-      "sha256": "1a9982311e319b2e7e2cd1dab110fe727d667d6fa9daa574db8ce1d5ba2674b4"
+      "sha256": "81765dfa378c0ac940593f9571c363764a6623d6218ae555cf8d41dbff4d1a6a"
     },
     {
-      "bytes": 10538,
-      "license": "LicenseRef-ModelForge-Pending",
+      "bytes": 10519,
+      "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "retained-project-source",
@@ -600,7 +600,7 @@
         "provenance": "examples/soccernet-tracking/PROVENANCE.md"
       },
       "path": "examples/soccernet-tracking/modal_app.py",
-      "sha256": "c1694643bbde129cd5fff96bbee512a7c532d14c463af5657df5722d7988a728"
+      "sha256": "d84446f0873f5ca6d5123be01187754f51c7c0daaf6b009bb805b43d3a122662"
     },
     {
       "bytes": 498,
@@ -653,8 +653,8 @@
       "sha256": "a50c22d4f0fea7be5782b6a44b11efd6ec9490090e6aa5323ef93df923780936"
     },
     {
-      "bytes": 104,
-      "license": "LicenseRef-ModelForge-Pending",
+      "bytes": 142,
+      "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "retained-project-source",
@@ -662,11 +662,11 @@
         "provenance": "examples/soccernet-tracking/PROVENANCE.md"
       },
       "path": "examples/soccernet-tracking/src/soccernet_motr/__init__.py",
-      "sha256": "9e927674c76dce71e934dd3f72ac7dafdd568f884d629dfe433eec80c55cbdaf"
+      "sha256": "57483f495fbb0d8938ac7fa70b78841712dd2606d4d6a08dfd7a4873061cb70f"
     },
     {
-      "bytes": 22959,
-      "license": "LicenseRef-ModelForge-Pending",
+      "bytes": 22997,
+      "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "retained-project-source",
@@ -674,11 +674,11 @@
         "provenance": "examples/soccernet-tracking/PROVENANCE.md"
       },
       "path": "examples/soccernet-tracking/src/soccernet_motr/infer.py",
-      "sha256": "275dcb135c65dc9ae2c5aad2d163f1820078b53de3fff7e5823974186c8b7f45"
+      "sha256": "3c6f91c05f56a30c0172131a21e84282eee8c9db416d931fd769ce8eee8f697c"
     },
     {
-      "bytes": 6785,
-      "license": "LicenseRef-ModelForge-Pending",
+      "bytes": 6823,
+      "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "retained-project-source",
@@ -686,11 +686,11 @@
         "provenance": "examples/soccernet-tracking/PROVENANCE.md"
       },
       "path": "examples/soccernet-tracking/src/soccernet_motr/mot.py",
-      "sha256": "5321f2f9d696973e9de221e4036a67040e1723ed540749ec391ec99f2bd68643"
+      "sha256": "6ecee351568d8487d9cd2d52c2e797b282a1be32776586678614685f396cd618"
     },
     {
-      "bytes": 5161,
-      "license": "LicenseRef-ModelForge-Pending",
+      "bytes": 5199,
+      "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "retained-project-source",
@@ -698,7 +698,7 @@
         "provenance": "examples/soccernet-tracking/PROVENANCE.md"
       },
       "path": "examples/soccernet-tracking/src/soccernet_motr/tracker.py",
-      "sha256": "9e617a75e52cb6133a04aadcef4e1b1b5e131d7a06ba1f348b6259155e6955f2"
+      "sha256": "f7b57430d00e51443164b31cdeb5423d016472ad7e323db5449f56ff8877a5c7"
     },
     {
       "bytes": 942,
@@ -731,14 +731,14 @@
       "sha256": "a99d637936c34a592aff58db5334b70d38639291e65abede0a4c90f6794066b3"
     },
     {
-      "bytes": 516,
+      "bytes": 556,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "examples/tastematch/PROVENANCE.md",
-      "sha256": "121529f7a3b8f63cdee9e338bd1c5dbd4364d1f2e32d4c723ba1af24689d6fd4"
+      "sha256": "cd8b20e5f556577b8ee11274744feba29bf5a69b75fe07835b7c56e780c5bf83"
     },
     {
       "bytes": 2970,
@@ -751,8 +751,8 @@
       "sha256": "5b2d160e975883c3846ad7049726214975c3609cfaa5295e706798de07b860cc"
     },
     {
-      "bytes": 7375,
-      "license": "LicenseRef-ModelForge-Pending",
+      "bytes": 7356,
+      "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "retained-project-source",
@@ -760,7 +760,7 @@
         "provenance": "examples/tastematch/PROVENANCE.md"
       },
       "path": "examples/tastematch/modal_app.py",
-      "sha256": "130d21fcadb5bcd4aec01024a701a8721db6500550ceada17670d5c8f976fa64"
+      "sha256": "9f27bc0e239526384c8b7595ee328fd620edad3d9e61ba2a7fefaff414da2e2f"
     },
     {
       "bytes": 538,
@@ -813,8 +813,8 @@
       "sha256": "9770232af4cd6a7dc5880e2efeb28f5768d337f695878895d95abc8752f7a2f4"
     },
     {
-      "bytes": 725,
-      "license": "LicenseRef-ModelForge-Pending",
+      "bytes": 763,
+      "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "retained-project-source",
@@ -822,11 +822,11 @@
         "provenance": "examples/tastematch/PROVENANCE.md"
       },
       "path": "examples/tastematch/tastematch/__init__.py",
-      "sha256": "38cdf56082cd21f3c0e5a72287c7542e9e30f260cd82d94738a40274a74c7bbf"
+      "sha256": "b59eef71bcd85b9b6e522f1ad36bbc14bb01a987942fbec5568370d5a415bf41"
     },
     {
-      "bytes": 7346,
-      "license": "LicenseRef-ModelForge-Pending",
+      "bytes": 7384,
+      "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "retained-project-source",
@@ -834,11 +834,11 @@
         "provenance": "examples/tastematch/PROVENANCE.md"
       },
       "path": "examples/tastematch/tastematch/dataset.py",
-      "sha256": "f2b01155003a8b86e83d6d6678733bf3c04c3037e0f178303c81f457b5c107d7"
+      "sha256": "1960ab8bf3ad240a8af2ba56277983be281cfe1eb3680f3fd49fb5393788bf9b"
     },
     {
-      "bytes": 13015,
-      "license": "LicenseRef-ModelForge-Pending",
+      "bytes": 13053,
+      "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "retained-project-source",
@@ -846,7 +846,7 @@
         "provenance": "examples/tastematch/PROVENANCE.md"
       },
       "path": "examples/tastematch/tastematch/inference.py",
-      "sha256": "42b2b8e543888e258ac87c719fee67f062c631189d9bba08b634a22ce373c6a5"
+      "sha256": "a405c32668f3b1f4e470d00a78b620b6bcc293b6b0105cd2c974565a7f47296e"
     },
     {
       "bytes": 3488,
@@ -899,14 +899,14 @@
       "sha256": "93c90addf1603f0bb45e078dc4bff0ad0da7bbe814dfae71bdb8683c105c55af"
     },
     {
-      "bytes": 3101,
+      "bytes": 3029,
       "license": "Apache-2.0",
       "mode": "100755",
       "origin": {
         "kind": "repository-source"
       },
       "path": "scripts/build_source_manifest.py",
-      "sha256": "36e8d11f2b7e29e013c8156928acd89bf4fded62ea299e023fae836b66fae452"
+      "sha256": "132c5267d55bcc27b0f0c5681891766a7b66165460c97541dfd7a841f407882a"
     },
     {
       "bytes": 7731,
@@ -1549,14 +1549,14 @@
       "sha256": "7df29855fc12cf689e541caed09119effc64160a0d67f1d09b450760737836f1"
     },
     {
-      "bytes": 6612,
+      "bytes": 7041,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "tests/test_public_boundaries.py",
-      "sha256": "f0e639060916bb745e472888753794cc7f5f332ab6c49383b2146a21017074ac"
+      "sha256": "eacac0b2d6b80960d43cd59bcbbfab0f3bc3920d9ea33926c2cdf41657502f07"
     },
     {
       "bytes": 2573,

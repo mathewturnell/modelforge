@@ -5,84 +5,87 @@
     "individually_reviewed": 19,
     "independently_authored_assessment": 17,
     "upstream_derived_assessment": 2,
-    "ownership_confirmation_pending": 19
+    "ownership_confirmation_pending": 0,
+    "rights_authority_confirmed": 19,
+    "rights_decision_date": "2026-09-10",
+    "rights_decision_owner": "Mathew Turnell"
   },
-  "license_status": "publication_blocked_pending_rights_holder_confirmation",
+  "license_status": "approved_for_publication_under_recorded_terms",
   "projects": [
     {
       "id": "bdd100k-road-scene-lab",
       "files": [
         {
           "path": "modal_app.py",
-          "sha256": "f4ac403c81265ea2a844fe20aa06b72cc9efffdb711fe687cc84a29be2361d38",
+          "sha256": "5b4458d93f7c557d42f365946edb836f77781e136853a06fd3c38a3ae590362f",
           "origin": "ModelForge-owned bounded Modal deployment wrapper authored for the public-alpha acceptance path; no upstream source bytes were copied.",
           "upstream_revision": null,
           "modifications": "Fixed project/action, resource, asset-verification, output, concurrency, retry, and timeout boundaries.",
-          "license_evidence": "Authored in this candidate under the Mathew Git identity; publishing authority remains awaiting the same rights-holder confirmation as the other ModelForge integration files.",
+          "license_evidence": "Authored in this candidate under the Mathew Git identity; Mathew Turnell confirmed sufficient publishing and Apache-2.0 relicensing authority on 2026-09-10.",
           "role": "Owner-deployed BDD100K Modal action entry point.",
-          "treatment": "Retain as independently authored integration code; LicenseRef-ModelForge-Pending until ownership/relicensing authority is confirmed."
+          "treatment": "Retain as independently authored integration code under Apache-2.0."
         },
         {
           "path": "infer_memotr_video.py",
-          "sha256": "281a6f0ab0b9f2b2d7dd94fa910fc6a74299ea8b762502c792f30c3ece6ebc94",
+          "sha256": "bf90a8312d62d4e1f6b7176a2db6034fb5aac07dbf5606f53dc9be6347264b3f",
           "origin": "Introduced as ModelForge BDD100K integration source from the retained workspace; no matching upstream MeMOTR/MOTR file was found.",
           "upstream_revision": null,
           "modifications": "Standalone ModelForge action entry point and argument/environment binding.",
-          "license_evidence": "Repository history attributes introduction to the Mathew Git identity; contributor/contract rights are not recorded in this candidate.",
+          "license_evidence": "Repository history attributes introduction to the Mathew Git identity; Mathew Turnell confirmed sufficient publishing and Apache-2.0 relicensing authority on 2026-09-10.",
           "role": "Selected-video inference CLI entry point.",
-          "treatment": "Retain as independently authored integration code; LicenseRef-ModelForge-Pending until ownership/relicensing authority is confirmed."
+          "treatment": "Retain as independently authored integration code under Apache-2.0."
         },
         {
           "path": "src/bdd_memotr/__init__.py",
-          "sha256": "f4d5581c97df1db616290e7fcf7d40a44600b7239bd57d52e62e34abe9e2dbcc",
+          "sha256": "77cd0d16736522bd9b963cfb410663e654f97d572251d74ca7408a63077ddf04",
           "origin": "ModelForge package initializer; no matching upstream file was found.",
           "upstream_revision": null,
           "modifications": "Independent package boundary.",
-          "license_evidence": "Repository history only; underlying ownership terms are not recorded.",
+          "license_evidence": "Repository history plus Mathew Turnell's 2026-09-10 confirmation of sufficient publishing and Apache-2.0 relicensing authority.",
           "role": "BDD adapter package marker.",
-          "treatment": "Retain; LicenseRef-ModelForge-Pending pending ownership confirmation."
+          "treatment": "Retain under Apache-2.0."
         },
         {
           "path": "src/bdd_memotr/contract.py",
-          "sha256": "b46e7a8aaa47fd42768a4ebca301661c5326544be510b9f86ea88286332759cb",
+          "sha256": "698e801298690ebfa046826249c1fc3fcc7337dd0289e2c1ca01a8ffe2fdae35",
           "origin": "ModelForge-specific inference contract validation; no upstream match was found.",
           "upstream_revision": null,
           "modifications": "Independent validation of selected input, checkpoint, paths, bounds, and result contract.",
-          "license_evidence": "Repository history only; underlying ownership terms are not recorded.",
+          "license_evidence": "Repository history plus Mathew Turnell's 2026-09-10 confirmation of sufficient publishing and Apache-2.0 relicensing authority.",
           "role": "Project action contract validator.",
-          "treatment": "Retain; LicenseRef-ModelForge-Pending pending ownership confirmation."
+          "treatment": "Retain under Apache-2.0."
         },
         {
           "path": "src/bdd_memotr/inference_helpers.py",
-          "sha256": "2d552be329b81d861914c70bfce4f161fd3b62242a35abec38920845215b2cff",
+          "sha256": "46427451b8174b9e7d8126c7bd9fd8d212cd02bee19cbc7ad25d3223f853165b",
           "origin": "Adapted from the MeMOTR/MOTR/Deformable-DETR deformable-attention and checkpoint-loading implementation.",
           "upstream_revision": "MCG-NJU/MeMOTR eb7a177b9cbcb89742ec69b2545ab3af2ea31a80",
           "upstream_reference": "models/ops/modules/ms_deform_attn.py and related inherited implementation",
           "modifications": "Extracted a small import stub/reference-forward patch and bounded checkpoint loader for the ModelForge action.",
-          "license_evidence": "MeMOTR root MIT license plus the source file's Ruopeng Gao, MOTR, Deformable-DETR, and DETR attribution chain; the inherited Deformable-DETR terms are Apache-2.0. Notices are recorded in THIRD_PARTY_NOTICES. ModelForge additions have no confirmed publishing-rights record.",
+          "license_evidence": "MeMOTR root MIT license plus the source file's Ruopeng Gao, MOTR, Deformable-DETR, and DETR attribution chain; the inherited Deformable-DETR terms are Apache-2.0. Notices are recorded in THIRD_PARTY_NOTICES. Mathew Turnell confirmed sufficient authority to publish the ModelForge additions under Apache-2.0 on 2026-09-10.",
           "role": "Lazy upstream loading, reference deformable attention, and checkpoint verification.",
-          "treatment": "Retain conservatively as MIT AND Apache-2.0 AND LicenseRef-ModelForge-Pending; final publisher chooses this notice-preserving treatment or a later independent upstream-interface refactor."
+          "treatment": "Retain under the notice-preserving MIT AND Apache-2.0 treatment."
         },
         {
           "path": "src/bdd_memotr/inference_runtime.py",
-          "sha256": "3f1936995e102e3c29117418dc8667fca54eabbec7107a0be1cadd3ed8987cca",
+          "sha256": "b13872a379df94b09c1c62d2b37022711de2af76d60234f9c97fe4a03ea53242",
           "origin": "Adapted from MeMOTR submit/model/tracker/post-processing flow.",
           "upstream_revision": "MCG-NJU/MeMOTR eb7a177b9cbcb89742ec69b2545ab3af2ea31a80",
           "upstream_reference": "submit_engine.py and related model/tracker utilities",
           "modifications": "Added selected-video input, maximum-frame bound, local progress/evidence, output encoding, and modelforge.inference-result/v1 integration.",
-          "license_evidence": "MeMOTR root MIT license and notice; ModelForge additions have no confirmed publishing-rights record.",
+          "license_evidence": "MeMOTR root MIT license and notice; Mathew Turnell confirmed sufficient authority to publish the ModelForge additions under Apache-2.0 on 2026-09-10.",
           "role": "Bounded MeMOTR selected-video execution and typed result production.",
-          "treatment": "Retain conservatively as MIT AND LicenseRef-ModelForge-Pending; final publisher chooses this notice-preserving treatment or a later independent upstream-interface refactor."
+          "treatment": "Retain under the notice-preserving MIT AND Apache-2.0 treatment."
         },
         {
           "path": "src/bdd_memotr/mapping.py",
-          "sha256": "c9ed48bc9505266f00017fb37ce1bf587589d95e356d11ba37daf75b04de8217",
+          "sha256": "64ea3129b916f958137521016e523d9323a74464fe57aab570591b28b6cd2dbe",
           "origin": "ModelForge-specific native prediction mapping; no upstream file match was found.",
           "upstream_revision": null,
           "modifications": "Independent mapping into the ModelForge video-result representation.",
-          "license_evidence": "Repository history only; underlying ownership terms are not recorded.",
+          "license_evidence": "Repository history plus Mathew Turnell's 2026-09-10 confirmation of sufficient publishing and Apache-2.0 relicensing authority.",
           "role": "Prediction/class/result mapping.",
-          "treatment": "Retain; LicenseRef-ModelForge-Pending pending ownership confirmation."
+          "treatment": "Retain under Apache-2.0."
         }
       ],
       "excluded": ["BDD100K media and annotations", "complete MeMOTR checkout", "checkpoint", "prior outputs", "private state"]
@@ -92,63 +95,63 @@
       "files": [
         {
           "path": "modal_app.py",
-          "sha256": "c1694643bbde129cd5fff96bbee512a7c532d14c463af5657df5722d7988a728",
+          "sha256": "d84446f0873f5ca6d5123be01187754f51c7c0daaf6b009bb805b43d3a122662",
           "origin": "ModelForge-owned bounded Modal deployment wrapper authored for the public-alpha acceptance path; no upstream MOTR source bytes were copied.",
           "upstream_revision": null,
           "modifications": "Fixed project/action, resource, bounded dataset extraction, asset-verification, output, concurrency, retry, and timeout boundaries.",
-          "license_evidence": "Authored in this candidate under the Mathew Git identity; publishing authority remains awaiting the same rights-holder confirmation as the other ModelForge integration files.",
+          "license_evidence": "Authored in this candidate under the Mathew Git identity; Mathew Turnell confirmed sufficient publishing and Apache-2.0 relicensing authority on 2026-09-10.",
           "role": "Owner-deployed SoccerNet Modal action entry point.",
-          "treatment": "Retain as independently authored integration code; LicenseRef-ModelForge-Pending until ownership/relicensing authority is confirmed."
+          "treatment": "Retain as independently authored integration code under Apache-2.0."
         },
         {
           "path": "infer.py",
-          "sha256": "1a9982311e319b2e7e2cd1dab110fe727d667d6fa9daa574db8ce1d5ba2674b4",
+          "sha256": "81765dfa378c0ac940593f9571c363764a6623d6218ae555cf8d41dbff4d1a6a",
           "origin": "ModelForge SoccerNet integration entry point; no official MOTR file match was found.",
           "upstream_revision": null,
           "modifications": "Independent project action entry point.",
-          "license_evidence": "Repository history attributes introduction to the Mathew Git identity; contributor/contract rights are not recorded.",
+          "license_evidence": "Repository history attributes introduction to the Mathew Git identity; Mathew Turnell confirmed sufficient publishing and Apache-2.0 relicensing authority on 2026-09-10.",
           "role": "Low-level SoccerNet inference entry point.",
-          "treatment": "Retain for inspection; LicenseRef-ModelForge-Pending pending ownership confirmation."
+          "treatment": "Retain for inspection under Apache-2.0."
         },
         {
           "path": "src/soccernet_motr/__init__.py",
-          "sha256": "9e927674c76dce71e934dd3f72ac7dafdd568f884d629dfe433eec80c55cbdaf",
+          "sha256": "57483f495fbb0d8938ac7fa70b78841712dd2606d4d6a08dfd7a4873061cb70f",
           "origin": "ModelForge package initializer; no upstream match was found.",
           "upstream_revision": null,
           "modifications": "Independent package boundary.",
-          "license_evidence": "Repository history only; underlying ownership terms are not recorded.",
+          "license_evidence": "Repository history plus Mathew Turnell's 2026-09-10 confirmation of sufficient publishing and Apache-2.0 relicensing authority.",
           "role": "SoccerNet adapter package marker.",
-          "treatment": "Retain; LicenseRef-ModelForge-Pending pending ownership confirmation."
+          "treatment": "Retain under Apache-2.0."
         },
         {
           "path": "src/soccernet_motr/infer.py",
-          "sha256": "275dcb135c65dc9ae2c5aad2d163f1820078b53de3fff7e5823974186c8b7f45",
+          "sha256": "3c6f91c05f56a30c0172131a21e84282eee8c9db416d931fd769ce8eee8f697c",
           "origin": "ModelForge wrapper around external MOTR execution; no official MOTR file match was found.",
           "upstream_revision": "Targets megvii-research/MOTR 8690da3392159635ca37c31975126acf40220724 plus undistributed private bounded/progress modifications",
           "modifications": "Independent request construction, subprocess boundary, progress parsing, and result collection.",
-          "license_evidence": "Wrapper appears independent; repository history only. External MOTR has mixed file-level notices and no MOTR bytes or patch are bundled.",
+          "license_evidence": "Wrapper appears independent; repository history and Mathew Turnell's 2026-09-10 confirmation establish sufficient Apache-2.0 publishing authority. External MOTR has mixed file-level notices and no MOTR bytes or patch are bundled.",
           "role": "Inference orchestration adapter.",
-          "treatment": "Retain as inspectable integration only; LicenseRef-ModelForge-Pending. Do not claim the clean upstream checkout reproduces historical execution."
+          "treatment": "Retain as inspectable integration under Apache-2.0. Do not claim the clean upstream checkout reproduces historical execution."
         },
         {
           "path": "src/soccernet_motr/mot.py",
-          "sha256": "5321f2f9d696973e9de221e4036a67040e1723ed540749ec391ec99f2bd68643",
+          "sha256": "6ecee351568d8487d9cd2d52c2e797b282a1be32776586678614685f396cd618",
           "origin": "ModelForge MOT result serialization; no official MOTR file match was found.",
           "upstream_revision": null,
           "modifications": "Independent bounded parsing/serialization for integration results.",
-          "license_evidence": "Repository history only; underlying ownership terms are not recorded.",
+          "license_evidence": "Repository history plus Mathew Turnell's 2026-09-10 confirmation of sufficient publishing and Apache-2.0 relicensing authority.",
           "role": "MOT result adapter.",
-          "treatment": "Retain; LicenseRef-ModelForge-Pending pending ownership confirmation."
+          "treatment": "Retain under Apache-2.0."
         },
         {
           "path": "src/soccernet_motr/tracker.py",
-          "sha256": "9e617a75e52cb6133a04aadcef4e1b1b5e131d7a06ba1f348b6259155e6955f2",
+          "sha256": "f7b57430d00e51443164b31cdeb5423d016472ad7e323db5449f56ff8877a5c7",
           "origin": "ModelForge tracker-result helper; no official MOTR file match was found.",
           "upstream_revision": null,
           "modifications": "Independent tracking result normalization.",
-          "license_evidence": "Repository history only; underlying ownership terms are not recorded.",
+          "license_evidence": "Repository history plus Mathew Turnell's 2026-09-10 confirmation of sufficient publishing and Apache-2.0 relicensing authority.",
           "role": "Tracker result normalization.",
-          "treatment": "Retain; LicenseRef-ModelForge-Pending pending ownership confirmation."
+          "treatment": "Retain under Apache-2.0."
         }
       ],
       "excluded": ["SoccerNet footage and annotations", "complete or modified MOTR checkout", "MOTR patch", "checkpoints", "training/provider code", "prior outputs", "private state"]
@@ -158,43 +161,43 @@
       "files": [
         {
           "path": "modal_app.py",
-          "sha256": "130d21fcadb5bcd4aec01024a701a8721db6500550ceada17670d5c8f976fa64",
+          "sha256": "9f27bc0e239526384c8b7595ee328fd620edad3d9e61ba2a7fefaff414da2e2f",
           "origin": "ModelForge-owned bounded Modal deployment wrapper authored for the public-alpha acceptance path; no SigLIP or Food-101 source bytes were copied.",
           "upstream_revision": null,
           "modifications": "Fixed base-model-only project/action, resource, input/model verification, output, concurrency, retry, and timeout boundaries.",
-          "license_evidence": "Authored in this candidate under the Mathew Git identity; publishing authority remains awaiting the same rights-holder confirmation as the other ModelForge integration files.",
+          "license_evidence": "Authored in this candidate under the Mathew Git identity; Mathew Turnell confirmed sufficient publishing and Apache-2.0 relicensing authority on 2026-09-10.",
           "role": "Owner-deployed TasteMatch Modal action entry point.",
-          "treatment": "Retain as independently authored integration code; LicenseRef-ModelForge-Pending until ownership/relicensing authority is confirmed."
+          "treatment": "Retain as independently authored integration code under Apache-2.0."
         },
         {
           "path": "tastematch/__init__.py",
-          "sha256": "38cdf56082cd21f3c0e5a72287c7542e9e30f260cd82d94738a40274a74c7bbf",
+          "sha256": "b59eef71bcd85b9b6e522f1ad36bbc14bb01a987942fbec5568370d5a415bf41",
           "origin": "ModelForge TasteMatch package initializer; no upstream source match was found.",
           "upstream_revision": null,
           "modifications": "Independent package boundary.",
-          "license_evidence": "Repository history attributes introduction to the Mathew Git identity; contributor/contract rights are not recorded.",
+          "license_evidence": "Repository history attributes introduction to the Mathew Git identity; Mathew Turnell confirmed sufficient publishing and Apache-2.0 relicensing authority on 2026-09-10.",
           "role": "TasteMatch adapter package marker.",
-          "treatment": "Retain; LicenseRef-ModelForge-Pending pending ownership confirmation."
+          "treatment": "Retain under Apache-2.0."
         },
         {
           "path": "tastematch/dataset.py",
-          "sha256": "f2b01155003a8b86e83d6d6678733bf3c04c3037e0f178303c81f457b5c107d7",
+          "sha256": "1960ab8bf3ad240a8af2ba56277983be281cfe1eb3680f3fd49fb5393788bf9b",
           "origin": "ModelForge path-only Food-101 integration; no upstream source match was found.",
           "upstream_revision": null,
           "modifications": "Independent bounded index validation and lazy dataset access.",
-          "license_evidence": "Repository history only; underlying ownership terms are not recorded. No Food-101 image is included.",
+          "license_evidence": "Repository history plus Mathew Turnell's 2026-09-10 confirmation of sufficient publishing and Apache-2.0 relicensing authority. No Food-101 image is included.",
           "role": "Dataset adapter.",
-          "treatment": "Retain for fixture-qualified inspection; LicenseRef-ModelForge-Pending."
+          "treatment": "Retain for fixture-qualified inspection under Apache-2.0."
         },
         {
           "path": "tastematch/inference.py",
-          "sha256": "42b2b8e543888e258ac87c719fee67f062c631189d9bba08b634a22ce373c6a5",
+          "sha256": "a405c32668f3b1f4e470d00a78b620b6bcc293b6b0105cd2c974565a7f47296e",
           "origin": "ModelForge fixture/live SigLIP integration; no upstream source match was found.",
           "upstream_revision": "References google/siglip-so400m-patch14-384 9fdffc58afc957d1a03a25b10dba0329ab15c2a3 through Transformers public interfaces",
           "modifications": "Independent request validation, fixture engine, offline model loading, and result projection.",
-          "license_evidence": "Repository history only for this adapter; exact external SigLIP repository identifies Apache-2.0, but no weights are bundled.",
+          "license_evidence": "Repository history plus Mathew Turnell's 2026-09-10 confirmation of sufficient publishing and Apache-2.0 relicensing authority for this adapter; exact external SigLIP repository identifies Apache-2.0, but no weights are bundled.",
           "role": "Image-inference adapter.",
-          "treatment": "Retain as inspectable, not managed-run-qualified; LicenseRef-ModelForge-Pending."
+          "treatment": "Retain under Apache-2.0; live managed-run qualification is recorded separately."
         }
       ],
       "excluded": ["Food-101 imagery", "SigLIP weights", "trained adapters", "training/provider code", "copied web application", "prior outputs", "private state"]
@@ -204,23 +207,23 @@
       "files": [
         {
           "path": "modal_app.py",
-          "sha256": "267dcf62d6f17e008bd0f6847d4e499dc91bfda55b103ed84b35f5eb1ff23192",
+          "sha256": "7fe0b0739ef9e0552bc7ad9b74ef209abce9227636017d5efa7a7675850ca759",
           "origin": "ModelForge-owned bounded Modal deployment wrapper authored for the public-alpha acceptance path; no Qwen or Transformers source bytes were copied.",
           "upstream_revision": null,
           "modifications": "Fixed prompt/model/resource/output, message/token, concurrency, retry, and timeout boundaries.",
-          "license_evidence": "Authored in this candidate under the Mathew Git identity; publishing authority remains awaiting the same rights-holder confirmation as the other ModelForge integration files.",
+          "license_evidence": "Authored in this candidate under the Mathew Git identity; Mathew Turnell confirmed sufficient publishing and Apache-2.0 relicensing authority on 2026-09-10.",
           "role": "Owner-deployed Qwen Modal action entry point.",
-          "treatment": "Retain as independently authored integration code; LicenseRef-ModelForge-Pending until ownership/relicensing authority is confirmed."
+          "treatment": "Retain as independently authored integration code under Apache-2.0."
         },
         {
           "path": "prompt.py",
-          "sha256": "6ce2be1514c7caed87aa8609cc21d347c1dddfc1f1bd7b40435f42c99bb3458e",
+          "sha256": "2cfa8a191ebafad80b91ff108a899b320fcd9658e52c187c45e2912cd6b97251",
           "origin": "ModelForge Qwen prompt adapter; no upstream Qwen/Transformers source match was found.",
           "upstream_revision": "Uses Qwen/Qwen2.5-7B-Instruct a09a35458c702b33eeacc393d103063234e8bc28 through Transformers public interfaces",
           "modifications": "Independent bounded request validation, offline lazy model loading, cancellation, and typed prompt result.",
-          "license_evidence": "Repository history attributes introduction to the Mathew Git identity; contributor/contract rights are not recorded. External model repository identifies Apache-2.0; weights are not bundled.",
+          "license_evidence": "Repository history attributes introduction to the Mathew Git identity; Mathew Turnell confirmed sufficient publishing and Apache-2.0 relicensing authority on 2026-09-10. External model repository identifies Apache-2.0; weights are not bundled.",
           "role": "Prompt-only managed action adapter.",
-          "treatment": "Retain; LicenseRef-ModelForge-Pending pending ownership confirmation."
+          "treatment": "Retain under Apache-2.0."
         }
       ],
       "supporting_files": [

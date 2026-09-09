@@ -66,5 +66,5 @@ state root and remain recoverable after browser reconnect/service restart.
 BDD100K media/annotations, MeMOTR source, checkpoint, and outputs are external.
 See `setup.json`, `PROVENANCE.md`, upstream license/access links in the setup
 plan, and the repository licensing page. Two adapter files retain conservative
-MeMOTR-derived MIT treatment; ModelForge additions remain pending ownership
-confirmation.
+MeMOTR-derived MIT treatment; ModelForge additions are licensed under Apache-2.0
+following the 2026-09-10 authority confirmation.

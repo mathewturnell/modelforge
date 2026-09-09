@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0
 """TasteMatch project runtime."""
 
 MODEL_ID = "google/siglip-so400m-patch14-384"

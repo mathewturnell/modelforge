@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0
 """Inference contract with an honest deterministic offline qualification mode."""
 
 from __future__ import annotations

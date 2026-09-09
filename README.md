@@ -102,9 +102,9 @@ or starts a workload. See [Explicit example setup](docs/example-setup.md).
   remains excluded.
 
 The nineteen retained real-example Python files have individual provenance
-records. Seventeen appear independently authored and remain pending publishing
-rights confirmation; two BDD100K inference files conservatively retain
-MeMOTR-derived terms and attribution plus pending ModelForge additions. See each
+records. Seventeen independently authored files are licensed under Apache-2.0;
+two BDD100K inference files conservatively retain MeMOTR-derived terms and
+attribution while their ModelForge additions use Apache-2.0. See each
 example's `PROVENANCE.md`,
 [`example-source-inventory.json`](example-source-inventory.json), and
 [Licensing](docs/licensing.md).
@@ -182,8 +182,8 @@ See [Architecture](docs/architecture.md), [Agent integration](docs/agent-integra
 
 The framework source is marked Apache-2.0. Contributions use Apache-2.0 section
 5 while contributors retain copyright; no CLA or assignment is required.
-Publication remains blocked until the accountable rights holder confirms every
-pending real-example source group and approves the exact revision and
-publishing identity. Name guidance is limited to truthful origin/compatibility
-and non-endorsement, with no trademark-registration claim. See
+Mathew Turnell confirmed sufficient authority for the inventoried original
+ModelForge portions and approved their publication under the recorded terms on
+2026-09-10. Name guidance is limited to truthful origin/compatibility and
+non-endorsement, with no trademark-registration claim. See
 [Licensing](docs/licensing.md).

@@ -1,5 +1,5 @@
 # Copyright (C) 2026 Mathew Turnell
-# SPDX-License-Identifier: LicenseRef-ModelForge-Pending
+# SPDX-License-Identifier: Apache-2.0
 
 """Fixed Modal deployment for bounded Qwen2.5-7B prompt execution."""
 

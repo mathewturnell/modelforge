@@ -1,5 +1,5 @@
 # Copyright (C) 2026 Mathew Turnell
-# SPDX-License-Identifier: LicenseRef-ModelForge-Pending
+# SPDX-License-Identifier: Apache-2.0
 
 """Fixed Modal deployment for one bounded base-SigLIP Food-101 inference."""
 

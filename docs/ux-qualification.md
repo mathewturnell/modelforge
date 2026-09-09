@@ -45,7 +45,7 @@ browser chrome: `devicePixelRatio` remained 1 and `innerWidth` remained 1280,
 so the attempt did not establish 200% zoom and was not converted into a passing
 emulation claim. The automated 390-pixel reflow check is stronger narrow-layout
 evidence but is not labelled native zoom. A human-controlled native 200% zoom
-session therefore remains a release check. The only available GUI during final
+session therefore remains an unverified alpha check. The only available GUI during final
 qualification was the user's active GNOME Wayland desktop with an existing
 Chrome session; no isolated compositor or OS-level input tool was available,
 so taking control of browser chrome or enabling Orca would have disrupted that
@@ -55,8 +55,9 @@ Actions also remain unverified by this suite. Separate bounded live acceptance
 covered the four fixed Modal project actions, but does not extend to other
 accounts, regions, revisions, inputs, performance, or provider availability.
 
-Before publication, a human can close the two remaining checks in one short
-session:
+The following human checks were accepted as unverified alpha limitations for
+repository publication. They remain useful post-publication qualification work
+and must not be represented as passed until a human records the session:
 
 1. Open the tokenized workbench in a fresh Chrome profile, choose native 200%
    zoom from browser chrome, and confirm project navigation, dataset/prompt

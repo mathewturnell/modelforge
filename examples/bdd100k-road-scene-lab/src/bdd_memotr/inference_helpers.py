@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT AND Apache-2.0
 """MeMOTR inference helpers adapted for ModelForge's bounded local action.
 
 The deformable-attention path follows MeMOTR revision
@@ -7,7 +8,7 @@ surface and added local action/result integration. See the adjacent
 ``PROVENANCE.md`` and repository ``THIRD_PARTY_NOTICES``. The upstream
 material retains the MeMOTR/MOTR/Deformable-DETR/DETR attribution chain and
 applicable MIT/Apache terms recorded there; ModelForge-authored changes remain
-pending the publishing rights holder's confirmation.
+licensed under Apache-2.0 by the confirmed publishing rights holder.
 """
 
 from __future__ import annotations

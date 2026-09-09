@@ -7,13 +7,10 @@ generated media. Python is supplied by the user's installation. Setuptools and
 wheel are build tools; pytest, Ruff, build, and Twine are development tools and
 are not included in the wheel.
 
-The wheel stages four selected project-integration source groups for
-rights-holder review. Seventeen independently authored Python files remain
-`LicenseRef-ModelForge-Pending`. Two BDD100K files adapt MeMOTR inference flow.
-`inference_runtime.py` is classified
-`MIT AND LicenseRef-ModelForge-Pending`; `inference_helpers.py` is classified
-`MIT AND Apache-2.0 AND LicenseRef-ModelForge-Pending` because its upstream
-source retains the following attribution chain:
+The wheel stages four selected project-integration source groups. Seventeen
+independently authored Python files are licensed under Apache-2.0. Two BDD100K
+files adapt MeMOTR inference flow and are classified `MIT AND Apache-2.0`,
+preserving the applicable upstream terms and the following attribution chain:
 
 Copyright (c) Ruopeng Gao. All Rights Reserved.
 
@@ -52,12 +49,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-All fifteen files and their specific treatments are listed in
+All nineteen files and their specific treatments are listed in
 `example-source-inventory.json`. They do not include the complete upstream
 MeMOTR/MOTR repositories, BDD100K/SoccerNet/Food-101 data, SigLIP/Qwen weights,
-checkpoints, retained prompts, or generated outputs. If authority is not
-confirmed for the ModelForge-authored material, the corresponding source must
-be removed or replaced before publication.
+checkpoints, retained prompts, or generated outputs. Mathew Turnell confirmed
+sufficient authority on 2026-09-10 to publish the original ModelForge portions
+under Apache-2.0; this does not alter any upstream term or notice.
 
 The four values in `examples/synthetic-threshold/samples.json` and the authored
 Qwen request example are dedicated to the public domain under CC0 1.0:

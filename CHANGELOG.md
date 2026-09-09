@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0a1 (unreleased)
+## 0.1.0a1 (public source, 2026-09-10)
 
 - Prepared a small local-first workbench with durable project-scoped runs,
   checked artifacts, local inference/prompt handlers, and a token-protected
@@ -15,5 +15,5 @@
   same-call recovery, and native video/table/text results passed on one
   recorded owner environment; this is not a general provider or quality claim.
 - Recorded per-file provenance and conservative license treatment for the
-  nineteen retained real-example Python files. Publication remains blocked on
-  the ownership and publishing decisions in `docs/release-status.md`.
+  nineteen retained real-example Python files. The rights holder approved the
+  Apache-2.0 and notice-preserving mixed treatments on 2026-09-10.

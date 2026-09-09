@@ -1,11 +1,10 @@
 # Provenance
 
-The five Python files were compared individually with exact upstream MOTR and
+The six Python files were compared individually with exact upstream MOTR and
 MeMOTR trees. No direct file match was found; they appear to be independently
 authored ModelForge entry-point, orchestration, MOT-result, and tracker adapters.
-Repository history alone is not proof of contributor/contract rights, so every
-file remains `LicenseRef-ModelForge-Pending` until the publishing rights holder
-confirms authority.
+They are licensed under Apache-2.0 following the 2026-09-10 rights-holder
+confirmation.
 
 No vendored MOTR bytes or patch are included. MOTR revision
 `8690da3392159635ca37c31975126acf40220724` has mixed file-level notices,

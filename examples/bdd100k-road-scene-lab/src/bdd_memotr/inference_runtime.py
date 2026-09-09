@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT AND Apache-2.0
 """MeMOTR submission flow adapted to a bounded ModelForge inference action.
 
 The model/tracker/post-processing flow follows MeMOTR revision
@@ -5,7 +6,7 @@ The model/tracker/post-processing flow follows MeMOTR revision
 input, frame bounds, progress, evidence, and typed result integration. See the
 adjacent ``PROVENANCE.md`` and repository ``THIRD_PARTY_NOTICES``. Upstream
 material is under the reproduced MIT terms; ModelForge-authored changes remain
-pending the publishing rights holder's confirmation.
+licensed under Apache-2.0 by the confirmed publishing rights holder.
 """
 
 from __future__ import annotations

@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: Apache-2.0
 """ModelForge prompt adapter for the pinned Qwen2.5-7B-Instruct release.
 
 The heavyweight imports are deliberately lazy. Managed execution requires an

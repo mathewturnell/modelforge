@@ -93,8 +93,12 @@ def test_example_source_inventory_is_file_complete_and_content_bound():
         "individually_reviewed": 19,
         "independently_authored_assessment": 17,
         "upstream_derived_assessment": 2,
-        "ownership_confirmation_pending": 19,
+        "ownership_confirmation_pending": 0,
+        "rights_authority_confirmed": 19,
+        "rights_decision_date": "2026-09-10",
+        "rights_decision_owner": "Mathew Turnell",
     }
+    assert inventory["license_status"] == "approved_for_publication_under_recorded_terms"
     records = []
     for project in inventory["projects"]:
         root = ROOT / "examples" / project["id"]
@@ -109,11 +113,15 @@ def test_example_source_inventory_is_file_complete_and_content_bound():
             path = root / relative
             assert path.is_file() and not path.is_symlink()
             assert hashlib.sha256(path.read_bytes()).hexdigest() == expected
+            assert "SPDX-License-Identifier:" in "\n".join(
+                path.read_text(encoding="utf-8").splitlines()[:15]
+            )
     assert len(records) == 19
     assert sum(item["upstream_revision"] is not None for item in records) == 5
-    mixed = [item["treatment"] for item in records if item["treatment"].startswith("Retain conservatively")]
+    mixed = [item["treatment"] for item in records if "notice-preserving" in item["treatment"]]
     assert len(mixed) == 2
-    assert sum("Apache-2.0" in treatment for treatment in mixed) == 1
+    assert all("MIT AND Apache-2.0" in treatment for treatment in mixed)
+    assert all("Apache-2.0" in item["treatment"] for item in records)
 
 
 def test_shipped_real_adapter_entrypoints_are_coherent_without_private_assets():

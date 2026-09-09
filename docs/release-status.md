@@ -1,10 +1,9 @@
 # Public alpha release status
 
-This candidate is prepared for final publication review but is **not approved
-for publication**. No push, package upload, deployment, or visibility change
-has occurred for the public repository or package. Four dedicated Modal
-acceptance apps were temporarily deployed and are now stopped; their staging
-volumes were deleted.
+Repository publication was approved by Mathew Turnell on 2026-09-10. This
+approval covers the clean source repository only: no package upload, hosted
+deployment, release tag, or GitHub Release is included. The Modal acceptance
+apps are stopped and their dedicated staging volumes were deleted.
 
 ## Implemented release boundary
 
@@ -15,10 +14,9 @@ volumes were deleted.
   each has a bounded, current live Modal acceptance run through the compiled
   workbench. Training remains excluded.
 - Nineteen retained Python files have individual provenance dispositions in
-  `example-source-inventory.json`. Seventeen appear independently authored but
-  remain pending ownership confirmation. Two BDD100K files retain conservative
-  MeMOTR-derived treatment, inherited Apache terms where applicable, and the
-  upstream attribution chain.
+  `example-source-inventory.json`. Seventeen independently authored files use
+  Apache-2.0. Two BDD100K files retain a notice-preserving `MIT AND Apache-2.0`
+  treatment and the upstream attribution chain.
 - Archive verification reports all member counts and excludes only directory
   container entries from payload inspection.
 
@@ -83,10 +81,10 @@ but did not retain that initial summary file; the retained final summary is USD
 The two retained detailed hourly reports independently sum to USD 0.69118354,
 which substantiates spend below the authorized USD 10 ceiling and is consistent
 with the monthly values' cent-rounded USD 0.69 difference. After evidence
-capture, all four exact acceptance apps were stopped, all four dedicated input
-volumes were deleted, and the environment reported no deployed app, volume, or
-active container. Declared resource plans remain disclosures, not quotes or
-budget enforcement.
+capture, all recorded acceptance and intermediate apps were stopped, all four
+dedicated input volumes were deleted, and the environment reported no deployed
+app, volume, or active container. Declared resource plans remain disclosures,
+not quotes or budget enforcement.
 
 The revised wheel plus source distribution contain 307 archive members in
 total. The verifier inspected all 271 regular-file payloads and excluded 36
@@ -95,35 +93,33 @@ other non-regular members are rejected rather than counted as exclusions. This
 resolves the earlier count discrepancy: “total” described archive records,
 while the former inspection count described only file payloads.
 
-## Publication blockers
+## Publication decisions and unverified checks
 
-The accountable human must confirm the publishing rights holder and sufficient
-relicensing rights for the seventeen independently authored integration files
-and the ModelForge additions in the two MeMOTR-derived files. The selected
-inbound policy is Apache-2.0 section 5 with contributors retaining copyright,
-no CLA or assignment, and no separate company-exclusive or commercial licence.
-The ModelForge name guidance is limited to truthful origin/compatibility and
-non-endorsement; no trademark registration or clearance is claimed.
+Mathew Turnell confirmed sufficient publishing and Apache-2.0 relicensing
+authority for the seventeen independently authored integration files and the
+ModelForge additions in the two MeMOTR-derived files on 2026-09-10. The two
+derived files keep their recorded upstream MIT/Apache terms and notices. The
+selected inbound policy is Apache-2.0 section 5 with contributors retaining
+copyright, no CLA or assignment, and no separate company-exclusive or
+commercial licence. The ModelForge name guidance is limited to truthful
+origin/compatibility and non-endorsement; no trademark registration or
+clearance is claimed.
 
-For the two BDD100K-derived files, the final publication decision must choose
-between retaining the notice-preserving mixed treatment recorded here or a
-later independently authored refactor against upstream interfaces. If a
-SoccerNet patch against the retained, locally modified MOTR checkout is ever
-distributed, that exact patch and MOTR's mixed file-level notices require a
-separate review; no such patch is in this candidate.
+The publication decision retains the two BDD100K-derived files under their
+notice-preserving mixed treatment. If a SoccerNet patch against the retained,
+locally modified MOTR checkout is ever distributed, that exact patch and
+MOTR's mixed file-level notices require a separate review; no such patch is in
+this candidate.
 
-Native browser 200% zoom and an end-user screen-reader session remain manual
-release checks. The only current graphical environment is the user's active
+Native browser 200% zoom and an end-user screen-reader session remain
+**unverified alpha checks accepted for repository publication**, not passed
+checks. The only current graphical environment is the user's active
 GNOME Wayland desktop, with no isolated compositor, OS-level input driver, or
 verifiable speech capture; taking control was not appropriate. Automated
 390-pixel reflow, axe, keyboard, and Chrome accessibility-tree evidence must not
 be represented as those manual checks.
 
-The former GitHub repository has been renamed to the private
-`mathewturnell/modelforge-legacy` repository. It retains its original branches
-and tags and was inspected read-only and left unchanged. An authenticated
-lookup of `mathewturnell/modelforge` currently follows GitHub's rename redirect
-to that legacy repository, while the unauthenticated canonical URL has no
-public repository. Publication must create a new, clean
-`mathewturnell/modelforge` repository and push only this candidate's one-root
-`main` history; it must not import, replace, expose, or push any legacy ref.
+The canonical repository is `mathewturnell/modelforge`. The former repository
+is preserved privately as `mathewturnell/modelforge-legacy`; its branches,
+tags, files, assets, reports, and history are not part of this public source
+history.

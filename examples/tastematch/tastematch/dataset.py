@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0
 """Food-101 path indexing and deterministic fixture loading.
 
 The index is metadata, not a dataset copy. Every image stays beneath the source

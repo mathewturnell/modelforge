@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0
 """Project adapter for the pinned official MeMOTR BDD100K checkpoint."""
 
 from .contract import load_contract, validate_contract

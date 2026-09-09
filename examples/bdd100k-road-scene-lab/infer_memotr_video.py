@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0
 """ModelForge entrypoint for selected-video MeMOTR inference."""
 
 from __future__ import annotations

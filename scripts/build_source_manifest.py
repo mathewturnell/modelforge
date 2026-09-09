@@ -21,10 +21,10 @@ EXAMPLE_SOURCES = {
 }
 MIXED_MEMOTR_SOURCES = {
     "examples/bdd100k-road-scene-lab/src/bdd_memotr/inference_helpers.py": (
-        "MIT AND Apache-2.0 AND LicenseRef-ModelForge-Pending"
+        "MIT AND Apache-2.0"
     ),
     "examples/bdd100k-road-scene-lab/src/bdd_memotr/inference_runtime.py": (
-        "MIT AND LicenseRef-ModelForge-Pending"
+        "MIT AND Apache-2.0"
     ),
 }
 
@@ -54,7 +54,7 @@ def main() -> int:
             if relative.endswith("samples.json") or relative.endswith("request.example.json")
             else MIXED_MEMOTR_SOURCES[relative]
             if relative in MIXED_MEMOTR_SOURCES
-            else "LicenseRef-ModelForge-Pending" if example_source and relative.endswith(".py")
+            else "Apache-2.0" if example_source and relative.endswith(".py")
             else "Apache-2.0"
         )
         record = {
