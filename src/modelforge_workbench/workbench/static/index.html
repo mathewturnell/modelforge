@@ -17,7 +17,7 @@
     <section class="hero">
       <p class="eyebrow">Local ML workbench</p>
       <h1>Projects keep the science. ModelForge keeps the workflow visible.</h1>
-      <p>Inspect a dataset or prompt, start a declared local action, follow its progress and logs, and recover checked artifacts from durable run history.</p>
+      <p>Inspect a dataset or prompt, start a declared action on an owner-configured target, and recover checked artifacts from durable run history.</p>
       <p><a href="#setup">Set up your first local project</a> or <a href="/modal-setup.html">connect your own Modal account</a>.</p>
     </section>
     <section id="setup" class="card setup" aria-labelledby="setup-title">
@@ -88,6 +88,19 @@
             <input id="max-tokens" type="number" min="1" max="2048" value="24">
           </div>
         </section>
+        <fieldset id="execution-panel" class="execution-panel" hidden>
+          <legend>Execution target</legend>
+          <label for="execution-target">Run this action on</label>
+          <select id="execution-target" aria-describedby="execution-detail"></select>
+          <div id="execution-detail" class="target-detail" role="status" aria-live="polite"></div>
+          <div id="billable-panel" class="billable-panel" hidden>
+            <p id="billable-warning"><strong>Billable provider action.</strong> The resources shown for this target are planned and unreconciled, not a price quote or spending limit. Starting the run may incur charges in your own provider account.</p>
+            <label class="confirmation" for="billable-confirm">
+              <input id="billable-confirm" type="checkbox" aria-describedby="billable-warning">
+              <span>I confirm this exact Modal target and understand it may incur charges.</span>
+            </label>
+          </div>
+        </fieldset>
         <div id="action-error" class="alert" role="alert" hidden></div>
         <button id="run" type="button" disabled>Run selected action</button>
       </article>
@@ -99,7 +112,10 @@
         <section><h2>Live process log</h2><pre id="log-tail" class="empty" aria-label="Live process log" aria-live="polite">Unavailable</pre></section>
         <section><h2>Checked artifacts</h2><div id="artifacts" class="stack"></div></section>
         <div id="result-preview" aria-live="polite"></div>
-        <button id="cancel" class="danger" type="button" hidden>Request cancellation</button>
+        <div id="run-controls" class="run-controls" hidden>
+          <button id="recover" class="secondary" type="button" hidden>Recover provider status</button>
+          <button id="cancel" class="danger" type="button" hidden>Request cancellation</button>
+        </div>
       </article>
     </section>
     <section class="card history">
@@ -108,7 +124,7 @@
     </section>
     <aside>
       <strong>Alpha boundary</strong>
-      <p>Linux · Python 3.12 · loopback only · trusted local project code. Registered paths stay in owner-only host state. Project processes can use your files and permissions. No provider, training, deployment, sandbox, model-quality, or production claim.</p>
+      <p>Linux · Python 3.12 · loopback only · trusted project code. Registered paths and provider bindings stay in owner-only host state. Local project processes can use your files and permissions. Optional Modal execution requires a separate owner binding and explicit billable confirmation. No provider availability, price, training, sandbox, model-quality, or production claim.</p>
     </aside>
   </main>
   <script src="/app.js" defer></script>

@@ -12,6 +12,7 @@ const headers = token ? {Authorization: `Bearer ${token}`} : {};
 let projects = [];
 let selectedProject = null;
 let selectedSample = null;
+let selectedExecutionTarget = null;
 let latestRun = null;
 let pollTimer = null;
 let samplePreviewUrl = null;
@@ -21,11 +22,95 @@ let selectionEpoch = 0;
 const node = id => document.getElementById(id);
 const escapeHtml = value => String(value ?? "").replace(/[&<>'"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"})[c]);
 
+function executionTargets(project) {
+  if (Array.isArray(project?.execution_targets) && project.execution_targets.length) return project.execution_targets;
+  return [{
+    target: "local",
+    provider: "local",
+    billable: false,
+    readiness: project?.runtime_readiness,
+    ready: project?.runtime_readiness === "ready",
+    reasons: project?.readiness_reasons || [],
+  }];
+}
+
+function targetName(target) {
+  if (target?.provider === "modal" || target?.target === "modal") return "Modal";
+  return target?.display_name || "Local computer";
+}
+
+function targetIsReady(target) {
+  if (!target) return false;
+  if (typeof target.ready === "boolean") return target.ready;
+  return ["ready", "configured"].includes(target.readiness || target.state);
+}
+
+function targetReasons(target) {
+  const reasons = target?.reasons || target?.readiness_reasons || [];
+  return Array.isArray(reasons) ? reasons : reasons ? [String(reasons)] : [];
+}
+
+function runProvider(run) {
+  return run?.provider || run?.execution?.provider || run?.configuration?.provider || run?.configuration?.execution_target;
+}
+
+function isModalTarget(target) {
+  return target?.provider === "modal" || target?.target === "modal";
+}
+
+function runIsModal(run) {
+  return runProvider(run) === "modal";
+}
+
+function idempotencyStorageKey(project) {
+  return `modelforge.alpha.pending-launch.${project.id}.${project.action.id}`;
+}
+
+function requestFingerprint(value) {
+  const textValue = JSON.stringify(value);
+  let hash = 2166136261;
+  for (let index = 0; index < textValue.length; index += 1) {
+    hash ^= textValue.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
+  }
+  return (hash >>> 0).toString(16).padStart(8, "0");
+}
+
+function newIdempotencyKey() {
+  if (globalThis.crypto?.randomUUID) return globalThis.crypto.randomUUID();
+  const bytes = new Uint8Array(16);
+  globalThis.crypto.getRandomValues(bytes);
+  bytes[6] = (bytes[6] & 0x0f) | 0x40;
+  bytes[8] = (bytes[8] & 0x3f) | 0x80;
+  const hex = Array.from(bytes, value => value.toString(16).padStart(2, "0"));
+  return `${hex.slice(0, 4).join("")}-${hex.slice(4, 6).join("")}-${hex.slice(6, 8).join("")}-${hex.slice(8, 10).join("")}-${hex.slice(10).join("")}`;
+}
+
+function pendingLaunch(project, request) {
+  const fingerprint = requestFingerprint(request);
+  let retained = null;
+  try { retained = JSON.parse(sessionStorage.getItem(idempotencyStorageKey(project))); } catch (_error) {}
+  if (retained && retained.fingerprint !== fingerprint) {
+    throw new Error("A previous launch has an unknown outcome. Restore its exact target and input, then retry with the same launch identity, or refresh run history before leaving this tab.");
+  }
+  const value = retained || {idempotency_key: newIdempotencyKey(), fingerprint};
+  try { sessionStorage.setItem(idempotencyStorageKey(project), JSON.stringify(value)); } catch (_error) {}
+  return value;
+}
+
+function clearPendingLaunch(project) {
+  try { sessionStorage.removeItem(idempotencyStorageKey(project)); } catch (_error) {}
+}
+
 async function api(path, options = {}) {
   const response = await fetch(path, {...options, headers: {...headers, ...(options.headers || {})}});
   let value = {};
   try { value = await response.json(); } catch (_error) {}
-  if (!response.ok) throw new Error(value.error || `Request failed with HTTP ${response.status}`);
+  if (!response.ok) {
+    const error = new Error(value.error || `Request failed with HTTP ${response.status}`);
+    error.status = response.status;
+    throw error;
+  }
   return value;
 }
 
@@ -163,16 +248,109 @@ async function loadProcessLog(run, artifact, epoch) {
   }
 }
 
+function renderExecutionTarget() {
+  const panel = node("execution-panel");
+  if (!selectedProject || selectedProject.id === "synthetic-threshold") {
+    panel.hidden = true;
+    selectedExecutionTarget = null;
+    updateRunAvailability();
+    return;
+  }
+  panel.hidden = false;
+  const target = selectedExecutionTarget;
+  const detail = node("execution-detail");
+  const billable = Boolean(target?.billable || isModalTarget(target));
+  node("billable-panel").hidden = !billable;
+  if (!billable) node("billable-confirm").checked = false;
+  if (!target) {
+    detail.className = "target-detail empty";
+    detail.textContent = "No execution target is configured for this action.";
+    updateRunAvailability();
+    return;
+  }
+  const ready = targetIsReady(target);
+  node("billable-confirm").disabled = billable && !ready;
+  const compute = target.compute || {};
+  const hasCompute = Object.keys(compute).length > 0;
+  const gpu = !hasCompute ? null : compute.gpu
+    ? `${escapeHtml(compute.gpu)} × ${escapeHtml(compute.gpu_count ?? 1)}`
+    : "CPU only";
+  const cpu = Number.isInteger(compute.cpu_millis) ? `${compute.cpu_millis / 1000} planned CPU core${compute.cpu_millis === 1000 ? "" : "s"}` : null;
+  const memory = Number.isInteger(compute.memory_mib) ? `${compute.memory_mib} MiB planned memory` : null;
+  const resources = [gpu, cpu, memory].filter(Boolean).join(" · ");
+  const limits = Number.isInteger(compute.timeout_seconds)
+    ? `${compute.timeout_seconds}s timeout · ${compute.max_containers ?? "?"} maximum container · ${compute.retries ?? "?"} retries · ${compute.warm_containers ?? "?"} warm containers`
+    : null;
+  const configuredStatus = isModalTarget(target) && ready ? "Configured for launch" : ready ? "Ready" : "Unavailable";
+  detail.className = "target-detail";
+  detail.innerHTML = `<dl>
+    <div><dt>Status</dt><dd>${escapeHtml(configuredStatus)}</dd></div>
+    ${target.provider_readiness ? `<div><dt>Provider verification</dt><dd>${escapeHtml(String(target.provider_readiness).replaceAll("_", " "))}</dd></div>` : ""}
+    ${target.environment ? `<div><dt>Environment</dt><dd>${escapeHtml(target.environment)}</dd></div>` : ""}
+    ${compute.target ? `<div><dt>Compute target</dt><dd>${escapeHtml(compute.target)}</dd></div>` : ""}
+    ${resources ? `<div><dt>Declared resources</dt><dd>${resources}</dd></div>` : ""}
+    ${limits ? `<div><dt>Declared limits</dt><dd>${escapeHtml(limits)}</dd></div>` : ""}
+    ${target.binding_sha256 ? `<div><dt>Binding</dt><dd><code>${escapeHtml(target.binding_sha256)}</code></dd></div>` : ""}
+    ${targetReasons(target).length ? `<div><dt>Reason</dt><dd>${escapeHtml(targetReasons(target).join("; "))}</dd></div>` : ""}
+  </dl>`;
+  node("support").textContent = `${selectedProject.support_level} · ${isModalTarget(target) && ready ? "configured" : ready ? "ready" : "unavailable"}`;
+  updateRunAvailability();
+}
+
+function updateRunAvailability() {
+  if (!selectedProject) return;
+  const runButton = node("run");
+  if (selectedProject.id === "synthetic-threshold") {
+    runButton.textContent = "Run offline smoke test";
+    runButton.disabled = selectedProject.runtime_readiness !== "ready";
+    return;
+  }
+  const target = selectedExecutionTarget;
+  const hasRequiredInput = !selectedProject.dataset || Boolean(selectedSample);
+  const billableConfirmed = !(target?.billable || isModalTarget(target)) || node("billable-confirm").checked;
+  runButton.textContent = isModalTarget(target)
+    ? (billableConfirmed ? "Start confirmed Modal run" : "Confirm billable run to continue")
+    : selectedProject.action.display_name;
+  runButton.disabled = !targetIsReady(target) || !hasRequiredInput || !billableConfirmed;
+}
+
+function chooseExecutionTarget(project) {
+  const targets = executionTargets(project);
+  const control = node("execution-target");
+  control.replaceChildren();
+  const preferred = targets.find(target => targetIsReady(target) && !target.billable && !isModalTarget(target))
+    || targets.find(target => targetIsReady(target))
+    || targets[0]
+    || null;
+  for (const target of targets) {
+    const option = document.createElement("option");
+    option.value = target.target;
+    option.textContent = `${targetName(target)}${target.billable || isModalTarget(target) ? " · billable" : ""}${targetIsReady(target) ? "" : " · unavailable"}`;
+    control.append(option);
+  }
+  selectedExecutionTarget = preferred;
+  if (preferred) control.value = preferred.target;
+  node("billable-confirm").checked = false;
+  renderExecutionTarget();
+}
+
 function renderRun(run) {
   const epoch = ++renderEpoch;
   latestRun = run;
   clearResultPreviews();
   const status = run?.status || "No run";
   const unavailable = run?.runtime_observation?.state === "unavailable";
-  const cancelling = Boolean(run?.cancellation_requested_at) && ["queued", "running"].includes(status);
+  const modal = runIsModal(run);
+  const cancellationRequested = run?.configuration?.cancellation_requested_at || run?.cancellation_requested_at;
+  const cancellationConfirmed = run?.configuration?.cancellation_confirmed_at || run?.cancellation_confirmed_at;
+  const cancelling = Boolean(cancellationRequested) && !cancellationConfirmed && ["queued", "running"].includes(status);
   node("run-status").textContent = unavailable ? `${status} · unavailable` : cancelling ? `${status} · cancellation requested` : status;
   node("run-status").className = `badge ${status === "failed" ? "failed" : ["queued", "running"].includes(status) && !unavailable ? "running" : "neutral"}`;
   node("cancel").hidden = !run || unavailable || cancelling || !["queued", "running"].includes(status);
+  node("cancel").textContent = modal ? "Request Modal cancellation" : "Request cancellation";
+  const recoverable = Boolean(run?.runtime_observation?.recoverable || run?.recovery_available || (modal && unavailable && ["queued", "running"].includes(status)));
+  node("recover").hidden = !recoverable;
+  node("run-controls").hidden = node("cancel").hidden && node("recover").hidden;
   node("artifacts").replaceChildren();
   if (!run) {
     node("run-detail").className = "empty";
@@ -181,12 +359,18 @@ function renderRun(run) {
     node("progress").textContent = "Unavailable";
     node("log-tail").className = "empty";
     node("log-tail").textContent = "Unavailable";
+    node("telemetry").className = "empty";
+    node("telemetry").textContent = "Unavailable for this action.";
     return;
   }
   node("run-detail").className = "";
   node("run-detail").innerHTML = `<dl>
     <div><dt>Run identity</dt><dd><code>${escapeHtml(run.id)}</code></dd></div>
     <div><dt>Project</dt><dd>${escapeHtml(run.project_id)}</dd></div>
+    ${runProvider(run) ? `<div><dt>Execution</dt><dd>${escapeHtml(runProvider(run) === "modal" ? "Modal provider" : "Local computer")}</dd></div>` : ""}
+    ${run.provider_action_id ? `<div><dt>Provider call</dt><dd><code>${escapeHtml(run.provider_action_id)}</code></dd></div>` : ""}
+    ${run.configuration?.modal?.binding_sha256 ? `<div><dt>Binding</dt><dd><code>${escapeHtml(run.configuration.modal.binding_sha256)}</code></dd></div>` : ""}
+    ${cancellationRequested ? `<div><dt>Cancellation</dt><dd>${escapeHtml(cancellationConfirmed ? "Confirmed by executor" : ["completed", "failed"].includes(status) ? "Requested; terminal result won the race" : "Requested; awaiting executor acknowledgement")}</dd></div>` : ""}
     <div><dt>Created</dt><dd>${escapeHtml(run.created_at)}</dd></div>
     ${run.request?.checkpoint_sha256 ? `<div><dt>Checkpoint</dt><dd><code>${escapeHtml(run.request.checkpoint_sha256)}</code></dd></div>` : ""}
     ${run.request?.model_revision ? `<div><dt>Model revision</dt><dd><code>${escapeHtml(run.request.model_revision)}</code></dd></div>` : ""}
@@ -196,20 +380,26 @@ function renderRun(run) {
   node("progress").textContent = run.live?.progress
     ? `${run.live.progress.stage || "running"} · ${run.live.progress.percent ?? "?"}%`
     : unavailable
-      ? "Unavailable · retained run state is stale. Restarted local processes are not reported as successful."
+      ? modal
+        ? "Provider status unavailable · retained run state is stale. No completion or failure has been inferred. Recover to reattach to the same provider call."
+        : "Unavailable · retained run state is stale. Restarted local processes are not reported as successful."
       : status === "completed"
         ? "Completed; live progress is operational status, not scientific telemetry."
         : status === "cancelled"
-          ? "Cancellation was confirmed by the local executor."
-          : "Unavailable";
+          ? modal ? "Cancellation was confirmed by Modal." : "Cancellation was confirmed by the local executor."
+          : modal ? "Unavailable · this Modal action does not provide live progress." : "Unavailable";
   node("log-tail").className = run.live?.log_tail ? "" : "empty";
   node("log-tail").textContent = run.live?.log_tail || (unavailable
-    ? "Unavailable · no live process log is attached."
+    ? modal ? "Unavailable · no live provider log is attached. Recovery does not start a second call." : "Unavailable · no live process log is attached."
     : status === "completed"
       ? "Live process log ended. A checked process.log appears below only when this action recorded one."
       : status === "cancelled"
-        ? "The local process stopped; inspect the checked process.log artifact when available."
-        : "Unavailable");
+        ? modal ? "The provider acknowledged cancellation. Checked terminal output appears below only when returned by the action." : "The local process stopped; inspect the checked process.log artifact when available."
+        : modal ? "Unavailable · live Modal logs are not streamed into this workbench." : "Unavailable");
+  node("telemetry").className = "empty";
+  node("telemetry").textContent = modal
+    ? "Unavailable · no live scientific telemetry or provider usage is reported for this action."
+    : "Unavailable for this action.";
   const artifacts = node("artifacts");
   for (const artifact of run.artifacts || []) {
     const link = document.createElement("a");
@@ -268,10 +458,9 @@ async function selectProject(project, {moveFocus = false} = {}) {
   node("capabilities").innerHTML = `<div><dt>Capabilities</dt><dd>${escapeHtml(project.capabilities.join(", "))}</dd></div><div><dt>Runtime</dt><dd>${escapeHtml(project.readiness_reasons.join("; ") || project.runtime_readiness)}</dd></div>`;
   node("prompt-panel").hidden = project.action.kind !== "prompt";
   node("dataset-panel").hidden = !project.dataset;
-  node("run").textContent = project.id === "synthetic-threshold" ? "Run offline smoke test" : project.action.display_name;
-  const ready = project.runtime_readiness === "ready";
-  node("run").disabled = !ready || (Boolean(project.dataset) && project.id !== "synthetic-threshold");
-  if (!ready) showActionError(`This action is not ready. ${project.readiness_reasons.join("; ") || "Complete its local runtime configuration, then refresh."}`);
+  chooseExecutionTarget(project);
+  const ready = project.id === "synthetic-threshold" ? project.runtime_readiness === "ready" : targetIsReady(selectedExecutionTarget);
+  if (!ready) showActionError(`This action is not ready on the selected target. ${targetReasons(selectedExecutionTarget).join("; ") || project.readiness_reasons.join("; ") || "Complete its owner configuration, then refresh."}`);
   if (moveFocus) {
     node("project-name").tabIndex = -1;
     node("project-name").focus();
@@ -299,7 +488,7 @@ async function selectProject(project, {moveFocus = false} = {}) {
           }
           button.classList.add("selected");
           button.setAttribute("aria-pressed", "true");
-          node("run").disabled = !ready;
+          updateRunAvailability();
           previewSample(project, sample, epoch);
         });
         sampleList.append(button);
@@ -366,29 +555,66 @@ async function loadModalStatus() {
   }
 }
 
+node("execution-target").addEventListener("change", event => {
+  selectedExecutionTarget = executionTargets(selectedProject).find(target => target.target === event.target.value) || null;
+  node("billable-confirm").checked = false;
+  showActionError("");
+  if (!targetIsReady(selectedExecutionTarget)) {
+    showActionError(`This target is unavailable. ${targetReasons(selectedExecutionTarget).join("; ") || "Complete its owner configuration, then refresh."}`);
+  }
+  renderExecutionTarget();
+});
+
+node("billable-confirm").addEventListener("change", updateRunAvailability);
+
 node("run").addEventListener("click", async () => {
   if (!selectedProject) return;
+  const launchingProject = selectedProject;
+  const launchingTarget = selectedExecutionTarget;
   node("run").disabled = true;
   showActionError("");
   try {
     let path;
     const options = {method: "POST"};
-    if (selectedProject.id === "synthetic-threshold") path = "/api/v1/example-runs";
+    if (launchingProject.id === "synthetic-threshold") path = "/api/v1/example-runs";
     else {
-      path = `/api/v1/projects/${encodeURIComponent(selectedProject.id)}/actions/${encodeURIComponent(selectedProject.action.id)}/runs`;
-      const payload = selectedProject.action.kind === "prompt"
+      path = `/api/v1/projects/${encodeURIComponent(launchingProject.id)}/actions/${encodeURIComponent(launchingProject.action.id)}/runs`;
+      const input = launchingProject.action.kind === "prompt"
         ? {messages: [{role: "user", content: node("prompt").value}], generation: {max_new_tokens: Number(node("max-tokens").value), temperature: 0, top_p: 1}}
-        : {dataset_id: selectedProject.dataset.id, sample_id: selectedSample?.id};
+        : {dataset_id: launchingProject.dataset.id, sample_id: selectedSample?.id};
+      const requestIdentity = {
+        target: launchingTarget.target,
+        binding_sha256: launchingTarget.binding_sha256 || null,
+        input,
+      };
+      const pending = pendingLaunch(launchingProject, requestIdentity);
+      const payload = {
+        protocol: "modelforge.managed-action-request/v1",
+        execution: {
+          target: launchingTarget.target,
+          idempotency_key: pending.idempotency_key,
+          binding_sha256: launchingTarget.binding_sha256 || null,
+          billable_confirmed: Boolean(launchingTarget.billable || isModalTarget(launchingTarget)) && node("billable-confirm").checked,
+        },
+        input,
+      };
       options.headers = {"Content-Type": "application/json"};
       options.body = JSON.stringify(payload);
     }
-    renderRun(await api(path, options));
+    const run = await api(path, options);
+    if (launchingProject.id !== "synthetic-threshold") clearPendingLaunch(launchingProject);
+    if (launchingProject.id === selectedProject?.id) {
+      renderRun(run);
+      if (isModalTarget(launchingTarget)) node("billable-confirm").checked = false;
+    }
     await refresh();
   } catch (error) {
-    showActionError(`The action could not be started. ${error.message}`);
+    if (launchingProject.id !== "synthetic-threshold" && error.status && error.status < 500) clearPendingLaunch(launchingProject);
+    const retry = !error.status || error.status >= 500 ? " The launch outcome may be unknown; retrying unchanged will reuse the same launch identity." : "";
+    showActionError(`The action could not be started. ${error.message}${retry}`);
     connection("Action failed", true);
   } finally {
-    node("run").disabled = selectedProject.runtime_readiness !== "ready" || (Boolean(selectedProject.dataset) && !selectedSample && selectedProject.id !== "synthetic-threshold");
+    updateRunAvailability();
   }
 });
 
@@ -403,6 +629,22 @@ node("cancel").addEventListener("click", async () => {
     showActionError(`Cancellation could not be requested. ${error.message}`);
   } finally {
     node("cancel").disabled = false;
+  }
+});
+
+node("recover").addEventListener("click", async () => {
+  if (!latestRun) return;
+  const recovering = latestRun;
+  node("recover").disabled = true;
+  showActionError("");
+  try {
+    renderRun(await api(`/api/v1/runs/${encodeURIComponent(recovering.id)}/recover`, {method: "POST"}));
+    connection("Connected");
+    await refresh();
+  } catch (error) {
+    showActionError(`Provider recovery could not reattach to this run. No new call was started. ${error.message}`);
+  } finally {
+    node("recover").disabled = false;
   }
 });
 
