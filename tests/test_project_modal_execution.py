@@ -43,6 +43,13 @@ class FakeCall:
 
 
 def _modal(call, events):
+    class Config:
+        def get(self, key):
+            return {
+                "token_id": "test-token-id",
+                "token_secret": "test-token-secret",
+            }.get(key)
+
     class Function:
         @staticmethod
         def from_name(application, function, *, environment_name):
@@ -60,6 +67,8 @@ def _modal(call, events):
             return call
 
     return SimpleNamespace(
+        __version__="test",
+        config=SimpleNamespace(Config=Config),
         Function=Function,
         FunctionCall=FunctionCall,
         exception=SimpleNamespace(TimeoutError=FakeTimeout, InputCancellation=FakeCancellation),
@@ -178,6 +187,9 @@ def test_project_modal_launch_is_durable_idempotent_redacted_and_recoverable(tmp
     app = AlphaWorkbench(state)
     app.register_project(runtime)
     binding = app.register_modal_action(binding_file)
+    events = []
+    call = FakeCall(events)
+    app._configure_modal(modal_module=_modal(call, events))
     project = app.project("project-modal-fixture")
     assert project["runtime_readiness"] == "ready"
     [target] = project["execution_targets"]
@@ -187,9 +199,6 @@ def test_project_modal_launch_is_durable_idempotent_redacted_and_recoverable(tmp
     assert "provider_path" not in json.dumps(project)
     assert "application" not in json.dumps(project)
 
-    events = []
-    call = FakeCall(events)
-    app._configure_modal(modal_module=_modal(call, events))
     key = str(uuid.uuid4())
     execution = app.project_actions.start(
         "project-modal-fixture", _request(binding["binding_sha256"], key),

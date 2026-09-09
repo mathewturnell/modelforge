@@ -1,14 +1,14 @@
 {
   "files": [
     {
-      "bytes": 4814,
+      "bytes": 4910,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": ".github/workflows/ci.yml",
-      "sha256": "04be23bd8366c92de5095f958808acd61eb858312bb8c326b5466823362d3440"
+      "sha256": "d63018e9960f6b4ae4c691f49cec719958fa078ce23fa6ac55db6e70c86a6d77"
     },
     {
       "bytes": 495,
@@ -1529,14 +1529,14 @@
       "sha256": "0b8d37a72838922d434a6e9b320e0270289cb017a6ab7467946725b494e3dd2a"
     },
     {
-      "bytes": 10444,
+      "bytes": 10708,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "tests/test_project_modal_execution.py",
-      "sha256": "d39ff4fd3ec44c96ee649fccf64a90f5af8ccd988657ee3976bf40f571069da4"
+      "sha256": "da76618da88b7fa4a536032c0bf26ff6991febb55ae5288a96bf8e84b26ef8d3"
     },
     {
       "bytes": 14652,
