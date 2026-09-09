@@ -75,6 +75,13 @@ The provider surface is limited to the packaged Synthetic Threshold function;
 credentials remain owned by the Modal SDK and live compatibility is not yet a
 release claim.
 
+[Decision 0001](decisions/0001-project-owned-modal-action-binding.md) records
+the accepted but not yet qualified extension for real-project Modal actions.
+It adds a separate owner-only binding keyed by project and authored action; it
+does not add provider authority to `project.json` or redefine the local runtime
+configuration. Current support claims remain unchanged until the implementation
+and exact-candidate live evidence pass.
+
 The workbench binds only `127.0.0.1`, uses a per-launch bearer token, validates
 Host and mutation Origin, disables CORS, and emits restrictive browser headers.
 Authenticated media is fetched into page-owned `blob:` URLs allowed only by the

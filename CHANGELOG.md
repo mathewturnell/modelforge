@@ -10,6 +10,9 @@
   environments, and outputs outside the distribution.
 - Preserved the optional Modal tutorial and shared managed lifecycle without
   making provider execution part of ordinary installation or CI.
+- Recorded the owner-configured project Modal binding selected for bounded
+  acceptance implementation. Real-project Modal support remains unqualified
+  until the implementation and exact-candidate live journeys pass.
 - Recorded per-file provenance and conservative license treatment for the
   fifteen retained real-example Python files. Publication remains blocked on
   the ownership and publishing decisions in `docs/release-status.md`.
