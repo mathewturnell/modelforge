@@ -2,7 +2,7 @@
   "protocol": "modelforge.example-setup/v1",
   "id": "bdd100k-road-scene-lab",
   "name": "BDD100K Road Scene Lab",
-  "qualification": "Selected-video inference is verified only with the declared local CUDA prerequisites and user-acquired inputs. Acquisition is not a model-quality or rights qualification.",
+  "qualification": "Selected-video inference passed with declared local CUDA prerequisites and through one owner-staged Modal L40S environment using user-acquired inputs. Acquisition is not a model-quality or rights qualification.",
   "environment": {
     "isolation": "venv",
     "python": "CPython 3.12 on Linux x86-64 with a compatible CUDA runtime",
@@ -62,7 +62,7 @@
     {
       "id": "inference",
       "status": "supported-with-prerequisites",
-      "qualification": "A bounded checkpoint-bound selected-video run passed through the shared managed lifecycle on the declared local CUDA environment."
+      "qualification": "Bounded checkpoint-bound selected-video runs passed through the shared managed lifecycle on the declared local CUDA environment and one owner-staged Modal L40S environment."
     }
   ]
 }

@@ -2,7 +2,7 @@
   "protocol": "modelforge.example-setup/v1",
   "id": "soccernet-tracking",
   "name": "SoccerNet Tracking",
-  "qualification": "Source and setup are inspectable. Current public-alpha managed inference and training are not qualified; historical provider evidence is not current compatibility evidence.",
+  "qualification": "Bounded 24-frame managed inference passed through the compiled workbench on one owner-staged Modal L40S environment. Training remains unqualified and the result is not model-quality evidence.",
   "environment": {
     "isolation": "venv",
     "python": "CPython 3.12 on Linux x86-64; a compatible CUDA environment is required for real MOTR execution",
@@ -61,8 +61,8 @@
   "actions": [
     {
       "id": "inference",
-      "status": "inspectable-not-qualified",
-      "qualification": "The source adapter is inspectable; current public-alpha managed execution has not passed."
+      "status": "supported-with-prerequisites",
+      "qualification": "One pinned-source, digest-bound checkpoint and selected-sequence run completed through the shared managed Modal lifecycle; other inputs, accounts, regions, and local CUDA stacks remain unverified."
     },
     {
       "id": "training",

@@ -48,10 +48,10 @@
       <section class="example-statuses" aria-labelledby="example-status-title">
         <h3 id="example-status-title">Real example qualification</h3>
         <dl>
-          <div><dt>BDD100K Road Scene Lab</dt><dd><strong>Inference · supported with prerequisites</strong><span>External source, BDD100K data, MeMOTR checkpoint, and CUDA required.</span></dd></div>
-          <div><dt>Qwen2.5-7B Prompt Lab</dt><dd><strong>Prompt · supported with prerequisites</strong><span>A pinned external model snapshot and the declared local CPU environment are required.</span></dd></div>
-          <div><dt>SoccerNet Tracking</dt><dd><strong>Inference and training · not qualified</strong><span>Source/setup inspection does not qualify workbench execution in this alpha.</span></dd></div>
-          <div><dt>TasteMatch</dt><dd><strong>Dataset inspection · fixture-qualified</strong><span>Inference is inspectable but not qualified; training is not supported.</span></dd></div>
+          <div><dt>BDD100K Road Scene Lab</dt><dd><strong>Inference · supported with prerequisites</strong><span>External source, BDD100K data, MeMOTR checkpoint, and compatible local CUDA or an owner-bound Modal target required.</span></dd></div>
+          <div><dt>Qwen2.5-7B Prompt Lab</dt><dd><strong>Prompt · supported with prerequisites</strong><span>A pinned external model snapshot and the declared local CPU or owner-bound Modal target are required.</span></dd></div>
+          <div><dt>SoccerNet Tracking</dt><dd><strong>Inference · supported with prerequisites</strong><span>A pinned source, selected sequence, compatible checkpoint, and owner-bound Modal target are required; training is not supported.</span></dd></div>
+          <div><dt>TasteMatch</dt><dd><strong>Inference · supported with prerequisites</strong><span>Dataset inspection is fixture-qualified; base-SigLIP Modal inference is bounded and training is not supported.</span></dd></div>
         </dl>
       </section>
       <p class="setup-warning">Local project actions are trusted code and run with your user permissions. Keep credentials out of project source and agent conversations.</p>

@@ -2,7 +2,7 @@
   "protocol": "modelforge.example-setup/v1",
   "id": "tastematch",
   "name": "TasteMatch",
-  "qualification": "Dataset and adapter shapes are inspectable with authored fixtures. Real Food-101/SigLIP inference and the drifted training/provider path are not qualified in the public alpha.",
+  "qualification": "Dataset inspection is fixture-qualified and one bounded base-SigLIP image inference passed through the compiled workbench on an owner-staged Modal L4 environment. Training remains unqualified.",
   "environment": {
     "isolation": "venv",
     "python": "CPython 3.12 on Linux x86-64; a compatible GPU environment is recommended for real SigLIP inference",
@@ -52,8 +52,8 @@
     },
     {
       "id": "inference",
-      "status": "inspectable-not-qualified",
-      "qualification": "Fixture/live engines are source-visible, but native managed-workbench parity is not established."
+      "status": "supported-with-prerequisites",
+      "qualification": "One pinned-model, selected-image base-SigLIP run completed through the shared managed Modal lifecycle and rendered a native table; no trained adapter or quality claim is included."
     },
     {
       "id": "training",

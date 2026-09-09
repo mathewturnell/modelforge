@@ -52,6 +52,8 @@ Use the browser's Inference view, or submit the equivalent request through
 `modelforge action run`. The qualified boundary is checkpoint-bound,
 selected-video inference on Linux x86-64 with compatible CUDA. Direct project
 scripts remain debugging paths and do not demonstrate managed-run behavior.
+The same bounded two-frame shape also completed through the owner-bound Modal
+L40S deployment described in [`docs/modal.md`](../../docs/modal.md).
 
 ## 5. Logs and results
 

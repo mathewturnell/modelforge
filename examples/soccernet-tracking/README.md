@@ -1,8 +1,8 @@
 # SoccerNet Tracking
 
-This example preserves ModelForge-owned inspection/inference adapter source. In
-this alpha, setup and static inspection are supported; real managed inference
-and training are not qualified.
+This example preserves ModelForge-owned inspection/inference adapter source.
+Bounded selected-sequence managed inference has live Modal acceptance evidence;
+training is not supported.
 
 ## 1. Obtain external components
 
@@ -27,28 +27,36 @@ This creates an empty Python 3.12 venv. Install a host-compatible CUDA/PyTorch,
 torchvision, OpenCV, NumPy, ffmpeg, the pinned MOTR requirements, and the
 official SoccerNet client manually. Setup does not execute fetched code.
 
-## 3. Inspect the project
+## 3. Register the project
 
 ```bash
 modelforge project capabilities --manifest examples/soccernet-tracking/project.inspectable.json
+modelforge project register --state-root /tmp/modelforge-state --config /secure/soccernet.local.json
 ```
 
-There is no runnable local configuration template in this candidate. Do not
-register or invoke the adapter as a claimed public-alpha managed action.
+Copy `project.local.template.json` outside the distribution and replace every
+placeholder with exact acquired source/data/checkpoint identities. For Modal,
+separately deploy `modal_app.py`, stage only the bounded selected sequence and
+checkpoint in the named owner volume, fill `project.modal.template.json`, and
+register that owner-only binding as described in
+[`docs/modal.md`](../../docs/modal.md).
 
 ## 4. Supported workflow
 
-Only setup planning/acquisition and static capability inspection are supported.
-The historical real provider workflow used a privately modified MOTR checkout;
-the clean pinned upstream checkout lacks ModelForge's bounded/progress changes.
-Acquisition therefore does not qualify inference. Training remains unsupported,
-including the open reserved-test/self-promotion prerequisite.
+The accepted path runs exactly 24 frames from one explicitly selected sequence
+against pinned clean MOTR source and a digest-bound compatible checkpoint. It
+completed through the compiled workbench and shared Run/Artifact lifecycle on
+one owner-staged Modal L40S environment. This does not qualify arbitrary
+sequences, checkpoints, accounts, regions, training, or tracking quality.
+Training remains unsupported, including the open reserved-test/self-promotion
+prerequisite.
 
 ## 5. Logs and results
 
-No public-alpha SoccerNet run is created, so there are no qualified shared-run
-logs or results. Future managed execution must use the common lifecycle; direct
-scripts remain low-level debugging paths only.
+The accepted run retained a bounded process log, checked result envelope,
+manifest, and native MP4 beneath owner-only local state. Browser and server
+restart projection reopens the same digest-checked artifacts. Direct scripts
+remain low-level debugging paths only.
 
 ## 6. Limits and terms
 

@@ -10,14 +10,14 @@ private assets, model download, paid execution, or network dependency.
 | Journey | Automated evidence |
 | --- | --- |
 | First use | Empty/welcome state, explicit plan/fetch/install/register sequence, no-implicit-download copy, default Modal readiness, navigation, and no unexpected browser errors or non-loopback request. |
-| External setup | BDD100K and Qwen support with prerequisites, SoccerNet execution non-qualification, TasteMatch fixture-qualified dataset inspection, upstream prerequisite disclosure, and a read-only-plan boundary. |
+| External setup | Four real-project prerequisite disclosures, TasteMatch fixture-qualified dataset inspection, owner-controlled upstream acquisition, and a read-only-plan boundary. |
 | Project setup | Supported projects, authored capabilities, missing runtime readiness, safe project switching, and no stale result from the prior project. |
 | Vision dataset | Redistributable sample selection and authenticated preview through the real backend. |
 | Local action | Durable-before-process start, progress, bounded logs, truthful completion, and shared local executor. |
 | Results and recovery | Telemetry availability, checked artifacts, open/download paths, reload, service restart, and same completed run recovery. |
 | Failure and cancellation | Actionable launch failure, invalid result, cancellation request, terminal cancellation, and no stale success indicator. |
 | Prompt interaction | Authored prompt fixture, labelled bounded form, completed text result, and no model-quality claim. A separate bounded real Qwen prompt used the same compiled interface and shared services. |
-| Modal setup | Discoverable tutorial plus unconfigured, configured, and error projections without a provider call. |
+| Modal setup | Discoverable tutorial plus unconfigured, configured, error, live success, provider-confirmed cancellation, and same-call recovery projections. Ordinary CI makes no provider call. |
 | UX/accessibility | Desktop and 390-pixel layouts, no page-wide horizontal overflow, keyboard reachability, visible focus, form labels, landmarks, automated axe checks, and Chrome accessibility-tree exposure of setup order, qualification, navigation, and the primary action. |
 
 Two stable first-use baselines—desktop and 390 pixels—were regenerated for the
@@ -50,9 +50,10 @@ qualification was the user's active GNOME Wayland desktop with an existing
 Chrome session; no isolated compositor or OS-level input tool was available,
 so taking control of browser chrome or enabling Orca would have disrupted that
 session without independently verifiable speech output. Dialog focus is not
-applicable because this UI has no dialogs. Real-model quality, GPU behavior,
-live Modal compatibility, and hosted GitHub Actions also remain unverified by
-this suite.
+applicable because this UI has no dialogs. Real-model quality and hosted GitHub
+Actions also remain unverified by this suite. Separate bounded live acceptance
+covered the four fixed Modal project actions, but does not extend to other
+accounts, regions, revisions, inputs, performance, or provider availability.
 
 Before publication, a human can close the two remaining checks in one short
 session:

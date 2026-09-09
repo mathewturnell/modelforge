@@ -90,6 +90,11 @@ modelforge serve --state-root /tmp/modelforge-state
 modelforge action run --state-root /tmp/modelforge-state --project PROJECT_ID --request /secure/request.json
 ```
 
+For an optional user-owned Modal target, deploy the selected example's fixed
+`modal_app.py`, stage its bounded acquired assets in the named owner volume,
+fill `project.modal.template.json` outside the distribution, and register it
+separately with `modelforge modal register`. See [Modal setup](modal.md).
+
 The workbench and CLI use the existing shared Project, Dataset, Run, Executor,
 Handler, and Artifact lifecycle. Logs, run records, and checked artifacts live
 below the selected owner-only state root. The example-specific instructions

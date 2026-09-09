@@ -63,24 +63,27 @@ success after regular-file, containment, size, and SHA-256 checks.
 
 Every local managed action receives run-owned work/evidence/cache roots, Python cache
 redirection, Hugging Face/Transformers offline flags, and no ambient
-`PYTHONPATH`. BDD and Qwen use the same Project/Run/Executor/Artifact/UI path;
-only their project-authored adapters and typed inputs/results differ.
+`PYTHONPATH`. BDD, SoccerNet, TasteMatch, and Qwen use the same
+Project/Run/Executor/Artifact/UI path; only their project-authored adapters and
+typed inputs/results differ.
 
 The optional Modal adapter does not create another lifecycle. The same managed
 action service allocates the durable run before SDK submission, retains an
 opaque `fc-*` function-call identity, records cancellation intent before
 provider cancellation, materializes one bounded run-bound result into the
 owned evidence directory, and hands those bytes to the same Artifact Service.
-The provider surface is limited to the packaged Synthetic Threshold function;
-credentials remain owned by the Modal SDK and live compatibility is not yet a
-release claim.
+The provider surface is limited to the packaged Synthetic Threshold function
+and four fixed, owner-bound example functions. Credentials remain owned by the
+Modal SDK. Live acceptance covers only the recorded account, environment,
+resources, staged assets, and exact action bounds; it is not a general provider
+or availability claim.
 
 [Decision 0001](decisions/0001-project-owned-modal-action-binding.md) records
-the accepted but not yet qualified extension for real-project Modal actions.
+the accepted extension for real-project Modal actions.
 It adds a separate owner-only binding keyed by project and authored action; it
 does not add provider authority to `project.json` or redefine the local runtime
-configuration. Current support claims remain unchanged until the implementation
-and exact-candidate live evidence pass.
+configuration. The bounded implementation and live evidence passed; broader
+provider and training claims remain excluded.
 
 The workbench binds only `127.0.0.1`, uses a per-launch bearer token, validates
 Host and mutation Origin, disables CORS, and emits restrictive browser headers.

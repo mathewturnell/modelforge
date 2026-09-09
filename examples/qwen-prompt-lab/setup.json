@@ -2,7 +2,7 @@
   "protocol": "modelforge.example-setup/v1",
   "id": "qwen-prompt-lab",
   "name": "Qwen2.5-7B Prompt Lab",
-  "qualification": "A bounded real prompt passed through the shared managed lifecycle with the exact pinned local snapshot and declared CPU prerequisites. Acquisition remains user-controlled and this is not a model-quality qualification.",
+  "qualification": "Bounded real prompts passed through the shared managed lifecycle with the exact pinned snapshot on the declared local CPU environment and one owner-staged Modal L40S environment. Acquisition remains user-controlled and this is not a model-quality qualification.",
   "environment": {
     "isolation": "venv",
     "python": "CPython 3.12 on Linux x86-64; CPU is supported but slow and a compatible CUDA environment is practical",
@@ -35,7 +35,7 @@
     {
       "id": "prompt",
       "status": "supported-with-prerequisites",
-      "qualification": "A bounded real prompt completed through the shared managed lifecycle using the exact pinned offline snapshot on the declared CPU environment; fixture checks continue to cover cancellation and failure."
+      "qualification": "Bounded real prompts completed through the shared managed lifecycle using the exact pinned offline snapshot on the declared CPU environment and one owner-staged Modal L40S environment; provider cancellation and same-call restart recovery also passed."
     },
     {
       "id": "training",

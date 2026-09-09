@@ -1,8 +1,8 @@
 # TasteMatch
 
-This source-visible example retains a bounded Food-101 index reader and fixture
-plus pinned-local SigLIP inference engines. Dataset inspection is fixture-
-qualified; real managed inference and training are not qualified.
+This example retains a bounded Food-101 index reader and pinned-local SigLIP
+inference. Dataset inspection is fixture-qualified; bounded base-SigLIP managed
+inference has live Modal acceptance evidence. Training is not qualified.
 
 ## 1. Obtain external components
 
@@ -33,26 +33,34 @@ This creates an empty Python 3.12 venv. Install a reviewed host-compatible
 PyTorch/Transformers, Pillow, and NumPy stack manually. Setup does not import the
 model or execute fetched code.
 
-## 3. Inspect the project
+## 3. Register the project
 
 ```bash
 modelforge project capabilities --manifest examples/tastematch/project.inspectable.json
+modelforge project register --state-root /tmp/modelforge-state --config /secure/tastematch.local.json
 ```
 
-There is no runnable local configuration template in this candidate.
+Copy `project.local.template.json` outside the distribution and replace every
+placeholder with exact acquired input/model identities. For Modal, separately
+deploy `modal_app.py`, stage one selected image and the pinned model snapshot in
+the named owner volume, fill `project.modal.template.json`, and register the
+owner-only binding described in [`docs/modal.md`](../../docs/modal.md).
 
 ## 4. Supported workflow
 
 Public CI exercises the bounded path-only index with authored PPM-like fixtures.
-Real Food-101/SigLIP inference is source-visible but not workbench-qualified.
-Training/provider execution is unsupported and its dependency-identity,
-materialization, summary, and telemetry drift remains unresolved.
+One owner-staged real image completed base-SigLIP inference through the compiled
+workbench on Modal L4 and produced a native checked five-row score table. It did
+not load a trained TasteMatch adapter and makes no classification-quality claim.
+Training is unsupported and its dependency-identity, materialization, summary,
+and telemetry drift remains unresolved.
 
 ## 5. Logs and results
 
-No qualified TasteMatch managed run is started by this alpha, so no run logs or
-results are claimed. Any future runnable integration must use the shared
-Run/Executor/Artifact lifecycle rather than the removed project web application.
+The accepted managed run retained its result envelope and table artifact under
+owner-only state and re-rendered the table after service restart at desktop and
+compact widths. The shared Run/Executor/Artifact lifecycle owns the evidence;
+the removed project web application is not required.
 
 ## 6. Limits and terms
 

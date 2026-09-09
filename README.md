@@ -11,7 +11,9 @@ human-facing command and versioned wire protocols retain the `modelforge` name.
 This `0.1.0a1` alpha is intentionally small. It is useful without an
 embedded assistant. One shared Project/runtime-configuration/Dataset/Run/Artifact path has been
 qualified with both selected-video inference and prompt-only inference, while
-the bundled synthetic workflow keeps installation and CI lightweight. This is
+the four selected real-project action shapes have also completed through the
+same owner-bound Modal lifecycle. The bundled synthetic workflow keeps
+installation and CI lightweight. This is
 not universal ML support, autonomous scientific judgment, production
 readiness, or completion of the broader ModelForge architecture.
 
@@ -92,12 +94,15 @@ or starts a workload. See [Explicit example setup](docs/example-setup.md).
   executor, artifact, and UI services. It declares no dataset or training. The
   exact pinned Qwen snapshot is user-acquired and offline; substantial memory
   is required for local CPU execution.
-- **SoccerNet Tracking** and **TasteMatch:** source-visible experimental
-  integration references. They are not registered runnable workbench projects
-  in this alpha, and their training/provider paths are not claimed.
+- **SoccerNet Tracking:** bounded selected-sequence MOTR inference through the
+  shared managed lifecycle. Training remains excluded and the dataset,
+  checkpoint, and pinned upstream source remain user-acquired.
+- **TasteMatch:** bounded base-SigLIP image inference with a native checked
+  table result. It does not use or claim a trained TasteMatch adapter; training
+  remains excluded.
 
-The fifteen retained real-example Python files have individual provenance
-records. Thirteen appear independently authored and remain pending publishing
+The nineteen retained real-example Python files have individual provenance
+records. Seventeen appear independently authored and remain pending publishing
 rights confirmation; two BDD100K inference files conservatively retain
 MeMOTR-derived terms and attribution plus pending ModelForge additions. See each
 example's `PROVENANCE.md`,
@@ -106,14 +111,15 @@ example's `PROVENANCE.md`,
 
 ## Optional Modal workflow
 
-The same Synthetic Threshold Lab can run through a fixed user-owned Modal CPU
-function and the existing managed Run/Artifact lifecycle. Modal is optional,
-disabled from ordinary local use and CI, and never receives a dataset or model
-from this workflow. Install the `modal` extra, authenticate with Modal's own
-supported tooling, choose an environment explicitly, and confirm the billable
-launch. ModelForge does not promise free execution or enforce a provider
-budget. Follow the [Modal setup tutorial](docs/modal.md); the browser workbench
-also links to a concise setup page.
+The Synthetic Threshold Lab and separately owner-configured BDD100K,
+SoccerNet, TasteMatch, and Qwen actions can use the existing managed
+Run/Artifact lifecycle through fixed Modal functions. Modal is optional and
+disabled from ordinary local use and CI. Real-project source/data/model assets
+are acquired and staged by the user, never downloaded implicitly by
+ModelForge. Install the `modal` extra, authenticate with Modal's tooling,
+choose an environment explicitly, register an owner-only binding, and confirm
+each billable launch. ModelForge does not promise free execution or enforce a
+provider budget. Follow the [Modal setup tutorial](docs/modal.md).
 
 ## Alpha boundary
 
@@ -145,18 +151,17 @@ Experimental:
 
 - the HTTP routes under `/api/v1` and local runtime-configuration format are
   alpha delivery/configuration contracts, not stable public APIs;
-- BDD100K and Qwen are qualified only on the declared retained local
-  prerequisites; their heavyweight environments and assets are not installed
-  by ModelForge;
-- SoccerNet and TasteMatch source are reference integrations, not qualified
-  alpha workflows;
+- BDD100K, SoccerNet, TasteMatch, and Qwen have bounded live Modal acceptance
+  evidence on one owner account and exact staged inputs; their heavyweight
+  environments and assets are not installed by ModelForge and other accounts,
+  regions, revisions, or inputs remain unverified;
 - the broader Phase 1–3 Python application modules are reusable but have no
   compatibility guarantee before beta;
 - v1 compatibility inspection can describe more action shapes than this
   alpha is prepared to launch;
-- the optional Modal executor supports only the bundled synthetic action and
-  has been qualified locally with a fake SDK boundary; current live provider
-  compatibility remains unverified until a separately authorized run passes.
+- the optional Modal executor and four fixed project deployments are alpha
+  integrations, not a general provider abstraction or availability promise;
+  declared resources are not a quote or enforced budget.
 
 Excluded:
 

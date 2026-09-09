@@ -121,12 +121,13 @@ def test_all_public_example_setup_declarations_are_valid_and_explicit():
 
 def test_next_steps_offer_managed_execution_only_for_qualified_examples(tmp_path):
     service = ExampleSetupService(Path(__file__).parents[1] / "examples")
-    for example_id in ("bdd100k-road-scene-lab", "qwen-prompt-lab"):
+    for example_id in (
+        "bdd100k-road-scene-lab", "qwen-prompt-lab",
+        "soccernet-tracking", "tastematch",
+    ):
         plan = service.plan(example_id, tmp_path / f"external-{example_id}")
         assert "Configure and register" in plan["next_steps"][-1]
-    for example_id in ("soccernet-tracking", "tastematch"):
-        plan = service.plan(example_id, tmp_path / f"external-{example_id}")
-        assert "does not qualify a managed workload" in plan["next_steps"][-1]
+        assert "owner-only Modal binding" in plan["next_steps"][-1]
 
 
 def test_plan_is_read_only_and_fetch_requires_confirmation(tmp_path):

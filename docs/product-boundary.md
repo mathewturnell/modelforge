@@ -13,10 +13,11 @@ The package, CLI, loopback workbench, and public tests expose the same boundary.
 | Synthetic Threshold Lab | Supported | CPU/offline installation and CI mechanics only; no model-quality claim. |
 | BDD100K + MeMOTR | Supported with user prerequisites | Selected-video managed inference shape. External data/source/checkpoint and CUDA; no training/evaluation or model-quality claim. Integration source remains rights-gated. |
 | Qwen2.5-7B Prompt Lab | Supported with user prerequisites | Local bounded prompt shape at a pinned model revision. External ~15.2 GiB weights; no training/dataset claim. Integration source remains rights-gated. |
-| SoccerNet and TasteMatch source | Experimental reference | Source-visible integration shapes only; not registered runnable alpha workflows. |
+| SoccerNet + MOTR | Supported with user prerequisites | Bounded selected-sequence managed inference passed on one owner-staged Modal L40S environment. External source/data/checkpoint; no training or quality claim. |
+| TasteMatch + SigLIP | Supported with user prerequisites | Bounded base-SigLIP image inference passed on one owner-staged Modal L4 environment with a native table result. No trained adapter or training claim. |
 | Phase 1–3 Python seams | Experimental | Real consumers exist, but compatibility may change before beta. |
 | Training/evaluation/promotion/telemetry charts | Excluded | Generic held-out/self-promotion defect must be corrected before later training qualification. |
-| Modal | Experimental | Optional fixed Synthetic Threshold CPU function through the shared lifecycle. Local fake-SDK qualification only; live compatibility and cost remain unverified. |
+| Modal | Experimental | Fixed synthetic and owner-bound project functions use the shared lifecycle. Four bounded real actions, failure, cancellation, and same-call recovery passed on one account; no general availability, price, or provider claim. |
 | General providers/hosted/commercial/desktop/agent/compiler | Excluded | No general provider, hosting, billing, deployment, or production claim. |
 
 Supported base platform: Linux x86-64 with CPython 3.12 and a current

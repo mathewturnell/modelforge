@@ -1,18 +1,18 @@
 # Optional Modal execution
 
-ModelForge can send the bundled **Synthetic Threshold Lab** smoke test to one
-fixed, explicitly deployed Modal CPU function. This is an optional integration:
-the default install and local workflow do not import the Modal SDK, require an
-account, or use the network.
+ModelForge can send the bundled **Synthetic Threshold Lab** or one of four
+fixed, owner-configured project actions to explicitly deployed Modal functions.
+This is optional: the default install and local workflow do not import the
+Modal SDK, require an account, or use the network.
 
-The example remains synthetic. It processes four authored numeric values and
-does not train or load a model. A successful provider run demonstrates the
-shared managed Run/Artifact lifecycle, not model quality or general Modal
-compatibility.
-
-This workflow has no external data or model location to configure: the four
-CC0 numeric samples ship with ModelForge. Real-project assets are never sent to
-Modal by this integration.
+The project functions cover BDD100K/MeMOTR selected-video inference,
+SoccerNet/MOTR selected-sequence inference, TasteMatch base-SigLIP image
+inference, and Qwen2.5-7B prompt execution. They do not train. ModelForge does
+not download, accept terms for, or redistribute their upstream source,
+datasets, weights, checkpoints, media, prompts, or outputs. The account owner
+acquires and stages exact assets before registering a private provider binding.
+A passing run demonstrates the bounded integration shape, not model quality or
+general Modal compatibility.
 
 ## Boundary
 
@@ -29,7 +29,7 @@ in project manifests, CLI arguments, run configuration, logs, or artifacts.
 active token in `~/.modal.toml`. ModelForge always passes the chosen Modal
 environment explicitly.
 
-The packaged function is fixed to:
+The synthetic packaged function is fixed to:
 
 - app: `modelforge-alpha-synthetic`
 - function: `run_synthetic_threshold`
@@ -37,6 +37,16 @@ The packaged function is fixed to:
   most one container, and zero warm containers
 - no GPU, secret, volume, schedule, dataset upload, model download, or provider
   object store
+
+The example directories additionally define fixed functions and named input
+volumes. Their checked `project.modal.template.json` files disclose the exact
+GPU/CPU/memory/timeout/retry/container bounds. The accepted shapes are BDD100K
+on one L40S for two frames, SoccerNet on one L40S for 24 frames, TasteMatch on
+one L4 for one image, and Qwen on one L40S for at most four messages and 64 new
+tokens. Each has zero retries, at most one container, and zero warm containers.
+Volume mounts are not represented as read-only by Modal's API; every function
+therefore verifies staged identities and writes only beneath its temporary
+output directory. Treat the named volumes as owner-controlled inputs.
 
 ## Install and configure
 
@@ -82,6 +92,36 @@ durable state and available outputs. Scientific telemetry is unavailable for
 this synthetic action and is reported as unavailable rather than zero. For
 provider-side live logs, use `.venv/bin/python -m modal app logs` in a second terminal.
 
+### Owner-bound real-project action
+
+From a reviewed source checkout, first follow the selected example README and
+`setup.json`. Acquire every upstream component yourself. Create a dedicated
+non-production Modal environment and the exact named input volume from that
+example's `modal_app.py`, then stage only the bounded files named by its
+`project.modal.template.json`. Use Modal's own `volume put` command and verify
+local and remote sizes/digests before deployment; never place credentials in a
+manifest or binding.
+
+Copy `project.local.template.json` and `project.modal.template.json` outside
+the distribution, replace all placeholders, and keep both files owner-only.
+The local configuration supplies project/action/sample identities for the
+workbench. The Modal binding separately supplies the fixed app/function,
+resource plan, transport bounds, deployment identity, and staged asset
+identities:
+
+```bash
+.venv/bin/modelforge project register --state-root <STATE> --config /secure/<PROJECT>.local.json
+.venv/bin/modelforge modal register --state-root <STATE> --config /secure/<PROJECT>.modal.json
+.venv/bin/python -m modal deploy --env <ENV> examples/<PROJECT>/modal_app.py
+.venv/bin/modelforge serve --state-root <STATE>
+```
+
+Registration is local-only and makes no provider call. Starting the action in
+the compiled workbench requires selecting Modal and checking the billable-action
+confirmation. Project-authored manifests cannot choose an app, function,
+environment, credential, or compute target. Recovery reattaches to the recorded
+`fc-*` call and never starts another call.
+
 If the client stops after Modal accepted the call, recover the same unfinished
 run rather than creating a second lifecycle:
 
@@ -124,40 +164,25 @@ stopping/deleting provider state does not remove local ModelForge evidence.
 
 ## Verification status
 
-The non-paid qualification uses an injected fake SDK to verify lazy imports,
-durable-before-spawn ordering, explicit environment selection, bounded result
-materialization, artifact registration, cancellation ordering, and `fc-*`
-recovery. It makes no Modal request.
+Fake-SDK qualification verifies lazy imports, durable-before-spawn ordering,
+explicit environment selection, bounded materialization, artifact registration,
+cancellation ordering, and `fc-*` recovery without a network call.
 
-A single authorized live run is necessary before claiming that the published
-package currently works with Modal. It is not necessary to merge or test the
-adapter locally, and it must not be performed without account, network, and
-billable-action authority.
+An authorized live acceptance in a dedicated environment additionally passed
+all four real project actions through the compiled workbench. BDD100K and
+SoccerNet produced checked native video; TasteMatch produced a checked native
+table; Qwen produced checked assistant text. A separate Qwen call recorded the
+request and provider-confirmed cancellation timestamps, and a successful Qwen
+call recovered the same durable run and `fc-*` identity after a local server
+restart. Preserved failed calls exposed deployment, dependency, compatibility,
+and result-correlation defects before those defects were corrected.
 
-### Approval-only live validation plan
-
-No step in this plan has been executed during non-paid qualification. After a
-separate approval, use a dedicated `modelforge-alpha-validation` environment,
-deploy exactly `modelforge_workbench.example.modal_app`, and invoke exactly one
-Synthetic Threshold run with `--confirm-billable`. The function is capped at
-0.125 CPU, 128 MiB, 60 seconds, zero retries, and one container; it has no GPU,
-volume, secret, dataset, or model input. Expected elapsed time is under five
-minutes including a first deployment, with the function itself bounded to one
-minute. Expected function compute is below USD 0.01 at the reviewed pricing,
-but this is an estimate rather than a budget cap; build, transfer, account,
-tax, and pricing changes may alter the charge.
-
-The approval must name the Modal workspace/account, set a maximum authorized
-all-in spend, and bind the validation to the exact candidate revision and
-built-wheel SHA-256. Before publication, install that reviewed wheel directly;
-do not assume a package index already serves the intended `0.1.0a1` bytes.
-
-After verifying the durable completed run, two checked JSON artifacts, and the
-provider logs, stop the exact app in that environment and inspect the billing
-report. Preserve the local run evidence until review; deleting it does not stop
-provider work. If deployment or execution fails, do not create a second call
-until the app list, call identity, logs, and remaining resources have been
-checked.
+This evidence is bound to one owner account, environment, revision, and staged
+asset set. It does not promise availability, performance, cost, or compatibility
+for another account, region, dependency/model revision, or input. Before any
+release claim, rebuild the exact candidate artifact, install it directly, stop
+the exact disposable apps, reconcile provider resources/cost, and retain the
+local evidence report. Publication remains a separate human decision.
 
 Official references: [getting started](https://modal.com/docs/guide),
 [account setup](https://modal.com/docs/guide/modal-user-account-setup),

@@ -50,6 +50,10 @@ or use `modelforge action run` with `request.example.json`. The adapter forces
 offline, local-files-only model loading. A bounded real prompt completed with
 the exact pinned snapshot and declared CPU environment; fixture checks cover
 start, cancellation, failure, and recovery without shipping the weights.
+The same pinned snapshot also completed through one owner-bound Modal L40S
+deployment. A separate compiled-workbench request received confirmed provider
+cancellation, and another recovered the same provider call after local server
+restart.
 
 ## 5. Logs and results
 

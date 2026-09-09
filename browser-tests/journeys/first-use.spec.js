@@ -51,8 +51,10 @@ test("first use explains local project and Modal setup without private state", a
   await expect(qualification).toContainText("Inference · supported with prerequisites");
   await expect(qualification).toContainText("Qwen2.5-7B Prompt Lab");
   await expect(qualification).toContainText("Prompt · supported with prerequisites");
-  await expect(qualification).toContainText("Inference and training · not qualified");
-  await expect(qualification).toContainText("Dataset inspection · fixture-qualified");
+  await expect(qualification).toContainText("SoccerNet Tracking");
+  await expect(qualification).toContainText("selected sequence");
+  await expect(qualification).toContainText("TasteMatch");
+  await expect(qualification).toContainText("base-SigLIP Modal inference is bounded");
   await expect(page.getByText(/local project actions are trusted code/i)).toBeVisible();
   await expect(page.getByRole("button", {name: /Synthetic Threshold Lab/})).toHaveAttribute("aria-pressed", "true");
   await expect(page.getByText("No recorded Synthetic Threshold Lab runs in this state root.")).toBeVisible();

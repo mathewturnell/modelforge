@@ -3,8 +3,8 @@
 - Date: 2026-09-09
 - Decision owner: human Mathew
 - Coordination owner: Chloé
-- Status: accepted for bounded public-alpha implementation; live execution and
-  publication remain separately gated
+- Status: implemented; bounded live acceptance passed on the recorded owner
+  environment; publication remains separately gated
 - Intake candidate: `fe1ccd4e72c7ec5567ec1b5f128dd38b1df2ae51`
 - Related source requirements: `FW-RUN-015`, `FW-RUN-016`,
   `PROD-EXEC-007`, `PROD-INF-002`, `PROD-INF-005`, and `PROD-UX-018`
@@ -243,7 +243,8 @@ Implementation must synchronize `docs/architecture.md`,
 `docs/product-boundary.md`, `docs/modal.md`, `docs/example-setup.md`, each
 applicable example README/setup/template, `docs/release-status.md`, and
 `CHANGELOG.md`. Support claims remain unchanged until exact-candidate live
-evidence passes. The source manifest, licensing inventory, archive verifier,
+evidence passes. That bounded evidence has now passed and the public documents
+record its narrow scope. The source manifest, licensing inventory, archive verifier,
 and final artifact digests must be regenerated after the implementation; this
 decision grants no publication, push, package upload, hosted deployment, or
 training authority.

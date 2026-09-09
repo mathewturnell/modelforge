@@ -491,7 +491,7 @@ class ExampleSetupService:
             "Run the separate install command with --confirm to create the isolated environment.",
         ]
         next_steps.append(
-            "Configure and register the local project, then use `modelforge action run` for a managed workload."
+            "Configure and register the project, then use an explicitly enabled local target or a separately registered owner-only Modal binding for the managed workload."
             if managed_action_available
             else "Inspect the authored manifest and adapter; this alpha does not qualify a managed workload for this example."
         )
