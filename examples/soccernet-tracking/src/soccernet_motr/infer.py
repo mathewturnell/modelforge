@@ -8,6 +8,7 @@ import re
 import shutil
 import subprocess
 import sys
+import types
 from pathlib import Path
 
 from .mot import MotRow, discover_sequences, load_sequence, parse_mot_rows, write_mot_rows
@@ -18,6 +19,27 @@ COLORS = ((255, 70, 70), (70, 130, 255), (255, 215, 60), (255, 255, 255), (255, 
 RESULT_FORMAT = "modelforge.inference-result/v1"
 MANIFEST_FORMAT = "soccernet-motr-inference-manifest/v1"
 SHA256_PATTERN = re.compile(r"[0-9a-f]{64}")
+
+
+def _install_reference_msda() -> None:
+    """Use upstream MOTR's checked-in PyTorch inference kernel without modifying it."""
+
+    module = types.ModuleType("MultiScaleDeformableAttention")
+
+    def forward(value, spatial_shapes, _level_start, locations, weights, _step):
+        implementation = sys.modules.get("models.ops.functions.ms_deform_attn_func")
+        if implementation is None:
+            raise RuntimeError("MOTR reference deformable-attention module is unavailable")
+        return implementation.ms_deform_attn_core_pytorch(
+            value, spatial_shapes, locations, weights,
+        )
+
+    def backward(*_args):
+        raise RuntimeError("MOTR reference deformable attention is inference-only")
+
+    module.ms_deform_attn_forward = forward
+    module.ms_deform_attn_backward = backward
+    sys.modules["MultiScaleDeformableAttention"] = module
 
 
 def _sha256(path: Path) -> str:
@@ -194,9 +216,47 @@ def _render(sequence, predictions: list[MotRow], target: Path) -> None:
             image.save(frame_dir / f"{frame:06d}.png")
     command = [
         "ffmpeg", "-hide_banner", "-loglevel", "error", "-y", "-framerate", str(sequence.frame_rate),
-        "-i", str(frame_dir / "%06d.png"), "-c:v", "libx264", "-pix_fmt", "yuv420p", "-movflags", "+faststart", str(target),
+        "-i", str(frame_dir / "%06d.png"), "-c:v", "libx264",
     ]
+    output_width = max(0, int(os.environ.get("MODELFORGE_OUTPUT_MAX_WIDTH", "0") or 0))
+    if output_width:
+        command.extend(("-vf", f"scale=min({output_width}\\,iw):-2"))
+    command.extend((
+        "-crf", os.environ.get("MODELFORGE_FFMPEG_CRF", "23"),
+        "-pix_fmt", "yuv420p", "-movflags", "+faststart", str(target),
+    ))
     subprocess.run(command, check=True)
+
+
+def _stage_upstream_sequence(sequence, staging_sequence: Path, max_frames: int) -> None:
+    """Expose either a bounded copy or the complete sequence to clean upstream MOTR."""
+
+    if staging_sequence.exists() or staging_sequence.is_symlink():
+        if staging_sequence.is_symlink() or staging_sequence.is_file():
+            staging_sequence.unlink()
+        else:
+            shutil.rmtree(staging_sequence)
+    if not max_frames:
+        staging_sequence.symlink_to(sequence.root, target_is_directory=True)
+        return
+    if not 1 <= max_frames <= min(sequence.length, 24):
+        raise ValueError("Cloud MOTR inference requires a bound from one to 24 existing frames")
+    image_dir = staging_sequence / sequence.image_dir.name
+    image_dir.mkdir(parents=True)
+    for frame in range(1, max_frames + 1):
+        source = sequence.image_path(frame)
+        if source.is_symlink() or not source.is_file():
+            raise ValueError("SoccerNet staged input contains an unsafe frame")
+        shutil.copyfile(source, image_dir / source.name)
+    seqinfo = (sequence.root / "seqinfo.ini").read_text(encoding="utf-8")
+    seqinfo, replacements = re.subn(
+        r"(?im)^seqLength\s*=\s*\d+\s*$",
+        f"seqLength={max_frames}",
+        seqinfo,
+    )
+    if replacements != 1:
+        raise ValueError("SoccerNet seqinfo.ini must declare exactly one sequence length")
+    (staging_sequence / "seqinfo.ini").write_text(seqinfo, encoding="utf-8")
 
 
 def build_upstream_submit_arguments(
@@ -266,22 +326,19 @@ def _run_upstream_motr(
         )
     sequence = _official_sequence(dataset, sample_index, sequence_path)
     project = Path(__file__).resolve().parents[2]
-    upstream = project / "vendor" / "MOTR"
+    upstream = Path(os.environ.get("MODELFORGE_MOTR_SOURCE_ROOT", project / "vendor" / "MOTR")).resolve()
     if not (upstream / "submit.py").is_file():
         raise RuntimeError("The pinned upstream MOTR source is missing from vendor/MOTR")
     output.mkdir(parents=True, exist_ok=True)
     staging_sequence = output / ".upstream-input" / "MOT17" / "images" / "test" / sequence.name
     staging_sequence.parent.mkdir(parents=True, exist_ok=True)
-    if staging_sequence.exists() or staging_sequence.is_symlink():
-        if staging_sequence.is_symlink() or staging_sequence.is_file():
-            staging_sequence.unlink()
-        else:
-            shutil.rmtree(staging_sequence)
-    staging_sequence.symlink_to(sequence.root, target_is_directory=True)
+    max_frames = max(0, int(os.environ.get("MODELFORGE_MAX_FRAMES", "0") or 0))
+    _stage_upstream_sequence(sequence, staging_sequence, max_frames)
     arguments = build_upstream_submit_arguments(dataset, checkpoint_path, output, sequence.name)
     original_path = list(sys.path)
     sys.path.insert(0, str(upstream))
     try:
+        _install_reference_msda()
         from main import get_args_parser
         from models import build_model
         from submit import Detector
@@ -302,7 +359,6 @@ def _run_upstream_motr(
     shutil.copy2(upstream_predictions, predictions_path)
     primary_video = output / f"{sequence.name}.mp4"
     _render(sequence, parse_mot_rows(predictions_path), primary_video)
-    max_frames = max(0, int(os.environ.get("MODELFORGE_MAX_FRAMES", "0") or 0))
     processed_frames = min(sequence.length, max_frames) if max_frames else sequence.length
     return primary_video, predictions_path, processed_frames, float(sequence.frame_rate)
 

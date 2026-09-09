@@ -1,0 +1,17 @@
+{
+  "protocol": "modelforge.modal-action-binding/v1",
+  "project_id": "bdd100k-road-scene-lab",
+  "action_id": "inference",
+  "provider": "modal",
+  "environment": "replace-with-dedicated-modal-environment",
+  "application": "modelforge-alpha-bdd100k-inference",
+  "function": "run_bdd100k_inference",
+  "compute": {"target": "modal-l40s", "gpu": "L40S", "gpu_count": 1, "cpu_millis": 4000, "memory_mib": 32768, "timeout_seconds": 1200, "retries": 0, "max_containers": 1, "warm_containers": 0},
+  "transport": {"protocol": "modelforge.modal-execution-result/v1", "max_stdout_bytes": 262144, "max_stderr_bytes": 262144, "max_artifacts": 8, "max_artifact_bytes": 2097152, "max_total_artifact_bytes": 2097152},
+  "deployment": {"source_manifest_sha256": "replace-with-canonical-deployment-source-sha256", "resource_plan_sha256": "45d7f4a64fc799c112a006dcde22426c0dfd8d9a896491ad5820e83bd8be17fa"},
+  "assets": [
+    {"id": "memotr-source", "role": "source", "provider_path": "/mnt/modelforge-inputs/sources/eb7a177b9cbcb89742ec69b2545ab3af2ea31a80", "verification": "revision", "revision": "eb7a177b9cbcb89742ec69b2545ab3af2ea31a80"},
+    {"id": "selected-video", "role": "input", "provider_path": "/mnt/modelforge-inputs/inputs/selected-video.mp4", "verification": "sha256", "sha256": "replace-with-64-character-sha256", "size_bytes": 0},
+    {"id": "memotr-checkpoint", "role": "checkpoint", "provider_path": "/mnt/modelforge-inputs/models/memotr_bdd100k.pth", "verification": "sha256", "sha256": "c90604ab0b4036d1f6b0d5ff4be7c1ea41ff581e344b234fb802b24f9d3487bd", "size_bytes": 603623604}
+  ]
+}

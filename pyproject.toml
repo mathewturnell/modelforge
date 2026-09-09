@@ -46,8 +46,10 @@ where = ["src"]
   "examples/bdd100k-road-scene-lab/dataset.inspectable.json",
   "examples/bdd100k-road-scene-lab/project.json",
   "examples/bdd100k-road-scene-lab/project.local.template.json",
+  "examples/bdd100k-road-scene-lab/project.modal.template.json",
   "examples/bdd100k-road-scene-lab/setup.json",
   "examples/bdd100k-road-scene-lab/infer_memotr_video.py",
+  "examples/bdd100k-road-scene-lab/modal_app.py",
 ]
 "share/modelforge/examples/bdd100k-road-scene-lab/configs" = ["examples/bdd100k-road-scene-lab/configs/*.json"]
 "share/modelforge/examples/bdd100k-road-scene-lab/src/bdd_memotr" = ["examples/bdd100k-road-scene-lab/src/bdd_memotr/*.py"]
@@ -56,24 +58,34 @@ where = ["src"]
   "examples/qwen-prompt-lab/PROVENANCE.md",
   "examples/qwen-prompt-lab/project.json",
   "examples/qwen-prompt-lab/project.local.template.json",
+  "examples/qwen-prompt-lab/project.modal.template.json",
   "examples/qwen-prompt-lab/request.example.json",
   "examples/qwen-prompt-lab/requirements.direct.txt",
   "examples/qwen-prompt-lab/setup.json",
   "examples/qwen-prompt-lab/prompt.py",
+  "examples/qwen-prompt-lab/modal_app.py",
 ]
 "share/modelforge/examples/soccernet-tracking" = [
   "examples/soccernet-tracking/README.md",
   "examples/soccernet-tracking/PROVENANCE.md",
   "examples/soccernet-tracking/project.inspectable.json",
+  "examples/soccernet-tracking/project.json",
+  "examples/soccernet-tracking/project.local.template.json",
+  "examples/soccernet-tracking/project.modal.template.json",
   "examples/soccernet-tracking/setup.json",
   "examples/soccernet-tracking/infer.py",
+  "examples/soccernet-tracking/modal_app.py",
 ]
 "share/modelforge/examples/soccernet-tracking/src/soccernet_motr" = ["examples/soccernet-tracking/src/soccernet_motr/*.py"]
 "share/modelforge/examples/tastematch" = [
   "examples/tastematch/README.md",
   "examples/tastematch/PROVENANCE.md",
   "examples/tastematch/project.inspectable.json",
+  "examples/tastematch/project.json",
+  "examples/tastematch/project.local.template.json",
+  "examples/tastematch/project.modal.template.json",
   "examples/tastematch/setup.json",
+  "examples/tastematch/modal_app.py",
 ]
 "share/modelforge/examples/tastematch/tastematch" = ["examples/tastematch/tastematch/*.py"]
 

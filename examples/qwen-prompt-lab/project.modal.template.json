@@ -1,0 +1,15 @@
+{
+  "protocol": "modelforge.modal-action-binding/v1",
+  "project_id": "qwen-prompt-lab",
+  "action_id": "prompt",
+  "provider": "modal",
+  "environment": "replace-with-dedicated-modal-environment",
+  "application": "modelforge-alpha-qwen-prompt",
+  "function": "run_qwen_prompt",
+  "compute": {"target": "modal-l40s", "gpu": "L40S", "gpu_count": 1, "cpu_millis": 2000, "memory_mib": 32768, "timeout_seconds": 1200, "retries": 0, "max_containers": 1, "warm_containers": 0},
+  "transport": {"protocol": "modelforge.modal-execution-result/v1", "max_stdout_bytes": 262144, "max_stderr_bytes": 262144, "max_artifacts": 8, "max_artifact_bytes": 2097152, "max_total_artifact_bytes": 2097152},
+  "deployment": {"source_manifest_sha256": "replace-with-canonical-deployment-source-sha256", "resource_plan_sha256": "91bba67bf524d039847b3417a63f1ae09cad65783633939d16cc4133db645a39"},
+  "assets": [
+    {"id": "qwen-model", "role": "model", "provider_path": "/mnt/modelforge-inputs/models/a09a35458c702b33eeacc393d103063234e8bc28", "verification": "revision", "revision": "a09a35458c702b33eeacc393d103063234e8bc28"}
+  ]
+}

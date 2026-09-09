@@ -1,0 +1,16 @@
+{
+  "protocol": "modelforge.modal-action-binding/v1",
+  "project_id": "tastematch",
+  "action_id": "inference",
+  "provider": "modal",
+  "environment": "replace-with-dedicated-modal-environment",
+  "application": "modelforge-alpha-tastematch-inference",
+  "function": "run_tastematch_inference",
+  "compute": {"target": "modal-l4", "gpu": "L4", "gpu_count": 1, "cpu_millis": 2000, "memory_mib": 16384, "timeout_seconds": 900, "retries": 0, "max_containers": 1, "warm_containers": 0},
+  "transport": {"protocol": "modelforge.modal-execution-result/v1", "max_stdout_bytes": 262144, "max_stderr_bytes": 262144, "max_artifacts": 8, "max_artifact_bytes": 2097152, "max_total_artifact_bytes": 2097152},
+  "deployment": {"source_manifest_sha256": "replace-with-canonical-deployment-source-sha256", "resource_plan_sha256": "681ecbd709475a609846f2db973647ae09298197542b605d08ac67d2aecb1948"},
+  "assets": [
+    {"id": "selected-image", "role": "input", "provider_path": "/mnt/modelforge-inputs/inputs/selected-image.jpg", "verification": "sha256", "sha256": "replace-with-64-character-sha256", "size_bytes": 0},
+    {"id": "siglip-model", "role": "model", "provider_path": "/mnt/modelforge-inputs/models/9fdffc58afc957d1a03a25b10dba0329ab15c2a3", "verification": "revision", "revision": "9fdffc58afc957d1a03a25b10dba0329ab15c2a3"}
+  ]
+}

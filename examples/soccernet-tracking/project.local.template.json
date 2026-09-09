@@ -1,0 +1,37 @@
+{
+  "protocol": "modelforge.local-runtime-configuration/v1",
+  "id": "soccernet-tracking",
+  "project_repository": "/absolute/path/to/this-example",
+  "name": "SoccerNet Tracking",
+  "description": "Bounded selected-sequence clean-upstream MOTR inference; training is not declared.",
+  "support_level": "modal-only-with-declared-prerequisites",
+  "local_enabled": false,
+  "action": {
+    "id": "inference",
+    "kind": "inference",
+    "interface": "inference_process",
+    "display_name": "Run MOTR on selected sequence",
+    "result_protocol": "modelforge.inference-result/v1",
+    "interpreter": "",
+    "executable": "",
+    "working_directory": "",
+    "arguments": [],
+    "environment": {},
+    "parameters": {"device": "cuda:0", "max_frames": 24}
+  },
+  "dataset": {
+    "id": "soccernet-sequences",
+    "name": "Owner-staged SoccerNet sequence selections",
+    "root": "/absolute/path/to/selection-files",
+    "samples": [{"id": "selected-sequence", "name": "Selected sequence", "path": "selected-sequence.json", "split": "train", "content_type": "application/json", "size_bytes": 0, "sha256": "replace-with-64-character-sha256"}]
+  },
+  "bindings": {
+    "checkpoint": {
+      "id": "motr-checkpoint",
+      "name": "User-selected MOTR-compatible checkpoint",
+      "path": "/absolute/path/to/motr-checkpoint.pth",
+      "size_bytes": 0,
+      "sha256": "replace-with-64-character-sha256"
+    }
+  }
+}

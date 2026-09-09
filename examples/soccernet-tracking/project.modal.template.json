@@ -1,0 +1,18 @@
+{
+  "protocol": "modelforge.modal-action-binding/v1",
+  "project_id": "soccernet-tracking",
+  "action_id": "inference",
+  "provider": "modal",
+  "environment": "replace-with-dedicated-modal-environment",
+  "application": "modelforge-alpha-soccernet-inference",
+  "function": "run_soccernet_inference",
+  "compute": {"target": "modal-l40s", "gpu": "L40S", "gpu_count": 1, "cpu_millis": 8000, "memory_mib": 32768, "timeout_seconds": 3000, "retries": 0, "max_containers": 1, "warm_containers": 0},
+  "transport": {"protocol": "modelforge.modal-execution-result/v1", "max_stdout_bytes": 262144, "max_stderr_bytes": 262144, "max_artifacts": 8, "max_artifact_bytes": 2097152, "max_total_artifact_bytes": 2097152},
+  "deployment": {"source_manifest_sha256": "replace-with-canonical-deployment-source-sha256", "resource_plan_sha256": "92d44469037129f919c86d08d996d459f41abf25b72b01f44eb0b9ba46add494"},
+  "assets": [
+    {"id": "motr-source", "role": "source", "provider_path": "/mnt/modelforge-inputs/sources/8690da3392159635ca37c31975126acf40220724", "verification": "revision", "revision": "8690da3392159635ca37c31975126acf40220724"},
+    {"id": "selected-sequence", "role": "input", "provider_path": "/mnt/modelforge-inputs/inputs/selected-sequence.json", "verification": "sha256", "sha256": "replace-with-64-character-sha256", "size_bytes": 0},
+    {"id": "soccernet-dataset", "role": "dataset", "provider_path": "/mnt/modelforge-inputs/datasets/soccernet-bounded-24.tar", "verification": "sha256", "sha256": "replace-with-64-character-sha256", "size_bytes": 0},
+    {"id": "motr-checkpoint", "role": "checkpoint", "provider_path": "/mnt/modelforge-inputs/models/motr-checkpoint.pth", "verification": "sha256", "sha256": "replace-with-64-character-sha256", "size_bytes": 0}
+  ]
+}

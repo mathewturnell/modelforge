@@ -89,11 +89,11 @@ def test_example_source_inventory_is_file_complete_and_content_bound():
     assert inventory["protocol"] == "modelforge.example-source-inventory/v1"
     assert "private_source_revision" not in inventory
     assert inventory["review_scope"] == {
-        "pending_python_files_at_intake": 15,
-        "individually_reviewed": 15,
-        "independently_authored_assessment": 13,
+        "pending_python_files_at_intake": 19,
+        "individually_reviewed": 19,
+        "independently_authored_assessment": 17,
         "upstream_derived_assessment": 2,
-        "ownership_confirmation_pending": 15,
+        "ownership_confirmation_pending": 19,
     }
     records = []
     for project in inventory["projects"]:
@@ -109,7 +109,7 @@ def test_example_source_inventory_is_file_complete_and_content_bound():
             path = root / relative
             assert path.is_file() and not path.is_symlink()
             assert hashlib.sha256(path.read_bytes()).hexdigest() == expected
-    assert len(records) == 15
+    assert len(records) == 19
     assert sum(item["upstream_revision"] is not None for item in records) == 5
     mixed = [item["treatment"] for item in records if item["treatment"].startswith("Retain conservatively")]
     assert len(mixed) == 2
@@ -148,10 +148,12 @@ def test_bdd_authored_manifest_declares_inspectable_dataset_without_runtime_auth
     assert descriptor["redistribution"] == "not_included"
 
 
-def test_tastematch_inspection_declares_only_its_fixture_qualified_dataset():
+def test_tastematch_inspection_declares_inference_without_execution_authority():
     root = ROOT / "examples" / "tastematch"
     projection = project_capabilities(load_project_manifest(root / "project.inspectable.json"))
 
-    assert {item["id"] for item in projection["capabilities"]} == {"dataset.default"}
+    assert {item["id"] for item in projection["capabilities"]} == {
+        "action.inference", "dataset.default",
+    }
     assert projection["runtime_readiness"] == "not_evaluated"
     assert projection["execution_authorized"] is False

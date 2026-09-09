@@ -1,17 +1,27 @@
 {
   "protocol": "modelforge.example-source-inventory/v1",
   "review_scope": {
-    "pending_python_files_at_intake": 15,
-    "individually_reviewed": 15,
-    "independently_authored_assessment": 13,
+    "pending_python_files_at_intake": 19,
+    "individually_reviewed": 19,
+    "independently_authored_assessment": 17,
     "upstream_derived_assessment": 2,
-    "ownership_confirmation_pending": 15
+    "ownership_confirmation_pending": 19
   },
   "license_status": "publication_blocked_pending_rights_holder_confirmation",
   "projects": [
     {
       "id": "bdd100k-road-scene-lab",
       "files": [
+        {
+          "path": "modal_app.py",
+          "sha256": "dc99236a1882dbab9fb025c44e67e887e1a369a1059012a3d0d8b489c425a14f",
+          "origin": "ModelForge-owned bounded Modal deployment wrapper authored for the public-alpha acceptance path; no upstream source bytes were copied.",
+          "upstream_revision": null,
+          "modifications": "Fixed project/action, resource, asset-verification, output, concurrency, retry, and timeout boundaries.",
+          "license_evidence": "Authored in this candidate under the Mathew Git identity; publishing authority remains awaiting the same rights-holder confirmation as the other ModelForge integration files.",
+          "role": "Owner-deployed BDD100K Modal action entry point.",
+          "treatment": "Retain as independently authored integration code; LicenseRef-ModelForge-Pending until ownership/relicensing authority is confirmed."
+        },
         {
           "path": "infer_memotr_video.py",
           "sha256": "281a6f0ab0b9f2b2d7dd94fa910fc6a74299ea8b762502c792f30c3ece6ebc94",
@@ -81,6 +91,16 @@
       "id": "soccernet-tracking",
       "files": [
         {
+          "path": "modal_app.py",
+          "sha256": "70e5f2c13cfa2721991fcc797b1fe16b2f6ea903e06a262f03f5083c0501ec6e",
+          "origin": "ModelForge-owned bounded Modal deployment wrapper authored for the public-alpha acceptance path; no upstream MOTR source bytes were copied.",
+          "upstream_revision": null,
+          "modifications": "Fixed project/action, resource, bounded dataset extraction, asset-verification, output, concurrency, retry, and timeout boundaries.",
+          "license_evidence": "Authored in this candidate under the Mathew Git identity; publishing authority remains awaiting the same rights-holder confirmation as the other ModelForge integration files.",
+          "role": "Owner-deployed SoccerNet Modal action entry point.",
+          "treatment": "Retain as independently authored integration code; LicenseRef-ModelForge-Pending until ownership/relicensing authority is confirmed."
+        },
+        {
           "path": "infer.py",
           "sha256": "1a9982311e319b2e7e2cd1dab110fe727d667d6fa9daa574db8ce1d5ba2674b4",
           "origin": "ModelForge SoccerNet integration entry point; no official MOTR file match was found.",
@@ -102,7 +122,7 @@
         },
         {
           "path": "src/soccernet_motr/infer.py",
-          "sha256": "2aae035554f4796956c4194e4e94e0902a435bfa7d55c3f3d31e05582ea40798",
+          "sha256": "47df8c242fe488a604f500220fa55d479d732823b20261e3ea828f1996378ca3",
           "origin": "ModelForge wrapper around external MOTR execution; no official MOTR file match was found.",
           "upstream_revision": "Targets megvii-research/MOTR 8690da3392159635ca37c31975126acf40220724 plus undistributed private bounded/progress modifications",
           "modifications": "Independent request construction, subprocess boundary, progress parsing, and result collection.",
@@ -136,6 +156,16 @@
     {
       "id": "tastematch",
       "files": [
+        {
+          "path": "modal_app.py",
+          "sha256": "07559d5d436c2fab6f1502ba8723711a3ee1135c8258c23e28e757f3c20ccca4",
+          "origin": "ModelForge-owned bounded Modal deployment wrapper authored for the public-alpha acceptance path; no SigLIP or Food-101 source bytes were copied.",
+          "upstream_revision": null,
+          "modifications": "Fixed base-model-only project/action, resource, input/model verification, output, concurrency, retry, and timeout boundaries.",
+          "license_evidence": "Authored in this candidate under the Mathew Git identity; publishing authority remains awaiting the same rights-holder confirmation as the other ModelForge integration files.",
+          "role": "Owner-deployed TasteMatch Modal action entry point.",
+          "treatment": "Retain as independently authored integration code; LicenseRef-ModelForge-Pending until ownership/relicensing authority is confirmed."
+        },
         {
           "path": "tastematch/__init__.py",
           "sha256": "38cdf56082cd21f3c0e5a72287c7542e9e30f260cd82d94738a40274a74c7bbf",
@@ -172,6 +202,16 @@
     {
       "id": "qwen-prompt-lab",
       "files": [
+        {
+          "path": "modal_app.py",
+          "sha256": "c8144f0d76588ca2876957b77bdf94cdbb0e80412bd566bf93e3d7c0d09c803b",
+          "origin": "ModelForge-owned bounded Modal deployment wrapper authored for the public-alpha acceptance path; no Qwen or Transformers source bytes were copied.",
+          "upstream_revision": null,
+          "modifications": "Fixed prompt/model/resource/output, message/token, concurrency, retry, and timeout boundaries.",
+          "license_evidence": "Authored in this candidate under the Mathew Git identity; publishing authority remains awaiting the same rights-holder confirmation as the other ModelForge integration files.",
+          "role": "Owner-deployed Qwen Modal action entry point.",
+          "treatment": "Retain as independently authored integration code; LicenseRef-ModelForge-Pending until ownership/relicensing authority is confirmed."
+        },
         {
           "path": "prompt.py",
           "sha256": "6ce2be1514c7caed87aa8609cc21d347c1dddfc1f1bd7b40435f42c99bb3458e",
