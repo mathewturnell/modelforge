@@ -158,7 +158,7 @@
       "files": [
         {
           "path": "modal_app.py",
-          "sha256": "4d1f0f87eafe9405a512b2448b22ef04bf5128141a79df60a351b12e61343ee0",
+          "sha256": "130d21fcadb5bcd4aec01024a701a8721db6500550ceada17670d5c8f976fa64",
           "origin": "ModelForge-owned bounded Modal deployment wrapper authored for the public-alpha acceptance path; no SigLIP or Food-101 source bytes were copied.",
           "upstream_revision": null,
           "modifications": "Fixed base-model-only project/action, resource, input/model verification, output, concurrency, retry, and timeout boundaries.",

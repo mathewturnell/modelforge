@@ -412,3 +412,4 @@ def test_tastematch_modal_path_is_explicitly_base_model_only():
     assert len(set(module.FOOD101_CLASSES)) == 101
     assert "pinned-base-siglip-no-adapter" in source
     assert "SiglipEngine(" not in source
+    assert '"sentencepiece==0.2.0"' in source

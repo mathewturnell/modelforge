@@ -162,6 +162,7 @@ if modal is not None:
             "accelerate==1.3.0",
             "Pillow==11.1.0",
             "safetensors==0.5.2",
+            "sentencepiece==0.2.0",
             "torch==2.6.0",
             "transformers==4.48.3",
         )
