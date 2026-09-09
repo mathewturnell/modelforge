@@ -22,8 +22,11 @@ The package, CLI, loopback workbench, and public tests expose the same boundary.
 
 Supported base platform: Linux x86-64 with CPython 3.12 and a current
 Chromium-family browser. The base wheel has no third-party runtime dependency.
-Project environments and external assets are installed/acquired by the user;
-ModelForge performs no download and sets offline policy for managed actions.
+Project environments and external assets are installed/acquired by the user.
+ModelForge performs no implicit download: an explicit, confirmation-gated
+setup fetch may acquire declared public Git or digest-bound inputs, while
+manual or gated assets remain user-acquired. Managed actions use offline
+policy.
 
 Project code is trusted local code with the user's operating-system authority.
 Run-owned work, evidence, and caches isolate ModelForge outputs; they do not

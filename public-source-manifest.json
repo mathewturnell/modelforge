@@ -251,14 +251,14 @@
       "sha256": "832af288f6b83ad3542020e16093b8bdf67b358c695b07472f901420409eb679"
     },
     {
-      "bytes": 3534,
+      "bytes": 3686,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/product-boundary.md",
-      "sha256": "3017b44898aef46276dd929ed18d3bfaadfd25ca4b6208aea75e5230c3055a50"
+      "sha256": "e0e968aef3318f7eab2529bd21e6ec07dccdccd00f89b639ff9992b54f574efb"
     },
     {
       "bytes": 8832,
