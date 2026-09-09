@@ -36,7 +36,7 @@ def test_base_imports_do_not_cross_excluded_product_boundaries():
     assert not [
         (path, name)
         for path, name in observed
-        if name.startswith(prohibited)
+        if any(name == boundary or name.startswith(boundary + ".") for boundary in prohibited)
         and not (path == optional_modal_entrypoint and name == "modal")
     ]
 
