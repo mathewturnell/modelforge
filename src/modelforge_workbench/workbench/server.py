@@ -222,6 +222,8 @@ class _Handler(BaseHTTPRequestHandler):
                 self._json(HTTPStatus.OK, self.server.app.get_run(parts[3]))
             except KeyError:
                 self._json(HTTPStatus.NOT_FOUND, {"error": "Run was not found"})
+            except (OSError, RuntimeError, ValueError) as exc:
+                self._json(HTTPStatus.BAD_REQUEST, {"error": str(exc)[:300]})
             return
         if len(parts) == 6 and parts[:3] == ["api", "v1", "runs"] and parts[4] == "artifacts":
             self._artifact(parts[3], parts[5])
@@ -311,7 +313,7 @@ class _Handler(BaseHTTPRequestHandler):
                 if project["action"]["id"] != parts[5]:
                     raise ValueError("Action is not registered for this project")
                 execution = self.server.app.start_project_action(parts[3], self._body())
-            except (KeyError, OSError, ValueError, json.JSONDecodeError) as exc:
+            except (KeyError, OSError, RuntimeError, ValueError, json.JSONDecodeError) as exc:
                 self._json(HTTPStatus.BAD_REQUEST, {"error": str(exc)[:300]})
                 return
 
@@ -362,6 +364,8 @@ class _Handler(BaseHTTPRequestHandler):
                 self._json(HTTPStatus.OK, self.server.app.cancel(parts[3], run["project_id"]))
             except KeyError:
                 self._json(HTTPStatus.NOT_FOUND, {"error": "Run was not found"})
+            except (OSError, RuntimeError, ValueError) as exc:
+                self._json(HTTPStatus.BAD_REQUEST, {"error": str(exc)[:300]})
             return
         self._json(HTTPStatus.NOT_FOUND, {"error": "Not found"})
 
