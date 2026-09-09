@@ -203,7 +203,30 @@ class ModalExecutionHandle:
         cancellation_type = getattr(
             getattr(self._modal, "exception", object()), "InputCancellation", None,
         )
-        return isinstance(cancellation_type, type) and isinstance(exc, cancellation_type)
+        if isinstance(cancellation_type, type) and isinstance(exc, cancellation_type):
+            return True
+        remote_error = getattr(
+            getattr(self._modal, "exception", object()), "RemoteError", None,
+        )
+        return (
+            isinstance(remote_error, type)
+            and isinstance(exc, remote_error)
+            and self._provider_reports_terminated()
+        )
+
+    def _provider_reports_terminated(self) -> bool:
+        """Confirm the root provider input was terminated after cancellation."""
+
+        try:
+            graph = self._call.get_call_graph()
+        except BaseException:
+            return False
+        call_id = str(getattr(self._call, "object_id", ""))
+        for item in graph:
+            if str(getattr(item, "function_call_id", "")) != call_id:
+                continue
+            return getattr(getattr(item, "status", None), "name", "") == "TERMINATED"
+        return False
 
     def poll(self) -> int | None:
         if self._output is not None:

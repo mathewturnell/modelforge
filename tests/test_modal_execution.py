@@ -19,6 +19,10 @@ class FakeTimeout(Exception):
     pass
 
 
+class FakeRemoteError(Exception):
+    pass
+
+
 def _file(name: str, content: bytes) -> dict:
     return {
         "name": name,
@@ -58,9 +62,12 @@ class FakeCall:
         self.result = result if result is not None else _result_envelope()
         self.cancelled = False
         self.on_cancel = None
+        self.remote_cancellation = False
 
     def get(self, timeout=None):
         if self.cancelled:
+            if self.remote_cancellation:
+                raise FakeRemoteError("Function call was cancelled by user or a failure.")
             raise FakeInputCancellation()
         if self.result is None:
             raise FakeTimeout()
@@ -70,6 +77,13 @@ class FakeCall:
         if self.on_cancel:
             self.on_cancel()
         self.cancelled = True
+
+    def get_call_graph(self):
+        status = "TERMINATED" if self.cancelled else "PENDING"
+        return [SimpleNamespace(
+            function_call_id=self.object_id,
+            status=SimpleNamespace(name=status),
+        )]
 
 
 def _fake_modal(call: FakeCall, events: list | None = None):
@@ -106,6 +120,7 @@ def _fake_modal(call: FakeCall, events: list | None = None):
         exception=SimpleNamespace(
             TimeoutError=FakeTimeout,
             InputCancellation=FakeInputCancellation,
+            RemoteError=FakeRemoteError,
         ),
     )
 
@@ -196,6 +211,21 @@ def test_modal_cancellation_request_is_durable_before_provider_cancel(tmp_path):
         assert durable["configuration"]["cancellation_requested_at"] is not None
 
     call.on_cancel = observe_request
+    cancelled = app.cancel(execution.run_id)
+
+    assert cancelled["status"] == "cancelled"
+    assert cancelled["configuration"]["cancellation_confirmed_at"] is not None
+
+
+def test_modal_confirms_remote_error_only_with_provider_terminated_status(tmp_path):
+    call = FakeCall(result=None)
+    call.remote_cancellation = True
+    app = AlphaWorkbench(tmp_path / "state")
+    execution = app.start_example(
+        executor="modal", modal_environment="alpha-test",
+        billable_confirmed=True, modal_module=_fake_modal(call),
+    )
+
     cancelled = app.cancel(execution.run_id)
 
     assert cancelled["status"] == "cancelled"
