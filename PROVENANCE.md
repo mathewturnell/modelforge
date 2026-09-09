@@ -7,9 +7,9 @@ prior product history, build caches, run state, user assets, or generated
 archives.
 
 ModelForge framework, delivery, documentation, and Synthetic Threshold Lab
-files are repository source. The fifteen real-project Python files are listed
+files are repository source. The nineteen real-project Python files are listed
 individually in `example-source-inventory.json`, and each example has an
-adjacent `PROVENANCE.md`. Thirteen appear independently authored but remain
+adjacent `PROVENANCE.md`. Seventeen appear independently authored but remain
 outside the Apache-2.0 grant until the publishing rights holder confirms the
 underlying contributor/contract rights. Two BDD100K files adapt MeMOTR flow and
 retain mixed upstream-plus-pending treatment; the deformable-attention helper

@@ -71,14 +71,14 @@
       "sha256": "6105d58807ac3b904ae69fe6f5cfdd78a964757c6ebe460515ccd422239ad0d3"
     },
     {
-      "bytes": 1313,
+      "bytes": 1315,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "PROVENANCE.md",
-      "sha256": "a48608f4a6db83c2aceb5cee32b2c3e4fd90829703f8ce5710ff7b8d9e49ad83"
+      "sha256": "901e61c1bf44272cf2139287674fd7b01e6c0409f9d5ca78f5e8154bfa451135"
     },
     {
       "bytes": 9078,
@@ -101,14 +101,14 @@
       "sha256": "c6aa8894b0c44b54c12493bc569ac5741272a0f04b6b9c2fc2104e48b4884dbd"
     },
     {
-      "bytes": 3332,
+      "bytes": 3356,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "THIRD_PARTY_NOTICES",
-      "sha256": "e5bfa839accea6a490cee650e48f9a36324d7fa65cd272e0f83d8c6db716d140"
+      "sha256": "a76e8bfaeeb0a1be34b8921d4a6ade5c291ffcb9366635e2c41bee584d5810dd"
     },
     {
       "bytes": 8677,
@@ -231,14 +231,14 @@
       "sha256": "6f3253882b5fa1c3c14cfcf278eede942f10682ec2f159036685a15536aa3524"
     },
     {
-      "bytes": 4399,
+      "bytes": 4400,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/licensing.md",
-      "sha256": "9f43032679b0a9f9f4895e3390300fc97aceb5d4fd939f2fad65e85588bb1041"
+      "sha256": "18848d15b68ea7b416eda137f0b051fa1dff11b643adb37fb35070d864eeddaa"
     },
     {
       "bytes": 9777,

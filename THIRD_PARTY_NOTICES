@@ -8,7 +8,7 @@ wheel are build tools; pytest, Ruff, build, and Twine are development tools and
 are not included in the wheel.
 
 The wheel stages four selected project-integration source groups for
-rights-holder review. Thirteen Python files remain
+rights-holder review. Seventeen independently authored Python files remain
 `LicenseRef-ModelForge-Pending`. Two BDD100K files adapt MeMOTR inference flow.
 `inference_runtime.py` is classified
 `MIT AND LicenseRef-ModelForge-Pending`; `inference_helpers.py` is classified

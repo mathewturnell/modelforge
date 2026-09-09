@@ -8,7 +8,7 @@ The root `LICENSE`, `NOTICE`, `THIRD_PARTY_NOTICES`, and the machine-readable
 source manifest describe this repository's distribution terms.
 
 The nineteen retained BDD100K, SoccerNet, TasteMatch, and Qwen Python files were
-reviewed individually. Thirteen appear to be independently authored ModelForge
+reviewed individually. Seventeen appear to be independently authored ModelForge
 integration code. Repository history attributes their introduction to the
 Mathew Git identity, but that is evidence of origin, not proof of employment,
 contractor, contributor, or AI-assisted rights. They remain
