@@ -211,12 +211,20 @@ if modal is not None:
         modal.Image.debian_slim(python_version="3.12")
         .apt_install("build-essential", "ffmpeg", "git", "libgl1", "libglib2.0-0")
         .pip_install(
+            "Cython==3.2.9",
+            "lap==0.5.13",
+            "matplotlib==3.11.0",
+            "motmetrics==1.4.0",
             "numpy==2.2.3",
             "opencv-python-headless==4.11.0.86",
+            "pandas==3.0.5",
             "Pillow==11.1.0",
+            "pycocotools==2.0.11",
+            "seaborn==0.13.2",
             "scipy==1.15.2",
             "torch==2.6.0",
             "torchvision==0.21.0",
+            "tqdm==4.69.0",
         )
         .add_local_python_source("modelforge_workbench", copy=True)
         .add_local_dir(str(_project_root), remote_path=REMOTE_PROJECT_ROOT, copy=True)

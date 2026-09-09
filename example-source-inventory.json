@@ -92,7 +92,7 @@
       "files": [
         {
           "path": "modal_app.py",
-          "sha256": "7c8430b5c3e3f6c9844dbdda1ec393242bd6ff0910ca028890f4bed500ba5a71",
+          "sha256": "6c68aa0846734f14adb10078dcee3447581494a8b2747399a0a3efd9713aaae7",
           "origin": "ModelForge-owned bounded Modal deployment wrapper authored for the public-alpha acceptance path; no upstream MOTR source bytes were copied.",
           "upstream_revision": null,
           "modifications": "Fixed project/action, resource, bounded dataset extraction, asset-verification, output, concurrency, retry, and timeout boundaries.",
