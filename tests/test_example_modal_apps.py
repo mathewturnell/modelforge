@@ -167,7 +167,12 @@ def test_fixed_modal_apps_use_one_existing_volume_and_one_serial_container(examp
     assert options["min_containers"] == 0
     assert function._modal_max_inputs == 1
     calls = module.image.calls
-    assert any(name == "add_local_python_source" and args == ("modelforge_workbench",) for name, args, _ in calls)
+    assert any(
+        name == "add_local_python_source"
+        and args == ("modelforge_workbench",)
+        and kwargs == {"copy": True}
+        for name, args, kwargs in calls
+    )
     assert any(name == "add_local_dir" and kwargs.get("remote_path") == module.REMOTE_PROJECT_ROOT for name, _, kwargs in calls)
 
 

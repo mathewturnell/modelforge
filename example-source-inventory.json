@@ -14,7 +14,7 @@
       "files": [
         {
           "path": "modal_app.py",
-          "sha256": "dc99236a1882dbab9fb025c44e67e887e1a369a1059012a3d0d8b489c425a14f",
+          "sha256": "f4ac403c81265ea2a844fe20aa06b72cc9efffdb711fe687cc84a29be2361d38",
           "origin": "ModelForge-owned bounded Modal deployment wrapper authored for the public-alpha acceptance path; no upstream source bytes were copied.",
           "upstream_revision": null,
           "modifications": "Fixed project/action, resource, asset-verification, output, concurrency, retry, and timeout boundaries.",
@@ -92,7 +92,7 @@
       "files": [
         {
           "path": "modal_app.py",
-          "sha256": "70e5f2c13cfa2721991fcc797b1fe16b2f6ea903e06a262f03f5083c0501ec6e",
+          "sha256": "7c8430b5c3e3f6c9844dbdda1ec393242bd6ff0910ca028890f4bed500ba5a71",
           "origin": "ModelForge-owned bounded Modal deployment wrapper authored for the public-alpha acceptance path; no upstream MOTR source bytes were copied.",
           "upstream_revision": null,
           "modifications": "Fixed project/action, resource, bounded dataset extraction, asset-verification, output, concurrency, retry, and timeout boundaries.",
@@ -158,7 +158,7 @@
       "files": [
         {
           "path": "modal_app.py",
-          "sha256": "07559d5d436c2fab6f1502ba8723711a3ee1135c8258c23e28e757f3c20ccca4",
+          "sha256": "4d1f0f87eafe9405a512b2448b22ef04bf5128141a79df60a351b12e61343ee0",
           "origin": "ModelForge-owned bounded Modal deployment wrapper authored for the public-alpha acceptance path; no SigLIP or Food-101 source bytes were copied.",
           "upstream_revision": null,
           "modifications": "Fixed base-model-only project/action, resource, input/model verification, output, concurrency, retry, and timeout boundaries.",
@@ -204,7 +204,7 @@
       "files": [
         {
           "path": "modal_app.py",
-          "sha256": "c8144f0d76588ca2876957b77bdf94cdbb0e80412bd566bf93e3d7c0d09c803b",
+          "sha256": "e3e2b8b0700e318611584f5ba664b48b4a0fad78d8f2eb9ae1e3ecdb999fa576",
           "origin": "ModelForge-owned bounded Modal deployment wrapper authored for the public-alpha acceptance path; no Qwen or Transformers source bytes were copied.",
           "upstream_revision": null,
           "modifications": "Fixed prompt/model/resource/output, message/token, concurrency, retry, and timeout boundaries.",

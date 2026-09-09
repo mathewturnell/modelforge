@@ -218,7 +218,7 @@ if modal is not None:
             "torch==2.6.0",
             "torchvision==0.21.0",
         )
-        .add_local_python_source("modelforge_workbench")
+        .add_local_python_source("modelforge_workbench", copy=True)
         .add_local_dir(str(_project_root), remote_path=REMOTE_PROJECT_ROOT, copy=True)
     )
     run_soccernet_inference = app.function(
