@@ -121,6 +121,7 @@ if modal is not None:
         modal.Image.debian_slim(python_version="3.12")
         .pip_install(
             "accelerate==1.3.0",
+            "Pillow==11.1.0",
             "safetensors==0.5.2",
             "torch==2.6.0",
             "transformers==4.48.3",

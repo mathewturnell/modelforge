@@ -204,7 +204,7 @@
       "files": [
         {
           "path": "modal_app.py",
-          "sha256": "e3e2b8b0700e318611584f5ba664b48b4a0fad78d8f2eb9ae1e3ecdb999fa576",
+          "sha256": "267dcf62d6f17e008bd0f6847d4e499dc91bfda55b103ed84b35f5eb1ff23192",
           "origin": "ModelForge-owned bounded Modal deployment wrapper authored for the public-alpha acceptance path; no Qwen or Transformers source bytes were copied.",
           "upstream_revision": null,
           "modifications": "Fixed prompt/model/resource/output, message/token, concurrency, retry, and timeout boundaries.",
