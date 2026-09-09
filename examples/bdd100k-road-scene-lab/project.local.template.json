@@ -1,0 +1,31 @@
+{
+  "protocol": "modelforge.local-runtime-configuration/v1",
+  "id": "bdd100k-road-scene-lab",
+  "project_repository": "/absolute/path/to/this-example",
+  "name": "BDD100K Road Scene Lab",
+  "description": "Checkpoint-bound selected-video MeMOTR inference with tracked-video results.",
+  "support_level": "verified-on-declared-local-cuda-prerequisites",
+  "action": {
+    "id": "inference",
+    "kind": "inference",
+    "interface": "inference_process",
+    "display_name": "Run MeMOTR on selected video",
+    "result_protocol": "modelforge.inference-result/v1",
+    "interpreter": "/absolute/path/to/project-python",
+    "executable": "/absolute/path/to/this-example/infer_memotr_video.py",
+    "working_directory": "/absolute/path/to/this-example",
+    "arguments": ["--dataset-root", "{dataset_root}", "--artifact", "{artifact}", "--checkpoint", "{checkpoint}", "--output-dir", "{output}", "--device", "{device}", "--max-frames", "{max_frames}"],
+    "environment": {},
+    "parameters": {"device": "0", "max_frames": 2}
+  },
+  "dataset": {
+    "id": "bdd100k-videos",
+    "name": "Locally acquired BDD100K videos",
+    "root": "/absolute/path/to/bdd100k",
+    "samples": [{"id": "selected-video", "name": "Selected training video", "path": "relative/video.mp4", "split": "train", "content_type": "video/mp4", "size_bytes": 0, "sha256": "replace-with-64-character-sha256"}]
+  },
+  "bindings": {
+    "source": {"name": "MeMOTR source", "path": "/absolute/path/to/MeMOTR", "revision": "eb7a177b9cbcb89742ec69b2545ab3af2ea31a80", "environment_variable": "MODELFORGE_MEMOTR_SOURCE_ROOT"},
+    "checkpoint": {"id": "google-drive-3d41be3b9c10", "name": "MeMOTR BDD100K checkpoint", "path": "/absolute/path/to/memotr_bdd100k.pth", "size_bytes": 603623604, "sha256": "c90604ab0b4036d1f6b0d5ff4be7c1ea41ff581e344b234fb802b24f9d3487bd"}
+  }
+}

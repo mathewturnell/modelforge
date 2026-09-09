@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Connect Modal · ModelForge</title>
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+  <header><a class="brand" href="/">ModelForge</a><span class="alpha">Optional provider setup</span></header>
+  <main class="guide">
+    <p class="eyebrow">User-owned account</p>
+    <h1>Connect Modal</h1>
+    <p>Modal is optional. The public alpha can send only the bundled Synthetic Threshold Lab to a fixed, small CPU function. It does not upload a dataset or download a model.</p>
+    <section class="card">
+      <h2>1. Install and authenticate</h2>
+      <pre><code>python3.12 -m venv .venv
+.venv/bin/python -m pip install 'modelforge-workbench[modal]==0.1.0a1'
+.venv/bin/python -m modal setup</code></pre>
+      <p>Let the Modal SDK store credentials in its own configuration. Never put tokens in a project manifest, source file, agent conversation, or Git repository.</p>
+    </section>
+    <section class="card">
+      <h2>2. Choose an environment and deploy</h2>
+      <pre><code>.venv/bin/python -m modal environment create &lt;ENV&gt;
+.venv/bin/python -m modal deploy --env &lt;ENV&gt; -m modelforge_workbench.example.modal_app
+.venv/bin/modelforge modal status --environment &lt;ENV&gt;</code></pre>
+      <p>The status command checks only the local SDK and credential configuration. It does not contact Modal or verify the deployment.</p>
+    </section>
+    <section class="card">
+      <h2>3. Run with explicit billable confirmation</h2>
+      <pre><code>.venv/bin/modelforge demo run --executor modal --modal-environment &lt;ENV&gt; \
+  --confirm-billable --state-root &lt;STATE&gt;
+.venv/bin/modelforge runs list --state-root &lt;STATE&gt; --project synthetic-threshold</code></pre>
+      <p>Deployment and execution can create billable resources. ModelForge does not enforce a budget or promise free execution.</p>
+    </section>
+    <section class="card">
+      <h2>4. Inspect and clean up</h2>
+      <pre><code>.venv/bin/python -m modal app list --env &lt;ENV&gt;
+.venv/bin/python -m modal app logs modelforge-alpha-synthetic --env &lt;ENV&gt;
+.venv/bin/python -m modal app stop modelforge-alpha-synthetic --env &lt;ENV&gt;
+.venv/bin/python -m modal billing report</code></pre>
+      <p>Stopping an app can interrupt calls. Check the exact app and environment first. Removing local state does not stop remote work.</p>
+    </section>
+    <section class="card">
+      <h2>Troubleshooting</h2>
+      <ul>
+        <li>If the SDK is missing, reinstall the <code>modal</code> extra in the same environment as ModelForge.</li>
+        <li>If credentials are unavailable, rerun <code>.venv/bin/python -m modal setup</code> and inspect the active profile. Do not copy token values into ModelForge.</li>
+        <li>If an app or environment is missing, verify the explicit <code>--env &lt;ENV&gt;</code> value and deploy the packaged app there.</li>
+        <li>If a call was accepted but the client stopped, use <code>.venv/bin/modelforge demo recover-modal</code> with the recorded run ID rather than starting a second run.</li>
+        <li>If local state and Modal disagree, inspect app logs and billing in Modal before stopping the exact app.</li>
+      </ul>
+      <p>Official references: <a href="https://modal.com/docs/guide/modal-user-account-setup">account setup</a>, <a href="https://modal.com/docs/cli/latest/token">tokens</a>, <a href="https://modal.com/docs/guide/environments">environments</a>, and <a href="https://modal.com/docs/cli/latest/app">app operations</a>.</p>
+    </section>
+    <p><a href="/">Return to the workbench</a></p>
+  </main>
+</body>
+</html>

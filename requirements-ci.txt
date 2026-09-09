@@ -1,0 +1,8 @@
+# Reviewed CI toolchain for the Python 3.12 public-alpha checks.
+# Runtime and optional Modal dependencies remain declared in pyproject.toml.
+build==1.5.0
+pytest==9.1.1
+ruff==0.15.22
+setuptools==81.0.0
+twine==7.0.0
+wheel==0.46.3

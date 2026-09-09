@@ -1,0 +1,68 @@
+{
+  "protocol": "modelforge.example-setup/v1",
+  "id": "bdd100k-road-scene-lab",
+  "name": "BDD100K Road Scene Lab",
+  "qualification": "Selected-video inference is verified only with the declared local CUDA prerequisites and user-acquired inputs. Acquisition is not a model-quality or rights qualification.",
+  "environment": {
+    "isolation": "venv",
+    "python": "CPython 3.12 on Linux x86-64 with a compatible CUDA runtime",
+    "platforms": ["linux-x86_64"],
+    "accelerator": "CUDA-capable NVIDIA GPU; the qualified run used an RTX 4080 SUPER",
+    "dependencies": ["PyTorch compatible with the host CUDA runtime", "OpenCV", "PyYAML", "NumPy", "ffmpeg", "pinned MeMOTR revision requirements"],
+    "installation": "Create the isolated environment, then install the MeMOTR requirements and compatible CUDA/PyTorch build by following the pinned upstream instructions. ModelForge does not change CUDA or the host environment."
+  },
+  "acquisitions": [
+    {
+      "id": "memotr-source",
+      "identifier": "github:MCG-NJU/MeMOTR",
+      "name": "MeMOTR source",
+      "kind": "repository",
+      "method": "git",
+      "destination": "sources/memotr",
+      "url": "https://github.com/MCG-NJU/MeMOTR.git",
+      "revision": "eb7a177b9cbcb89742ec69b2545ab3af2ea31a80",
+      "sha256": null,
+      "access": "Public source checkout; network access is required only for an explicit fetch.",
+      "license_url": "https://github.com/MCG-NJU/MeMOTR/blob/eb7a177b9cbcb89742ec69b2545ab3af2ea31a80/LICENSE",
+      "instructions": "Fetch the pinned detached checkout or bind an existing clean checkout at the exact commit.",
+      "required": true
+    },
+    {
+      "id": "bdd100k-data",
+      "identifier": "BDD100K MOT 2020",
+      "name": "BDD100K MOT video data",
+      "kind": "dataset",
+      "method": "manual",
+      "destination": "data/bdd100k",
+      "url": "https://bdd-data.berkeley.edu/",
+      "revision": "BDD100K MOT 2020 release",
+      "sha256": null,
+      "access": "Official access and BDD100K terms apply; ModelForge does not authenticate, accept terms, or download the data.",
+      "license_url": "https://doc.bdd100k.com/license.html",
+      "instructions": "Acquire the required video and annotation release from the official portal, then bind its absolute local root with --use bdd100k-data=PATH.",
+      "required": true
+    },
+    {
+      "id": "memotr-checkpoint",
+      "identifier": "google-drive:1vmDme7ANVOjwLrvBJasLHJ2EBEoinA-t",
+      "name": "MeMOTR BDD100K checkpoint",
+      "kind": "model",
+      "method": "manual",
+      "destination": "models/memotr_bdd100k.pth",
+      "url": "https://drive.google.com/file/d/1vmDme7ANVOjwLrvBJasLHJ2EBEoinA-t/view",
+      "revision": "MeMOTR eb7a177b9cbcb89742ec69b2545ab3af2ea31a80 published checkpoint",
+      "sha256": "c90604ab0b4036d1f6b0d5ff4be7c1ea41ff581e344b234fb802b24f9d3487bd",
+      "access": "The upstream repository links this object but publishes no checksum or separate weight license; the digest is ModelForge's observed identity and BDD100K-derived-weight terms remain unresolved.",
+      "license_url": "https://github.com/MCG-NJU/MeMOTR/tree/eb7a177b9cbcb89742ec69b2545ab3af2ea31a80",
+      "instructions": "Acquire the checkpoint manually from the upstream link, verify the recorded SHA-256, and bind the exact file with --use memotr-checkpoint=PATH.",
+      "required": true
+    }
+  ],
+  "actions": [
+    {
+      "id": "inference",
+      "status": "supported-with-prerequisites",
+      "qualification": "A bounded checkpoint-bound selected-video run passed through the shared managed lifecycle on the declared local CUDA environment."
+    }
+  ]
+}

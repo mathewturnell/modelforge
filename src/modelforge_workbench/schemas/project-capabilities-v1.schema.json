@@ -1,0 +1,172 @@
+{
+  "$id": "https://modality.systems/schemas/modelforge.project-capabilities-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "capabilities": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "category": {
+            "enum": [
+              "action",
+              "dataset",
+              "model"
+            ]
+          },
+          "compatibility": {
+            "enum": [
+              "declarative_v1",
+              "legacy_runtime_v1",
+              "legacy_adapter_v1",
+              "manifest_v1",
+              "unresolved"
+            ]
+          },
+          "declared": {
+            "const": true
+          },
+          "diagnostics": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "code": {
+                  "pattern": "^[a-z][a-z0-9_]{0,95}$",
+                  "type": "string"
+                },
+                "location": {
+                  "maxLength": 160,
+                  "type": "string"
+                },
+                "severity": {
+                  "enum": [
+                    "warning",
+                    "error"
+                  ]
+                }
+              },
+              "required": [
+                "code",
+                "severity",
+                "location"
+              ],
+              "type": "object"
+            },
+            "maxItems": 32,
+            "type": "array"
+          },
+          "id": {
+            "pattern": "^(action|dataset|model)\\.[a-z][a-z0-9_.-]{0,63}$",
+            "type": "string"
+          },
+          "kind": {
+            "maxLength": 64,
+            "minLength": 1,
+            "type": "string"
+          },
+          "source": {
+            "maxLength": 160,
+            "minLength": 1,
+            "type": "string"
+          },
+          "support": {
+            "enum": [
+              "supported",
+              "unsupported",
+              "unknown"
+            ]
+          },
+          "unresolved_fields": {
+            "items": {
+              "maxLength": 96,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 32,
+            "type": "array",
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "id",
+          "category",
+          "kind",
+          "declared",
+          "support",
+          "source",
+          "compatibility",
+          "unresolved_fields",
+          "diagnostics"
+        ],
+        "type": "object"
+      },
+      "maxItems": 128,
+      "type": "array"
+    },
+    "diagnostics": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "pattern": "^[a-z][a-z0-9_]{0,95}$",
+            "type": "string"
+          },
+          "location": {
+            "maxLength": 160,
+            "type": "string"
+          },
+          "severity": {
+            "enum": [
+              "warning",
+              "error"
+            ]
+          }
+        },
+        "required": [
+          "code",
+          "severity",
+          "location"
+        ],
+        "type": "object"
+      },
+      "maxItems": 64,
+      "type": "array"
+    },
+    "execution_authorized": {
+      "const": false
+    },
+    "manifest_schema_version": {
+      "const": 1
+    },
+    "project_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "type": "string"
+    },
+    "protocol": {
+      "const": "modelforge.project-capabilities/v1"
+    },
+    "provider_authorized": {
+      "const": false
+    },
+    "runtime_readiness": {
+      "const": "not_evaluated"
+    },
+    "support_scope": {
+      "const": "static_inspection"
+    }
+  },
+  "required": [
+    "protocol",
+    "project_id",
+    "manifest_schema_version",
+    "support_scope",
+    "runtime_readiness",
+    "execution_authorized",
+    "provider_authorized",
+    "capabilities",
+    "diagnostics"
+  ],
+  "title": "ModelForge project capability projection v1",
+  "type": "object"
+}

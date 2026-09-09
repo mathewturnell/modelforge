@@ -1,0 +1,11 @@
+{
+  "protocol": "modelforge.synthetic-samples/v1",
+  "license": "CC0-1.0",
+  "threshold": 0.5,
+  "samples": [
+    {"id": "sample-1", "value": 0.12},
+    {"id": "sample-2", "value": 0.38},
+    {"id": "sample-3", "value": 0.61},
+    {"id": "sample-4", "value": 0.86}
+  ]
+}

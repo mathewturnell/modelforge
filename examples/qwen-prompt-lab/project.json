@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "id": "qwen-prompt-lab",
+  "name": "Qwen2.5-7B Prompt Lab",
+  "repository": ".",
+  "runtime": {
+    "protocol": "modelforge.project-runtime/v1",
+    "actions": {
+      "prompt": {
+        "kind": "executable",
+        "interface": "prompt_process",
+        "executable": "prompt.py",
+        "result_contract": {"protocol": "modelforge.prompt-result/v1"}
+      }
+    }
+  }
+}

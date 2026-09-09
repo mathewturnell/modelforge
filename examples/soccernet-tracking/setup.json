@@ -1,0 +1,73 @@
+{
+  "protocol": "modelforge.example-setup/v1",
+  "id": "soccernet-tracking",
+  "name": "SoccerNet Tracking",
+  "qualification": "Source and setup are inspectable. Current public-alpha managed inference and training are not qualified; historical provider evidence is not current compatibility evidence.",
+  "environment": {
+    "isolation": "venv",
+    "python": "CPython 3.12 on Linux x86-64; a compatible CUDA environment is required for real MOTR execution",
+    "platforms": ["linux-x86_64"],
+    "accelerator": "Compatible CUDA-capable NVIDIA GPU for real inference or training",
+    "dependencies": ["PyTorch and torchvision compatible with the host CUDA runtime", "OpenCV", "NumPy", "ffmpeg", "SoccerNet client 0.1.62 where official acquisition requires it", "pinned MOTR revision requirements"],
+    "installation": "Create an isolated environment, then follow the pinned MOTR and SoccerNet instructions. Dependency installation is manual because the upstream ML/CUDA matrix is not qualified by this alpha."
+  },
+  "acquisitions": [
+    {
+      "id": "motr-source",
+      "identifier": "github:megvii-research/MOTR",
+      "name": "MOTR source",
+      "kind": "repository",
+      "method": "git",
+      "destination": "sources/motr",
+      "url": "https://github.com/megvii-research/MOTR.git",
+      "revision": "8690da3392159635ca37c31975126acf40220724",
+      "sha256": null,
+      "access": "Public source checkout; network access is required only for an explicit fetch.",
+      "license_url": "https://github.com/megvii-research/MOTR/blob/8690da3392159635ca37c31975126acf40220724/LICENSE",
+      "instructions": "Fetch the pinned detached checkout or bind an existing clean checkout at the exact commit.",
+      "required": true
+    },
+    {
+      "id": "soccernet-data",
+      "identifier": "SoccerNet Tracking 2023",
+      "name": "SoccerNet Tracking data",
+      "kind": "dataset",
+      "method": "manual",
+      "destination": "data/soccernet-tracking",
+      "url": "https://www.soccer-net.org/data",
+      "revision": "SoccerNet Tracking 2023 challenge release",
+      "sha256": null,
+      "access": "Official registration, terms, and any requested NDA credential apply. ModelForge does not accept terms, collect credentials, or fetch match data.",
+      "license_url": "https://www.soccer-net.org/data",
+      "instructions": "Use SoccerNet's official acquisition process and bind the resulting absolute local root with --use soccernet-data=PATH.",
+      "required": true
+    },
+    {
+      "id": "motr-checkpoint",
+      "identifier": "user-selected MOTR-compatible checkpoint",
+      "name": "User-selected MOTR checkpoint",
+      "kind": "model",
+      "method": "manual",
+      "destination": "models/motr-checkpoint.pth",
+      "url": "https://github.com/megvii-research/MOTR/tree/8690da3392159635ca37c31975126acf40220724",
+      "revision": "user-selected checkpoint compatible with pinned MOTR source",
+      "sha256": null,
+      "access": "Checkpoint provenance and redistribution terms must be reviewed independently; no public-alpha checkpoint identity is qualified.",
+      "license_url": "https://github.com/megvii-research/MOTR/blob/8690da3392159635ca37c31975126acf40220724/LICENSE",
+      "instructions": "Acquire or produce a compatible checkpoint, record its digest and provenance, and bind it as an external path. Setup alone does not qualify inference.",
+      "required": true
+    }
+  ],
+  "actions": [
+    {
+      "id": "inference",
+      "status": "inspectable-not-qualified",
+      "qualification": "The source adapter is inspectable; current public-alpha managed execution has not passed."
+    },
+    {
+      "id": "training",
+      "status": "not-supported",
+      "qualification": "Training remains outside the public alpha and the reserved-test/self-promotion prerequisite remains open."
+    }
+  ]
+}

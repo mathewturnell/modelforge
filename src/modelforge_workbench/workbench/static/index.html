@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ModelForge public alpha</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+  <a class="skip-link" href="#workspace">Skip to workbench</a>
+  <header>
+    <div><span class="mark">MF</span> <strong>ModelForge</strong> <span class="alpha">public alpha</span></div>
+    <div id="connection" class="badge neutral" role="status" aria-live="polite">Connecting</div>
+  </header>
+  <main id="workspace" tabindex="-1">
+    <section class="hero">
+      <p class="eyebrow">Local ML workbench</p>
+      <h1>Projects keep the science. ModelForge keeps the workflow visible.</h1>
+      <p>Inspect a dataset or prompt, start a declared local action, follow its progress and logs, and recover checked artifacts from durable run history.</p>
+      <p><a href="#setup">Set up your first local project</a> or <a href="/modal-setup.html">connect your own Modal account</a>.</p>
+    </section>
+    <section id="setup" class="card setup" aria-labelledby="setup-title">
+      <div class="card-title"><h2 id="setup-title">First-use setup</h2><span class="badge neutral">Trusted local</span></div>
+      <p id="setup-summary">The bundled synthetic project is ready offline. Real examples keep upstream source, datasets, and models outside ModelForge; inspect the read-only setup plan before choosing any acquisition or installation step.</p>
+      <ol class="setup-flow" aria-label="Example setup steps">
+        <li>
+          <strong>Review the plan</strong>
+          <code>.venv/bin/modelforge examples setup plan --example &lt;example-id&gt; --external-root &lt;external-root&gt;</code>
+          <span>The plan shows destinations, upstream revisions, access and licence links, prerequisite status, supported actions, and the next commands. It performs no fetch or install. Pass <code class="inline">--use &lt;item-id&gt;=&lt;absolute-path&gt;</code> to inspect an existing local source, dataset, or model.</span>
+        </li>
+        <li>
+          <strong>Acquire only what you choose</strong>
+          <code>.venv/bin/modelforge examples setup fetch --example &lt;example-id&gt; --external-root &lt;external-root&gt; --confirm</code>
+          <span>Fetching occurs only with explicit <code class="inline">--confirm</code>. Dataset access, gated models, credentials, and licence acceptance remain user-controlled prerequisites.</span>
+        </li>
+        <li>
+          <strong>Install project dependencies separately</strong>
+          <code>.venv/bin/modelforge examples setup install --example &lt;example-id&gt; --external-root &lt;external-root&gt; --confirm --install-requirements</code>
+          <span>The isolated example environment is separate from the ModelForge base installation. Use <code class="inline">--install-requirements</code> only when the plan advertises a reviewed requirements file (currently Qwen); omit it to create an empty environment for manual host-compatible setup.</span>
+        </li>
+        <li>
+          <strong>Configure and register</strong>
+          <code>.venv/bin/modelforge project register --state-root &lt;private-state&gt; --config &lt;local-config.json&gt;</code>
+          <span>Use the example README and generated plan to bind your existing or newly acquired local paths, then refresh this workbench.</span>
+        </li>
+      </ol>
+      <section class="example-statuses" aria-labelledby="example-status-title">
+        <h3 id="example-status-title">Real example qualification</h3>
+        <dl>
+          <div><dt>BDD100K Road Scene Lab</dt><dd><strong>Inference · supported with prerequisites</strong><span>External source, BDD100K data, MeMOTR checkpoint, and CUDA required.</span></dd></div>
+          <div><dt>Qwen2.5-7B Prompt Lab</dt><dd><strong>Prompt · supported with prerequisites</strong><span>A pinned external model snapshot and the declared local CPU environment are required.</span></dd></div>
+          <div><dt>SoccerNet Tracking</dt><dd><strong>Inference and training · not qualified</strong><span>Source/setup inspection does not qualify workbench execution in this alpha.</span></dd></div>
+          <div><dt>TasteMatch</dt><dd><strong>Dataset inspection · fixture-qualified</strong><span>Inference is inspectable but not qualified; training is not supported.</span></dd></div>
+        </dl>
+      </section>
+      <p class="setup-warning">Local project actions are trusted code and run with your user permissions. Keep credentials out of project source and agent conversations.</p>
+      <div class="modal-setup-row">
+        <div>
+          <strong>Optional remote execution</strong>
+          <p id="modal-message">Checking the user-owned Modal integration…</p>
+        </div>
+        <span id="modal-status" class="badge neutral" role="status" aria-live="polite">Checking</span>
+        <a class="button-link secondary" href="/modal-setup.html">Modal setup guide</a>
+      </div>
+    </section>
+    <section class="workbench" aria-label="Workbench">
+      <nav class="card projects" aria-label="Projects">
+        <div class="card-title"><h2>Projects</h2><span id="project-count" class="badge neutral">0</span></div>
+        <div id="projects" class="stack"></div>
+      </nav>
+      <article class="card project-panel" aria-labelledby="project-panel-title">
+        <div class="card-title"><h2 id="project-panel-title">Selected project</h2><span id="support" class="badge neutral" role="status">Loading</span></div>
+        <h3 id="project-name">Loading…</h3>
+        <p id="project-description"></p>
+        <dl id="capabilities"></dl>
+        <section id="dataset-panel" hidden>
+          <h2>Dataset samples</h2>
+          <div id="dataset-state" class="empty" role="status">Select a project to load samples.</div>
+          <div id="samples" class="stack" role="group" aria-label="Dataset samples"></div>
+          <video id="sample-preview" aria-label="Selected dataset sample preview" controls preload="metadata" hidden></video>
+        </section>
+        <section id="prompt-panel" hidden>
+          <label for="prompt">Prompt</label>
+          <textarea id="prompt" maxlength="32768" rows="6">In one short sentence, explain why reproducible ML runs matter.</textarea>
+          <div class="form-row">
+            <label for="max-tokens">Maximum new tokens</label>
+            <input id="max-tokens" type="number" min="1" max="2048" value="24">
+          </div>
+        </section>
+        <div id="action-error" class="alert" role="alert" hidden></div>
+        <button id="run" type="button" disabled>Run selected action</button>
+      </article>
+      <article class="card run-panel">
+        <div class="card-title"><h2>Run evidence</h2><span id="run-status" class="badge neutral" role="status" aria-live="polite">No run</span></div>
+        <div id="run-detail" class="empty">Select and start an available project action.</div>
+        <section><h2>Progress</h2><div id="progress" class="empty" role="status" aria-live="polite">Unavailable</div></section>
+        <section><h2>Telemetry</h2><div id="telemetry" class="empty">Unavailable for this action.</div></section>
+        <section><h2>Live process log</h2><pre id="log-tail" class="empty" aria-label="Live process log" aria-live="polite">Unavailable</pre></section>
+        <section><h2>Checked artifacts</h2><div id="artifacts" class="stack"></div></section>
+        <div id="result-preview" aria-live="polite"></div>
+        <button id="cancel" class="danger" type="button" hidden>Request cancellation</button>
+      </article>
+    </section>
+    <section class="card history">
+      <div class="card-title"><h2>Durable run history</h2><button id="refresh" class="secondary" type="button">Refresh</button></div>
+      <div id="history" class="empty">No recorded runs in this state root.</div>
+    </section>
+    <aside>
+      <strong>Alpha boundary</strong>
+      <p>Linux · Python 3.12 · loopback only · trusted local project code. Registered paths stay in owner-only host state. Project processes can use your files and permissions. No provider, training, deployment, sandbox, model-quality, or production claim.</p>
+    </aside>
+  </main>
+  <script src="/app.js" defer></script>
+</body>
+</html>

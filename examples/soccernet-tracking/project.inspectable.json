@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "id": "soccernet-tracking",
+  "name": "SoccerNet Tracking",
+  "description": "Experimental source-visible MOTR tracking integration; runtime not qualified in this alpha.",
+  "runtime": {
+    "protocol": "modelforge.project-runtime/v1",
+    "actions": {
+      "inference": {
+        "kind": "executable",
+        "interface": "inference_process",
+        "executable": "infer.py",
+        "result_contract": {"protocol": "modelforge.inference-result/v1"}
+      }
+    }
+  }
+}

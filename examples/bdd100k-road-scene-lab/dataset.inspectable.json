@@ -1,0 +1,8 @@
+{
+  "protocol": "modelforge.dataset-inspection-reference/v1",
+  "id": "bdd100k-videos",
+  "name": "User-acquired BDD100K videos",
+  "modality": "tracked_video",
+  "availability": "acquisition_required",
+  "redistribution": "not_included"
+}

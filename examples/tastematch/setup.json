@@ -1,0 +1,64 @@
+{
+  "protocol": "modelforge.example-setup/v1",
+  "id": "tastematch",
+  "name": "TasteMatch",
+  "qualification": "Dataset and adapter shapes are inspectable with authored fixtures. Real Food-101/SigLIP inference and the drifted training/provider path are not qualified in the public alpha.",
+  "environment": {
+    "isolation": "venv",
+    "python": "CPython 3.12 on Linux x86-64; a compatible GPU environment is recommended for real SigLIP inference",
+    "platforms": ["linux-x86_64"],
+    "accelerator": "CPU for fixtures; a compatible CUDA-capable GPU is practical for real SigLIP inference",
+    "dependencies": ["PyTorch compatible with the selected host", "Transformers", "Pillow", "NumPy"],
+    "installation": "Create an isolated environment, then install a reviewed PyTorch/Transformers stack appropriate to the host. Automated ML dependency installation is not qualified by this alpha."
+  },
+  "acquisitions": [
+    {
+      "id": "food101-data",
+      "identifier": "ETHZ Food-101",
+      "name": "Food-101 dataset",
+      "kind": "dataset",
+      "method": "manual",
+      "destination": "data/food-101",
+      "url": "https://data.vision.ee.ethz.ch/cvl/datasets_extra/food-101/",
+      "revision": "Food-101 official release",
+      "sha256": null,
+      "access": "The dataset contains third-party imagery and its use notice applies. ModelForge does not download, accept terms, or redistribute it.",
+      "license_url": "https://data.vision.ee.ethz.ch/cvl/datasets_extra/food-101/",
+      "instructions": "Review the official notice, acquire the dataset yourself, and bind its absolute root with --use food101-data=PATH.",
+      "required": true
+    },
+    {
+      "id": "siglip-model",
+      "identifier": "huggingface:google/siglip-so400m-patch14-384",
+      "name": "Google SigLIP model snapshot",
+      "kind": "model",
+      "method": "manual",
+      "destination": "models/siglip-so400m-patch14-384",
+      "url": "https://huggingface.co/google/siglip-so400m-patch14-384/tree/9fdffc58afc957d1a03a25b10dba0329ab15c2a3",
+      "revision": "9fdffc58afc957d1a03a25b10dba0329ab15c2a3",
+      "sha256": null,
+      "verification": "directory-name-revision",
+      "access": "Hugging Face access and model-card terms apply; the full multi-file snapshot has no single declared content digest here.",
+      "license_url": "https://huggingface.co/google/siglip-so400m-patch14-384/blob/9fdffc58afc957d1a03a25b10dba0329ab15c2a3/README.md",
+      "instructions": "Acquire the exact snapshot through an official Hugging Face client, verify its revision, and bind the existing cache snapshot with --use siglip-model=PATH.",
+      "required": true
+    }
+  ],
+  "actions": [
+    {
+      "id": "dataset-inspection",
+      "status": "fixture-qualified",
+      "qualification": "Bounded path-only index inspection is covered with authored fixtures; real Food-101 bytes are not distributed."
+    },
+    {
+      "id": "inference",
+      "status": "inspectable-not-qualified",
+      "qualification": "Fixture/live engines are source-visible, but native managed-workbench parity is not established."
+    },
+    {
+      "id": "training",
+      "status": "not-supported",
+      "qualification": "The known dependency-identity, materialization, summary, and telemetry drift remains unresolved."
+    }
+  ]
+}

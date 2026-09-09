@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "id": "official_memotr_bdd100k_vehicle_compat_v1",
+  "scope": "selected_video_inference_only",
+  "source": {
+    "repository": "https://github.com/MCG-NJU/MeMOTR",
+    "revision": "eb7a177b9cbcb89742ec69b2545ab3af2ea31a80",
+    "root": "imports/MeMOTR"
+  },
+  "artifact": {
+    "registry_id": "google-drive-3d41be3b9c10",
+    "path": "assets/memotr_bdd100k.pth",
+    "filename": "memotr_bdd100k.pth",
+    "provider": "google_drive",
+    "object_id": "1vmDme7ANVOjwLrvBJasLHJ2EBEoinA-t",
+    "size": 603623604,
+    "sha256": "c90604ab0b4036d1f6b0d5ff4be7c1ea41ff581e344b234fb802b24f9d3487bd",
+    "expected_sha256": null,
+    "license": "MIT source; no separate checkpoint redistribution permission established",
+    "license_acknowledged": true,
+    "import_status": "eligible",
+    "eligible": true
+  },
+  "native_semantics": {
+    "dataset": "BDD100K",
+    "class_count": 8,
+    "classes": [
+      {"index": 0, "name": "pedestrian"}, {"index": 1, "name": "rider"},
+      {"index": 2, "name": "car"}, {"index": 3, "name": "truck"},
+      {"index": 4, "name": "bus"}, {"index": 5, "name": "train"},
+      {"index": 6, "name": "motorcycle"}, {"index": 7, "name": "bicycle"}
+    ],
+    "aliases": {"other vehicle": "car", "trailer": "truck"}
+  },
+  "compatibility_mapping": {
+    "target_class": "vehicle",
+    "included_native_classes": ["car", "truck", "bus", "train", "motorcycle", "bicycle"],
+    "excluded_native_classes": ["pedestrian", "rider"],
+    "native_class_identity_preserved": true,
+    "checkpoint_relabelled_as_one_class": false
+  },
+  "postprocessing": {
+    "det_score_threshold": 0.5,
+    "track_score_threshold": 0.5,
+    "result_score_threshold": 0.5,
+    "minimum_area_pixels": 100,
+    "miss_tolerance_frames": 10
+  }
+}

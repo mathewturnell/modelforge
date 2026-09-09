@@ -1,0 +1,17 @@
+{
+  "name": "modelforge-public-alpha-browser-tests",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:browser": "playwright test",
+    "test:browser:update": "playwright test browser-tests/journeys/first-use.spec.js --update-snapshots"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.10.2",
+    "@playwright/test": "1.61.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

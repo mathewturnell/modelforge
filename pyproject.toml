@@ -1,0 +1,89 @@
+[build-system]
+requires = ["setuptools==81.0.0", "wheel==0.46.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "modelforge-workbench"
+version = "0.1.0a1"
+description = "An early, local-first ML project workbench for developers and coding agents."
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_NOTICES"]
+authors = [{ name = "Mathew Turnell" }]
+keywords = ["machine-learning", "local-first", "workbench", "coding-agents"]
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["build==1.5.0", "pytest==9.1.1", "ruff==0.15.22", "twine==7.0.0"]
+modal = ["modal>=1.5,<2"]
+
+[project.scripts]
+modelforge = "modelforge_workbench.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"modelforge_workbench.schemas" = ["*.schema.json"]
+"modelforge_workbench.example" = ["*.json"]
+"modelforge_workbench.workbench" = ["static/*.html", "static/*.css", "static/*.js"]
+
+[tool.setuptools.data-files]
+"share/modelforge/docs" = [
+  "docs/example-setup.md",
+  "docs/licensing.md",
+  "docs/modal.md",
+  "docs/release-status.md",
+]
+"share/modelforge/examples/bdd100k-road-scene-lab" = [
+  "examples/bdd100k-road-scene-lab/README.md",
+  "examples/bdd100k-road-scene-lab/PROVENANCE.md",
+  "examples/bdd100k-road-scene-lab/dataset.inspectable.json",
+  "examples/bdd100k-road-scene-lab/project.json",
+  "examples/bdd100k-road-scene-lab/project.local.template.json",
+  "examples/bdd100k-road-scene-lab/setup.json",
+  "examples/bdd100k-road-scene-lab/infer_memotr_video.py",
+]
+"share/modelforge/examples/bdd100k-road-scene-lab/configs" = ["examples/bdd100k-road-scene-lab/configs/*.json"]
+"share/modelforge/examples/bdd100k-road-scene-lab/src/bdd_memotr" = ["examples/bdd100k-road-scene-lab/src/bdd_memotr/*.py"]
+"share/modelforge/examples/qwen-prompt-lab" = [
+  "examples/qwen-prompt-lab/README.md",
+  "examples/qwen-prompt-lab/PROVENANCE.md",
+  "examples/qwen-prompt-lab/project.json",
+  "examples/qwen-prompt-lab/project.local.template.json",
+  "examples/qwen-prompt-lab/request.example.json",
+  "examples/qwen-prompt-lab/requirements.direct.txt",
+  "examples/qwen-prompt-lab/setup.json",
+  "examples/qwen-prompt-lab/prompt.py",
+]
+"share/modelforge/examples/soccernet-tracking" = [
+  "examples/soccernet-tracking/README.md",
+  "examples/soccernet-tracking/PROVENANCE.md",
+  "examples/soccernet-tracking/project.inspectable.json",
+  "examples/soccernet-tracking/setup.json",
+  "examples/soccernet-tracking/infer.py",
+]
+"share/modelforge/examples/soccernet-tracking/src/soccernet_motr" = ["examples/soccernet-tracking/src/soccernet_motr/*.py"]
+"share/modelforge/examples/tastematch" = [
+  "examples/tastematch/README.md",
+  "examples/tastematch/PROVENANCE.md",
+  "examples/tastematch/project.inspectable.json",
+  "examples/tastematch/setup.json",
+]
+"share/modelforge/examples/tastematch/tastematch" = ["examples/tastematch/tastematch/*.py"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--strict-markers"
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]

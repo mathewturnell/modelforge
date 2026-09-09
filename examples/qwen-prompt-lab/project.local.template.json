@@ -1,0 +1,29 @@
+{
+  "protocol": "modelforge.local-runtime-configuration/v1",
+  "id": "qwen-prompt-lab",
+  "project_repository": "/absolute/path/to/this-example",
+  "name": "Qwen2.5-7B Prompt Lab",
+  "description": "Bounded local prompt execution against an explicitly pinned offline model snapshot.",
+  "support_level": "verified-on-declared-local-cpu-prerequisites",
+  "action": {
+    "id": "prompt",
+    "kind": "prompt",
+    "interface": "prompt_process",
+    "display_name": "Prompt Qwen2.5-7B-Instruct",
+    "result_protocol": "modelforge.prompt-result/v1",
+    "interpreter": "/absolute/path/to/qwen-python",
+    "executable": "/absolute/path/to/this-example/prompt.py",
+    "working_directory": "/absolute/path/to/this-example",
+    "arguments": ["--request", "{request}", "--output", "{output}"],
+    "environment": {},
+    "parameters": {}
+  },
+  "bindings": {
+    "model": {
+      "name": "Qwen2.5-7B-Instruct",
+      "path": "/absolute/path/to/offline/snapshot/a09a35458c702b33eeacc393d103063234e8bc28",
+      "model_id": "Qwen/Qwen2.5-7B-Instruct",
+      "revision": "a09a35458c702b33eeacc393d103063234e8bc28"
+    }
+  }
+}

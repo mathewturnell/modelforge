@@ -1,0 +1,3 @@
+"""Distribution version."""
+
+VERSION = "0.1.0a1"

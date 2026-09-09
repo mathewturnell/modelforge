@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "id": "tastematch",
+  "name": "TasteMatch",
+  "description": "Inspectable image-dataset and inference integration; managed runtime not qualified in this alpha.",
+  "dataset_descriptor": "tastematch.food101-index/v1",
+  "runtime": {"protocol": "modelforge.project-runtime/v1", "actions": {}}
+}

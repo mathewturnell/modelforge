@@ -1,0 +1,1 @@
+"""Redistributable, deterministic alpha example."""

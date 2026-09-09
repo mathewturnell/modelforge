@@ -1,0 +1,6 @@
+{
+  "messages": [
+    {"role": "user", "content": "In one short sentence, explain why reproducible ML runs matter."}
+  ],
+  "generation": {"max_new_tokens": 24, "temperature": 0, "top_p": 1}
+}

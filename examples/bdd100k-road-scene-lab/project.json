@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "id": "bdd100k-road-scene-lab",
+  "name": "BDD100K Road Scene Lab",
+  "repository": ".",
+  "dataset_descriptor": "dataset.inspectable.json",
+  "runtime": {
+    "protocol": "modelforge.project-runtime/v1",
+    "actions": {
+      "inference": {
+        "kind": "executable",
+        "interface": "inference_process",
+        "executable": "infer_memotr_video.py",
+        "result_contract": {"protocol": "modelforge.inference-result/v1"}
+      }
+    }
+  }
+}

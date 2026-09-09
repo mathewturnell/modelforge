@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "id": "synthetic-threshold",
+  "name": "Synthetic Threshold Lab",
+  "repository": ".",
+  "dataset_descriptor": "samples.json",
+  "runtime": {
+    "protocol": "modelforge.project-runtime/v1",
+    "actions": {
+      "inference": {
+        "kind": "executable",
+        "interface": "inference_process",
+        "executable": "worker.py",
+        "result_contract": {"protocol": "modelforge.inference-result/v1"}
+      }
+    }
+  }
+}
