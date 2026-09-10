@@ -6,6 +6,17 @@ candidate is assembled as a single reviewed root commit; it does not contain
 prior product history, build caches, run state, user assets, or generated
 archives.
 
+The compiled React workbench is adapted in this clean repository from the
+Mathew-authored ModelForge React donor identified in
+`react-source-inventory.json`. That inventory binds every retained source and
+configuration file by path, byte length, and SHA-256, records whether it was
+adapted, newly written for the public services, or generated from the npm lock,
+and records the exact donor and earlier Apache-labelled reference revisions.
+The generated browser assets are traced back to `workbench/` by the public
+source manifest. Donor provenance is evidence, not automatic relicensing: the
+exact inventory requires Mathew's explicit Apache candidate approval before a
+release gate may pass.
+
 ModelForge framework, delivery, documentation, and Synthetic Threshold Lab
 files are repository source. The nineteen real-project Python files are listed
 individually in `example-source-inventory.json`, and each example has an

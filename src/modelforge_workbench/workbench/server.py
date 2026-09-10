@@ -10,8 +10,8 @@ import webbrowser
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from importlib.resources import files
-from pathlib import Path
-from urllib.parse import parse_qs, urlparse
+from pathlib import Path, PurePosixPath
+from urllib.parse import parse_qs, unquote, urlparse
 
 from modelforge_workbench.alpha import AlphaWorkbench
 
@@ -25,6 +25,24 @@ _SECURITY_HEADERS = {
     "Referrer-Policy": "no-referrer",
     "X-Content-Type-Options": "nosniff",
     "X-Frame-Options": "DENY",
+}
+
+_CLIENT_ROOT = ("static", "workbench")
+_CLIENT_CONTENT_TYPES = {
+    ".css": "text/css; charset=utf-8",
+    ".gif": "image/gif",
+    ".html": "text/html; charset=utf-8",
+    ".ico": "image/x-icon",
+    ".jpeg": "image/jpeg",
+    ".jpg": "image/jpeg",
+    ".js": "text/javascript; charset=utf-8",
+    ".json": "application/json; charset=utf-8",
+    ".png": "image/png",
+    ".svg": "image/svg+xml",
+    ".webp": "image/webp",
+    ".wasm": "application/wasm",
+    ".woff": "font/woff",
+    ".woff2": "font/woff2",
 }
 
 
@@ -97,10 +115,13 @@ class _Handler(BaseHTTPRequestHandler):
     def log_message(self, format, *args):  # noqa: A002
         return
 
-    def _headers(self, status: int, content_type: str, length: int | None = None) -> None:
+    def _headers(
+        self, status: int, content_type: str, length: int | None = None,
+        *, cache_control: str = "no-store",
+    ) -> None:
         self.send_response(status)
         self.send_header("Content-Type", content_type)
-        self.send_header("Cache-Control", "no-store")
+        self.send_header("Cache-Control", cache_control)
         for name, value in _SECURITY_HEADERS.items():
             self.send_header(name, value)
         if length is not None:
@@ -132,12 +153,41 @@ class _Handler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(payload)
 
-    def _static(self, name: str, content_type: str) -> None:
-        payload = files("modelforge_workbench.workbench").joinpath("static", name).read_bytes()
-        self._headers(HTTPStatus.OK, content_type, len(payload))
-        self.send_header("Cache-Control", "no-cache")
+    def _static(self, *parts: str, content_type: str, immutable: bool = False) -> None:
+        payload = files("modelforge_workbench.workbench").joinpath(*parts).read_bytes()
+        cache_control = "public, max-age=31536000, immutable" if immutable else "no-cache"
+        self._headers(
+            HTTPStatus.OK, content_type, len(payload), cache_control=cache_control,
+        )
         self.end_headers()
         self.wfile.write(payload)
+
+    def _client_asset(self, route: str) -> bool:
+        """Serve only exact production-build files below the packaged client root."""
+
+        relative = unquote(route.removeprefix("/workbench/")).strip("/")
+        path = PurePosixPath(relative)
+        if (
+            not relative
+            or path.is_absolute()
+            or any(part in {"", ".", ".."} for part in path.parts)
+        ):
+            return False
+        suffix = path.suffix.lower()
+        content_type = _CLIENT_CONTENT_TYPES.get(suffix)
+        if content_type is None:
+            return False
+        resource = files("modelforge_workbench.workbench").joinpath(
+            *_CLIENT_ROOT, *path.parts,
+        )
+        if not resource.is_file():
+            return False
+        self._static(
+            *_CLIENT_ROOT, *path.parts,
+            content_type=content_type,
+            immutable=path.parts[0] == "assets",
+        )
+        return True
 
     def _body(self) -> dict:
         try:
@@ -160,17 +210,18 @@ class _Handler(BaseHTTPRequestHandler):
         if route == "/api/v1/ready":
             self._json(HTTPStatus.OK, {"ready": True, "scope": "public-alpha", "network": "loopback"})
             return
-        if route in {"/", "/index.html"}:
-            self._static("index.html", "text/html; charset=utf-8")
+        if route in {"/", "/index.html", "/workbench", "/workbench/", "/workbench/index.html"}:
+            self._static(
+                *_CLIENT_ROOT, "index.html", content_type="text/html; charset=utf-8",
+            )
             return
         if route == "/modal-setup.html":
-            self._static("modal-setup.html", "text/html; charset=utf-8")
+            self._static("static", "modal-setup.html", content_type="text/html; charset=utf-8")
             return
-        if route == "/app.css":
-            self._static("app.css", "text/css; charset=utf-8")
-            return
-        if route == "/app.js":
-            self._static("app.js", "text/javascript; charset=utf-8")
+        if route.startswith("/workbench/"):
+            if self._client_asset(route):
+                return
+            self._json(HTTPStatus.NOT_FOUND, {"error": "Client asset was not found"})
             return
         if not self._authorized():
             return
@@ -312,7 +363,18 @@ class _Handler(BaseHTTPRequestHandler):
                 project = self.server.app.project(parts[3])
                 if project["action"]["id"] != parts[5]:
                     raise ValueError("Action is not registered for this project")
-                execution = self.server.app.start_project_action(parts[3], self._body())
+                payload = self._body()
+                if parts[3] == self.server.app.capabilities()["project_id"]:
+                    execution_request = payload.get("execution", {})
+                    if not isinstance(execution_request, dict):
+                        raise ValueError("Execution request must be an object")
+                    if execution_request.get("target", "local") != "local":
+                        raise ValueError("Execution target is not registered for this project")
+                    execution = self.server.app.start_example()
+                    finish_action = self.server.app.finish_example
+                else:
+                    execution = self.server.app.start_project_action(parts[3], payload)
+                    finish_action = self.server.app.finish_project_action
             except (KeyError, OSError, RuntimeError, ValueError, json.JSONDecodeError) as exc:
                 self._json(HTTPStatus.BAD_REQUEST, {"error": str(exc)[:300]})
                 return
@@ -323,7 +385,7 @@ class _Handler(BaseHTTPRequestHandler):
 
             def finish_project():
                 try:
-                    self.server.app.finish_project_action(execution)
+                    finish_action(execution)
                 except Exception:
                     pass
                 finally:

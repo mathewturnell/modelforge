@@ -60,7 +60,10 @@ def test_public_tree_has_no_private_checkout_or_generated_state():
     for path in ROOT.rglob("*"):
         if (
             not path.is_file()
-            or {".git", ".pytest_cache", ".ruff_cache", "__pycache__"} & set(path.parts)
+            or {
+                ".git", ".pytest_cache", ".ruff_cache", "__pycache__",
+                "build", "dist", "node_modules",
+            } & set(path.parts)
             or path.suffix not in text_extensions
         ):
             continue
@@ -71,10 +74,16 @@ def test_public_tree_has_no_private_checkout_or_generated_state():
 
 
 def test_navigation_contains_no_excluded_product_controls():
-    page = (SOURCE / "workbench" / "static" / "index.html").read_text(encoding="utf-8")
-    for label in ("Cliff", "Billing", "Deployments", "Account", "Compiler", "Modal"):
-        assert f">{label}<" not in page
-    assert "Run selected action" in page
+    page = (ROOT / "workbench" / "src" / "App.tsx").read_text(encoding="utf-8")
+    for label in (
+        "Overview", "Source", "Dataset", "Annotation", "Models / Architecture",
+        "Training", "Inference", "Jobs / Runs", "ModelForge Coding Assistant",
+        "Settings",
+    ):
+        assert f'label: "{label}"' in page
+    for label in ("Cliff", "Billing", "Deployments", "Account", "Commercial status"):
+        assert label not in page
+    assert "No placeholder data or action is exposed" in page
 
 
 def test_public_import_namespace_does_not_overlay_private_package():

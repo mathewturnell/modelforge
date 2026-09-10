@@ -1,0 +1,9 @@
+{
+  "name": "@modelforge/public-workbench",
+  "private": true,
+  "version": "0.1.0-alpha.1",
+  "type": "module",
+  "scripts": {"build": "tsc -b && vite build", "dev": "vite --host 127.0.0.1", "typecheck": "tsc -b", "test": "vitest run"},
+  "dependencies": {"react": "^19.2.8", "react-dom": "^19.2.8"},
+  "devDependencies": {"@types/node": "^24.1.0", "@types/react": "^19.2.18", "@types/react-dom": "^19.2.4", "@vitejs/plugin-react": "^6.0.5", "typescript": "^7.0.2", "vite": "^8.2.1", "vitest": "^4.1.11"}
+}

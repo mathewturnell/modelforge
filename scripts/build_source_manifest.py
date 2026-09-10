@@ -70,6 +70,19 @@ def main() -> int:
                     "provenance": f"examples/{example_source}/PROVENANCE.md",
                 }
                 if example_source and relative.endswith(".py")
+                else {
+                    "kind": "adapted-react-source",
+                    "provenance": "react-source-inventory.json",
+                }
+                if relative.startswith("workbench/")
+                else {
+                    "kind": "compiled-react-output",
+                    "source": "workbench/",
+                    "provenance": "react-source-inventory.json",
+                }
+                if relative.startswith(
+                    "src/modelforge_workbench/workbench/static/workbench/"
+                )
                 else {"kind": "repository-source"}
             ),
         }

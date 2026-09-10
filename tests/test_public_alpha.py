@@ -139,43 +139,33 @@ def test_example_child_uses_installed_package_without_ambient_import_paths(
     assert executor.bundle.environment["PYTHONSAFEPATH"] == "1"
 
 
-def test_static_client_retains_auth_per_tab_and_handles_blocked_popups():
-    source_path = (
-        Path(__file__).parents[1]
-        / "src" / "modelforge_workbench" / "workbench" / "static" / "app.js"
-    )
-    source = source_path.read_text(encoding="utf-8")
+def test_react_client_retains_per_tab_auth_and_checked_blob_boundaries():
+    root = Path(__file__).parents[1] / "workbench"
+    api = (root / "src" / "lib" / "api.ts").read_text(encoding="utf-8")
+    app = (root / "src" / "App.tsx").read_text(encoding="utf-8")
 
-    assert "sessionStorage.setItem(tokenStorageKey, fragmentToken)" in source
-    assert "sessionStorage.getItem(tokenStorageKey)" in source
-    assert "localStorage" not in source
-    assert source.index("sessionStorage.setItem") < source.index("history.replaceState")
-    assert source.index('window.open("about:blank", "_blank")') < source.index(
-        "await checkedFetch(link.href"
-    )
-    assert "if (preview) preview.location.replace(url)" in source
-    assert "download.click()" in source
-    assert "if (preview) preview.close()" in source
-    assert "await checkedFetch(sampleUrl(project, sample))" in source
-    assert "sample.content_type?.startsWith(\"video/\")" in source
-    assert "URL.revokeObjectURL(samplePreviewUrl)" in source
-    assert "const epoch = ++renderEpoch" in source
-    assert "if (epoch !== renderEpoch)" in source
-    assert 'result.setAttribute("aria-label", "Checked assistant response")' in source
-    assert 'artifact.kind === "table"' in source
-    assert "renderTableResult(JSON.parse(await blob.text()), artifact)" in source
-    assert "if (!response.ok) throw new Error" in source
-    assert "clearTimeout(pollTimer)" in source
-    assert "current.project_id !== project.id" in source
-    assert 'node("log-tail").textContent = run.live?.log_tail' in source
-    assert 'runtime_observation?.state === "unavailable"' in source
-    assert '`${run.status} · unavailable`' in source
-    assert "retained run state is stale" in source
-    index = source_path.with_name("index.html").read_text(encoding="utf-8")
-    assert '<link rel="icon" href="data:,">' in index
-    styles = source_path.with_name("app.css").read_text(encoding="utf-8")
-    assert "dd { margin: 0; max-width: 70%;" in styles
-    assert "dd { max-width: none; text-align: left; }" in styles
+    assert "storage.setItem(TOKEN_KEY, fragmentToken)" in api
+    assert "storage.getItem(TOKEN_KEY)" in api
+    assert "localStorage" not in api + app
+    assert api.index("storage.setItem") < api.index("browserHistory.replaceState")
+    assert "authenticatedBlob" in api
+    assert "if (!response.ok) throw await responseError(response)" in api
+    assert "link.download = value.name" in app
+    assert "link.click()" in app
+    assert "URL.revokeObjectURL" in app
+    assert "sampleGuard.current.isCurrent(request)" in app
+    assert "artifactGuard.current.isCurrent(request)" in app
+    assert 'aria-label={artifact.kind === "assistant-text"' in app
+    assert 'value.kind === "table"' in app
+    assert "tableProjection" in app
+    assert "next.project_id !== expectedProject" in app
+    assert 'runtime_observation?.state === "unavailable"' in app
+    assert '`${run.status} · unavailable`' in app
+    index = (root / "index.html").read_text(encoding="utf-8")
+    assert '<link rel="icon" href="data:," />' in index
+    styles = (root / "src" / "styles.css").read_text(encoding="utf-8")
+    assert "word-break:break-all" in styles
+    assert 'grid-template-areas:"title" "rail" "tabs" "work" "inspector" "status"' in styles
 
 
 def test_live_projection_preserves_split_utf8_and_split_progress_lines():

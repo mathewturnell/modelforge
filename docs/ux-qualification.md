@@ -1,6 +1,47 @@
 # Browser journey and UX qualification
 
-The public-alpha browser gate runs the built package with its real loopback
+## React recovery gate
+
+The compiled React recovery is not qualified merely because the prior static
+candidate or the commercial donor UI passed tests. Release evidence must run
+against the exact built public client and packaged Python server in this clean
+repository. The gate requires:
+
+- the real project, sample/prompt, run, cancellation, recovery, artifact, and
+  Modal-status journeys through the public `/api/v1` client;
+- capability-derived navigation for the full local product definition, with
+  every incomplete service labelled unavailable and no inert or fabricated
+  success control;
+- token fragment removal, bearer-only API access, stale-response rejection,
+  project-switch invalidation, and object-URL revocation;
+- no commercial identity, tenancy, billing, hosted-workbench, deployment, or
+  publication control;
+- keyboard operation, visible focus, meaningful landmarks and live regions,
+  text-not-colour status, reduced motion, Axe, and accessibility-tree checks;
+- reviewed desktop, 390-pixel, and effective 320-pixel/200%-zoom reflow with
+  no page-wide horizontal overflow;
+- zero unexpected browser console errors and zero non-loopback requests.
+
+The current implementation and evidence status is recorded in
+[`requirements.md`](requirements.md). Native browser 200% zoom and an end-user
+screen-reader session remain human checks and must not be inferred from narrow
+viewport, Axe, or accessibility-tree automation.
+
+Against the local recovery candidate on 2026-09-10, nine React unit/contract
+tests, TypeScript checking, the production build, and thirteen real loopback
+browser journeys passed. The browser suite covers empty state, full intended
+navigation, truthful unavailable destinations, vision and prompt execution,
+failure, invalid output, cancellation, reload, server restart, checked
+artifacts, process logs, Modal status variants, request failure, Axe, and the
+Chrome accessibility tree. Production npm dependencies and the full npm
+development graph reported zero known vulnerabilities after updating Vitest
+to 4.1.11. The new 1280-pixel and 390-pixel baselines were reviewed locally;
+their CI variants are generated from the same React candidate and remain
+subject to review when rendering changes.
+
+## Previous clean-candidate evidence
+
+The previous public-alpha browser gate ran the built package with its real loopback
 server, shared services, local executor, disposable state, and redistributable
 fixtures. Playwright uses its version-locked Chromium build, one worker, no
 retries, accessible selectors, and bounded observable waits. External provider
@@ -31,6 +72,8 @@ within the card, status pairs become a single readable column, and the
 workbench remains keyboard-operable without page-wide horizontal overflow.
 Visual comparison supplements behavioral assertions; it does not replace them
 and baseline changes must be reviewed rather than accepted automatically.
+Those images qualify the previous client only and cannot be reused as passing
+visual evidence for the React recovery.
 
 The Chrome accessibility tree was inspected directly and exposes the ordered
 setup instructions, qualification region, project navigation, run evidence,

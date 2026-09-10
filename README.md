@@ -8,14 +8,22 @@ checked artifacts, and a consistent browser journey.
 The installed Python library uses the `modelforge_workbench` namespace. The
 human-facing command and versioned wire protocols retain the `modelforge` name.
 
-This `0.1.0a1` alpha is intentionally small. It is useful without an
-embedded assistant. One shared Project/runtime-configuration/Dataset/Run/Artifact path has been
-qualified with both selected-video inference and prompt-only inference, while
-the four selected real-project action shapes have also completed through the
-same owner-bound Modal lifecycle. The bundled synthetic workflow keeps
-installation and CI lightweight. This is
-not universal ML support, autonomous scientific judgment, production
-readiness, or completion of the broader ModelForge architecture.
+This recovery candidate combines the clean public service architecture with a
+compiled React workbench. The intended local product includes project and
+source workflows, datasets and annotation, model/architecture inspection,
+training and run comparison, inference and jobs, local settings, and a local
+ModelForge Coding Assistant/Codex integration. Features are enabled only when
+a real server-owned service and project capability support them; incomplete
+areas remain visible as explicit implementation gaps rather than disappearing
+from the product definition or pretending to work.
+
+The currently proven execution slice is one shared Project/runtime
+configuration/Dataset/Run/Artifact path for selected-video and prompt-only
+inference, including four owner-bound Modal action shapes. The bundled
+synthetic workflow keeps installation and CI lightweight. See
+[`docs/requirements.md`](docs/requirements.md) for the exact implemented,
+partial, and planned status of every product area. This is not universal ML
+support, autonomous scientific judgment, or production readiness.
 
 ## Install
 
@@ -139,8 +147,12 @@ Supported:
   owner-only run input;
 - checked local artifacts and range-capable media access with storage paths
   removed from public views;
-- a token-protected, loopback-only browser journey for dataset, prompt, status,
-  logs, artifacts, text, and video results.
+- a token-protected, loopback-only compiled React journey for project
+  switching, dataset/prompt input, run status, logs, artifacts, text, and video
+  results;
+- one capability-derived local product shell whose incomplete services are
+  labelled unavailable with a concrete reason and are tracked in
+  [`docs/requirements.md`](docs/requirements.md).
 
 Unattached unfinished rows recovered after a workbench restart are shown as
 stale/unavailable, never as observably live. Graceful server shutdown cancels
@@ -163,14 +175,21 @@ Experimental:
   integrations, not a general provider abstraction or availability promise;
   declared resources are not a quote or enforced budget.
 
-Excluded:
+Planned or partial in this candidate:
 
-- annotation editing, arbitrary action interfaces, or dynamic project UI code;
-- managed training, frozen evaluation/promotion, scalar telemetry charts,
-  model compilation, and automatic or implicit environment setup;
-- general provider support, hosted operation, billing management, commercial
-  identity, deployment, object storage, desktop/updater, embedded assistants,
-  and IDE extensions;
+- bounded project/source/Git workflows and local settings;
+- local annotation with held-out-data protection;
+- safe architecture/model inspection;
+- managed local training, validation, compatible run comparison, and jobs;
+- the project-scoped local ModelForge Coding Assistant/Codex service.
+
+Excluded from the public local product:
+
+- dynamic project-supplied UI code, implicit environment setup, and arbitrary
+  unreviewed action interfaces;
+- general provider control, hosted operation, customer tenancy, billing,
+  commercial identity, Cloudflare/application publication, object-storage
+  administration, desktop/updater distribution, and production claims;
 - GPU frameworks, model weights, datasets, checkpoints, media, private project
   code, and production/sandbox claims.
 

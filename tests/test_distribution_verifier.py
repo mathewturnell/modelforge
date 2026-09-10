@@ -75,3 +75,20 @@ def test_zip_symlink_mode_is_detectable(tmp_path):
         member = bundle.infolist()[0]
     with pytest.raises(ValueError, match="non-regular wheel member"):
         verifier.inspect_zip_member(member)
+
+
+def test_distribution_requires_compiled_client_and_reproducible_source():
+    verifier = _verifier()
+    wheel_names = [
+        "modelforge_workbench/workbench/static/workbench/index.html",
+        "modelforge_workbench/workbench/static/workbench/assets/index.js",
+        "modelforge_workbench/workbench/static/workbench/assets/index.css",
+    ]
+    verifier.require_react_members(wheel_names, wheel=True)
+    with pytest.raises(ValueError, match="JavaScript missing"):
+        verifier.require_react_members(wheel_names[:1], wheel=True)
+
+    sdist_names = [f"package/{path}" for path in verifier.SDIST_REQUIRED_REACT]
+    verifier.require_react_members(sdist_names, wheel=False)
+    with pytest.raises(ValueError, match="React source or inventory missing"):
+        verifier.require_react_members(sdist_names[:-1], wheel=False)

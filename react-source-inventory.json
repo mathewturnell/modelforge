@@ -1,0 +1,256 @@
+{
+  "approval": {
+    "date": null,
+    "owner": "Mathew Turnell",
+    "scope": "Exact files, dependency lock, and proposed Apache-2.0 treatment in this inventory"
+  },
+  "approval_status": "pending_human_approval",
+  "bundled_runtime_dependencies": [
+    {
+      "license": "MIT",
+      "name": "react",
+      "version": "19.2.8"
+    },
+    {
+      "license": "MIT",
+      "name": "react-dom",
+      "version": "19.2.8"
+    },
+    {
+      "license": "MIT",
+      "name": "scheduler",
+      "version": "0.27.0"
+    }
+  ],
+  "direct_build_and_test_tools": [
+    {
+      "license": "MIT",
+      "name": "@vitejs/plugin-react",
+      "version": "6.0.5"
+    },
+    {
+      "license": "Apache-2.0",
+      "name": "typescript",
+      "version": "7.0.2"
+    },
+    {
+      "license": "MIT",
+      "name": "vite",
+      "version": "8.2.1"
+    },
+    {
+      "license": "MIT",
+      "name": "vitest",
+      "version": "4.1.11"
+    }
+  ],
+  "files": [
+    {
+      "bytes": 28,
+      "disposition": "new",
+      "license": "Apache-2.0",
+      "origin": {
+        "kind": "new-public-recovery-source"
+      },
+      "path": "workbench/.gitignore",
+      "sha256": "292c5dd5d6c7f580e0dd9c3e894403810fbd78b331d2b80071a3be24dec495df"
+    },
+    {
+      "bytes": 343,
+      "disposition": "adapted",
+      "license": "Apache-2.0",
+      "origin": {
+        "donor_path": "modelforge/browser/workbench/README.md",
+        "donor_revision": "2dfeaa6564f7ce4f8a689e9800579f8c2947936e",
+        "kind": "adapted-model-forge-react"
+      },
+      "path": "workbench/README.md",
+      "sha256": "e1bb2211d46341cd2bf05611bf492f199720701c9cdc1264a0a3599d716aade9"
+    },
+    {
+      "bytes": 393,
+      "disposition": "adapted",
+      "license": "Apache-2.0",
+      "origin": {
+        "donor_path": "modelforge/browser/workbench/index.html",
+        "donor_revision": "2dfeaa6564f7ce4f8a689e9800579f8c2947936e",
+        "kind": "adapted-model-forge-react"
+      },
+      "path": "workbench/index.html",
+      "sha256": "8ac84c382542df479a854204cf86ad7aff47fac57387949e435be1aebfe71b71"
+    },
+    {
+      "bytes": 52704,
+      "disposition": "generated-lockfile",
+      "license": "Apache-2.0",
+      "origin": {
+        "input": "workbench/package.json",
+        "kind": "npm-generated-lockfile"
+      },
+      "path": "workbench/package-lock.json",
+      "sha256": "b0bb6b0bcb12232333b02638701b5dd089d9e0c8a0649003d912b167b3c344ab"
+    },
+    {
+      "bytes": 508,
+      "disposition": "adapted",
+      "license": "Apache-2.0",
+      "origin": {
+        "donor_path": "modelforge/browser/workbench/package.json",
+        "donor_revision": "2dfeaa6564f7ce4f8a689e9800579f8c2947936e",
+        "kind": "adapted-model-forge-react"
+      },
+      "path": "workbench/package.json",
+      "sha256": "6181aa3d5708edfbb274d0a04ed98780ab3bcd0fa31310d02653262e8bcd4dc0"
+    },
+    {
+      "bytes": 3170,
+      "disposition": "adapted",
+      "license": "Apache-2.0",
+      "origin": {
+        "donor_path": "modelforge/browser/workbench/src/App.test.tsx",
+        "donor_revision": "2dfeaa6564f7ce4f8a689e9800579f8c2947936e",
+        "kind": "adapted-model-forge-react"
+      },
+      "path": "workbench/src/App.test.tsx",
+      "sha256": "66448af974658399fba9862dfb14f5dc926e84eae479de6ba4af496bc1588297"
+    },
+    {
+      "bytes": 28271,
+      "disposition": "adapted",
+      "license": "Apache-2.0",
+      "origin": {
+        "donor_path": "modelforge/browser/workbench/src/App.tsx",
+        "donor_revision": "2dfeaa6564f7ce4f8a689e9800579f8c2947936e",
+        "kind": "adapted-model-forge-react"
+      },
+      "path": "workbench/src/App.tsx",
+      "sha256": "8324b59f0a2ef02d0ae8fe157468b599d4258d054aa06a06fd0bc301213228cb"
+    },
+    {
+      "bytes": 1397,
+      "disposition": "new",
+      "license": "Apache-2.0",
+      "origin": {
+        "kind": "new-public-recovery-source"
+      },
+      "path": "workbench/src/lib/api.test.ts",
+      "sha256": "3ec70f128ca17e922ad3bbfc8a53d9b6843e4b3637f5f31e35c685a675fe3168"
+    },
+    {
+      "bytes": 4023,
+      "disposition": "adapted",
+      "license": "Apache-2.0",
+      "origin": {
+        "donor_path": "modelforge/browser/workbench/src/lib/api.ts",
+        "donor_revision": "2dfeaa6564f7ce4f8a689e9800579f8c2947936e",
+        "kind": "adapted-model-forge-react"
+      },
+      "path": "workbench/src/lib/api.ts",
+      "sha256": "6f10e8dc70bea7a985ed67950ebfe4cdc219ce072c307da5d5fbfeae44adb123"
+    },
+    {
+      "bytes": 1006,
+      "disposition": "adapted",
+      "license": "Apache-2.0",
+      "origin": {
+        "donor_path": "modelforge/browser/workbench/src/main.tsx",
+        "donor_revision": "2dfeaa6564f7ce4f8a689e9800579f8c2947936e",
+        "kind": "adapted-model-forge-react"
+      },
+      "path": "workbench/src/main.tsx",
+      "sha256": "6fcfeef99705f9692c5fdec4e58cc13ae9d3cf30fbb556c38fa4cb2f7a22c86e"
+    },
+    {
+      "bytes": 9751,
+      "disposition": "adapted",
+      "license": "Apache-2.0",
+      "origin": {
+        "donor_path": "modelforge/browser/workbench/src/styles.css",
+        "donor_revision": "2dfeaa6564f7ce4f8a689e9800579f8c2947936e",
+        "kind": "adapted-model-forge-react"
+      },
+      "path": "workbench/src/styles.css",
+      "sha256": "c5312c1894f8dda8396bde7cfd69eb76c9eed79a8879f42ad56e33bd49d0c480"
+    },
+    {
+      "bytes": 1710,
+      "disposition": "adapted",
+      "license": "Apache-2.0",
+      "origin": {
+        "donor_path": "modelforge/browser/workbench/src/types.ts",
+        "donor_revision": "2dfeaa6564f7ce4f8a689e9800579f8c2947936e",
+        "kind": "adapted-model-forge-react"
+      },
+      "path": "workbench/src/types.ts",
+      "sha256": "45e800d0ac1efa9dc96359cc932c1deda6ce7397b8a8e0c206c10f10fc53ec63"
+    },
+    {
+      "bytes": 38,
+      "disposition": "adapted",
+      "license": "Apache-2.0",
+      "origin": {
+        "donor_path": "modelforge/browser/workbench/src/vite-env.d.ts",
+        "donor_revision": "2dfeaa6564f7ce4f8a689e9800579f8c2947936e",
+        "kind": "adapted-model-forge-react"
+      },
+      "path": "workbench/src/vite-env.d.ts",
+      "sha256": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5"
+    },
+    {
+      "bytes": 545,
+      "disposition": "adapted",
+      "license": "Apache-2.0",
+      "origin": {
+        "donor_path": "modelforge/browser/workbench/tsconfig.app.json",
+        "donor_revision": "2dfeaa6564f7ce4f8a689e9800579f8c2947936e",
+        "kind": "adapted-model-forge-react"
+      },
+      "path": "workbench/tsconfig.app.json",
+      "sha256": "08f34c6400f316e2cdf42468591d5a03880b54957c6ce6be41431cfd585c618f"
+    },
+    {
+      "bytes": 115,
+      "disposition": "adapted",
+      "license": "Apache-2.0",
+      "origin": {
+        "donor_path": "modelforge/browser/workbench/tsconfig.json",
+        "donor_revision": "2dfeaa6564f7ce4f8a689e9800579f8c2947936e",
+        "kind": "adapted-model-forge-react"
+      },
+      "path": "workbench/tsconfig.json",
+      "sha256": "c9282416074477d08cc7640977168c2e8265cac3c3a4e984ba3d340f85684d56"
+    },
+    {
+      "bytes": 256,
+      "disposition": "adapted",
+      "license": "Apache-2.0",
+      "origin": {
+        "donor_path": "modelforge/browser/workbench/tsconfig.node.json",
+        "donor_revision": "2dfeaa6564f7ce4f8a689e9800579f8c2947936e",
+        "kind": "adapted-model-forge-react"
+      },
+      "path": "workbench/tsconfig.node.json",
+      "sha256": "db338761262ea424c4b56a4aa71c90e57628d619c20a83c142bb47a634b3a4e5"
+    },
+    {
+      "bytes": 382,
+      "disposition": "adapted",
+      "license": "Apache-2.0",
+      "origin": {
+        "donor_path": "modelforge/browser/workbench/vite.config.ts",
+        "donor_revision": "2dfeaa6564f7ce4f8a689e9800579f8c2947936e",
+        "kind": "adapted-model-forge-react"
+      },
+      "path": "workbench/vite.config.ts",
+      "sha256": "8ac802ceddc1e4bac2146356b154bec0fc5afb5fc30acf6608f90d5ed49ab857"
+    }
+  ],
+  "package_lock_sha256": "b0bb6b0bcb12232333b02638701b5dd089d9e0c8a0649003d912b167b3c344ab",
+  "protocol": "modelforge.react-source-inventory/v1",
+  "source_rights_context": {
+    "apache_labelled_reference_revision": "953e7be49a3554a9d6dea0bdbcf894133b4d1c31",
+    "donor_author": "Mathew Turnell",
+    "donor_revision": "2dfeaa6564f7ce4f8a689e9800579f8c2947936e",
+    "note": "Authorship and the earlier Apache-labelled revision are provenance evidence; the exact inventory still requires explicit human approval."
+  }
+}

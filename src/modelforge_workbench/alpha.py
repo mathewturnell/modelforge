@@ -237,7 +237,6 @@ class AlphaWorkbench:
                 "target": "local", "provider": "local", "billable": False,
                 "readiness": "ready",
             }],
-            "dataset": {"id": "synthetic", "name": "Authored values", "sample_count": 4},
             "bindings": [],
         }
         configured = []

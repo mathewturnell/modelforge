@@ -1,8 +1,12 @@
 # Agent integration
 
-ModelForge does not embed an agent in this alpha. A coding agent edits the
-project repository and integrates it into the same visible services used by a
-human.
+The public product includes a local ModelForge Coding Assistant/Codex
+integration, but that service remains planned until its project-scoping,
+environment filtering, durable history, cancellation, write authorization,
+and held-out-data protections pass. Until then, a coding agent edits the
+project repository externally and integrates it into the same visible services
+used by a human; the React shell labels the in-product assistant unavailable
+rather than simulating it.
 
 1. Keep models, dataset decoding, metric meaning, and task semantics in the
    project.
@@ -37,7 +41,7 @@ do not own processes or results. BDD100K and Qwen demonstrate the same lifecycle
 with video and text respectively. The public fixture tests exercise both shapes
 without private paths, models, GPU, network, or provider accounts.
 
-Do not add project-ID conditionals to shared services or static UI. If a new
+Do not add project-ID conditionals to shared services or the React UI. If a new
 action/result shape cannot be represented, propose a bounded versioned contract
 with a real consumer and fallback before adding a new core branch.
 

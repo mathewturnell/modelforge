@@ -1,10 +1,11 @@
 # Architecture
 
-The alpha composes browser-neutral contracts and services into two real project
-workflow shapes:
+The alpha composes browser-neutral contracts and services into local product
+workflows. The compiled React client is a presentation adapter, never the
+owner of project files, credentials, execution, lifecycle state, or artifacts:
 
 ```text
-static loopback workbench / CLI (unstable delivery)
+compiled React loopback workbench / CLI (unstable delivery)
                          |
              Example Setup Service
                | plan | fetch | install
@@ -85,6 +86,16 @@ does not add provider authority to `project.json` or redefine the local runtime
 configuration. The bounded implementation and live evidence passed; broader
 provider and training claims remain excluded.
 
+[Decision 0002](decisions/0002-compiled-react-public-workbench.md) records the
+recovery architecture. The mature local UX is adapted to additive public
+service contracts. Project/source/Git, annotation, model inspection, training,
+run comparison, jobs, settings, and Coding Assistant functionality must each
+remain behind a typed server-owned port. A React control cannot become active
+until that service exists, is capability-authorized, and has matching tests.
+The status of those service slices is recorded in
+[`requirements.md`](requirements.md); absence is a gap to implement, not an
+architecture decision to remove the product area.
+
 The workbench binds only `127.0.0.1`, uses a per-launch bearer token, validates
 Host and mutation Origin, disables CORS, and emits restrictive browser headers.
 Authenticated media is fetched into page-owned `blob:` URLs allowed only by the
@@ -99,17 +110,19 @@ every owned action, retains its bounded checked process log on confirmed
 cancellation, and joins the in-process finalizer. An abrupt host loss cannot
 resume the process and remains an explicit nonclaim.
 
-## Excluded areas
+## Product and release boundary
 
-Training/TensorBoard, broader inference and prompt compatibility paths,
-evaluation/validation, annotation workers, generative/research execution,
-general provider/object storage, desktop, commercial identity, embedded-agent
-surfaces, and model compilation are not included or required.
+The target local architecture includes bounded project/source/Git services,
+annotation, safe model inspection, training/evaluation services with held-out
+protection, run comparison, jobs, settings, and a project-scoped local Coding
+Assistant. They are not all implemented in this candidate. Active subprocess
+resume after service restart, dynamic project renderers, arbitrary action
+interfaces, and stable HTTP/Python compatibility remain nonclaims.
 
-The standard-library HTTP/static UI is a bounded release adapter ahead of the
-later typed-delivery phase. Active subprocess resume after service restart,
-dynamic project renderers, annotation editing, training, provider
-reconciliation, and stable HTTP/Python compatibility are not claimed.
+Commercial identity, customer tenancy, billing, hosted operation,
+Cloudflare/application publication, general provider/object-storage control,
+desktop/updater distribution, and production service are outside the public
+architecture.
 
 ## Package namespace
 

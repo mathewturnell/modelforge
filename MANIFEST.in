@@ -1,5 +1,5 @@
 include LICENSE NOTICE THIRD_PARTY_NOTICES README.md CONTRIBUTING.md SECURITY.md CHANGELOG.md
-include PROVENANCE.md public-source-manifest.json example-source-inventory.json
+include PROVENANCE.md public-source-manifest.json example-source-inventory.json react-source-inventory.json
 include requirements-ci.txt package.json package-lock.json playwright.config.js
 recursive-include .github *.yml *.yaml
 recursive-include browser-tests *.js *.json *.md *.py *.png
@@ -7,4 +7,9 @@ recursive-include docs *.md
 recursive-include examples *.md *.json *.py *.txt
 recursive-include scripts *.py
 recursive-include tests *.py
+recursive-include workbench *
+include workbench/.gitignore
+prune workbench/node_modules
+recursive-include src/modelforge_workbench/workbench/static/workbench *
 global-exclude *.py[cod]
+global-exclude *.tsbuildinfo

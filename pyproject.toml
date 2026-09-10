@@ -31,7 +31,11 @@ where = ["src"]
 [tool.setuptools.package-data]
 "modelforge_workbench.schemas" = ["*.schema.json"]
 "modelforge_workbench.example" = ["*.json"]
-"modelforge_workbench.workbench" = ["static/*.html", "static/*.css", "static/*.js"]
+"modelforge_workbench.workbench" = [
+  "static/*.html",
+  "static/workbench/*",
+  "static/workbench/assets/*",
+]
 
 [tool.setuptools.data-files]
 "share/modelforge/docs" = [

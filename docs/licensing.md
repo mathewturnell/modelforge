@@ -7,6 +7,20 @@ Threshold Lab are marked Apache-2.0. The numeric synthetic fixture is CC0-1.0.
 The root `LICENSE`, `NOTICE`, `THIRD_PARTY_NOTICES`, and the machine-readable
 source manifest describe this repository's distribution terms.
 
+The React recovery is handled as a separate, fail-closed source boundary.
+`react-source-inventory.json` identifies every retained workbench file, its
+digest, disposition, exact donor revision, and proposed Apache-2.0 treatment.
+It also binds the npm lockfile used to produce the packaged browser bundle.
+The donor was authored under Mathew's Git identity and an earlier React release
+revision carried Apache-2.0 root metadata, but neither fact substitutes for
+explicit approval of the exact recovered inventory. Until that dated approval
+is recorded, the publication boundary verifier intentionally fails.
+The compiled bundle contains React, React DOM, and Scheduler under their MIT
+terms. Vite, its React plugin, TypeScript, and Vitest are source-build/test
+tools rather than installed Python runtime dependencies. Exact versions are
+pinned by the inventoried npm lockfile and the redistributed runtime notice is
+in `THIRD_PARTY_NOTICES`.
+
 The nineteen retained BDD100K, SoccerNet, TasteMatch, and Qwen Python files were
 reviewed individually. Seventeen appear to be independently authored ModelForge
 integration code and are licensed under Apache-2.0. Repository history

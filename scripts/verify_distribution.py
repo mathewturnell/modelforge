@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import stat
@@ -16,6 +17,61 @@ from scan_public_candidate import _category_for_path, _scan_payload
 
 PRIVATE_PATH = re.compile(rb"/(?:home|Users)/[^/\s]+/")
 FORBIDDEN_PARTS = {"projects", "deploy", "assistant", "commercial", "browser", "training", "architecture"}
+WHEEL_REACT_ROOT = "modelforge_workbench/workbench/static/workbench/"
+SDIST_REQUIRED_REACT = {
+    "react-source-inventory.json",
+    "workbench/package-lock.json",
+    "workbench/package.json",
+    "workbench/src/App.tsx",
+    "workbench/src/lib/api.ts",
+}
+
+
+def require_react_members(names: list[str], *, wheel: bool) -> None:
+    if wheel:
+        required = {f"{WHEEL_REACT_ROOT}index.html"}
+        if not required <= set(names):
+            raise ValueError("compiled React index missing from wheel")
+        assets = [name for name in names if name.startswith(f"{WHEEL_REACT_ROOT}assets/")]
+        if not any(name.endswith(".js") for name in assets):
+            raise ValueError("compiled React JavaScript missing from wheel")
+        if not any(name.endswith(".css") for name in assets):
+            raise ValueError("compiled React CSS missing from wheel")
+        return
+    relative = {
+        "/".join(PurePosixPath(name).parts[1:])
+        for name in names if len(PurePosixPath(name).parts) > 1
+    }
+    missing = SDIST_REQUIRED_REACT - relative
+    if missing:
+        raise ValueError(f"React source or inventory missing from sdist: {sorted(missing)}")
+
+
+def verify_sdist_react_inventory(
+    bundle: tarfile.TarFile, members: list[tarfile.TarInfo],
+) -> None:
+    inventory_member = next(
+        (member for member in members if member.name.endswith("/react-source-inventory.json")),
+        None,
+    )
+    if inventory_member is None or not inventory_member.isfile():
+        raise ValueError("React source inventory missing from sdist")
+    stream = bundle.extractfile(inventory_member)
+    inventory = json.loads(stream.read() if stream else b"{}")
+    root = PurePosixPath(inventory_member.name).parts[0]
+    indexed = {member.name: member for member in members}
+    for record in inventory.get("files", []):
+        name = f"{root}/{record['path']}"
+        member = indexed.get(name)
+        if member is None or not member.isfile():
+            raise ValueError(f"inventoried React source missing from sdist: {record['path']}")
+        source = bundle.extractfile(member)
+        payload = source.read() if source else b""
+        if (
+            len(payload) != record.get("bytes")
+            or hashlib.sha256(payload).hexdigest() != record.get("sha256")
+        ):
+            raise ValueError(f"inventoried React source changed in sdist: {record['path']}")
 
 
 def check_name(name: str, *, wheel: bool) -> None:
@@ -79,6 +135,7 @@ def main() -> int:
             with zipfile.ZipFile(archive) as bundle:
                 members = bundle.infolist()
                 names = [member.filename for member in members]
+                require_react_members(names, wheel=True)
                 if any(PurePosixPath(name).parts[0] == "modelforge" for name in names):
                     raise ValueError("stale private modelforge namespace in wheel")
                 if not any(name.startswith("modelforge_workbench/") for name in names):
@@ -124,7 +181,10 @@ def main() -> int:
                     checked += 1
         else:
             with tarfile.open(archive, "r:gz") as bundle:
-                for member in bundle.getmembers():
+                members = bundle.getmembers()
+                require_react_members([member.name for member in members], wheel=False)
+                verify_sdist_react_inventory(bundle, members)
+                for member in members:
                     total += 1
                     check_name(member.name, wheel=False)
                     if not inspect_tar_member(member):

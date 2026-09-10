@@ -1,11 +1,41 @@
-# Public alpha release status
+# Public alpha recovery status
 
-Repository publication was approved by Mathew Turnell on 2026-09-10. This
-approval covers the clean source repository only: no package upload, hosted
-deployment, release tag, or GitHub Release is included. The Modal acceptance
-apps are stopped and their dedicated staging volumes were deleted.
+The React recovery candidate is under local implementation and review. It has
+not been approved for merge, release, or publication, and no remote change is
+authorized by this document. The earlier 2026-09-10 publication approval
+applied to the exact clean static candidate only; it does not automatically
+extend to newly adapted React source, npm dependencies, write-capable Git or
+assistant services, or a reconstructed remote.
 
-## Implemented release boundary
+The recovery is being built in a clean standalone Git object store derived
+from the Apache candidate. The commercially classified repository history is
+not a permissible release input. Mathew must approve the exact source and
+dependency inventory, security exposure, candidate digest, remote
+reconstruction, merge, and publication after all gates pass.
+
+The Modal acceptance apps from the previously qualified baseline are stopped
+and their dedicated staging volumes were deleted.
+
+## Current local recovery evidence
+
+- The React donor was reduced to seventeen inventoried source, configuration,
+  and lock files. The commercial API client, components, views, dependencies,
+  identity, billing, hosting, and deployment surfaces are absent.
+- The public client uses only additive `/api/v1` projections and supports the
+  real project, dataset/prompt, local/Modal target, durable run, cancellation,
+  recovery, checked artifact, process-log, text, semantic-table, image, and
+  video journeys.
+- Nine React tests, TypeScript checking, and the production build pass. The
+  bundle is approximately 213 KiB JavaScript and 10 KiB CSS before gzip.
+- Thirteen real packaged-loopback browser journeys pass at desktop and
+  390-pixel widths, including Axe and accessibility-tree gates.
+- The npm production and full development graphs report zero known
+  vulnerabilities with Vitest 4.1.11.
+- The exact React source inventory remains pending Mathew's Apache candidate
+  approval. The release verifier therefore remains fail-closed and no remote
+  operation is permitted.
+
+## Previously qualified baseline evidence
 
 - Four example setup declarations and one explicit plan/fetch/install CLI.
 - All external source, data, weights, checkpoints, caches, environments, and
@@ -119,7 +149,8 @@ verifiable speech capture; taking control was not appropriate. Automated
 390-pixel reflow, axe, keyboard, and Chrome accessibility-tree evidence must not
 be represented as those manual checks.
 
-The canonical repository is `mathewturnell/modelforge`. The former repository
-is preserved privately as `mathewturnell/modelforge-legacy`; its branches,
-tags, files, assets, reports, and history are not part of this public source
-history.
+No GitHub repository is designated by this recovery document as the canonical
+public release source. The existing `mathewturnell/modelforge` remote contains
+commercially classified history and must remain private while a separately
+approved clean remote reconstruction is reviewed. A correct tip commit alone
+does not make that object store publishable.

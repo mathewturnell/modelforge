@@ -1,34 +1,34 @@
 {
   "files": [
     {
-      "bytes": 4854,
+      "bytes": 5351,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": ".github/workflows/ci.yml",
-      "sha256": "e8486d2628723f027a46119180910cc80dd9753a823da3f3734095f291f32a55"
+      "sha256": "032d412c1d944be07f6f96644da2ed9c3b41ba339636c63b799ae2c30000f9f4"
     },
     {
-      "bytes": 495,
+      "bytes": 520,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": ".gitignore",
-      "sha256": "88b575ef0caf96b610aabb4a4eb7d51837879b8f5ed640d8c4edbf120628a340"
+      "sha256": "500cfe9e09e2d6bf1ab2bd629726f3c05eea56833695b135466df2667e05b9bb"
     },
     {
-      "bytes": 1093,
+      "bytes": 1608,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "CHANGELOG.md",
-      "sha256": "31f2b3b1118d655a2b35f085a2cb422e65c12e4a28cb3f8c59054afc7bdcd44e"
+      "sha256": "cb8ddf768418d376641fcaf722fbe86507e40714c96b753484db30d4e2376731"
     },
     {
       "bytes": 2368,
@@ -51,14 +51,14 @@
       "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
     },
     {
-      "bytes": 516,
+      "bytes": 733,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "MANIFEST.in",
-      "sha256": "49dd60964469013a0b3f4a37814a3a589b53dae342a12db89b110ebaabb6ba4a"
+      "sha256": "6bb496519f43f001ae10b6db2674a07bc9a992de5dbe802142f1b3ee7d08499e"
     },
     {
       "bytes": 552,
@@ -71,44 +71,44 @@
       "sha256": "0dbc550b8221b74256e8e2f510772df999c88733d526430f89bc3d580f2e53d4"
     },
     {
-      "bytes": 1283,
+      "bytes": 1977,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "PROVENANCE.md",
-      "sha256": "7832e7a4708e7dc75740e4c6e8caa99cc23e682576e41ced44137c14df95e747"
+      "sha256": "67091cffa1cd451aaee3b93698ecc61b09cd14305e8faf8a08fd45b6410b8b86"
     },
     {
-      "bytes": 9067,
+      "bytes": 10100,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "README.md",
-      "sha256": "9b5e35d9aeee31dbc86c6c3db4b13bec19c7140009476fb93d2b229b7e86f3e7"
+      "sha256": "05af5c68a620dfbc44f2b14a59165d1a5a4e9d4972656d60d8f16a0cd6fa9ee5"
     },
     {
-      "bytes": 1284,
+      "bytes": 2446,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "SECURITY.md",
-      "sha256": "c6aa8894b0c44b54c12493bc569ac5741272a0f04b6b9c2fc2104e48b4884dbd"
+      "sha256": "90503d24b0fb6cdf97dcb87189bf408d8ad5f9dc9bd90e8ab6f7fe5d306439a4"
     },
     {
-      "bytes": 3232,
+      "bytes": 5107,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "THIRD_PARTY_NOTICES",
-      "sha256": "db81bc1f3d1814e69147a44b80996b038149ffbe737ccaa593a1ad22890980da"
+      "sha256": "82af1f274606564466c4419f798a5455720a25832df59498f845660b25e69cd3"
     },
     {
       "bytes": 8677,
@@ -131,74 +131,74 @@
       "sha256": "14b3f4b0a83e2619de10d7949b58712aaf92d115bf397f99d65f378165892e8d"
     },
     {
-      "bytes": 6081,
+      "bytes": 4808,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "browser-tests/journeys/first-use.spec.js",
-      "sha256": "dcff3e663cfe20b2c3d86947c3de56506f33df253c9e376361f3a6d9757d5a6c"
+      "sha256": "55eceb43c386c78293a8971e9e844a426e46275b0e2b351acf406f7f3647f281"
     },
     {
-      "bytes": 549588,
+      "bytes": 88945,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "browser-tests/journeys/first-use.spec.js-snapshots/first-use-desktop-github-ubuntu-24.04.png",
-      "sha256": "2fc9da547342caaa1cc14da2d88c6759a6c584378a5bcd98f36d3d7bd89188d9"
+      "sha256": "5245c9b6b8cf7ad99c9c926bb69123ebd08d552ff5bf56755fd5e4fd62657d3b"
     },
     {
-      "bytes": 543956,
+      "bytes": 88945,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "browser-tests/journeys/first-use.spec.js-snapshots/first-use-desktop-linux.png",
-      "sha256": "5c941cf7dd5affb13c676dd28744de6bc17d97bac8c18176d8fb043689a128b5"
+      "sha256": "5245c9b6b8cf7ad99c9c926bb69123ebd08d552ff5bf56755fd5e4fd62657d3b"
     },
     {
-      "bytes": 471295,
+      "bytes": 51949,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "browser-tests/journeys/first-use.spec.js-snapshots/first-use-mobile-390-github-ubuntu-24.04.png",
-      "sha256": "5fc67b14260cd0cfdcd5f35f9367941b34e13d1b25ed35bb4ba96bd2e12bb9a0"
+      "sha256": "5cccd700bf67232e8f792fa89bb9b141e09bdf513000c633b7599e52c218683f"
     },
     {
-      "bytes": 456811,
+      "bytes": 51949,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "browser-tests/journeys/first-use.spec.js-snapshots/first-use-mobile-390-linux.png",
-      "sha256": "cfec9a5c137c26cfae91351e4ddab511a91fc114fe2aa4dcbe466b1533922b15"
+      "sha256": "5cccd700bf67232e8f792fa89bb9b141e09bdf513000c633b7599e52c218683f"
     },
     {
-      "bytes": 5986,
+      "bytes": 6152,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "browser-tests/journeys/local-lifecycle.spec.js",
-      "sha256": "cfa71a62ac12d0c7f9cb85e05785668fc05419e0858f11d40480264a6c50a207"
+      "sha256": "c49f6820921984a0a078dbf3c59a7b4e9d01a0a0fbdf9cc498dd53d4418474e4"
     },
     {
-      "bytes": 4024,
+      "bytes": 4345,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "browser-tests/journeys/recovery-and-modal.spec.js",
-      "sha256": "425ca565c68449d7c1d5bf8d1c3fb7100daceba0b76654decc48738069e3fe42"
+      "sha256": "e69487d9cb812ff0df0de54232c8bd04b6f2d5c15cc749b5f58e2223f9572daf"
     },
     {
       "bytes": 3829,
@@ -211,24 +211,24 @@
       "sha256": "d19630cad7d268a8b9151da82f0895a8395c57b429db6711501e9898b691131d"
     },
     {
-      "bytes": 2542,
+      "bytes": 2859,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/agent-integration.md",
-      "sha256": "86104908d6acf90969712922ce240bb01df31a97b1a53b9377851f64f52bd26f"
+      "sha256": "68be60b4e26a5c9c909e61946ef7186b261738e3714c04cc14d8dc6ab7ace9e1"
     },
     {
-      "bytes": 6454,
+      "bytes": 7356,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/architecture.md",
-      "sha256": "60f4e832635c16960f2f1c6917425147eb7a33a6df4fb5cf7fbf176a45768250"
+      "sha256": "a855fca38a1c91465b88e919728f4846ce37a5fc18c35dbe9e81c3864de0cf5b"
     },
     {
       "bytes": 11556,
@@ -241,6 +241,16 @@
       "sha256": "25addc234f9b797a629c990784e932f9d9ab4293874424604f5db445556f4d8e"
     },
     {
+      "bytes": 6046,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "repository-source"
+      },
+      "path": "docs/decisions/0002-compiled-react-public-workbench.md",
+      "sha256": "8c483a3eb99e75148df834b9be1e8d4075166969fcd8beab2c55cb22e9a1b272"
+    },
+    {
       "bytes": 4403,
       "license": "Apache-2.0",
       "mode": "100644",
@@ -251,14 +261,14 @@
       "sha256": "6f3253882b5fa1c3c14cfcf278eede942f10682ec2f159036685a15536aa3524"
     },
     {
-      "bytes": 4185,
+      "bytes": 5126,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/licensing.md",
-      "sha256": "177c8a5a40e71ce5c75d2848a6e1e435a87ea50a73fed3bb7d2d16901aa2781d"
+      "sha256": "aa5e9adc55f661c0185c8a3ece7c0f29a2ba2cd67ada7ff40ccb6ff2a569dd17"
     },
     {
       "bytes": 9777,
@@ -271,34 +281,44 @@
       "sha256": "832af288f6b83ad3542020e16093b8bdf67b358c695b07472f901420409eb679"
     },
     {
-      "bytes": 3686,
+      "bytes": 4497,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/product-boundary.md",
-      "sha256": "e0e968aef3318f7eab2529bd21e6ec07dccdccd00f89b639ff9992b54f574efb"
+      "sha256": "f00873f219803c509c35a942f43b00a656a9331ea6369b3582c32f4258c1645d"
     },
     {
-      "bytes": 8549,
+      "bytes": 10371,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/release-status.md",
-      "sha256": "0a9dfe50d96ce0b25e7b22a68fd39f4db7448c41a9c062275054b203eb094af1"
+      "sha256": "99f5fbacefa44ee850ae31f0d5be8d3f171abcbbc2918ab62ee193de5919d4c8"
     },
     {
-      "bytes": 6195,
+      "bytes": 5541,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "repository-source"
+      },
+      "path": "docs/requirements.md",
+      "sha256": "81599b6ea7d5f4ccc146f2ee2c35a0691141accf766bd6b35867ee6fb9fef733"
+    },
+    {
+      "bytes": 8599,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/ux-qualification.md",
-      "sha256": "1f0b5a0affadfc404af50a6b2faa03aea9bf15a6dffbceb79a15ff3dc210f852"
+      "sha256": "57021a7ab5c6fabc752f4be86a20f9c7b6653d89c192e40b3b5440ceb0e89000"
     },
     {
       "bytes": 16785,
@@ -899,14 +919,24 @@
       "sha256": "a827d4621e70980efdb3500e71ce2ce36768dc3fc748ed3b8b6a23af7fd4f52a"
     },
     {
-      "bytes": 3821,
+      "bytes": 3850,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "pyproject.toml",
-      "sha256": "0d7130373627391533b5f25f6b130bbc8ea26fa8d09d76fd372bcc7d1a6171bc"
+      "sha256": "e9f81e8d6680747c818b63912306ea3919b695d9d710791bacd9005e440bba5f"
+    },
+    {
+      "bytes": 8422,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "repository-source"
+      },
+      "path": "react-source-inventory.json",
+      "sha256": "a050cc513cec86b4c98dedfc276edd153e63dccfc90bbcc1d45c8c5205fabe09"
     },
     {
       "bytes": 229,
@@ -919,14 +949,24 @@
       "sha256": "93c90addf1603f0bb45e078dc4bff0ad0da7bbe814dfae71bdb8683c105c55af"
     },
     {
-      "bytes": 3029,
+      "bytes": 4093,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "repository-source"
+      },
+      "path": "scripts/build_react_inventory.py",
+      "sha256": "8d5bf31325dd25c1b67bdebd2f2babc72bcd11570f13a52ef49b1b348bbd00e7"
+    },
+    {
+      "bytes": 3576,
       "license": "Apache-2.0",
       "mode": "100755",
       "origin": {
         "kind": "repository-source"
       },
       "path": "scripts/build_source_manifest.py",
-      "sha256": "132c5267d55bcc27b0f0c5681891766a7b66165460c97541dfd7a841f407882a"
+      "sha256": "044550c0301122b71511557c8ea9e64f2b47b1f909a06c413fdc90fd2a92a2dc"
     },
     {
       "bytes": 7934,
@@ -939,14 +979,24 @@
       "sha256": "6ef4a6a82f8d2dbfbc8c78cc24fd8c9c270b355b00b228b58790d42cef8dc25d"
     },
     {
-      "bytes": 6281,
+      "bytes": 8930,
       "license": "Apache-2.0",
       "mode": "100755",
       "origin": {
         "kind": "repository-source"
       },
       "path": "scripts/verify_distribution.py",
-      "sha256": "5812524da22463dbb5ea39e9f0d6b923d4b3e3f6075d710a040bf575ec594c06"
+      "sha256": "82583fefb490157505e112fd2597dec5e146325c39dee9a467e309777922acfe"
+    },
+    {
+      "bytes": 7667,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "repository-source"
+      },
+      "path": "scripts/verify_public_boundary.py",
+      "sha256": "ee4efa36c5f62bb6ac4f24454e62d974099fff443ae283eda0a330694cf03049"
     },
     {
       "bytes": 1499,
@@ -979,14 +1029,14 @@
       "sha256": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d"
     },
     {
-      "bytes": 24978,
+      "bytes": 24888,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "src/modelforge_workbench/alpha.py",
-      "sha256": "2c2c89d639371db5b8bb4d61a27e18d41f724b0e10885a487ce385eab412c92f"
+      "sha256": "58036decf6840af6b8fa9b74277be72cafa559100bb0d874ae3e54ac625463be"
     },
     {
       "bytes": 133,
@@ -1379,44 +1429,14 @@
       "sha256": "2b4798387ea970a45faf5b2e6d2d0555da4873ef6e04c5e9c46bcc4c61f74157"
     },
     {
-      "bytes": 16750,
+      "bytes": 19214,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "src/modelforge_workbench/workbench/server.py",
-      "sha256": "47ac027af39e08bfe2bbc30f91125781dd7856d4a5d7f56c09c15e4afc12dc66"
-    },
-    {
-      "bytes": 8198,
-      "license": "Apache-2.0",
-      "mode": "100644",
-      "origin": {
-        "kind": "repository-source"
-      },
-      "path": "src/modelforge_workbench/workbench/static/app.css",
-      "sha256": "43b3aa9d1ba530f78f750fbab1688fbe185a761d671b2a9413a83b9838f261ea"
-    },
-    {
-      "bytes": 33351,
-      "license": "Apache-2.0",
-      "mode": "100644",
-      "origin": {
-        "kind": "repository-source"
-      },
-      "path": "src/modelforge_workbench/workbench/static/app.js",
-      "sha256": "9ea4bca3f38b3de1eadafff346ecdedafd73421926c1cf535cc3114960bbc4bb"
-    },
-    {
-      "bytes": 9795,
-      "license": "Apache-2.0",
-      "mode": "100644",
-      "origin": {
-        "kind": "repository-source"
-      },
-      "path": "src/modelforge_workbench/workbench/static/index.html",
-      "sha256": "cf005cd6fd1bbb09f9cee841d4b897a5d77e7099898c7a2d91150d9d1dc6d290"
+      "sha256": "53292862d6a32bea7a8f5d3577cf5c61d7cde7a73914b2c4d0047237bed87e24"
     },
     {
       "bytes": 4956,
@@ -1429,6 +1449,42 @@
       "sha256": "036d875eb9aea6911d258c0ce7756345e81cb3f902a94873930dc519b76aaa9b"
     },
     {
+      "bytes": 213032,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "compiled-react-output",
+        "provenance": "react-source-inventory.json",
+        "source": "workbench/"
+      },
+      "path": "src/modelforge_workbench/workbench/static/workbench/assets/index-DYeOyUXC.js",
+      "sha256": "b1eaa84f95d83aafb84e6cff8ed3e868ee668a618029912bd018143f78f0d846"
+    },
+    {
+      "bytes": 9548,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "compiled-react-output",
+        "provenance": "react-source-inventory.json",
+        "source": "workbench/"
+      },
+      "path": "src/modelforge_workbench/workbench/static/workbench/assets/index-sfjE3q_c.css",
+      "sha256": "50caefa55fea6273b71e19181734aef224d165b6be2b4620e2ee70f268cf88e0"
+    },
+    {
+      "bytes": 512,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "compiled-react-output",
+        "provenance": "react-source-inventory.json",
+        "source": "workbench/"
+      },
+      "path": "src/modelforge_workbench/workbench/static/workbench/index.html",
+      "sha256": "44359e42017f792302a781a8e6531f614c718dca0c07baf076c4f10d4cd6f851"
+    },
+    {
       "bytes": 5431,
       "license": "Apache-2.0",
       "mode": "100644",
@@ -1439,14 +1495,14 @@
       "sha256": "163965483fe902ea0e97597c7f9defba60c9fdc9806fbbd8c00b8af991ca3ec9"
     },
     {
-      "bytes": 2731,
+      "bytes": 3564,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "tests/test_distribution_verifier.py",
-      "sha256": "641edb8ce8a868f99edfc433036b8387ab1a7afa9a070f68cb8a70cab0b5431c"
+      "sha256": "2d2553903214a3d05953df51b2665bc08a26be962fce7d31242f7d1fc1d7e988"
     },
     {
       "bytes": 15700,
@@ -1529,14 +1585,14 @@
       "sha256": "30fa51056fdb41af1c399c4cd9b85216c8ffd55374503c46814a4189083fce9f"
     },
     {
-      "bytes": 3946,
+      "bytes": 2917,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "tests/test_modal_ui_contract.py",
-      "sha256": "385e2885d553380e0bcb9d3bdd80e2dffda6e24d159d2259cc4b484cb713f7a1"
+      "sha256": "2d14ee609ffe2bab10c924a91af6b2c7b55a65eaf8e31228a49f043a7b301d66"
     },
     {
       "bytes": 1927,
@@ -1559,24 +1615,34 @@
       "sha256": "da76618da88b7fa4a536032c0bf26ff6991febb55ae5288a96bf8e84b26ef8d3"
     },
     {
-      "bytes": 14652,
+      "bytes": 14080,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "tests/test_public_alpha.py",
-      "sha256": "7df29855fc12cf689e541caed09119effc64160a0d67f1d09b450760737836f1"
+      "sha256": "c4ca3b7d3faddf324df3696d60688dd212c772770cc928c709edcd76f54d3553"
     },
     {
-      "bytes": 7041,
+      "bytes": 7375,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "tests/test_public_boundaries.py",
-      "sha256": "eacac0b2d6b80960d43cd59bcbbfab0f3bc3920d9ea33926c2cdf41657502f07"
+      "sha256": "d0bb48367df56f3a9d98be30622622231c08cba7bcf57160c3c7fac38d8db664"
+    },
+    {
+      "bytes": 2386,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "repository-source"
+      },
+      "path": "tests/test_public_release_boundary.py",
+      "sha256": "836236f123dce601c1f70e48f3001f1bc20609c6ed10be3b814d16369f063bf9"
     },
     {
       "bytes": 2942,
@@ -1587,6 +1653,16 @@
       },
       "path": "tests/test_public_scan.py",
       "sha256": "fc350c87b8f4708b5531570edcd9e87b47b8f45a499d7170d7dc53ca01dccbf3"
+    },
+    {
+      "bytes": 6185,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "repository-source"
+      },
+      "path": "tests/test_react_delivery.py",
+      "sha256": "5aedc26764fd1522b513ecc6aa70968c15248c971d875d4f5ecbf1ebf66a6f3a"
     },
     {
       "bytes": 10531,
@@ -1607,6 +1683,193 @@
       },
       "path": "tests/test_sqlite_repository.py",
       "sha256": "93c05bf79fe430ee1a0c5d4c77907c47e313d0868c5a64e37447324d8c929081"
+    },
+    {
+      "bytes": 28,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/.gitignore",
+      "sha256": "292c5dd5d6c7f580e0dd9c3e894403810fbd78b331d2b80071a3be24dec495df"
+    },
+    {
+      "bytes": 343,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/README.md",
+      "sha256": "e1bb2211d46341cd2bf05611bf492f199720701c9cdc1264a0a3599d716aade9"
+    },
+    {
+      "bytes": 393,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/index.html",
+      "sha256": "8ac84c382542df479a854204cf86ad7aff47fac57387949e435be1aebfe71b71"
+    },
+    {
+      "bytes": 52704,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/package-lock.json",
+      "sha256": "b0bb6b0bcb12232333b02638701b5dd089d9e0c8a0649003d912b167b3c344ab"
+    },
+    {
+      "bytes": 508,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/package.json",
+      "sha256": "6181aa3d5708edfbb274d0a04ed98780ab3bcd0fa31310d02653262e8bcd4dc0"
+    },
+    {
+      "bytes": 3170,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/App.test.tsx",
+      "sha256": "66448af974658399fba9862dfb14f5dc926e84eae479de6ba4af496bc1588297"
+    },
+    {
+      "bytes": 28271,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/App.tsx",
+      "sha256": "8324b59f0a2ef02d0ae8fe157468b599d4258d054aa06a06fd0bc301213228cb"
+    },
+    {
+      "bytes": 1397,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/lib/api.test.ts",
+      "sha256": "3ec70f128ca17e922ad3bbfc8a53d9b6843e4b3637f5f31e35c685a675fe3168"
+    },
+    {
+      "bytes": 4023,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/lib/api.ts",
+      "sha256": "6f10e8dc70bea7a985ed67950ebfe4cdc219ce072c307da5d5fbfeae44adb123"
+    },
+    {
+      "bytes": 1006,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/main.tsx",
+      "sha256": "6fcfeef99705f9692c5fdec4e58cc13ae9d3cf30fbb556c38fa4cb2f7a22c86e"
+    },
+    {
+      "bytes": 9751,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/styles.css",
+      "sha256": "c5312c1894f8dda8396bde7cfd69eb76c9eed79a8879f42ad56e33bd49d0c480"
+    },
+    {
+      "bytes": 1710,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/types.ts",
+      "sha256": "45e800d0ac1efa9dc96359cc932c1deda6ce7397b8a8e0c206c10f10fc53ec63"
+    },
+    {
+      "bytes": 38,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/vite-env.d.ts",
+      "sha256": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5"
+    },
+    {
+      "bytes": 545,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/tsconfig.app.json",
+      "sha256": "08f34c6400f316e2cdf42468591d5a03880b54957c6ce6be41431cfd585c618f"
+    },
+    {
+      "bytes": 115,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/tsconfig.json",
+      "sha256": "c9282416074477d08cc7640977168c2e8265cac3c3a4e984ba3d340f85684d56"
+    },
+    {
+      "bytes": 256,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/tsconfig.node.json",
+      "sha256": "db338761262ea424c4b56a4aa71c90e57628d619c20a83c142bb47a634b3a4e5"
+    },
+    {
+      "bytes": 382,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/vite.config.ts",
+      "sha256": "8ac802ceddc1e4bac2146356b154bec0fc5afb5fc30acf6608f90d5ed49ab857"
     }
   ],
   "history_policy": "reviewed-single-root-public-history",
