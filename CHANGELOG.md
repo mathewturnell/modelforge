@@ -1,17 +1,16 @@
 # Changelog
 
-## Unreleased
+## 0.1.0a1 (public source, 2026-09-11)
+
+Full notes: [ModelForge 0.1.0a1 — public source alpha](docs/releases/0.1.0a1.md).
 
 - Re-established the clean Apache public architecture as the only release
-  baseline and began adapting the mature compiled React workbench to its typed
-  service ports. No commercial backend, history, identity, billing, hosted
-  workbench, or deployment service is included.
-- Added explicit public requirements, traceability, source-provenance, and
+  baseline and integrated the approved compiled React workbench through its
+  typed service ports. No commercial backend, history, identity, billing,
+  hosted workbench, or deployment service is included.
+- Added explicit public requirements, traceability, source provenance, and
   fail-closed release controls so missing local features remain visible
   implementation gaps instead of silently shrinking the product definition.
-
-## 0.1.0a1 (public source, 2026-09-10)
-
 - Prepared a small local-first workbench with durable project-scoped runs,
   checked artifacts, local inference/prompt handlers, and a token-protected
   loopback UI.

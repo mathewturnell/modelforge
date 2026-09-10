@@ -21,14 +21,14 @@
       "sha256": "500cfe9e09e2d6bf1ab2bd629726f3c05eea56833695b135466df2667e05b9bb"
     },
     {
-      "bytes": 1608,
+      "bytes": 1680,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "CHANGELOG.md",
-      "sha256": "cb8ddf768418d376641fcaf722fbe86507e40714c96b753484db30d4e2376731"
+      "sha256": "0a9b98cf8f8d04701569d37b9eeb047247f8dc821dfbb39f7644b709a2ba5a53"
     },
     {
       "bytes": 2368,
@@ -51,14 +51,14 @@
       "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
     },
     {
-      "bytes": 733,
+      "bytes": 739,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "MANIFEST.in",
-      "sha256": "6bb496519f43f001ae10b6db2674a07bc9a992de5dbe802142f1b3ee7d08499e"
+      "sha256": "2d676a3d564f864d06c6b15314ffd095b3ffccd9d41057be3464b8edb3268318"
     },
     {
       "bytes": 552,
@@ -81,14 +81,14 @@
       "sha256": "67091cffa1cd451aaee3b93698ecc61b09cd14305e8faf8a08fd45b6410b8b86"
     },
     {
-      "bytes": 10100,
+      "bytes": 11598,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "README.md",
-      "sha256": "05af5c68a620dfbc44f2b14a59165d1a5a4e9d4972656d60d8f16a0cd6fa9ee5"
+      "sha256": "cf10c8dc5a70c69f462510897bcb9d141fad08df1b177b104ba0ef6e4dccf20c"
     },
     {
       "bytes": 2446,
@@ -231,6 +231,16 @@
       "sha256": "a855fca38a1c91465b88e919728f4846ce37a5fc18c35dbe9e81c3864de0cf5b"
     },
     {
+      "bytes": 771,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "repository-source"
+      },
+      "path": "docs/assets/modelforge-wordmark.svg",
+      "sha256": "194911e788c57fbb189f75f9b3d17db901aa2a287f0ef2f4b919487f1e4a246a"
+    },
+    {
       "bytes": 11556,
       "license": "Apache-2.0",
       "mode": "100644",
@@ -299,6 +309,16 @@
       },
       "path": "docs/release-status.md",
       "sha256": "5032248a02e87c8266f4ee85739268957c961369663e7db88b71695057830280"
+    },
+    {
+      "bytes": 6211,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "repository-source"
+      },
+      "path": "docs/releases/0.1.0a1.md",
+      "sha256": "0ebd61785c436c0725c4453edd4913123e17968d5a8354a22559726c0fa68b3e"
     },
     {
       "bytes": 5541,
