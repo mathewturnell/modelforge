@@ -218,6 +218,9 @@ class _Handler(BaseHTTPRequestHandler):
         if route == "/modal-setup.html":
             self._static("static", "modal-setup.html", content_type="text/html; charset=utf-8")
             return
+        if route == "/modal-setup.css":
+            self._static("static", "modal-setup.css", content_type="text/css; charset=utf-8")
+            return
         if route.startswith("/workbench/"):
             if self._client_asset(route):
                 return

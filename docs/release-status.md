@@ -1,10 +1,14 @@
 # Public alpha recovery status
 
-The React recovery candidate is under local review. Mathew Turnell approved the
+The React recovery candidate is approved for qualification and clean
+publication. Mathew Turnell approved the
 exact React source inventory at recovery commit `10dda5f37c550902a0ae2e0d7ff16b75ba59b928`
 for Apache-2.0 public-candidate inclusion on 2026-09-11. This approval does not
-approve merge, release, publication, write-capable Git or assistant services,
-or a reconstructed remote; no remote change is authorized by this document.
+approve write-capable Git or assistant services. Mathew separately confirmed
+authorization on 2026-09-11 to replace `mathewturnell/modelforge` with only the
+qualified clean `main`, apply protection, and make it public. Tags, GitHub
+Releases, package publication, service deployment, and paid workloads remain
+outside that authorization.
 
 The recovery is being built in a clean standalone Git object store derived
 from the Apache candidate. The commercially classified repository history is
@@ -32,8 +36,8 @@ and their dedicated staging volumes were deleted.
   vulnerabilities with Vitest 4.1.11.
 - Mathew approved the exact seventeen-file React source inventory and locked
   dependency graph for Apache-2.0 public-candidate inclusion on 2026-09-11.
-  The boundary verifier passes this source-licensing gate. No remote operation
-  is permitted by that approval.
+  The boundary verifier passes this source-licensing gate. Publication proceeds
+  only under the separate clean-reconstruction authorization recorded above.
 
 ## Previously qualified baseline evidence
 
@@ -149,8 +153,8 @@ verifiable speech capture; taking control was not appropriate. Automated
 390-pixel reflow, axe, keyboard, and Chrome accessibility-tree evidence must not
 be represented as those manual checks.
 
-No GitHub repository is designated by this recovery document as the canonical
-public release source. The existing `mathewturnell/modelforge` remote contains
-commercially classified history and must remain private while a separately
-approved clean remote reconstruction is reviewed. A correct tip commit alone
-does not make that object store publishable.
+`mathewturnell/modelforge` becomes the canonical public release source only
+after every pre-publication ref is replaced by the qualified single-root
+`main`, the hosted public-alpha gates pass, branch protection is applied, and
+anonymous access is verified. A correct tip commit alone does not make an
+object store containing legacy refs publishable.

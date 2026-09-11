@@ -126,11 +126,10 @@ If the client stops after Modal accepted the call, recover the same unfinished
 run rather than creating a second lifecycle:
 
 ```bash
-.venv/bin/modelforge demo recover-modal \
-  --run-id <RUN_ID> \
-  --modal-environment <ENV> \
-  --confirm-billable \
-  --state-root <STATE>
+.venv/bin/modelforge action recover-modal \
+  --state-root <STATE> \
+  --project <PROJECT_ID> \
+  --run-id <RUN_ID>
 ```
 
 Recovery is accepted only for a durable unfinished Modal run with a coherent

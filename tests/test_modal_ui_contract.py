@@ -66,3 +66,11 @@ def test_modal_setup_describes_owner_binding_cost_and_nonduplicating_recovery() 
     assert "recovery never starts a new call" in guide
     assert "Removing local state does not stop remote work" in guide
     assert "only the bundled Synthetic Threshold Lab" not in guide
+    assert 'href="/modal-setup.css"' in guide
+
+
+def test_real_project_modal_recovery_tutorial_uses_the_project_action_command() -> None:
+    tutorial = (ROOT / "docs" / "modal.md").read_text(encoding="utf-8")
+
+    assert ".venv/bin/modelforge action recover-modal" in tutorial
+    assert "--project <PROJECT_ID>" in tutorial

@@ -33,6 +33,7 @@ where = ["src"]
 "modelforge_workbench.example" = ["*.json"]
 "modelforge_workbench.workbench" = [
   "static/*.html",
+  "static/*.css",
   "static/workbench/*",
   "static/workbench/assets/*",
 ]

@@ -10,6 +10,7 @@ recursive-include tests *.py
 recursive-include workbench *
 include workbench/.gitignore
 prune workbench/node_modules
+recursive-include src/modelforge_workbench/workbench/static *.html *.css
 recursive-include src/modelforge_workbench/workbench/static/workbench *
 global-exclude *.py[cod]
 global-exclude *.tsbuildinfo

@@ -24,7 +24,7 @@
 
 > [!IMPORTANT]
 > ModelForge is an early, trusted-local developer preview—not a hosted service,
-> sandbox, training framework, or production-deployment guarantee.
+> sandbox, complete training environment, or production-deployment guarantee.
 
 ModelForge is an open-source, local-first ML development workbench for
 developers working with coding agents. Projects keep ownership of their models,

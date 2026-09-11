@@ -62,3 +62,12 @@ def test_packaged_modal_setup_page_has_cost_and_credential_boundaries():
     assert "does not enforce a budget" in source
     assert "Never put tokens" in source
     assert "modal app stop" in source
+    assert 'href="/modal-setup.css"' in source
+    assert 'href="/app.css"' not in source
+    stylesheet = (
+        server.files("modelforge_workbench.workbench")
+        .joinpath("static", "modal-setup.css")
+        .read_text(encoding="utf-8")
+    )
+    assert "main.guide" in stylesheet
+    assert ":focus-visible" in stylesheet

@@ -276,6 +276,10 @@ def test_loopback_api_runs_and_recovers_same_artifact(tmp_path):
         assert status == 200
         assert headers["Content-Security-Policy"]
         assert "media-src 'self' blob:" in headers["Content-Security-Policy"]
+        status, headers, body = _request(server, "GET", "/modal-setup.css")
+        assert status == 200
+        assert headers["Content-Type"] == "text/css; charset=utf-8"
+        assert b"main.guide" in body
 
         status, _headers, body = _request(server, "POST", "/api/v1/example-runs", token=token)
         assert status == 202

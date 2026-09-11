@@ -41,6 +41,7 @@ def main() -> int:
         if (
             not path.is_file()
             or any(part in EXCLUDED_PARTS or part.endswith(".egg-info") for part in parts)
+            or path.name.endswith(".tsbuildinfo")
         ):
             continue
         if relative == "public-source-manifest.json":

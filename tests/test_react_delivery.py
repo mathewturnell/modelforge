@@ -164,4 +164,6 @@ def test_compiled_client_paths_are_declared_for_wheel_and_sdist():
 
     assert '"static/workbench/*"' in pyproject
     assert '"static/workbench/assets/*"' in pyproject
+    assert '"static/*.css"' in pyproject
+    assert "recursive-include src/modelforge_workbench/workbench/static *.html *.css" in manifest
     assert "recursive-include src/modelforge_workbench/workbench/static/workbench *" in manifest

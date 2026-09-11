@@ -18,18 +18,20 @@ from scan_public_candidate import _category_for_path, _scan_payload
 PRIVATE_PATH = re.compile(rb"/(?:home|Users)/[^/\s]+/")
 FORBIDDEN_PARTS = {"projects", "deploy", "assistant", "commercial", "browser", "training", "architecture"}
 WHEEL_REACT_ROOT = "modelforge_workbench/workbench/static/workbench/"
+WHEEL_MODAL_STYLE = "modelforge_workbench/workbench/static/modal-setup.css"
 SDIST_REQUIRED_REACT = {
     "react-source-inventory.json",
     "workbench/package-lock.json",
     "workbench/package.json",
     "workbench/src/App.tsx",
     "workbench/src/lib/api.ts",
+    "src/modelforge_workbench/workbench/static/modal-setup.css",
 }
 
 
 def require_react_members(names: list[str], *, wheel: bool) -> None:
     if wheel:
-        required = {f"{WHEEL_REACT_ROOT}index.html"}
+        required = {f"{WHEEL_REACT_ROOT}index.html", WHEEL_MODAL_STYLE}
         if not required <= set(names):
             raise ValueError("compiled React index missing from wheel")
         assets = [name for name in names if name.startswith(f"{WHEEL_REACT_ROOT}assets/")]
