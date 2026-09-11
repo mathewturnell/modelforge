@@ -141,14 +141,14 @@
       "sha256": "55eceb43c386c78293a8971e9e844a426e46275b0e2b351acf406f7f3647f281"
     },
     {
-      "bytes": 88945,
+      "bytes": 92745,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "browser-tests/journeys/first-use.spec.js-snapshots/first-use-desktop-github-ubuntu-24.04.png",
-      "sha256": "5245c9b6b8cf7ad99c9c926bb69123ebd08d552ff5bf56755fd5e4fd62657d3b"
+      "sha256": "deaf36eef02747ccaad8b6b37b149634498fb23c68e1e4e675dcf3dc44b010fb"
     },
     {
       "bytes": 88945,
@@ -161,14 +161,14 @@
       "sha256": "5245c9b6b8cf7ad99c9c926bb69123ebd08d552ff5bf56755fd5e4fd62657d3b"
     },
     {
-      "bytes": 51949,
+      "bytes": 52837,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "browser-tests/journeys/first-use.spec.js-snapshots/first-use-mobile-390-github-ubuntu-24.04.png",
-      "sha256": "5cccd700bf67232e8f792fa89bb9b141e09bdf513000c633b7599e52c218683f"
+      "sha256": "c2c4e6828bbf5943d92cc3097ad29e46655cef5340e21efe0600693ccf66165f"
     },
     {
       "bytes": 51949,
