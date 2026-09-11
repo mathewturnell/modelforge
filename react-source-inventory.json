@@ -1,10 +1,11 @@
 {
   "approval": {
-    "date": null,
+    "approved_revision": "10dda5f37c550902a0ae2e0d7ff16b75ba59b928",
+    "date": "2026-09-11",
     "owner": "Mathew Turnell",
     "scope": "Exact files, dependency lock, and proposed Apache-2.0 treatment in this inventory"
   },
-  "approval_status": "pending_human_approval",
+  "approval_status": "approved_for_apache_review_candidate",
   "bundled_runtime_dependencies": [
     {
       "license": "MIT",

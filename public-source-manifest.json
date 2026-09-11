@@ -291,14 +291,14 @@
       "sha256": "f00873f219803c509c35a942f43b00a656a9331ea6369b3582c32f4258c1645d"
     },
     {
-      "bytes": 10371,
+      "bytes": 10432,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/release-status.md",
-      "sha256": "99f5fbacefa44ee850ae31f0d5be8d3f171abcbbc2918ab62ee193de5919d4c8"
+      "sha256": "5032248a02e87c8266f4ee85739268957c961369663e7db88b71695057830280"
     },
     {
       "bytes": 5541,
@@ -929,14 +929,14 @@
       "sha256": "e9f81e8d6680747c818b63912306ea3919b695d9d710791bacd9005e440bba5f"
     },
     {
-      "bytes": 8422,
+      "bytes": 8513,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "react-source-inventory.json",
-      "sha256": "a050cc513cec86b4c98dedfc276edd153e63dccfc90bbcc1d45c8c5205fabe09"
+      "sha256": "8bf584bfb420890f99aa58666bc81fb20bf1d6309715dee32e957108f9fc8c94"
     },
     {
       "bytes": 229,

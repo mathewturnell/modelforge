@@ -1,11 +1,10 @@
 # Public alpha recovery status
 
-The React recovery candidate is under local implementation and review. It has
-not been approved for merge, release, or publication, and no remote change is
-authorized by this document. The earlier 2026-09-10 publication approval
-applied to the exact clean static candidate only; it does not automatically
-extend to newly adapted React source, npm dependencies, write-capable Git or
-assistant services, or a reconstructed remote.
+The React recovery candidate is under local review. Mathew Turnell approved the
+exact React source inventory at recovery commit `10dda5f37c550902a0ae2e0d7ff16b75ba59b928`
+for Apache-2.0 public-candidate inclusion on 2026-09-11. This approval does not
+approve merge, release, publication, write-capable Git or assistant services,
+or a reconstructed remote; no remote change is authorized by this document.
 
 The recovery is being built in a clean standalone Git object store derived
 from the Apache candidate. The commercially classified repository history is
@@ -31,9 +30,10 @@ and their dedicated staging volumes were deleted.
   390-pixel widths, including Axe and accessibility-tree gates.
 - The npm production and full development graphs report zero known
   vulnerabilities with Vitest 4.1.11.
-- The exact React source inventory remains pending Mathew's Apache candidate
-  approval. The release verifier therefore remains fail-closed and no remote
-  operation is permitted.
+- Mathew approved the exact seventeen-file React source inventory and locked
+  dependency graph for Apache-2.0 public-candidate inclusion on 2026-09-11.
+  The boundary verifier passes this source-licensing gate. No remote operation
+  is permitted by that approval.
 
 ## Previously qualified baseline evidence
 
