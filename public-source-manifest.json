@@ -1079,14 +1079,14 @@
       "sha256": "e374bd0ea88f8539daf527d03417c147dd90c24250029128a22ac42f69b7d5e6"
     },
     {
-      "bytes": 8444,
+      "bytes": 8779,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "react-source-inventory.json",
-      "sha256": "ba5e0c074238c2a3bafd99e55278df70c8cc30df9f3c8d0c541e53202f7d4336"
+      "sha256": "7b430a5b1c9c2a2972c149fca12c9c31ee07eb49b24f9e6a7ebfe90e8352d13a"
     },
     {
       "bytes": 229,

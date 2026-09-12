@@ -1,10 +1,12 @@
 {
   "approval": {
-    "date": null,
+    "approved_revision": "5cc8359ea010db247e634bfd97153b3ecbd4a18d",
+    "basis": "Mathew Turnell explicitly directed restoration of the established UI/UX from the Apache-licensed archive and connection of the resulting React workbench to the public backend on 2026-09-12; the dependency set remains unchanged.",
+    "date": "2026-09-12",
     "owner": "Mathew Turnell",
     "scope": "Exact files, dependency lock, and proposed Apache-2.0 treatment in this inventory"
   },
-  "approval_status": "pending_human_approval",
+  "approval_status": "approved_for_apache_review_candidate",
   "bundled_runtime_dependencies": [
     {
       "license": "MIT",
