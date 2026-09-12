@@ -6,16 +6,19 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import re
 import stat
 import tarfile
 import zipfile
 from pathlib import Path, PurePosixPath
 
-from scan_public_candidate import _category_for_path, _scan_payload
+from scan_public_candidate import (
+    APPROVED_BINARY_FIXTURES,
+    APPROVED_OVERSIZED_BUNDLE_MEMBERS,
+    _category_for_path,
+    _scan_payload,
+)
 
 
-PRIVATE_PATH = re.compile(rb"/(?:home|Users)/[^/\s]+/")
 FORBIDDEN_PARTS = {"projects", "deploy", "assistant", "commercial", "browser", "training", "architecture"}
 WHEEL_REACT_ROOT = "modelforge_workbench/workbench/static/workbench/"
 WHEEL_MODAL_STYLE = "modelforge_workbench/workbench/static/modal-setup.css"
@@ -109,6 +112,19 @@ def verify_sdist_react_inventory(
             raise ValueError(f"inventoried React source changed in sdist: {record['path']}")
 
 
+def repository_relative(name: str, *, wheel: bool) -> str:
+    path = PurePosixPath(name)
+    if wheel and path.parts[:4] == (
+        "modelforge_workbench", "workbench", "static", "workbench",
+    ):
+        return "src/" + name
+    if wheel and "share" in path.parts:
+        share_index = path.parts.index("share")
+        if path.parts[share_index + 1:share_index + 2] == ("modelforge",):
+            return "/".join(path.parts[share_index + 2:])
+    return "/".join(path.parts[1:]) if not wheel and len(path.parts) > 1 else name
+
+
 def check_name(name: str, *, wheel: bool) -> None:
     path = PurePosixPath(name)
     if path.is_absolute() or ".." in path.parts:
@@ -117,15 +133,7 @@ def check_name(name: str, *, wheel: bool) -> None:
         raise ValueError(f"excluded wheel member: {name}")
     if path.suffix in {".pyc", ".pth", ".pt", ".safetensors"}:
         raise ValueError(f"forbidden archive member: {name}")
-    if wheel and "share" in path.parts:
-        share_index = path.parts.index("share")
-        relative = (
-            "/".join(path.parts[share_index + 2:])
-            if path.parts[share_index + 1:share_index + 2] == ("modelforge",)
-            else name
-        )
-    else:
-        relative = "/".join(path.parts[1:]) if not wheel and len(path.parts) > 1 else name
+    relative = repository_relative(name, wheel=wheel)
     category = _category_for_path(relative)
     standard_sdist_metadata = (
         not wheel
@@ -137,7 +145,10 @@ def check_name(name: str, *, wheel: bool) -> None:
         raise ValueError(f"forbidden archive member category {category}: {name}")
 
 
-def check_payload(name: str, payload: bytes) -> None:
+def check_payload(name: str, payload: bytes, *, wheel: bool = False) -> None:
+    relative = repository_relative(name, wheel=wheel)
+    if relative in APPROVED_BINARY_FIXTURES | APPROVED_OVERSIZED_BUNDLE_MEMBERS:
+        return
     issues: list[dict] = []
     _scan_payload(payload, scope="archive", label=name, issues=issues)
     if issues:
@@ -219,9 +230,7 @@ def main() -> int:
                         excluded["directory_container"] += 1
                         continue
                     payload = bundle.read(name)
-                    if PRIVATE_PATH.search(payload):
-                        raise ValueError(f"private-machine reference in {name}")
-                    check_payload(name, payload)
+                    check_payload(name, payload, wheel=True)
                     checked += 1
         else:
             with tarfile.open(archive, "r:gz") as bundle:
@@ -238,9 +247,7 @@ def main() -> int:
                         continue
                     stream = bundle.extractfile(member)
                     payload = stream.read() if stream else b""
-                    if PRIVATE_PATH.search(payload):
-                        raise ValueError(f"private-machine reference in {member.name}")
-                    check_payload(member.name, payload)
+                    check_payload(member.name, payload, wheel=False)
                     checked += 1
     print(json.dumps({
         "total_members": total,

@@ -1,3 +1,45 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="color-scheme" content="dark" /><meta name="referrer" content="no-referrer" /><link rel="icon" href="data:," /><title>ModelForge Public Alpha</title>  <script type="module" crossorigin src="/workbench/assets/index-CBz6B9in.js"></script>
-  <link rel="stylesheet" crossorigin href="/workbench/assets/index-DdsPumYW.css">
-</head><body><div id="root"></div></body></html>
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#07090b" />
+    <link rel="icon" href="/workbench/favicon.svg" />
+    <title>ModelForge Workbench</title>
+    <style>
+      html,body,#root{width:100%;height:100%;margin:0;background:#07090b;color:#f1f3f6;font-family:Inter,"Segoe UI",sans-serif}
+      .workbench-static-boot{display:grid;place-items:center;align-content:center;gap:14px;width:100%;height:100%}
+      .workbench-static-boot .workbench-loading-brand{display:grid;justify-items:center;gap:6px}.workbench-static-boot .product-identity{display:flex;align-items:center;gap:11px}.workbench-static-boot .brand-symbol{width:44px;height:44px;border-radius:12px}
+      .workbench-static-boot .brand-word{font-size:25px;line-height:1}.workbench-static-boot .brand-word span{color:#76b900}.workbench-static-boot .product-release{display:flex;gap:5px;color:#7c838d;font:10px/1 monospace}.workbench-static-boot .product-release strong{font-size:8px;letter-spacing:.09em;opacity:.82}.workbench-static-boot>span{color:#858d99}
+      .workbench-static-recovery{max-width:520px;padding:24px;text-align:center}.workbench-static-recovery strong{font-size:18px}.workbench-static-recovery p{color:#858d99;line-height:1.5}.workbench-static-recovery a{display:inline-block;padding:9px 13px;border-radius:6px;background:#76b900;color:#081000;font-weight:700;text-decoration:none}
+    </style>
+    <script type="module" crossorigin src="/workbench/assets/index-CwjiXmzl.js"></script>
+    <link rel="stylesheet" crossorigin href="/workbench/assets/monaco-DLl1KWmb.css">
+    <link rel="stylesheet" crossorigin href="/workbench/assets/index-C3OMyRNC.css">
+  </head>
+  <body>
+    <div id="root">
+      <div class="workbench-boot workbench-static-boot" role="status" aria-live="polite">
+        <canvas class="point-cloud-wave workbench-loading-wave" aria-hidden="true"></canvas>
+        <div class="workbench-loading-content">
+          <div class="workbench-loading-brand">
+            <span class="product-identity large"><img class="brand-symbol" src="/workbench/favicon.svg" alt="" aria-hidden="true" /><span class="brand-word"><span>Model</span><strong>Forge</strong></span></span>
+            <span class="product-release"><strong>ALPHA</strong><span>v0.1.0a9</span></span>
+          </div>
+          <span>Starting the local workbench…</span>
+          <noscript>JavaScript is required to run the ModelForge workbench.</noscript>
+        </div>
+        <footer class="modality-footer workbench-loading-modality"><img src="/workbench/modalitysystems.png" alt="Modality Systems" /></footer>
+      </div>
+    </div>
+    <script>
+      window.setTimeout(function () {
+        var boot = document.querySelector(".workbench-static-boot");
+        if (!boot) return;
+        boot.className = "workbench-static-boot workbench-static-recovery";
+        boot.innerHTML = "<strong>The local workbench did not start</strong><p>Reload to fetch the current compiled workspace. If the problem persists, inspect the server console.</p><a href=\"?workbench_reload=" + Date.now() + "\">Reload current build</a>";
+      }, 8000);
+    </script>
+  </body>
+</html>

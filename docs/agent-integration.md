@@ -1,12 +1,13 @@
 # Agent integration
 
-The public product includes a local ModelForge Coding Assistant/Codex
-integration, but that service remains planned until its project-scoping,
-environment filtering, durable history, cancellation, write authorization,
-and held-out-data protections pass. Until then, a coding agent edits the
-project repository externally and integrates it into the same visible services
-used by a human; the React shell labels the in-product assistant unavailable
-rather than simulating it.
+The public product includes Cliff, a local read-only project-evidence
+assistant. Its server-owned service is project scoped, filters its evidence,
+keeps durable history, supports cancellation, and cannot read credentials or
+held-out samples. It answers from registered project, dataset, action, run,
+and checked-artifact evidence without making a model or network call. A
+model-backed coding provider, attachments, delegation, and any write authority
+remain disabled until separately qualified. External coding agents integrate
+through the same visible services used by a human.
 
 1. Keep models, dataset decoding, metric meaning, and task semantics in the
    project.

@@ -76,14 +76,18 @@ def test_public_tree_has_no_private_checkout_or_generated_state():
 def test_navigation_contains_no_excluded_product_controls():
     page = (ROOT / "workbench" / "src" / "App.tsx").read_text(encoding="utf-8")
     for label in (
-        "Overview", "Source", "Dataset", "Annotation", "Models / Architecture",
-        "Training", "Inference", "Jobs / Runs", "ModelForge Coding Assistant",
+        "Overview", "Source", "Datasets", "Models", "LLM Lab", "Training",
+        "Inference", "Performance", "Deployments", "Jobs", "Knowledge Base",
         "Settings",
     ):
         assert f'label: "{label}"' in page
-    for label in ("Cliff", "Billing", "Deployments", "Account", "Commercial status"):
+    assert "<CliffPanel" in page
+    for label in ("Billing", "Commercial status"):
         assert label not in page
-    assert "No placeholder data or action is exposed" in page
+    deploy = (ROOT / "workbench" / "src" / "views" / "DeployView.tsx").read_text(
+        encoding="utf-8",
+    )
+    assert "api.applicationDeployment" in deploy
 
 
 def test_public_import_namespace_does_not_overlay_private_package():

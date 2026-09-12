@@ -25,16 +25,19 @@ and their dedicated staging volumes were deleted.
 
 ## Current local recovery evidence
 
-- The restored React client is limited to seventeen inventoried source,
-  configuration, and lock files from the Apache-licensed archive. Commercial
+- The restored React client is limited to 101 inventoried source, asset,
+  configuration, and lock files from the Apache-licensed archive plus bounded
+  public adaptations. Commercial
   API clients, identity, billing, hosting, and deployment surfaces are absent.
 - The public client uses only additive `/api/v1` projections and supports
-  project selection, authenticated dataset inspection, sample-bound annotation,
-  local training, inference/prompt execution, durable jobs, cancellation,
-  recovery, checked artifacts, logs, telemetry, and native result previews.
-- Nine React tests, TypeScript checking, and the production build pass. The
-  bundle is approximately 247 KiB JavaScript and 43 KiB CSS before gzip.
-- Eighteen packaged-loopback browser journeys exercise the compiled client at
+  project selection, authenticated dataset inspection, sample-bound visual and
+  conversation annotation, local training, inference/prompt execution, durable
+  jobs, cancellation, recovery, checked artifacts, logs, telemetry, native
+  result previews, read-only project assistant chat, and Modal readiness.
+- Eighty-nine React tests, TypeScript checking, the production build, and 240
+  Python tests pass. Monaco language workers and the architecture/chart chunks
+  remain code-split from the primary shell.
+- Twenty-one packaged-loopback browser journeys exercise the compiled client at
   desktop and 390-pixel widths, including Axe and accessibility-tree gates.
   Four redistributable conformance projects each cover dataset loading,
   persisted annotation, annotation-bound training metrics/checkpoint evidence,
@@ -42,7 +45,7 @@ and their dedicated staging volumes were deleted.
   not scientific model quality.
 - The npm production and full development graphs report zero known
   vulnerabilities with Vitest 4.1.11.
-- The exact seventeen-file React source inventory and locked dependency graph
+- The exact 101-file React source inventory and locked dependency graph
   are bound to the implementation revision identified in the inventory. The
   boundary verifier must pass this source-licensing gate before publication.
 
@@ -127,8 +130,8 @@ dedicated input volumes were deleted, and the environment reported no deployed
 app, volume, or active container. Declared resource plans remain disclosures,
 not quotes or budget enforcement.
 
-The revised wheel plus source distribution contain 307 archive members in
-total. The verifier inspected all 271 regular-file payloads and excluded 36
+The revised wheel plus source distribution contain 527 archive members in
+total. The verifier inspected all 476 regular-file payloads and excluded 51
 directory-container records because they carry no payload. Symbolic links and
 other non-regular members are rejected rather than counted as exclusions. This
 resolves the earlier count discrepancy: “total” described archive records,

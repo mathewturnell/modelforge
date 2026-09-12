@@ -2,15 +2,20 @@ import {expect, test} from "../support/workbench.js";
 
 
 async function openSettings(page) {
-  await expect(page.getByText("Connected", {exact: true})).toBeVisible();
-  await page.getByRole("button", {name: /^Settings/}).click();
-  await expect(page.getByRole("heading", {name: "Settings"})).toBeVisible();
+  await expect(page.getByRole("heading", {name: "Synthetic Threshold Lab", exact: true})).toBeVisible();
+  await page.getByRole("button", {name: "Settings", exact: true}).click();
+  await expect(page.getByRole("heading", {name: "Settings", exact: true})).toBeVisible();
 }
 
-test("the real default Modal status endpoint is non-live and actionable", async ({page, workbench}) => {
+async function chooseProject(page, name) {
+  await page.locator(".project-switcher").click();
+  await page.getByRole("menuitem", {name: new RegExp(`^${name}`)}).click();
+}
+
+test("the real Modal status endpoint is non-live, visible, and actionable", async ({page, workbench}) => {
   await page.goto(await workbench.start("empty"), {waitUntil: "domcontentloaded"});
   await openSettings(page);
-  await expect(page.getByText(/Modal SDK|Modal is optional|readiness could not/i)).toBeVisible();
+  await expect(page.getByText("Modal execution service", {exact: true})).toBeVisible();
   await expect(page.getByRole("link", {name: "Open owner setup guide"})).toBeVisible();
   const response = await page.evaluate(async () => {
     const token = sessionStorage.getItem("modelforge.public-alpha.token");
@@ -18,13 +23,23 @@ test("the real default Modal status endpoint is non-live and actionable", async 
     return {status: result.status, value: await result.json()};
   });
   expect(response.status).toBe(200);
-  expect(response.value).toMatchObject({
-    provider: "modal",
-    installed: expect.any(Boolean),
-    message: expect.any(String),
-    live_verified: false,
-  });
+  expect(response.value).toMatchObject({provider: "modal", installed: expect.any(Boolean), message: expect.any(String), live_verified: false});
   expect(["unconfigured", "configured", "error"]).toContain(response.value.state);
+});
+
+test("Cliff answers from project evidence and restores its durable conversation", async ({page, workbench}) => {
+  const url = await workbench.start("full");
+  await page.goto(url, {waitUntil: "domcontentloaded"});
+  await chooseProject(page, "BDD100K Road Scene Lab");
+  await expect(page.getByText("Cliff · local evidence assistant", {exact: true})).toBeVisible();
+  await page.getByRole("textbox", {name: "Ask Cliff"}).fill("Summarize the registered dataset and annotation boundary");
+  await page.getByRole("button", {name: "Send to Cliff"}).click();
+  await expect(page.getByRole("heading", {name: "Dataset boundary"})).toBeVisible();
+  await expect(page.getByText(/Annotations are revisioned owner-state sidecars/)).toBeVisible();
+
+  await page.reload({waitUntil: "domcontentloaded"});
+  await expect(page.getByText("Summarize the registered dataset and annotation boundary", {exact: true})).toBeVisible();
+  await expect(page.getByRole("heading", {name: "Dataset boundary"})).toBeVisible();
 });
 
 test("essential request failures and unknown routes remain visible and bounded", async ({page, workbench}) => {
@@ -33,14 +48,11 @@ test("essential request failures and unknown routes remain visible and bounded",
   page.on("pageerror", error => pageErrors.push(error.message));
   await page.route("**/api/v1/projects", route => route.abort("failed"));
   await page.goto(url, {waitUntil: "domcontentloaded"});
-  await expect(page.getByText("Disconnected", {exact: true})).toBeVisible();
   await expect(page.getByRole("alert")).toContainText(/failed to fetch/i);
   expect(pageErrors).toEqual([]);
 
   await page.unroute("**/api/v1/projects");
-  const response = await page.request.get(new URL("/missing-route", url).href, {
-    headers: {Authorization: "Bearer public-browser-fixture-token"},
-  });
+  const response = await page.request.get(new URL("/missing-route", url).href, {headers: {Authorization: "Bearer public-browser-fixture-token"}});
   expect(response.status()).toBe(404);
   await expect(response.json()).resolves.toEqual({error: "Not found"});
 });
@@ -52,15 +64,7 @@ for (const state of ["unconfigured", "configured", "error"]) {
     await page.route("**/api/v1/providers/modal", route => route.fulfill({
       status: 200,
       contentType: "application/json",
-      body: JSON.stringify({
-        provider: "modal",
-        state,
-        installed: state !== "unconfigured",
-        profile: state === "configured" ? "default" : null,
-        environment: state === "configured" ? "main" : null,
-        message,
-        live_verified: false,
-      }),
+      body: JSON.stringify({provider: "modal", state, installed: state !== "unconfigured", profile: state === "configured" ? "default" : null, environment: state === "configured" ? "main" : null, message, live_verified: false}),
     }));
     await page.goto(url, {waitUntil: "domcontentloaded"});
     await openSettings(page);
@@ -70,20 +74,14 @@ for (const state of ["unconfigured", "configured", "error"]) {
   });
 }
 
-test("checked preview failures never expose empty media as success", async ({page, workbench}) => {
+test("checked preview failures never present empty media as success", async ({page, workbench}) => {
   await page.goto(await workbench.start("full"), {waitUntil: "domcontentloaded"});
-  await page.getByLabel("Project", {exact: true}).selectOption({label: "BDD100K Road Scene Lab · synthetic conformance fixture"});
-  await page.getByRole("button", {name: /^Dataset/}).click();
-  await page.getByRole("option", {name: /Authored road scene/i}).click();
-  await page.getByRole("button", {name: /^Inference/}).click();
-  await page.getByRole("button", {name: "Run synthetic vision fixture", exact: true}).click();
-  await expect(page.locator(".run-inspector .badge")).toHaveText("completed", {timeout: 30_000});
-  await page.route("**/api/v1/runs/*/artifacts/*", route => route.fulfill({
-    status: 404,
-    contentType: "application/json",
-    body: '{"error":"changed"}',
-  }));
-  await page.getByRole("button", {name: /annotated-road-scene\.svg/}).first().click();
-  await expect(page.getByRole("alert")).toContainText("Checked artifact unavailable");
-  await expect(page.getByLabel(/result preview/)).toHaveCount(0);
+  await chooseProject(page, "BDD100K Road Scene Lab");
+  await page.getByRole("button", {name: "Datasets", exact: true}).click();
+  await page.getByRole("button", {name: "Run inference on Authored road scene"}).click();
+  await page.route("**/api/v1/runs/*/artifacts/*", route => route.fulfill({status: 404, contentType: "application/json", body: '{"error":"changed"}'}));
+  await page.getByRole("button", {name: "Launch inference"}).click();
+  await expect(page.getByRole("alert")).toContainText("Checked artifact unavailable", {timeout: 15_000});
+  await expect(page.getByText("Result unavailable", {exact: true})).toBeVisible();
+  await expect(page.locator('img[alt="Inference result"], video[aria-label="Inference result playback"]')).toHaveCount(0);
 });

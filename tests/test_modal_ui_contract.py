@@ -10,57 +10,56 @@ CLIENT = ROOT / "workbench" / "src"
 
 
 def test_modal_target_controls_are_explicit_accessible_and_non_defaulting() -> None:
-    app = (CLIENT / "App.tsx").read_text(encoding="utf-8")
+    picker = (CLIENT / "components" / "ComputeTargetPicker.tsx").read_text(encoding="utf-8")
+    toolbar = (CLIENT / "components" / "ExecutionToolbar.tsx").read_text(encoding="utf-8")
+    api = (CLIENT / "lib" / "api.ts").read_text(encoding="utf-8")
 
-    assert re.search(r"<span>Execution target</span>\s*<div[^>]+>\s*<Icon[^>]+/>\s*<select", app)
-    assert re.search(r'type="checkbox"\s+checked=\{billable\}', app)
-    assert "I confirm this exact user-owned Modal binding may incur charges." in app
-    assert re.search(
-        r'target\?\.billable\s*&&\s*!billable\s*\?\s*"Confirm this billable target"',
-        app,
-    )
-    assert "setBillable(false)" in app
-    assert "Recover exact Modal call" in app
+    assert 'aria-label="Execution target"' in picker
+    assert '<option value="cloud" disabled={!cloudReady}>' in picker
+    assert 'disabled: !cloudReady' in toolbar
+    assert "Provider compute may be billable" in api
+    assert 'billable_confirmed: true' in api
 
 
 def test_managed_launch_uses_stale_binding_confirmation_and_retry_identity() -> None:
-    script = (CLIENT / "App.tsx").read_text(encoding="utf-8")
+    script = (CLIENT / "lib" / "api.ts").read_text(encoding="utf-8")
 
     assert 'protocol: "modelforge.managed-action-request/v1"' in script
-    assert "idempotency_key: idempotency" in script
-    assert "binding_sha256: target.binding_sha256 || null" in script
-    assert "billable_confirmed:" in script
+    assert "idempotency_key: idempotencyKey" in script
+    assert "binding_sha256: bindingSha256" in script
+    assert "billable_confirmed: true" in script
     assert re.search(
-        r"sessionStorage\.setItem\(\s*key,\s*JSON\.stringify\(\{\s*fingerprint,\s*idempotency,?\s*\}\),?\s*\)",
+        r"sessionStorage\.setItem\(retryKey, JSON\.stringify\(\{fingerprint, idempotency: idempotencyKey\}\)\)",
         script,
     )
-    assert "retrying unchanged reuses the same identity" in script
-    assert "sessionStorage.removeItem(key)" in script
+    assert "retained.fingerprint === fingerprint" in script
+    assert "sessionStorage.removeItem(retryKey)" in script
     assert "application: target" not in script
     assert "function: target" not in script
     assert "environment: target" not in script
 
 
 def test_provider_recovery_and_missing_observations_are_not_presented_as_success() -> None:
-    script = (CLIENT / "App.tsx").read_text(encoding="utf-8")
+    script = (CLIENT / "views" / "JobsView.tsx").read_text(encoding="utf-8")
     api = (CLIENT / "lib" / "api.ts").read_text(encoding="utf-8")
 
     assert "/recover`" in api
     assert "Recover exact Modal call" in script
-    assert '`${run.status} · unavailable`' in script
-    assert '`${run.status} · cancellation requested`' in script
-    assert "No live progress reported." in script
-    assert "completed · unavailable" not in script
+    assert 'observation.state === "unavailable"' in script
+    assert 'observation.stale === true' in script
+    assert 'jobLocation(job) === "cloud"' in script
+    assert "it does not submit a new one" in script
+    assert "jobCanRecover(job)" in script
 
 
 def test_modal_controls_remain_operable_in_compact_layout() -> None:
     styles = (CLIENT / "styles.css").read_text(encoding="utf-8")
 
-    compact = styles[styles.index("@media (max-width: 800px)") :]
-    assert '"rail workspace"' in compact
-    assert '"rail bottom"' in compact
+    compact = styles[styles.index("@media (max-width: 760px)") :]
+    assert ".compact-activity-trigger { display: inline-grid; }" in compact
     assert ".run-detail" in compact
-    assert "min-height: 44px" in compact
+    assert ".artifact-modal-body { grid-template-columns: 1fr; }" in compact
+    assert "min-height: 45px" in styles
     assert "overflow-wrap: anywhere" in styles
 
 

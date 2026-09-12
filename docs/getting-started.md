@@ -57,12 +57,13 @@ with `Ctrl-C`.
 ## 2. Find your way around
 
 The title bar contains the `Project` selector. The left rail contains
-`Overview`, `Dataset`, `Annotation`, `Training`, `Inference`, `Jobs / Runs`,
-and `Settings`, alongside planned destinations that are visibly marked
-unavailable or partial. The right-hand project assistant panel preserves the
-established layout but stays disabled until its server authority exists. The
-bottom evidence panel keeps status, `Output`, logs, problems, jobs, and checked
-artifacts visible while you move around the project.
+`Overview`, `Source`, `Datasets`, `Models`, `LLM Lab`, `Training`, `Inference`,
+`Performance`, `Deployments`, `Jobs`, `Knowledge Base`, and `Settings`.
+Controls backed by the public services are active; excluded write-capable Git,
+deployment, evaluation, and hosted features remain visibly bounded. The
+right-hand Cliff panel is a functional, durable, read-only project-evidence
+assistant. The bottom evidence panel keeps status, `Output`, logs, problems,
+jobs, and checked artifacts visible while you move around the project.
 
 ![Project selection and workbench navigation in the current UI](assets/screenshots/01-project-overview.png)
 

@@ -22,6 +22,7 @@ from .application.managed_execution import (
     ManagedActionService,
 )
 from .application.datasets import DatasetService
+from .application.project_assistant import LocalProjectAssistantService
 from .application.project_actions import ProjectActionService
 from .application.modal_bindings import (
     FileModalActionBindingRepository,
@@ -33,6 +34,7 @@ from .application.runtime_configurations import (
 )
 from .application.projects import ProjectService
 from .application.runs import RunScope, RunService
+from .application.workspace_presentations import ProjectWorkspacePresentationService
 from .contracts.project_capabilities import project_capabilities
 from .execution.local import LocalExecutor
 from .infrastructure.local_artifacts import LocalFilesystemArtifactIO
@@ -210,6 +212,11 @@ class AlphaWorkbench:
         self.runtime_configurations = ProjectRuntimeConfigurationService(
             FileProjectRuntimeConfigurationRepository(self.state_root),
         )
+        self.workspace = ProjectWorkspacePresentationService(
+            self.runtime_configurations,
+            {ALPHA_PROJECT: Path(str(files("modelforge_workbench")))},
+        )
+        self.assistant = LocalProjectAssistantService(self.state_root)
         self.modal_bindings = ModalActionBindingService(
             FileModalActionBindingRepository(self.state_root), self.projects,
         )
@@ -332,6 +339,57 @@ class AlphaWorkbench:
             if item["support"] == "supported"
         ]
         return self._with_execution_targets(runtime)
+
+    def project_overview(self, project_id: str) -> dict:
+        return self.workspace.overview(self.project(project_id))
+
+    def project_source(self, project_id: str, path: str = "") -> dict:
+        # Confirm project identity through the public service before resolving
+        # the separate owner-only repository registration.
+        self.project(project_id)
+        return self.workspace.source_tree(project_id, path)
+
+    def project_source_file(self, project_id: str, path: str) -> dict:
+        self.project(project_id)
+        return self.workspace.source_file(project_id, path)
+
+    def project_git_status(self, project_id: str) -> dict:
+        self.project(project_id)
+        return self.workspace.git_status(project_id)
+
+    def project_architecture(self, project_id: str) -> dict:
+        return self.workspace.architecture(self.project(project_id))
+
+    def assistant_status(self) -> dict:
+        return self.assistant.status()
+
+    def assistant_history(self, project_id: str) -> dict:
+        self.project(project_id)
+        return self.assistant.history(project_id)
+
+    def start_assistant(
+        self, project_id: str, *, session_id: str | None, request_id: str, message: str,
+    ) -> dict:
+        return self.assistant.start(
+            self.project(project_id), self.list_runs(project_id),
+            session_id=session_id, request_id=request_id, message=message,
+        )
+
+    def assistant_run(
+        self, project_id: str, session_id: str, run_id: str, request_id: str,
+    ) -> dict:
+        self.project(project_id)
+        return self.assistant.run(project_id, session_id, run_id, request_id)
+
+    def active_assistant_run(self, project_id: str, session_id: str) -> dict | None:
+        self.project(project_id)
+        return self.assistant.active(project_id, session_id)
+
+    def cancel_assistant_run(
+        self, project_id: str, session_id: str, run_id: str, request_id: str,
+    ) -> dict:
+        self.project(project_id)
+        return self.assistant.cancel(project_id, session_id, run_id, request_id)
 
     def list_samples(self, project_id: str, dataset_id: str, *, cursor=0, limit=50) -> dict:
         return self.datasets.list_samples(project_id, dataset_id, cursor=cursor, limit=limit)

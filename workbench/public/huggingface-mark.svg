@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Hugging Face">
+  <g fill="none" stroke="#FFD21E" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9">
+    <circle cx="12" cy="9.6" r="6.8" fill="#FFD21E"/>
+    <path d="M6.3 14.2c-1.5.2-2.5 1.2-3.1 2.3-.5.9-.3 2 .5 2.6.8.6 1.9.4 2.5-.4l1.9-2.4M17.7 14.2c1.5.2 2.5 1.2 3.1 2.3.5.9.3 2-.5 2.6-.8.6-1.9.4-2.5-.4l-1.9-2.4M8 17c2.4 1.5 5.6 1.5 8 0"/>
+  </g>
+  <g fill="none" stroke="#332700" stroke-linecap="round" stroke-width="1.65">
+    <path d="M9.1 8.5v.15m5.8-.15v.15M9 11.7c1.7 1.6 4.3 1.6 6 0"/>
+  </g>
+</svg>

@@ -101,14 +101,14 @@
       "sha256": "90503d24b0fb6cdf97dcb87189bf408d8ad5f9dc9bd90e8ab6f7fe5d306439a4"
     },
     {
-      "bytes": 5107,
+      "bytes": 5759,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "THIRD_PARTY_NOTICES",
-      "sha256": "82af1f274606564466c4419f798a5455720a25832df59498f845660b25e69cd3"
+      "sha256": "1a9323b5d5880637090ad1cc84f2a8a8835bac4c00f79dd99785f7efa9800281"
     },
     {
       "bytes": 18439,
@@ -141,14 +141,14 @@
       "sha256": "d756e29b189b4098f88ffed356722f53be220220d1ccb0bd6c86d5125828e1b6"
     },
     {
-      "bytes": 4932,
+      "bytes": 10719,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "browser-tests/journeys/first-use.spec.js",
-      "sha256": "15dcee48cf9adca8ef74bc0d0cc067802f3a143f7882651a8c53907205b0bbe4"
+      "sha256": "9ac8fc9f7b3e8837743fc6a6467b4a0dd2f88099cb05b35034df490bd892074c"
     },
     {
       "bytes": 109445,
@@ -161,14 +161,14 @@
       "sha256": "30535e4e1ae691c7bfeff566cdb9d9ead8d5a7aba87c8c05e00d35fe33c80334"
     },
     {
-      "bytes": 109445,
+      "bytes": 166607,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "browser-tests/journeys/first-use.spec.js-snapshots/first-use-desktop-linux.png",
-      "sha256": "30535e4e1ae691c7bfeff566cdb9d9ead8d5a7aba87c8c05e00d35fe33c80334"
+      "sha256": "f588db57aed02bc7f67b17bd845e5887211b6213940a2024f069d6d1302438d4"
     },
     {
       "bytes": 85696,
@@ -181,44 +181,44 @@
       "sha256": "3b432e25730295d27df29b437f9fb5265699d23c272db0f010874ca118452989"
     },
     {
-      "bytes": 85696,
+      "bytes": 37237,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "browser-tests/journeys/first-use.spec.js-snapshots/first-use-mobile-390-linux.png",
-      "sha256": "3b432e25730295d27df29b437f9fb5265699d23c272db0f010874ca118452989"
+      "sha256": "8fe97f01f68cbaf8974f1f3b0293f2b2cff5bbe814eef43368f5c419eedfdadc"
     },
     {
-      "bytes": 6371,
+      "bytes": 4750,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "browser-tests/journeys/local-lifecycle.spec.js",
-      "sha256": "3894adc0f449b078ee7caf8dda5829eef064d638507f0ab60ab0b4f30018b1cb"
+      "sha256": "c01044e259a2b85a41d3f4f1edf4f7ba188ff972278c556b066e0ebe2f3de8ee"
     },
     {
-      "bytes": 4412,
+      "bytes": 5286,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "browser-tests/journeys/recovery-and-modal.spec.js",
-      "sha256": "562bbce0f285889cd7e301485cdb6e49bc9b77f47be25770a3e9a68fd8c06881"
+      "sha256": "b1eaebe1bde402fafeac56108606b8f117e8ff157c083b86f258d00a69c1aacb"
     },
     {
-      "bytes": 7962,
+      "bytes": 6631,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "browser-tests/journeys/reference-project-journeys.spec.js",
-      "sha256": "f2c51151a822dc6be6094bb2d99dbde618dcfd24bcbad9e0d0c78a4a69e248e1"
+      "sha256": "56166ba32c0c4170c8a86765dc265ff79f49a2cbfa7f8d8d5bf9ef6f2b485015"
     },
     {
       "bytes": 3829,
@@ -231,24 +231,24 @@
       "sha256": "d19630cad7d268a8b9151da82f0895a8395c57b429db6711501e9898b691131d"
     },
     {
-      "bytes": 2859,
+      "bytes": 2964,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/agent-integration.md",
-      "sha256": "68be60b4e26a5c9c909e61946ef7186b261738e3714c04cc14d8dc6ab7ace9e1"
+      "sha256": "7fa2bf98070293aef05df8e531f96fd20fe00ddfa2c58f028060f1cc3ea7ee2b"
     },
     {
-      "bytes": 7356,
+      "bytes": 7722,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/architecture.md",
-      "sha256": "a855fca38a1c91465b88e919728f4846ce37a5fc18c35dbe9e81c3864de0cf5b"
+      "sha256": "af1ceb5e7a87caea6727f57c99398833ea6f95a947e38200bcc8f39960b73644"
     },
     {
       "bytes": 701,
@@ -371,14 +371,14 @@
       "sha256": "25addc234f9b797a629c990784e932f9d9ab4293874424604f5db445556f4d8e"
     },
     {
-      "bytes": 6695,
+      "bytes": 6843,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/decisions/0002-compiled-react-public-workbench.md",
-      "sha256": "45dbd7ab89d8eeeced53a7be3b4cc2b91080d14ea8c1e6d984bc47a7bf21146d"
+      "sha256": "b9877bb4c2b8da3f89b9d4bd92b4659b2e098c6290925fabe9bc5b0d4b1ec383"
     },
     {
       "bytes": 4403,
@@ -391,24 +391,24 @@
       "sha256": "6f3253882b5fa1c3c14cfcf278eede942f10682ec2f159036685a15536aa3524"
     },
     {
-      "bytes": 16895,
+      "bytes": 16987,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/getting-started.md",
-      "sha256": "3120dba75f2b48956a4257160e79c8d8dcc64704be25259804ec49a9f9582610"
+      "sha256": "8ebdafb8a864bc299c48687f821de669ff3a19d8967bfc9937d5a1416ec257ae"
     },
     {
-      "bytes": 5126,
+      "bytes": 5285,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/licensing.md",
-      "sha256": "aa5e9adc55f661c0185c8a3ece7c0f29a2ba2cd67ada7ff40ccb6ff2a569dd17"
+      "sha256": "303670bdcdb82c559d9d05e02b31556ea3a472937c5b842a208dfa97fa3ee12f"
     },
     {
       "bytes": 9753,
@@ -421,54 +421,54 @@
       "sha256": "9729cb01e86c794467711f811f1a85fc641c5151b055373b261f42fe287f6778"
     },
     {
-      "bytes": 4906,
+      "bytes": 5312,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/product-boundary.md",
-      "sha256": "49168da69caf1c61d57172e8ef0ba2e329f10b564a30f14fcde98ec5aea21d96"
+      "sha256": "9ea38b4b2f04f791f30aaf714411e066cd3fcea30e695a3cdc69de17ee8a74ec"
     },
     {
-      "bytes": 11212,
+      "bytes": 11372,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/release-status.md",
-      "sha256": "d172085afda6c9ef8c83e1566308fb35b329564013cb4a17e8af9347143a239a"
+      "sha256": "4c65212e6561e081b5a9508f6cb5b4435fe089dbad9519c0a5990fe2cf5b8e64"
     },
     {
-      "bytes": 6211,
+      "bytes": 6392,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/releases/0.1.0a1.md",
-      "sha256": "0ebd61785c436c0725c4453edd4913123e17968d5a8354a22559726c0fa68b3e"
+      "sha256": "489299006bef9afa8ae17b55c61f95c498141394304c7408f0cae740df3ba260"
     },
     {
-      "bytes": 6312,
+      "bytes": 6634,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/requirements.md",
-      "sha256": "db1a70214967fa1820aa758d575c97f5c735aac7c232d7d3db3c5062ba9bc884"
+      "sha256": "9514e96fb71da59ea266afa033c0b4c620e535c60856f8f769f254e0bb8c9e85"
     },
     {
-      "bytes": 8599,
+      "bytes": 8691,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/ux-qualification.md",
-      "sha256": "57021a7ab5c6fabc752f4be86a20f9c7b6653d89c192e40b3b5440ceb0e89000"
+      "sha256": "f2a1911c4d016e11cc8788e073a264e736a05b2a61f4b8713b2df9509f4637f9"
     },
     {
       "bytes": 16785,
@@ -1079,14 +1079,14 @@
       "sha256": "e374bd0ea88f8539daf527d03417c147dd90c24250029128a22ac42f69b7d5e6"
     },
     {
-      "bytes": 8779,
+      "bytes": 49647,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "react-source-inventory.json",
-      "sha256": "7b430a5b1c9c2a2972c149fca12c9c31ee07eb49b24f9e6a7ebfe90e8352d13a"
+      "sha256": "55c2251dda939916afe7c3627e59b8f23f702245a37dfa2d6072d77099b07094"
     },
     {
       "bytes": 229,
@@ -1099,14 +1099,14 @@
       "sha256": "93c90addf1603f0bb45e078dc4bff0ad0da7bbe814dfae71bdb8683c105c55af"
     },
     {
-      "bytes": 4086,
+      "bytes": 5574,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "scripts/build_react_inventory.py",
-      "sha256": "5e107fb70522daee72a9f6add0385c471b398ac9763b152d45c42e5436ef0bae"
+      "sha256": "c51099c577bc03957db8a436424d9919b9ae2df67e546428228211647e86e571"
     },
     {
       "bytes": 3626,
@@ -1119,24 +1119,24 @@
       "sha256": "9681168fe66f3b19bedb74561653eb049597eb8dba98cb918474e03d5e24a3e0"
     },
     {
-      "bytes": 8474,
+      "bytes": 9506,
       "license": "Apache-2.0",
       "mode": "100755",
       "origin": {
         "kind": "repository-source"
       },
       "path": "scripts/scan_public_candidate.py",
-      "sha256": "90a7db7813c9fcbd25d73a4f24f1a4513f4e151b115c4bac5dccccdef686ad1b"
+      "sha256": "a9b6d36b056ccc7ea6156eb822779b1d85087cc2895232a1273eed1840ca873a"
     },
     {
-      "bytes": 10846,
+      "bytes": 11006,
       "license": "Apache-2.0",
       "mode": "100755",
       "origin": {
         "kind": "repository-source"
       },
       "path": "scripts/verify_distribution.py",
-      "sha256": "a3bdf0a19435e84eb4af071da1090bb05ef2699596300b819b82e6fb772cea25"
+      "sha256": "28d884eb562d3c0a29d42d88816d29fbe44a22b4e08cd546c6ebbcc1e0fdfe1c"
     },
     {
       "bytes": 7667,
@@ -1179,14 +1179,14 @@
       "sha256": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d"
     },
     {
-      "bytes": 25975,
+      "bytes": 28441,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "src/modelforge_workbench/alpha.py",
-      "sha256": "69c270957428002c45d56eab31f7901109af1a2845c1a28883f256c7e0259c48"
+      "sha256": "265bdba0a3e2735c787c9d936ef1d1932c35e03d61ab6a699c4e3c2cc735e88b"
     },
     {
       "bytes": 133,
@@ -1289,6 +1289,16 @@
       "sha256": "a0077d44a65a1943e44107e34592d9df646e0e69c42aaa4ba85e895b0876e4d7"
     },
     {
+      "bytes": 10666,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "repository-source"
+      },
+      "path": "src/modelforge_workbench/application/project_assistant.py",
+      "sha256": "ba3de60f2f5ff7cfe4b906c156a0e58228754d37c586671a4d5f7ed2833372f6"
+    },
+    {
       "bytes": 4677,
       "license": "Apache-2.0",
       "mode": "100644",
@@ -1317,6 +1327,16 @@
       },
       "path": "src/modelforge_workbench/application/runtime_configurations.py",
       "sha256": "b193fefc66dd1b90dd3c60278cf6f2ea4773e2a36f824e62103238453d3b2867"
+    },
+    {
+      "bytes": 16502,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "repository-source"
+      },
+      "path": "src/modelforge_workbench/application/workspace_presentations.py",
+      "sha256": "2a98c42b076473b228364328b5f17b26de59d0acd21b83d35bbf322aa360b3d8"
     },
     {
       "bytes": 11065,
@@ -1589,14 +1609,14 @@
       "sha256": "2b4798387ea970a45faf5b2e6d2d0555da4873ef6e04c5e9c46bcc4c61f74157"
     },
     {
-      "bytes": 20931,
+      "bytes": 29187,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "src/modelforge_workbench/workbench/server.py",
-      "sha256": "15fb6aa4606199569c65a66ecf0fc6597eba726848d557e64cdb4ec2edb63bcb"
+      "sha256": "0a58a07019093e665757582ed2e01294735cb1b250c8bf3240f84dd5cf7d2957"
     },
     {
       "bytes": 1788,
@@ -1619,7 +1639,7 @@
       "sha256": "a6b40fe22966e5b64b5445eda1edfd74ec9a1a6d4ca609e71e4da28c52e364db"
     },
     {
-      "bytes": 247443,
+      "bytes": 587,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
@@ -1627,11 +1647,11 @@
         "provenance": "react-source-inventory.json",
         "source": "workbench/"
       },
-      "path": "src/modelforge_workbench/workbench/static/workbench/assets/index-CBz6B9in.js",
-      "sha256": "cf1851887da3bd95151a1738402116a3677d353a5b7fdf345a57c823d2718fdc"
+      "path": "src/modelforge_workbench/workbench/static/workbench/amd-mark.svg",
+      "sha256": "df0b666bf647266855f56e88192b1dd59b1ec160401d71aac486eb5f6e79c998"
     },
     {
-      "bytes": 43219,
+      "bytes": 30869,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
@@ -1639,11 +1659,323 @@
         "provenance": "react-source-inventory.json",
         "source": "workbench/"
       },
-      "path": "src/modelforge_workbench/workbench/static/workbench/assets/index-DdsPumYW.css",
-      "sha256": "78754925679c0b0a40fb118c83c3192985b865276e586e88033c56e5828f7c18"
+      "path": "src/modelforge_workbench/workbench/static/workbench/assets/ArchitectureView-CgOLGKMh.js",
+      "sha256": "bdafc54d05f2acd7ca6d35803cb418af637ed92a738d191a4f28fa38973e79dd"
     },
     {
-      "bytes": 512,
+      "bytes": 2250,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "compiled-react-output",
+        "provenance": "react-source-inventory.json",
+        "source": "workbench/"
+      },
+      "path": "src/modelforge_workbench/workbench/static/workbench/assets/CalibrationComparisonChart-C4Gp0vDY.js",
+      "sha256": "9004c0fb62953263a3259314ecdf1a71c0bc444e4ef93c59c97f03daf562d2f6"
+    },
+    {
+      "bytes": 413,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "compiled-react-output",
+        "provenance": "react-source-inventory.json",
+        "source": "workbench/"
+      },
+      "path": "src/modelforge_workbench/workbench/static/workbench/assets/MonacoSourceEditor-DkN85dC8.js",
+      "sha256": "69682aa9f8ace5650937dadf7b58c788d20ab703c3a40294da88feb39016a3c2"
+    },
+    {
+      "bytes": 2901,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "compiled-react-output",
+        "provenance": "react-source-inventory.json",
+        "source": "workbench/"
+      },
+      "path": "src/modelforge_workbench/workbench/static/workbench/assets/RunComparisonChart-H07RVMAK.js",
+      "sha256": "bbefded5328f9b011c0f1dfbb530e2603f114590a432e74fd7dddc2f9370e49d"
+    },
+    {
+      "bytes": 398287,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "compiled-react-output",
+        "provenance": "react-source-inventory.json",
+        "source": "workbench/"
+      },
+      "path": "src/modelforge_workbench/workbench/static/workbench/assets/charts-x2cxSvyF.js",
+      "sha256": "8671824a3c29df031f8d4b317db6fa0a4995a269559c5d0ba5d2bd684cc51807"
+    },
+    {
+      "bytes": 58669,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "compiled-react-output",
+        "provenance": "react-source-inventory.json",
+        "source": "workbench/"
+      },
+      "path": "src/modelforge_workbench/workbench/static/workbench/assets/cliff-mascot-qBawjJzG.gif",
+      "sha256": "245b92b92487b44257994f7d1fccbb864c837919e0c8e46531c44af223694999"
+    },
+    {
+      "bytes": 90184,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "compiled-react-output",
+        "provenance": "react-source-inventory.json",
+        "source": "workbench/"
+      },
+      "path": "src/modelforge_workbench/workbench/static/workbench/assets/codicon-CgENjH2v.ttf",
+      "sha256": "740eae162df00927a8885fcc86b81fcb37f1de922cbb9402d527584c14a458c7"
+    },
+    {
+      "bytes": 1056200,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "compiled-react-output",
+        "provenance": "react-source-inventory.json",
+        "source": "workbench/"
+      },
+      "path": "src/modelforge_workbench/workbench/static/workbench/assets/css.worker-ni8ZwlZ7.js",
+      "sha256": "e5a4af77af5909f7bcfa7f392d58fb86f1675b2866394e4dfacbcae000b828ce"
+    },
+    {
+      "bytes": 281218,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "compiled-react-output",
+        "provenance": "react-source-inventory.json",
+        "source": "workbench/"
+      },
+      "path": "src/modelforge_workbench/workbench/static/workbench/assets/editor.worker-CcK0Ydjj.js",
+      "sha256": "ac141863bfc48c37651d90a60bf71913dad718deb9a085a629e6d7402ca8da70"
+    },
+    {
+      "bytes": 721006,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "compiled-react-output",
+        "provenance": "react-source-inventory.json",
+        "source": "workbench/"
+      },
+      "path": "src/modelforge_workbench/workbench/static/workbench/assets/html.worker-D5EHzBWR.js",
+      "sha256": "f2a6152e786f49352ea85e9f180943c2531444d1ad9557a0b986e8cbe8607013"
+    },
+    {
+      "bytes": 213904,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "compiled-react-output",
+        "provenance": "react-source-inventory.json",
+        "source": "workbench/"
+      },
+      "path": "src/modelforge_workbench/workbench/static/workbench/assets/index-C3OMyRNC.css",
+      "sha256": "688393f44bbe7f2641e2e1c0dd4d50052927c6f051a663f0f42854e23926fe97"
+    },
+    {
+      "bytes": 365961,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "compiled-react-output",
+        "provenance": "react-source-inventory.json",
+        "source": "workbench/"
+      },
+      "path": "src/modelforge_workbench/workbench/static/workbench/assets/index-CwjiXmzl.js",
+      "sha256": "32f3272d401ba808d67f1e77f8467c64ea4dee0cfb1db83d3ae9bd5f64ad3ace"
+    },
+    {
+      "bytes": 410618,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "compiled-react-output",
+        "provenance": "react-source-inventory.json",
+        "source": "workbench/"
+      },
+      "path": "src/modelforge_workbench/workbench/static/workbench/assets/json.worker-DK_VYr1_.js",
+      "sha256": "ebb0f4593656704ddfc5c4370bfdfa35a514c55293d6658ce9f333122d510ae0"
+    },
+    {
+      "bytes": 4158523,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "compiled-react-output",
+        "provenance": "react-source-inventory.json",
+        "source": "workbench/"
+      },
+      "path": "src/modelforge_workbench/workbench/static/workbench/assets/monaco-DKPOLAUe.js",
+      "sha256": "d3527f9f8add618d423eac5f33a38737af765af0a5f871a685ea6be10df6c8f9"
+    },
+    {
+      "bytes": 144002,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "compiled-react-output",
+        "provenance": "react-source-inventory.json",
+        "source": "workbench/"
+      },
+      "path": "src/modelforge_workbench/workbench/static/workbench/assets/monaco-DLl1KWmb.css",
+      "sha256": "2c09024b779fcbc2ef1869c89908b59015ef42b5051f660396c5ad4b959de8e3"
+    },
+    {
+      "bytes": 716,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "compiled-react-output",
+        "provenance": "react-source-inventory.json",
+        "source": "workbench/"
+      },
+      "path": "src/modelforge_workbench/workbench/static/workbench/assets/rolldown-runtime-hePW80VL.js",
+      "sha256": "580ad8c58061a4dde99bde0a56905e382f0568516ee2f5b84dbfb52085709021"
+    },
+    {
+      "bytes": 5935407,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "compiled-react-output",
+        "provenance": "react-source-inventory.json",
+        "source": "workbench/"
+      },
+      "path": "src/modelforge_workbench/workbench/static/workbench/assets/ts.worker-Bt-G9PB_.js",
+      "sha256": "d380e9547794bba19acd3313683690fa1d9186735b0394e0f2802f11940a43a2"
+    },
+    {
+      "bytes": 410795,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "compiled-react-output",
+        "provenance": "react-source-inventory.json",
+        "source": "workbench/"
+      },
+      "path": "src/modelforge_workbench/workbench/static/workbench/assets/vendor-CFgKxEBq.js",
+      "sha256": "68d98fa2da643464d81fa453351c0305deb007ada3c29f93ef895237b0ce5280"
+    },
+    {
+      "bytes": 15413,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "compiled-react-output",
+        "provenance": "react-source-inventory.json",
+        "source": "workbench/"
+      },
+      "path": "src/modelforge_workbench/workbench/static/workbench/assets/xyflow-DLioOiRN.css",
+      "sha256": "b0cb7bd6fec5951c9c8f5808821438206604b1629a912c96009ac427f38e7d69"
+    },
+    {
+      "bytes": 122921,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "compiled-react-output",
+        "provenance": "react-source-inventory.json",
+        "source": "workbench/"
+      },
+      "path": "src/modelforge_workbench/workbench/static/workbench/assets/xyflow-DesKmX1C.js",
+      "sha256": "a79869baa2a5c58efc20c2c785c4bb8270e1bf066f9d7b260f5d8fbeebcdb6a4"
+    },
+    {
+      "bytes": 142790,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "compiled-react-output",
+        "provenance": "react-source-inventory.json",
+        "source": "workbench/"
+      },
+      "path": "src/modelforge_workbench/workbench/static/workbench/device-renderings/cpu-v2.webp",
+      "sha256": "e0a68f60533528e8ddf723daf57530b76bacd66ea70d16dfaf01c672d1c21570"
+    },
+    {
+      "bytes": 292084,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "compiled-react-output",
+        "provenance": "react-source-inventory.json",
+        "source": "workbench/"
+      },
+      "path": "src/modelforge_workbench/workbench/static/workbench/device-renderings/datacenter-v2.webp",
+      "sha256": "f1bddc9fbf0c19019e7b6241f331bf1955727865422b1d05bcd4cc1f753673c9"
+    },
+    {
+      "bytes": 235394,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "compiled-react-output",
+        "provenance": "react-source-inventory.json",
+        "source": "workbench/"
+      },
+      "path": "src/modelforge_workbench/workbench/static/workbench/device-renderings/edge-v2.webp",
+      "sha256": "c6e9f6c216db2468d19ff668e8092c2bdfd655f7d62ed9c4bca1a740fe9c048a"
+    },
+    {
+      "bytes": 296866,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "compiled-react-output",
+        "provenance": "react-source-inventory.json",
+        "source": "workbench/"
+      },
+      "path": "src/modelforge_workbench/workbench/static/workbench/device-renderings/gpu-v2.webp",
+      "sha256": "82f51bd8626ea500aaf6f26ac917a579305115aa3da463c0105181cb2cd8442e"
+    },
+    {
+      "bytes": 518,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "compiled-react-output",
+        "provenance": "react-source-inventory.json",
+        "source": "workbench/"
+      },
+      "path": "src/modelforge_workbench/workbench/static/workbench/favicon.svg",
+      "sha256": "e9a4d62b08d09d8573da2e99f9c833d7be0d21f36f118016bb31005d20ee4673"
+    },
+    {
+      "bytes": 527,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "compiled-react-output",
+        "provenance": "react-source-inventory.json",
+        "source": "workbench/"
+      },
+      "path": "src/modelforge_workbench/workbench/static/workbench/github-mark.svg",
+      "sha256": "ac76fe252b3255bbe237653293888bac8951c9d466caf3411f2342d5895acb16"
+    },
+    {
+      "bytes": 610,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "compiled-react-output",
+        "provenance": "react-source-inventory.json",
+        "source": "workbench/"
+      },
+      "path": "src/modelforge_workbench/workbench/static/workbench/huggingface-mark.svg",
+      "sha256": "674a456da84043cbe4a3d445f6ad93dc8c6856915f8f5f43517758058a58fa05"
+    },
+    {
+      "bytes": 3335,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
@@ -1652,7 +1984,43 @@
         "source": "workbench/"
       },
       "path": "src/modelforge_workbench/workbench/static/workbench/index.html",
-      "sha256": "07b8e7fe4fa9a2f69cce488c4abb154df1e57cac4df10966b8f917e99fd8da3d"
+      "sha256": "684b723c0b7227e9e7b8c6dcdcfb98cc766c0e48d8cc37545578437371d36042"
+    },
+    {
+      "bytes": 1840,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "compiled-react-output",
+        "provenance": "react-source-inventory.json",
+        "source": "workbench/"
+      },
+      "path": "src/modelforge_workbench/workbench/static/workbench/intel-mark.svg",
+      "sha256": "6dd3a57263a42b3ef7a63ad54333c13d418e793d9170d39ec2bd51df9bada1ad"
+    },
+    {
+      "bytes": 37652,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "compiled-react-output",
+        "provenance": "react-source-inventory.json",
+        "source": "workbench/"
+      },
+      "path": "src/modelforge_workbench/workbench/static/workbench/modalitysystems.png",
+      "sha256": "badbbb7689212cf651595ec4383a2d0808e66e48ff2b45748c5810fc625827d2"
+    },
+    {
+      "bytes": 900,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "compiled-react-output",
+        "provenance": "react-source-inventory.json",
+        "source": "workbench/"
+      },
+      "path": "src/modelforge_workbench/workbench/static/workbench/nvidia-mark.svg",
+      "sha256": "d1b57a1ec0e926f3228cfce3c8be8396807eb10457346dd57c5fed08cca61562"
     },
     {
       "bytes": 5431,
@@ -1675,14 +2043,14 @@
       "sha256": "5f3ecb91d99deddbff6adc85e006fb352f055efbff217a5cab6d5092ff4007ea"
     },
     {
-      "bytes": 4866,
+      "bytes": 5448,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "tests/test_distribution_verifier.py",
-      "sha256": "1da8fabf98c7bcb1b8098fb63dd2ffc674d9a66c984eb8ea75e1be771b3b5fc6"
+      "sha256": "94e3bdd7eac8eeb3548022d090d77d88cac173746218c5042c577642a589f56e"
     },
     {
       "bytes": 15700,
@@ -1765,14 +2133,14 @@
       "sha256": "0d4bf5b7b2412a9011c611f76003c63c21be5c8f02cb91342484b123c02180be"
     },
     {
-      "bytes": 3383,
+      "bytes": 3497,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "tests/test_modal_ui_contract.py",
-      "sha256": "6eb6c372e5c6cbb826c6760a8657f3cd11ce6472b68584ead790cf0d79b2b984"
+      "sha256": "e9b0e8c90d967eeb65a51df5561c1d1ab55fa74c3df74f149bb82ef248d596c1"
     },
     {
       "bytes": 1927,
@@ -1795,24 +2163,24 @@
       "sha256": "da76618da88b7fa4a536032c0bf26ff6991febb55ae5288a96bf8e84b26ef8d3"
     },
     {
-      "bytes": 14423,
+      "bytes": 14427,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "tests/test_public_alpha.py",
-      "sha256": "d3e5cfd37388e6532183bf73cdecca48ea1ea4b3acbf2544d83fd87c49ecbe84"
+      "sha256": "0a084710dbb9cbc1b06ef91b703a0890f3dd575b58336f287c549ad34929c973"
     },
     {
-      "bytes": 7375,
+      "bytes": 7467,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "tests/test_public_boundaries.py",
-      "sha256": "d0bb48367df56f3a9d98be30622622231c08cba7bcf57160c3c7fac38d8db664"
+      "sha256": "1cb2855fe565f63fd4d072ab440fe51a6c52d60fb37ab24e2be6d04f402a4ba0"
     },
     {
       "bytes": 2386,
@@ -1825,14 +2193,14 @@
       "sha256": "836236f123dce601c1f70e48f3001f1bc20609c6ed10be3b814d16369f063bf9"
     },
     {
-      "bytes": 3344,
+      "bytes": 4129,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "tests/test_public_scan.py",
-      "sha256": "335384a90edf256108a43d4309036168e5b7d3085c342db07333c54f53e09521"
+      "sha256": "e60c3c057d46300d9bf3ddac5a3118cde3e96b4c1077cbf9ee22fcde6f861412"
     },
     {
       "bytes": 6324,
@@ -1865,6 +2233,16 @@
       "sha256": "93c05bf79fe430ee1a0c5d4c77907c47e313d0868c5a64e37447324d8c929081"
     },
     {
+      "bytes": 5968,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "repository-source"
+      },
+      "path": "tests/test_workspace_presentations.py",
+      "sha256": "f847d07ccd3471e8947bdd90aef2d1d579d1b062088fdf73a96ba5dd2b093e51"
+    },
+    {
       "bytes": 28,
       "license": "Apache-2.0",
       "mode": "100644",
@@ -1876,7 +2254,7 @@
       "sha256": "292c5dd5d6c7f580e0dd9c3e894403810fbd78b331d2b80071a3be24dec495df"
     },
     {
-      "bytes": 343,
+      "bytes": 636,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
@@ -1884,10 +2262,10 @@
         "provenance": "react-source-inventory.json"
       },
       "path": "workbench/README.md",
-      "sha256": "e1bb2211d46341cd2bf05611bf492f199720701c9cdc1264a0a3599d716aade9"
+      "sha256": "8e4e1c547d85a7559a4b06032995d3788196db22e17a50f6986eea699ab86c71"
     },
     {
-      "bytes": 393,
+      "bytes": 3102,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
@@ -1895,10 +2273,10 @@
         "provenance": "react-source-inventory.json"
       },
       "path": "workbench/index.html",
-      "sha256": "8ac84c382542df479a854204cf86ad7aff47fac57387949e435be1aebfe71b71"
+      "sha256": "44cc2f4144fa514cfb94a7b719bc50fdc6c623ba98314a32b61f2c907fff2c2f"
     },
     {
-      "bytes": 52704,
+      "bytes": 126267,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
@@ -1906,10 +2284,10 @@
         "provenance": "react-source-inventory.json"
       },
       "path": "workbench/package-lock.json",
-      "sha256": "b0bb6b0bcb12232333b02638701b5dd089d9e0c8a0649003d912b167b3c344ab"
+      "sha256": "3856a96479e3244a58b785f633355a099dd117205a323c948459df89221461a3"
     },
     {
-      "bytes": 508,
+      "bytes": 1088,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
@@ -1917,10 +2295,131 @@
         "provenance": "react-source-inventory.json"
       },
       "path": "workbench/package.json",
-      "sha256": "6181aa3d5708edfbb274d0a04ed98780ab3bcd0fa31310d02653262e8bcd4dc0"
+      "sha256": "88f778be5d49525325c411485b25c82cfd5d333be9470997010bc25f3e0bc9ac"
     },
     {
-      "bytes": 3616,
+      "bytes": 587,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/public/amd-mark.svg",
+      "sha256": "df0b666bf647266855f56e88192b1dd59b1ec160401d71aac486eb5f6e79c998"
+    },
+    {
+      "bytes": 142790,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/public/device-renderings/cpu-v2.webp",
+      "sha256": "e0a68f60533528e8ddf723daf57530b76bacd66ea70d16dfaf01c672d1c21570"
+    },
+    {
+      "bytes": 292084,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/public/device-renderings/datacenter-v2.webp",
+      "sha256": "f1bddc9fbf0c19019e7b6241f331bf1955727865422b1d05bcd4cc1f753673c9"
+    },
+    {
+      "bytes": 235394,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/public/device-renderings/edge-v2.webp",
+      "sha256": "c6e9f6c216db2468d19ff668e8092c2bdfd655f7d62ed9c4bca1a740fe9c048a"
+    },
+    {
+      "bytes": 296866,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/public/device-renderings/gpu-v2.webp",
+      "sha256": "82f51bd8626ea500aaf6f26ac917a579305115aa3da463c0105181cb2cd8442e"
+    },
+    {
+      "bytes": 518,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/public/favicon.svg",
+      "sha256": "e9a4d62b08d09d8573da2e99f9c833d7be0d21f36f118016bb31005d20ee4673"
+    },
+    {
+      "bytes": 527,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/public/github-mark.svg",
+      "sha256": "ac76fe252b3255bbe237653293888bac8951c9d466caf3411f2342d5895acb16"
+    },
+    {
+      "bytes": 610,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/public/huggingface-mark.svg",
+      "sha256": "674a456da84043cbe4a3d445f6ad93dc8c6856915f8f5f43517758058a58fa05"
+    },
+    {
+      "bytes": 1840,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/public/intel-mark.svg",
+      "sha256": "6dd3a57263a42b3ef7a63ad54333c13d418e793d9170d39ec2bd51df9bada1ad"
+    },
+    {
+      "bytes": 37652,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/public/modalitysystems.png",
+      "sha256": "badbbb7689212cf651595ec4383a2d0808e66e48ff2b45748c5810fc625827d2"
+    },
+    {
+      "bytes": 900,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/public/nvidia-mark.svg",
+      "sha256": "d1b57a1ec0e926f3228cfce3c8be8396807eb10457346dd57c5fed08cca61562"
+    },
+    {
+      "bytes": 778,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
@@ -1928,10 +2427,10 @@
         "provenance": "react-source-inventory.json"
       },
       "path": "workbench/src/App.test.tsx",
-      "sha256": "191a9b792c910edd7e6af77293f82b2d5229d1f132d61d76a4dd89d059a4d770"
+      "sha256": "3eafcd71be04f0ca648f45706845d4292383938e721c08e86e8e0800fcacfe1e"
     },
     {
-      "bytes": 85530,
+      "bytes": 38040,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
@@ -1939,21 +2438,285 @@
         "provenance": "react-source-inventory.json"
       },
       "path": "workbench/src/App.tsx",
-      "sha256": "3f18a3a3222dc0a2a3dc903fdefb58462b467bcf2892dcd0a10fea0dbf8bac27"
+      "sha256": "0d75cfdead7a61c10ec6074f71788801a70d5eaa36be51db38827c524962dcac"
     },
     {
-      "bytes": 1397,
+      "bytes": 58669,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "adapted-react-source",
         "provenance": "react-source-inventory.json"
       },
-      "path": "workbench/src/lib/api.test.ts",
-      "sha256": "3ec70f128ca17e922ad3bbfc8a53d9b6843e4b3637f5f31e35c685a675fe3168"
+      "path": "workbench/src/assets/cliff-mascot.gif",
+      "sha256": "245b92b92487b44257994f7d1fccbb864c837919e0c8e46531c44af223694999"
     },
     {
-      "bytes": 4536,
+      "bytes": 2399,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/components/BottomPanel.test.tsx",
+      "sha256": "697c20e988acba1cc407bbd7d00f12492260c20a192854023c978b325b775ab5"
+    },
+    {
+      "bytes": 4991,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/components/BottomPanel.tsx",
+      "sha256": "fe017bb19cf451fc5f14849a428fc18387ff2136774741a4439f924535241a6c"
+    },
+    {
+      "bytes": 510,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/components/CliffMark.tsx",
+      "sha256": "b9d5daf99f057fb44ae89d4a2fb027569209b66fc43a2214c24f4f9291891a33"
+    },
+    {
+      "bytes": 1815,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/components/CliffMarkdown.test.tsx",
+      "sha256": "1ac3ee4f6b28108c80d4676cb2be6dec6adb0cfe40b28ff0bc8e667457eeec62"
+    },
+    {
+      "bytes": 4615,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/components/CliffMarkdown.tsx",
+      "sha256": "ab6f6283f63cf2eb98a9e3fd94638ec91bf67f157b2ebb3d3d91353b1db5d141"
+    },
+    {
+      "bytes": 7083,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/components/CliffPanel.test.ts",
+      "sha256": "6f544c4bcfdc7e40eb69a81c7ed11a2eda9cb627d8dc10e863ebc73ec8c1b16c"
+    },
+    {
+      "bytes": 37070,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/components/CliffPanel.tsx",
+      "sha256": "d83fea60e69870d78a7a97ae7090ba7432d9c8927a3a1c304e8e3d1f73132fad"
+    },
+    {
+      "bytes": 3695,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/components/ComputeTargetPicker.tsx",
+      "sha256": "d3eb7e84ef5690448b1a013ec3b1cbc30221e3315a487da2d4dfeb61ae5b655b"
+    },
+    {
+      "bytes": 9397,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/components/ExecutionToolbar.tsx",
+      "sha256": "3c12f974347da25066ddadcd414c43b514ffabc2aa273ed49d428aaa19b22341"
+    },
+    {
+      "bytes": 554,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/components/ExistingProjectPicker.test.ts",
+      "sha256": "68539491310419a189347ef5bac33c35323873ace6c70a8f4b75fd4a4bf214be"
+    },
+    {
+      "bytes": 5292,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/components/ExistingProjectPicker.tsx",
+      "sha256": "6a13ae0a17ac87ca41db69529834356a3c042e1831e0345e60703e5a0104218a"
+    },
+    {
+      "bytes": 91,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/components/MonacoSourceEditor.tsx",
+      "sha256": "fcddaf5f0cd06a21f4b520df6f38a5f4942b4846527d5cc46fd135a81f2dc9af"
+    },
+    {
+      "bytes": 2030,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/components/PointCloudInferenceViewer.test.tsx",
+      "sha256": "1f08fb859ca037cdb038486aab17b8a007802e807287ed1946bac8505875ce31"
+    },
+    {
+      "bytes": 9565,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/components/PointCloudInferenceViewer.tsx",
+      "sha256": "eff30cd7b3d00f3719de61d22dce5249bc914680f6f8d07c8e319f852b11fb5f"
+    },
+    {
+      "bytes": 4415,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/components/PointCloudWave.tsx",
+      "sha256": "6baf452ffafebcda3df6c03e84bf4e37ab45f8b662e4bd874523b917d918264f"
+    },
+    {
+      "bytes": 6370,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/components/ProjectLauncher.tsx",
+      "sha256": "d187ef437fa1ad93888f81c17bebca60b70e067a326eab27e6a52aa06e4898aa"
+    },
+    {
+      "bytes": 3956,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/components/RepositoryReadme.test.tsx",
+      "sha256": "bc08db584e3951b2e0597cf04c10bb56bd4da1542dc85eb8b9047502c906b78d"
+    },
+    {
+      "bytes": 5062,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/components/RepositoryReadme.tsx",
+      "sha256": "09e1d4c12b238e5a820d65b6dbf2f87780ef44e066425441ba1a46445503f080"
+    },
+    {
+      "bytes": 854,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/components/Scene3DViewer.test.ts",
+      "sha256": "3e1a1270e3b9db7ab586d05a05750c0372cdaa6c1ee7bd24e3e67036d16f8ee0"
+    },
+    {
+      "bytes": 22920,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/components/Scene3DViewer.tsx",
+      "sha256": "099eb2fbb12a3c90b88e1e36dada22c6083f327ff1571079fe52c3b2d3248853"
+    },
+    {
+      "bytes": 2301,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/components/SignalField.tsx",
+      "sha256": "5b82817f75a115866fdf1404617bc86b095516937af6016e4da70fdbf0f8c735"
+    },
+    {
+      "bytes": 863,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/components/ui.test.tsx",
+      "sha256": "27a7c293da05f7156bb84bad3657efec9e0d65089468c973d48476d1216f13c4"
+    },
+    {
+      "bytes": 4906,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/components/ui.tsx",
+      "sha256": "c5da3ba37de957cd5e8b4680f9870c265bfe84c20b6dc84cca811c474048f2ab"
+    },
+    {
+      "bytes": 1098,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/hooks/use-request.ts",
+      "sha256": "1a35ec15bd3870082deee6c0ae0aba37f09fa75cdd3bc5d98d0ca82e57956c88"
+    },
+    {
+      "bytes": 48671,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
@@ -1961,10 +2724,285 @@
         "provenance": "react-source-inventory.json"
       },
       "path": "workbench/src/lib/api.ts",
-      "sha256": "7f4af8fd362bad384b1542b7ca427c461b908c1a1b13623615ae4b29ace890d0"
+      "sha256": "ca3449433d9b90977d0f16b60c2df87f33a156af72178ac7836797bff7593787"
     },
     {
-      "bytes": 1006,
+      "bytes": 4257,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/lib/architecture-brief.test.ts",
+      "sha256": "1241c26b97ed40892433d182725aa6eba93078c3e9e0b9076a5abf69f1cb20a6"
+    },
+    {
+      "bytes": 8813,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/lib/architecture-brief.ts",
+      "sha256": "c2116c55856ff8b569a2360b9bc291b7d232484915fc0ee813aa173cbd553b53"
+    },
+    {
+      "bytes": 9233,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/lib/architecture-graph.test.ts",
+      "sha256": "10d2d8340b19d92221229e0dab56d18abec28ea50a0984dd4967bdfa5f7a370d"
+    },
+    {
+      "bytes": 23970,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/lib/architecture-graph.ts",
+      "sha256": "39d2381e444ada76f3ad110b8cc89d613da79d06dfce045b0943134b81c2da8b"
+    },
+    {
+      "bytes": 1643,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/lib/device-calibration.test.ts",
+      "sha256": "f4c1b21237008275735df97857b4b9e5495cfd6f5995b0fbad0ab826a6d7d90e"
+    },
+    {
+      "bytes": 7348,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/lib/device-calibration.ts",
+      "sha256": "4679f245de14c182aa26849c7612cd2eecdc3bde3ad54b7ad4c1a0d1e85d6965"
+    },
+    {
+      "bytes": 2622,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/lib/documents.test.ts",
+      "sha256": "a8d551c09acaad784594d222375328edf14935f34cf0c67219b1ac35a956e650"
+    },
+    {
+      "bytes": 5019,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/lib/documents.ts",
+      "sha256": "4626673158d050e18c126f644d6a30074cff5342c181366a99df72b8c3916974"
+    },
+    {
+      "bytes": 2737,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/lib/inference-checkpoints.test.ts",
+      "sha256": "d37b951694e3ec787550c23f7641468e16f666071f12ec7d94920525a88852c2"
+    },
+    {
+      "bytes": 4579,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/lib/inference-checkpoints.ts",
+      "sha256": "ffadad79909a58ce1aa5c16ef6bc616b6c215fdf11fb4e05cc3c36b3c9797c5e"
+    },
+    {
+      "bytes": 944,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/lib/inference-progress.test.ts",
+      "sha256": "ac3a4a159339eaa52bde47dd1091439ebe078519ed1dc1b1f97fe05f479844ba"
+    },
+    {
+      "bytes": 944,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/lib/inference-progress.ts",
+      "sha256": "58ad901fa3867d25da187f60da26af9e748b043da2787936c63d66fe17af70a8"
+    },
+    {
+      "bytes": 1372,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/lib/inference-targets.test.ts",
+      "sha256": "7a2607e7ab03e50722c655bd17815986c170fdc724da4d1d707d2feb3eb52551"
+    },
+    {
+      "bytes": 1390,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/lib/inference-targets.ts",
+      "sha256": "6687fe23c7bef3a49ac98aed3ae9f888574de6ddd1ff2a63d0ebc743fdb579e8"
+    },
+    {
+      "bytes": 3111,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/lib/llm-corpus.test.ts",
+      "sha256": "3c0390c9c5fe19d739ce60886782880732dc47fd9aa104c897ce81885211c349"
+    },
+    {
+      "bytes": 6967,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/lib/llm-corpus.ts",
+      "sha256": "e9cb40c19bda282ed156516883a512c606903235c7b6b9b9fcee94364d7aa804"
+    },
+    {
+      "bytes": 1201,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/lib/monaco.ts",
+      "sha256": "2164e26d1592d2f836e167c03945424c228d32cf4616c376e414cff9b6282ccd"
+    },
+    {
+      "bytes": 1094,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/lib/project-catalog.test.ts",
+      "sha256": "4d145d269ee7bc4042f2059353abed23363749cc5840f7ae323ab947a1c7b998"
+    },
+    {
+      "bytes": 832,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/lib/project-catalog.ts",
+      "sha256": "e062eb16b6d35ec80c362f891a92790bcf5c79e8c54ba22fcad916962ae6d160"
+    },
+    {
+      "bytes": 2125,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/lib/research-inference.test.ts",
+      "sha256": "49c0af835182ba79100610b4ae7ed3b8276f00a2555e2f77537de3bd54eca17c"
+    },
+    {
+      "bytes": 2648,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/lib/research-inference.ts",
+      "sha256": "3a53fa1946c6d9ae2080bec45cffc6668febee421e8181294c5dbf2a8ae162d0"
+    },
+    {
+      "bytes": 632,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/lib/run-metrics.test.ts",
+      "sha256": "90a5aee0f730a06af57bee9e75702e16db6b75d7e36e6603b399faad8bcb44de"
+    },
+    {
+      "bytes": 1973,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/lib/scene-3d.test.ts",
+      "sha256": "8289b487b304283288f7271722ef88f53f983eb23c250277faf2b3af4413a290"
+    },
+    {
+      "bytes": 2333,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/lib/scene-3d.ts",
+      "sha256": "867cb73d0cf1585163cbd292bf07eeb168f15d1f47f54456fe8c186df35c78fc"
+    },
+    {
+      "bytes": 4087,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/lib/utils.ts",
+      "sha256": "472a1d3592dc976f028224ed6598aba75c709b646961c1670092510386daed7a"
+    },
+    {
+      "bytes": 2378,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
@@ -1972,10 +3010,10 @@
         "provenance": "react-source-inventory.json"
       },
       "path": "workbench/src/main.tsx",
-      "sha256": "6fcfeef99705f9692c5fdec4e58cc13ae9d3cf30fbb556c38fa4cb2f7a22c86e"
+      "sha256": "eaa72e8b1c8ab2ce65b51a537861f82656038e1675af4c3d86667803a434ddcf"
     },
     {
-      "bytes": 53910,
+      "bytes": 229245,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
@@ -1983,10 +3021,10 @@
         "provenance": "react-source-inventory.json"
       },
       "path": "workbench/src/styles.css",
-      "sha256": "8df833714bb5b5572835f1c548aa9a62b4ab6c2a4fb7cfeafb383f13e85ed8b0"
+      "sha256": "ad652ff6438a540604d26ca2dac71fbd4c48f0fa3b05cf8f0ba15584a85a5948"
     },
     {
-      "bytes": 2327,
+      "bytes": 13231,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
@@ -1994,7 +3032,271 @@
         "provenance": "react-source-inventory.json"
       },
       "path": "workbench/src/types.ts",
-      "sha256": "e0ac970143b8a993121a955e3fbf88de049ce8954a624baa3b4b4a00cf1dd668"
+      "sha256": "f281132b838987de371422000f2130c0b8596d5ce7e75319895441e30c9865df"
+    },
+    {
+      "bytes": 20971,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/views/AnnotationEditor.tsx",
+      "sha256": "6698039cc2446cb4a440377d370dae3dcfc9adef3e84cd2e1ea7fef692246b7a"
+    },
+    {
+      "bytes": 2394,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/views/ArchitectureView.test.tsx",
+      "sha256": "8309cfcd9bbbf6f5118e225d0a2346a59d4c22cf77788d884b42461f2b267478"
+    },
+    {
+      "bytes": 19126,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/views/ArchitectureView.tsx",
+      "sha256": "16d1953b26eb399af5151817578ea6fecd187f91f32834558f68948ffc141a29"
+    },
+    {
+      "bytes": 3323,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/views/CalibrationComparisonChart.tsx",
+      "sha256": "107e3ae51ae7739ca94cb886a70fd93edcbf6f67914ebfa0e2b6eeda058324b5"
+    },
+    {
+      "bytes": 12158,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/views/CalibrationView.tsx",
+      "sha256": "a86dc322c6f34924f83ff49591cc430ab69a445010fd361fc1afd423eb043a9b"
+    },
+    {
+      "bytes": 48806,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/views/DatasetView.tsx",
+      "sha256": "9c99d264ac0b76dc1860dd3dc06e3cade9b6f18feb9ea8f67d39c0a5d657cd43"
+    },
+    {
+      "bytes": 1197,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/views/DeployView.test.ts",
+      "sha256": "52524b923ec5f8e034c09a0f0e87667c734a41ab84c1dc023ea903ad703d4fd1"
+    },
+    {
+      "bytes": 12600,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/views/DeployView.tsx",
+      "sha256": "a80e4cb9f985ad9346194fdd687e08c44b1f51e9292e0687fca15a7e62fdfe41"
+    },
+    {
+      "bytes": 51068,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/views/InferenceView.tsx",
+      "sha256": "969645a46f4d60d7fd4547bf919d23ca51577c351964d4db5188398f0a99e876"
+    },
+    {
+      "bytes": 2788,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/views/JobsView.test.ts",
+      "sha256": "559a5b9ad5e7c16492a93ae43d8f604849e5e2aea38072ba02904d14b78dfe4e"
+    },
+    {
+      "bytes": 16116,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/views/JobsView.tsx",
+      "sha256": "6342020e397e1735e5e60c31dc0d4206b74c961049cc78a55c3117e53ee0c48f"
+    },
+    {
+      "bytes": 1079,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/views/KnowledgeBaseView.test.tsx",
+      "sha256": "085c04cb4b73dc8269669ed09409314beae992cbb45a5f8aea2783308b64ecf0"
+    },
+    {
+      "bytes": 20019,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/views/KnowledgeBaseView.tsx",
+      "sha256": "e52cb95d3f15cbf4bde3b122046d3aa9f798d1202a6e521ac3b96dff45d5edd1"
+    },
+    {
+      "bytes": 9422,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/views/LlmCorpusView.tsx",
+      "sha256": "22d99df32208edc3c015f35c55d71e4c79feda2b9de5983d6418786696a3f15c"
+    },
+    {
+      "bytes": 32011,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/views/LlmStudioView.tsx",
+      "sha256": "5ea536a8e5418d4b35181e9a41769200168a07ca800fe0337b5f513e8776edeb"
+    },
+    {
+      "bytes": 4410,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/views/MonitorView.tsx",
+      "sha256": "be566128fb56796a816d60a4f27dcc3be8252e57318f41cb1b78cd6903c149b3"
+    },
+    {
+      "bytes": 521,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/views/OverviewView.test.ts",
+      "sha256": "cd426c8c30244a57cd970ae5210059f22853a8186e6a0500f61045813c096c16"
+    },
+    {
+      "bytes": 8205,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/views/OverviewView.tsx",
+      "sha256": "7cf680a332a4fc9f3bd8594347a9632680606dc3958f3e62fd63b08f56cd8fc8"
+    },
+    {
+      "bytes": 14668,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/views/RepositoryExplorerView.tsx",
+      "sha256": "f8eebb0e1fb3da16c0b8a3ebf6f7fd90f2e377fa595473cd93820e534126092b"
+    },
+    {
+      "bytes": 3540,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/views/RunComparisonChart.tsx",
+      "sha256": "e26d13a8d352d46547f2eac0e9f0faf08640a65897452a16604b7d48df604f5a"
+    },
+    {
+      "bytes": 2623,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/views/RunsView.test.ts",
+      "sha256": "2f5962ad8b75d9dc9f7ea3551df3bd37cd7e19e5d16b4feb7f5f8f461689ddaa"
+    },
+    {
+      "bytes": 35063,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/views/RunsView.tsx",
+      "sha256": "300f3def34ebefb7631406382c4d186cb6407507277ac11a578f1ee5f6a80d2a"
+    },
+    {
+      "bytes": 4627,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/views/SettingsView.tsx",
+      "sha256": "f5e57bf0953e1c4fb9fb1023c9021948a089cbe96c8970e30a35dcc555a16c47"
+    },
+    {
+      "bytes": 12253,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/views/SourceView.tsx",
+      "sha256": "53db4008e4394b31fad7cabc95fef3e0e722eefb4465c6ca71adf2e837277670"
     },
     {
       "bytes": 38,
@@ -2008,7 +3310,7 @@
       "sha256": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5"
     },
     {
-      "bytes": 545,
+      "bytes": 537,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
@@ -2016,7 +3318,7 @@
         "provenance": "react-source-inventory.json"
       },
       "path": "workbench/tsconfig.app.json",
-      "sha256": "08f34c6400f316e2cdf42468591d5a03880b54957c6ce6be41431cfd585c618f"
+      "sha256": "ea9d4684756f5a2ed22eae6e947aede2d9aed2fd97f837454ac6e6474aebad3a"
     },
     {
       "bytes": 115,
@@ -2041,7 +3343,7 @@
       "sha256": "db338761262ea424c4b56a4aa71c90e57628d619c20a83c142bb47a634b3a4e5"
     },
     {
-      "bytes": 382,
+      "bytes": 813,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
@@ -2049,7 +3351,7 @@
         "provenance": "react-source-inventory.json"
       },
       "path": "workbench/vite.config.ts",
-      "sha256": "8ac802ceddc1e4bac2146356b154bec0fc5afb5fc30acf6608f90d5ed49ab857"
+      "sha256": "0e4baeb4788b10cdc2da726c1c8314a917ed453ffc44944a909258ad378cdf2a"
     }
   ],
   "history_policy": "reviewed-single-root-public-history",
