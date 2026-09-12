@@ -73,24 +73,21 @@ def _digest(value: Any, label: str) -> str:
     return result
 
 
-def _normalize_project(value: Mapping[str, Any]) -> dict[str, Any]:
-    source = _object(value, "Project registration")
-    if source.get("protocol") != "modelforge.local-runtime-configuration/v1":
-        raise ValueError("Project runtime configuration protocol is unsupported")
-    project_id = _identity(source.get("id"), "Project")
-    project_repository = _absolute_directory(
-        source.get("project_repository"), "Authored project repository",
-    )
-    name = str(source.get("name") or "").strip()
-    if not name or len(name) > 160:
-        raise ValueError("Project name is required and bounded")
-    action = _object(source.get("action"), "Project action")
+def _normalize_action(
+    value: Mapping[str, Any], *, project_name: str, local_enabled: bool,
+) -> dict[str, Any]:
+    action = _object(value, "Project action")
     kind = str(action.get("kind") or "").strip().casefold()
     interface = str(action.get("interface") or "").strip()
     if (kind, interface) not in {
-        ("inference", "inference_process"), ("prompt", "prompt_process"),
+        ("inference", "inference_process"),
+        ("prompt", "prompt_process"),
+        ("training", "training_process"),
     }:
-        raise ValueError("Public alpha supports local inference_process or prompt_process actions")
+        raise ValueError(
+            "Public alpha supports local inference_process, prompt_process, or "
+            "training_process actions"
+        )
     arguments = action.get("arguments")
     if not isinstance(arguments, list) or len(arguments) > 32 or not all(
         isinstance(item, str) and len(item) <= 4096 for item in arguments
@@ -113,17 +110,15 @@ def _normalize_project(value: Mapping[str, Any]) -> dict[str, Any]:
     expected_protocol = {
         "inference": "modelforge.inference-result/v1",
         "prompt": "modelforge.prompt-result/v1",
+        "training": "modelforge.training-result/v1",
     }[kind]
     if result_protocol != expected_protocol:
         raise ValueError(f"{kind.title()} result protocol must be {expected_protocol}")
-    local_enabled = source.get("local_enabled", True)
-    if not isinstance(local_enabled, bool):
-        raise ValueError("Project local execution flag must be boolean")
-    normalized_action = {
+    return {
         "id": _identity(action.get("id"), "Action"),
         "kind": kind,
         "interface": interface,
-        "display_name": str(action.get("display_name") or name)[:160],
+        "display_name": str(action.get("display_name") or project_name)[:160],
         "result_protocol": result_protocol,
         "interpreter": (
             _absolute_regular(action.get("interpreter"), "Project interpreter", preserve_invocation=True)
@@ -141,6 +136,63 @@ def _normalize_project(value: Mapping[str, Any]) -> dict[str, Any]:
         "environment": environment,
         "parameters": _object(action.get("parameters") or {}, "Project action parameters"),
     }
+
+
+def _action_values(source: Mapping[str, Any]) -> list[Mapping[str, Any]]:
+    """Return authored runtime actions while retaining the singular v1 form."""
+
+    primary = source.get("action")
+    declared = source.get("actions")
+    values: list[Mapping[str, Any]] = []
+    if primary is not None:
+        values.append(_object(primary, "Project action"))
+    if declared is not None:
+        if isinstance(declared, Mapping):
+            entries = []
+            for action_id, raw in declared.items():
+                item = _object(raw, f"Project action {action_id}")
+                item.setdefault("id", str(action_id))
+                entries.append(item)
+        elif isinstance(declared, list):
+            entries = [_object(item, "Project action") for item in declared]
+        else:
+            raise ValueError("Project actions must be an object or bounded list")
+        if not 1 <= len(entries) <= 16:
+            raise ValueError("Project actions must contain from 1 to 16 actions")
+        values.extend(entries)
+    if not values:
+        raise ValueError("Project action is required")
+    return values
+
+
+def _normalize_project(value: Mapping[str, Any]) -> dict[str, Any]:
+    source = _object(value, "Project registration")
+    if source.get("protocol") != "modelforge.local-runtime-configuration/v1":
+        raise ValueError("Project runtime configuration protocol is unsupported")
+    project_id = _identity(source.get("id"), "Project")
+    project_repository = _absolute_directory(
+        source.get("project_repository"), "Authored project repository",
+    )
+    name = str(source.get("name") or "").strip()
+    if not name or len(name) > 160:
+        raise ValueError("Project name is required and bounded")
+    local_enabled = source.get("local_enabled", True)
+    if not isinstance(local_enabled, bool):
+        raise ValueError("Project local execution flag must be boolean")
+    actions: list[dict[str, Any]] = []
+    for raw_action in _action_values(source):
+        normalized = _normalize_action(
+            raw_action, project_name=name, local_enabled=local_enabled,
+        )
+        existing = next((item for item in actions if item["id"] == normalized["id"]), None)
+        if existing is not None:
+            if existing != normalized:
+                raise ValueError(f"Project action '{normalized['id']}' is declared differently twice")
+            continue
+        actions.append(normalized)
+    if len(actions) > 16:
+        raise ValueError("Project actions must contain at most 16 distinct actions")
+    normalized_action = actions[0]
     result: dict[str, Any] = {
         "protocol": "modelforge.local-runtime-configuration/v1",
         "id": project_id,
@@ -150,6 +202,7 @@ def _normalize_project(value: Mapping[str, Any]) -> dict[str, Any]:
         "support_level": str(source.get("support_level") or "experimental"),
         "local_enabled": local_enabled,
         "action": normalized_action,
+        "actions": actions,
         "bindings": _object(source.get("bindings") or {}, "Project bindings"),
     }
     dataset = source.get("dataset")
@@ -316,31 +369,43 @@ class ProjectRuntimeConfigurationService:
 
     @staticmethod
     def public(project: Mapping[str, Any]) -> dict[str, Any]:
-        action = project["action"]
+        actions = list(project.get("actions") or (project["action"],))
+        action = actions[0]
         dataset = project.get("dataset")
         bindings = project.get("bindings") or {}
         local_enabled = bool(project.get("local_enabled", True))
         readiness = "ready" if local_enabled else "unavailable"
         reasons = [] if local_enabled else ["Local execution is not configured"]
         if local_enabled:
-            for label, value in (
-                ("interpreter", action["interpreter"]),
-                ("executable", action["executable"]),
-                ("working directory", action["working_directory"]),
-            ):
-                if not Path(value).exists():
-                    readiness = "unavailable"
-                    reasons.append(f"Configured {label} is unavailable")
+            for configured_action in actions:
+                for label, value in (
+                    ("interpreter", configured_action["interpreter"]),
+                    ("executable", configured_action["executable"]),
+                    ("working directory", configured_action["working_directory"]),
+                ):
+                    if not Path(value).exists():
+                        readiness = "unavailable"
+                        reasons.append(
+                            f"Configured {configured_action['id']} {label} is unavailable"
+                        )
         return {
             "id": project["id"],
             "name": project["name"],
             "description": project.get("description", ""),
             "support_level": project.get("support_level", "experimental"),
-            "capabilities": [f"action.{action['kind']}"] + (["dataset.default"] if dataset else []),
+            "capabilities": sorted({f"action.{item['kind']}" for item in actions})
+            + (["dataset.default"] if dataset else []),
             "action": {
                 "id": action["id"], "kind": action["kind"],
                 "display_name": action["display_name"], "interface": action["interface"],
             },
+            "actions": [
+                {
+                    "id": item["id"], "kind": item["kind"],
+                    "display_name": item["display_name"], "interface": item["interface"],
+                }
+                for item in actions
+            ],
             "runtime_readiness": readiness,
             "readiness_reasons": reasons,
             "local_enabled": local_enabled,

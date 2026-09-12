@@ -1,4 +1,4 @@
-import type {JsonObject, ModalStatus, Project, Run, Sample} from "../types";
+import type {AnnotationRecord, JsonObject, ModalStatus, Project, Run, Sample} from "../types";
 
 export const TOKEN_KEY = "modelforge.public-alpha.token";
 export class ApiError extends Error { constructor(message: string, readonly status: number) { super(message); } }
@@ -47,6 +47,8 @@ export const api = {
   project: (id: string, signal?: AbortSignal) => request<Project>(`/api/v1/projects/${enc(id)}`, {signal}),
   samples: (projectId: string, datasetId: string, signal?: AbortSignal) => request<{items?: Sample[]; samples?: Sample[]}>(`/api/v1/projects/${enc(projectId)}/datasets/${enc(datasetId)}/samples`, {signal}),
   sampleContent: (projectId: string, datasetId: string, sampleId: string, signal?: AbortSignal) => authenticatedBlob(`/api/v1/projects/${enc(projectId)}/datasets/${enc(datasetId)}/samples/${enc(sampleId)}/content`, signal),
+  annotation: (projectId: string, datasetId: string, sampleId: string, signal?: AbortSignal) => request<AnnotationRecord>(`/api/v1/projects/${enc(projectId)}/datasets/${enc(datasetId)}/samples/${enc(sampleId)}/annotations`, {signal}),
+  saveAnnotation: (projectId: string, datasetId: string, sampleId: string, value: JsonObject, signal?: AbortSignal) => post<AnnotationRecord>(`/api/v1/projects/${enc(projectId)}/datasets/${enc(datasetId)}/samples/${enc(sampleId)}/annotations`, value, signal),
   runs: (projectId: string, signal?: AbortSignal) => request<{runs: Run[]}>(`/api/v1/runs?project_id=${enc(projectId)}`, {signal}),
   run: (id: string, signal?: AbortSignal) => request<Run>(`/api/v1/runs/${enc(id)}`, {signal}),
   artifact: (runId: string, artifactId: string, signal?: AbortSignal) => authenticatedBlob(`/api/v1/runs/${enc(runId)}/artifacts/${enc(artifactId)}`, signal),

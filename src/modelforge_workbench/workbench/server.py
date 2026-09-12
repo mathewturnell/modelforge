@@ -14,12 +14,13 @@ from pathlib import Path, PurePosixPath
 from urllib.parse import parse_qs, unquote, urlparse
 
 from modelforge_workbench.alpha import AlphaWorkbench
+from modelforge_workbench.application.annotations import AnnotationConflictError
 
 
 _SECURITY_HEADERS = {
     "Content-Security-Policy": (
         "default-src 'self'; script-src 'self'; style-src 'self'; "
-        "img-src 'self' data:; media-src 'self' blob:; connect-src 'self'; "
+        "img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; "
         "object-src 'none'; base-uri 'none'; frame-ancestors 'none'"
     ),
     "Referrer-Policy": "no-referrer",
@@ -271,6 +272,18 @@ class _Handler(BaseHTTPRequestHandler):
             except (KeyError, OSError, ValueError):
                 self._json(HTTPStatus.NOT_FOUND, {"error": "Sample was not found or changed"})
             return
+        if (
+            len(parts) == 9 and parts[:3] == ["api", "v1", "projects"]
+            and parts[4] == "datasets" and parts[6] == "samples"
+            and parts[8] == "annotations"
+        ):
+            try:
+                self._json(HTTPStatus.OK, self.server.app.get_annotation(
+                    parts[3], parts[5], parts[7],
+                ))
+            except (KeyError, OSError, ValueError, json.JSONDecodeError) as exc:
+                self._json(HTTPStatus.BAD_REQUEST, {"error": str(exc)[:300]})
+            return
         if len(parts) == 4 and parts[:3] == ["api", "v1", "runs"]:
             try:
                 self._json(HTTPStatus.OK, self.server.app.get_run(parts[3]))
@@ -359,12 +372,32 @@ class _Handler(BaseHTTPRequestHandler):
             return
         parts = [part for part in route.split("/") if part]
         if (
+            len(parts) == 9 and parts[:3] == ["api", "v1", "projects"]
+            and parts[4] == "datasets" and parts[6] == "samples"
+            and parts[8] == "annotations"
+        ):
+            try:
+                value = self.server.app.save_annotation(
+                    parts[3], parts[5], parts[7], self._body(),
+                )
+            except AnnotationConflictError as exc:
+                self._json(HTTPStatus.CONFLICT, {"error": str(exc)[:300]})
+                return
+            except (KeyError, OSError, ValueError, json.JSONDecodeError) as exc:
+                self._json(HTTPStatus.BAD_REQUEST, {"error": str(exc)[:300]})
+                return
+            self._json(HTTPStatus.OK, value)
+            return
+        if (
             len(parts) == 7 and parts[:3] == ["api", "v1", "projects"]
             and parts[4] == "actions" and parts[6] == "runs"
         ):
             try:
                 project = self.server.app.project(parts[3])
-                if project["action"]["id"] != parts[5]:
+                if not any(
+                    action["id"] == parts[5]
+                    for action in project.get("actions") or (project["action"],)
+                ):
                     raise ValueError("Action is not registered for this project")
                 payload = self._body()
                 if parts[3] == self.server.app.capabilities()["project_id"]:
@@ -376,7 +409,9 @@ class _Handler(BaseHTTPRequestHandler):
                     execution = self.server.app.start_example()
                     finish_action = self.server.app.finish_example
                 else:
-                    execution = self.server.app.start_project_action(parts[3], payload)
+                    execution = self.server.app.start_project_action(
+                        parts[3], payload, action_id=parts[5],
+                    )
                     finish_action = self.server.app.finish_project_action
             except (KeyError, OSError, RuntimeError, ValueError, json.JSONDecodeError) as exc:
                 self._json(HTTPStatus.BAD_REQUEST, {"error": str(exc)[:300]})

@@ -32,10 +32,13 @@ DOCUMENTATION_MEMBERS = {
     "docs/assets/modelforge-wordmark.svg",
     "docs/assets/screenshots/01-project-overview.png",
     "docs/assets/screenshots/02-dataset-selection.png",
+    "docs/assets/screenshots/03-annotation-editor.png",
     "docs/assets/screenshots/03-vision-result.png",
+    "docs/assets/screenshots/04-training-dashboard.png",
     "docs/assets/screenshots/04-qwen-prompt.png",
     "docs/assets/screenshots/05-qwen-result.png",
     "docs/assets/screenshots/06-tastematch-result.png",
+    "docs/assets/screenshots/06-soccernet-jobs.png",
     "docs/assets/screenshots/07-mobile-saved-run.png",
 }
 

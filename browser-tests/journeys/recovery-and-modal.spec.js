@@ -64,7 +64,7 @@ for (const state of ["unconfigured", "configured", "error"]) {
     }));
     await page.goto(url, {waitUntil: "domcontentloaded"});
     await openSettings(page);
-    await expect(page.locator(".workspace .badge")).toHaveText(state);
+    await expect(page.getByText(state, {exact: true}).last()).toBeVisible();
     await expect(page.getByText(message, {exact: true})).toBeVisible();
     await expect(page.getByRole("link", {name: "Open owner setup guide"})).toBeVisible();
   });
@@ -72,9 +72,9 @@ for (const state of ["unconfigured", "configured", "error"]) {
 
 test("checked preview failures never expose empty media as success", async ({page, workbench}) => {
   await page.goto(await workbench.start("full"), {waitUntil: "domcontentloaded"});
-  await page.getByLabel("Project").selectOption({label: "Synthetic Vision Lab"});
+  await page.getByLabel("Project", {exact: true}).selectOption({label: "BDD100K Road Scene Lab · synthetic conformance fixture"});
   await page.getByRole("button", {name: /^Dataset/}).click();
-  await page.getByRole("option", {name: /Success synthetic clip/i}).click();
+  await page.getByRole("option", {name: /Authored road scene/i}).click();
   await page.getByRole("button", {name: /^Inference/}).click();
   await page.getByRole("button", {name: "Run synthetic vision fixture", exact: true}).click();
   await expect(page.locator(".run-inspector .badge")).toHaveText("completed", {timeout: 30_000});
@@ -83,7 +83,7 @@ test("checked preview failures never expose empty media as success", async ({pag
     contentType: "application/json",
     body: '{"error":"changed"}',
   }));
-  await page.getByRole("button", {name: /result\.mp4/}).first().click();
+  await page.getByRole("button", {name: /annotated-road-scene\.svg/}).first().click();
   await expect(page.getByRole("alert")).toContainText("Checked artifact unavailable");
   await expect(page.getByLabel(/result preview/)).toHaveCount(0);
 });

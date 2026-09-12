@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import re
 
 
 ROOT = Path(__file__).parents[1]
@@ -11,10 +12,13 @@ CLIENT = ROOT / "workbench" / "src"
 def test_modal_target_controls_are_explicit_accessible_and_non_defaulting() -> None:
     app = (CLIENT / "App.tsx").read_text(encoding="utf-8")
 
-    assert "<span>Execution target</span><select" in app
-    assert 'type="checkbox" checked={billable}' in app
+    assert re.search(r"<span>Execution target</span>\s*<div[^>]+>\s*<Icon[^>]+/>\s*<select", app)
+    assert re.search(r'type="checkbox"\s+checked=\{billable\}', app)
     assert "I confirm this exact user-owned Modal binding may incur charges." in app
-    assert 'target?.billable && !billable ? "Confirm this billable target"' in app
+    assert re.search(
+        r'target\?\.billable\s*&&\s*!billable\s*\?\s*"Confirm this billable target"',
+        app,
+    )
     assert "setBillable(false)" in app
     assert "Recover exact Modal call" in app
 
@@ -26,7 +30,10 @@ def test_managed_launch_uses_stale_binding_confirmation_and_retry_identity() -> 
     assert "idempotency_key: idempotency" in script
     assert "binding_sha256: target.binding_sha256 || null" in script
     assert "billable_confirmed:" in script
-    assert "sessionStorage.setItem(key, JSON.stringify({fingerprint, idempotency}))" in script
+    assert re.search(
+        r"sessionStorage\.setItem\(\s*key,\s*JSON\.stringify\(\{\s*fingerprint,\s*idempotency,?\s*\}\),?\s*\)",
+        script,
+    )
     assert "retrying unchanged reuses the same identity" in script
     assert "sessionStorage.removeItem(key)" in script
     assert "application: target" not in script
@@ -49,12 +56,12 @@ def test_provider_recovery_and_missing_observations_are_not_presented_as_success
 def test_modal_controls_remain_operable_in_compact_layout() -> None:
     styles = (CLIENT / "styles.css").read_text(encoding="utf-8")
 
-    compact = styles[styles.index("@media(max-width:1050px)") :]
-    assert '"rail inspector"' in compact
-    assert '"inspector"' in compact
-    assert ".run-inspector{border-top" in compact
-    assert ".primary{width:100%;min-height:44px}" in compact
-    assert "word-break:break-all" in compact
+    compact = styles[styles.index("@media (max-width: 800px)") :]
+    assert '"rail workspace"' in compact
+    assert '"rail bottom"' in compact
+    assert ".run-detail" in compact
+    assert "min-height: 44px" in compact
+    assert "overflow-wrap: anywhere" in styles
 
 
 def test_modal_setup_describes_owner_binding_cost_and_nonduplicating_recovery() -> None:

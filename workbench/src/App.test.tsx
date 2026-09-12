@@ -4,8 +4,10 @@ import {activitiesFor, createLatestRequestGuard, runStatus, tableProjection} fro
 import type {Project, Run} from "./types";
 
 const project: Project = {
-  id: "fixture", name: "Fixture", capabilities: ["action.inference", "dataset.default"],
-  action: {id: "inference", kind: "inference"}, dataset: {id: "default"},
+  id: "fixture", name: "Fixture", capabilities: ["action.training", "action.inference", "dataset.default"],
+  action: {id: "inference", kind: "inference"},
+  actions: [{id: "training", kind: "training"}, {id: "inference", kind: "inference"}],
+  dataset: {id: "default"},
 };
 
 describe("public activity projection", () => {
@@ -16,6 +18,8 @@ describe("public activity projection", () => {
       "Inference", "Jobs / Runs", "ModelForge Coding Assistant", "Settings",
     ]);
     expect(activities.find((item) => item.id === "dataset")?.state).toBe("ready");
+    expect(activities.find((item) => item.id === "annotation")?.state).toBe("ready");
+    expect(activities.find((item) => item.id === "training")?.state).toBe("ready");
     expect(activities.find((item) => item.id === "source")?.state).toBe("unavailable");
     expect(activities.find((item) => item.id === "architecture")?.state).toBe("partial");
     expect(activities.find((item) => item.id === "assistant")?.reason).toContain("not delivered");
@@ -58,10 +62,13 @@ describe("bounded checked table projection", () => {
 });
 
 describe("responsive run access", () => {
-  it("places the run inspector after the workspace instead of hiding it", () => {
+  it("keeps the six-region shell and run evidence available at narrow widths", () => {
     const css = readFileSync(new URL("./styles.css", import.meta.url), "utf-8");
-    expect(css).toContain('"rail inspector"');
-    expect(css).toContain('"inspector" "status"');
-    expect(css).not.toContain(".run-inspector{display:none}");
+    expect(css).toContain('"title title title"');
+    expect(css).toContain('"rail workspace assistant"');
+    expect(css).toContain('"rail bottom assistant"');
+    expect(css).toContain('"status status status"');
+    expect(css).toContain(".run-detail");
+    expect(css).not.toContain(".run-inspector {\n  display: none");
   });
 });

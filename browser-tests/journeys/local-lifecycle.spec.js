@@ -12,7 +12,7 @@ async function open(page, workbench) {
 }
 
 async function chooseProject(page, name) {
-  await page.getByLabel("Project").selectOption({label: name});
+  await page.getByLabel("Project", {exact: true}).selectOption({label: name});
   await expect(page.locator(".project-heading")).toHaveText(name);
   await expect(page.locator(".project-heading")).toBeFocused();
 }
@@ -26,7 +26,7 @@ async function chooseSample(page, name) {
   const sample = page.getByRole("option", {name: new RegExp(name, "i")});
   await sample.click();
   await expect(sample).toHaveAttribute("aria-selected", "true");
-  await expect(page.locator(".preview video")).toBeVisible();
+  await expect(page.locator(".preview video, .preview img")).toBeVisible();
 }
 
 async function expectTerminal(page, status) {
@@ -36,41 +36,40 @@ async function expectTerminal(page, status) {
 test("vision execution exposes live evidence, checked media, reload, and restart recovery", async ({page, workbench}) => {
   test.setTimeout(120_000);
   const pageErrors = await open(page, workbench);
-  await chooseProject(page, "Synthetic Vision Lab");
-  await chooseSample(page, "Success synthetic clip");
+  await chooseProject(page, "BDD100K Road Scene Lab · synthetic conformance fixture");
+  await chooseSample(page, "Authored road scene");
   await openDestination(page, "Inference");
   await page.getByRole("button", {name: "Run synthetic vision fixture", exact: true}).click();
   await expectTerminal(page, "completed");
-  await expect(page.getByRole("region", {name: "Run log"})).toContainText("Synthetic vision fixture started");
-  const artifact = page.getByRole("button", {name: /result\.mp4/}).first();
+  await expect(page.getByRole("region", {name: "Run log"})).toContainText("Synthetic bdd100k inference fixture started");
+  const artifact = page.getByRole("button", {name: /annotated-road-scene\.svg/}).first();
   await expect(artifact).toBeVisible();
   await artifact.click();
-  await expect(page.getByLabel("result.mp4 result preview")).toBeVisible();
-  const runIdentity = await page.locator(".run-live > code").textContent();
+  await expect(page.getByAltText("Checked artifact annotated-road-scene.svg")).toBeVisible();
+  const runIdentity = await page.locator(".run-summary header code").textContent();
   expect(runIdentity).toMatch(/^[a-f0-9]{32}$/);
 
   await page.reload({waitUntil: "domcontentloaded"});
-  await expect(page.locator(".run-live > code")).toHaveText(runIdentity);
+  await expect(page.locator(".run-summary header code")).toHaveText(runIdentity);
   await expectTerminal(page, "completed");
 
   const restartedUrl = await workbench.restart();
   await page.goto(restartedUrl, {waitUntil: "domcontentloaded"});
-  await chooseProject(page, "Synthetic Vision Lab");
-  await expect(page.locator(".run-live > code")).toHaveText(runIdentity);
+  await chooseProject(page, "BDD100K Road Scene Lab · synthetic conformance fixture");
+  await expect(page.locator(".run-summary header code")).toHaveText(runIdentity);
   await expectTerminal(page, "completed");
 
-  await chooseProject(page, "Synthetic Prompt Lab");
+  await chooseProject(page, "Qwen2.5-7B Prompt Lab · synthetic conformance fixture");
   await expect(page.locator(".run-inspector .badge")).toHaveText("No run selected");
   await expect(page.getByRole("complementary", {name: "Current run"})).toContainText("Start or select a project run.");
   expect(pageErrors).toEqual([]);
 });
 
-test("prompt action renders checked text without inventing training support", async ({page, workbench}) => {
+test("prompt action renders checked text alongside the declared training support", async ({page, workbench}) => {
   const pageErrors = await open(page, workbench);
-  await chooseProject(page, "Synthetic Prompt Lab");
+  await chooseProject(page, "Qwen2.5-7B Prompt Lab · synthetic conformance fixture");
   await openDestination(page, "Training");
-  await expect(page.getByText(/local training and held-out evaluation services are not delivered/i)).toBeVisible();
-  await expect(page.getByRole("button", {name: /start training/i})).toHaveCount(0);
+  await expect(page.getByRole("button", {name: "Train synthetic Qwen2.5-7B Prompt Lab adapter"})).toBeVisible();
 
   await openDestination(page, "Inference");
   await page.getByRole("textbox", {name: "Prompt"}).fill("Why are durable local runs useful?");
@@ -86,7 +85,7 @@ test("prompt action renders checked text without inventing training support", as
 
 test("failed and invalid outputs terminate truthfully with only safe evidence", async ({page, workbench}) => {
   await open(page, workbench);
-  await chooseProject(page, "Synthetic Vision Lab");
+  await chooseProject(page, "BDD100K Road Scene Lab · synthetic conformance fixture");
 
   await chooseSample(page, "Failure synthetic clip");
   await openDestination(page, "Inference");
@@ -107,7 +106,7 @@ test("failed and invalid outputs terminate truthfully with only safe evidence", 
 test("cancellation is requested through the shared lifecycle and reaches cancelled", async ({page, workbench}) => {
   test.setTimeout(120_000);
   await open(page, workbench);
-  await chooseProject(page, "Synthetic Vision Lab");
+  await chooseProject(page, "BDD100K Road Scene Lab · synthetic conformance fixture");
   await chooseSample(page, "Cancel synthetic clip");
   await openDestination(page, "Inference");
   await page.getByRole("button", {name: "Run synthetic vision fixture", exact: true}).click();

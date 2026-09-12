@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import Callable, Mapping
 
 from .application.artifacts import ArtifactService, LocalArtifactCandidate
+from .application.annotations import AnnotationService, FileAnnotationRepository
 from .application.execution import ExecutionEvent, ProviderFunctionInvocation
 from .application.managed_execution import (
     BoundManagedAction,
@@ -213,8 +214,12 @@ class AlphaWorkbench:
             FileModalActionBindingRepository(self.state_root), self.projects,
         )
         self.datasets = DatasetService(self.runtime_configurations)
+        self.annotations = AnnotationService(
+            FileAnnotationRepository(self.state_root), self.datasets,
+        )
         self.project_actions = ProjectActionService(
             self.runtime_configurations, self.datasets, self.actions, self.modal_bindings,
+            self.annotations,
         )
         self._live: dict[str, dict] = {}
 
@@ -231,6 +236,10 @@ class AlphaWorkbench:
             "support_level": "conformance",
             "capabilities": ["action.inference", "dataset.default"],
             "action": {"id": "inference", "kind": "inference", "display_name": "Run local inference"},
+            "actions": [{
+                "id": "inference", "kind": "inference",
+                "display_name": "Run local inference", "interface": "inference_process",
+            }],
             "runtime_readiness": "ready",
             "readiness_reasons": [],
             "execution_targets": [{
@@ -256,12 +265,17 @@ class AlphaWorkbench:
         if authored.project_id != runtime["id"]:
             raise ValueError("Runtime configuration project identity differs from its authored manifest")
         capabilities = project_capabilities(dict(authored.manifest))
-        action_id = f"action.{runtime['action']['id']}"
-        declared = next(
-            (item for item in capabilities["capabilities"] if item["id"] == action_id), None,
-        )
-        if declared is None or declared["support"] != "supported" or declared["kind"] != runtime["action"]["kind"]:
-            raise ValueError("Runtime action differs from the authored project capability")
+        for action in runtime.get("actions") or (runtime["action"],):
+            action_id = f"action.{action['id']}"
+            declared = next(
+                (item for item in capabilities["capabilities"] if item["id"] == action_id), None,
+            )
+            if (
+                declared is None
+                or declared["support"] != "supported"
+                or declared["kind"] != action["kind"]
+            ):
+                raise ValueError("Runtime action differs from the authored project capability")
         self.projects.register_existing_folder(authored.repository)
         self.runtime_configurations.repository.put(runtime)
         return self.project(runtime["id"])
@@ -324,6 +338,14 @@ class AlphaWorkbench:
 
     def open_sample(self, project_id: str, dataset_id: str, sample_id: str):
         return self.datasets.resolve(project_id, dataset_id, sample_id)
+
+    def get_annotation(self, project_id: str, dataset_id: str, sample_id: str) -> dict:
+        return self.annotations.get(project_id, dataset_id, sample_id)
+
+    def save_annotation(
+        self, project_id: str, dataset_id: str, sample_id: str, value: Mapping,
+    ) -> dict:
+        return self.annotations.save(project_id, dataset_id, sample_id, value)
 
     def list_runs(self, project_id: str | None = None) -> list[dict]:
         project_ids = [project_id] if project_id else [item["id"] for item in self.list_projects()]
@@ -509,13 +531,17 @@ class AlphaWorkbench:
         )
         return self.finish_example(execution)
 
-    def start_project_action(self, project_id: str, payload: Mapping, *, on_started=None):
+    def start_project_action(
+        self, project_id: str, payload: Mapping, *, action_id: str | None = None,
+        on_started=None,
+    ):
+        selected_action_id = action_id or self.runtime_configurations.get(project_id)["action"]["id"]
         execution_request = payload.get("execution") if isinstance(payload, Mapping) else None
         if isinstance(execution_request, Mapping) and execution_request.get("target") == "modal":
             if "modal" not in self.actions.executors:
                 self._configure_modal()
             binding = self.modal_bindings.get(
-                project_id, self.runtime_configurations.get(project_id)["action"]["id"],
+                project_id, selected_action_id,
             )
             executor = self.actions.executors["modal"]
             readiness = self.modal_status(
@@ -529,7 +555,9 @@ class AlphaWorkbench:
         run_key = ["pending"]
         self._live.setdefault(run_key[0], {})
         observe = _LiveEventProjection(lambda: self._live.setdefault(run_key[0], {}))
-        execution = self.project_actions.start(project_id, payload, on_event=observe)
+        execution = self.project_actions.start(
+            project_id, payload, action_id=selected_action_id, on_event=observe,
+        )
         if isinstance(execution, dict):
             self._live.pop("pending", None)
             return self.artifacts.public_job(execution)

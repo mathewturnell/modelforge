@@ -26,7 +26,7 @@ test("first use exposes the full local product contract without fake controls", 
   page.on("request", request => requests.push(request.url()));
   const errors = await openWorkbench(page, workbench);
 
-  await expect(page.getByLabel("Project")).toHaveValue("synthetic-threshold");
+  await expect(page.getByLabel("Project", {exact: true})).toHaveValue("synthetic-threshold");
   await expect(page.getByRole("navigation", {name: "Workbench destinations"})).toBeVisible();
   for (const name of [
     "Overview", "Source", "Dataset", "Annotation", "Models / Architecture",
@@ -35,7 +35,7 @@ test("first use exposes the full local product contract without fake controls", 
 
   await expect(page.getByText(/trusted local code runs with your operating-system permissions/i)).toBeVisible();
   await page.getByRole("button", {name: /^Source/}).click();
-  await expect(page.getByRole("heading", {name: "Source"})).toBeVisible();
+  await expect(page.getByRole("heading", {name: "Source", exact: true})).toBeVisible();
   await expect(page.getByText("No placeholder data or action is exposed", {exact: false})).toBeVisible();
   await expect(page.getByRole("button", {name: /^Billing/})).toHaveCount(0);
   await expect(page.getByRole("button", {name: /^Deployments/})).toHaveCount(0);
@@ -52,6 +52,10 @@ test("first use exposes the full local product contract without fake controls", 
 test("small viewport keeps navigation, workspace, and run inspector operable", async ({page, workbench}) => {
   await page.setViewportSize({width: 390, height: 844});
   const errors = await openWorkbench(page, workbench);
+  await page.evaluate(() => {
+    document.body.tabIndex = -1;
+    document.body.focus();
+  });
   await page.keyboard.press("Tab");
   const skip = page.getByRole("link", {name: "Skip to workspace"});
   await expect(skip).toBeFocused();

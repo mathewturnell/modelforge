@@ -11,8 +11,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 WORKBENCH = ROOT / "workbench"
 INVENTORY = ROOT / "react-source-inventory.json"
-DONOR_REVISION = "2dfeaa6564f7ce4f8a689e9800579f8c2947936e"
-APACHE_REFERENCE_REVISION = "953e7be49a3554a9d6dea0bdbcf894133b4d1c31"
+DONOR_REVISION = "caed2d4a2d4bb8d0c52c7c7c3815546a1dd9d457"
+APACHE_REFERENCE_REVISION = DONOR_REVISION
 NEW_PUBLIC_FILES = {
     "workbench/.gitignore",
     "workbench/src/lib/api.test.ts",
@@ -84,8 +84,8 @@ def main() -> int:
             "donor_author": "Mathew Turnell",
             "apache_labelled_reference_revision": APACHE_REFERENCE_REVISION,
             "note": (
-                "Authorship and the earlier Apache-labelled revision are provenance evidence; "
-                "the exact inventory still requires explicit human approval."
+                "The donor revision is Apache-2.0 and was used only as a file-level visual/source "
+                "reference. Exact generated inventory identities remain the release boundary."
             ),
         },
         "package_lock_sha256": lock_digest,

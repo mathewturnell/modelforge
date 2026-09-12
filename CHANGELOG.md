@@ -14,6 +14,14 @@ Full notes: [ModelForge 0.1.0a1 — public source alpha](docs/releases/0.1.0a1.m
 - Prepared a small local-first workbench with durable project-scoped runs,
   checked artifacts, local inference/prompt handlers, and a token-protected
   loopback UI.
+- Restored the established six-region React workbench shell and connected its
+  dataset, annotation, training, inference/prompt, Jobs, logs, cancellation,
+  and result views to server-owned public services.
+- Added additive multi-action project registration, immutable revisioned
+  annotation sidecars, and local managed training with checked metrics and
+  checkpoint artifacts. BDD100K-, SoccerNet-, TasteMatch-, and Qwen-shaped
+  deterministic fixtures qualify the complete nonbillable browser journey
+  without making model-quality claims.
 - Added explicit, preview-first setup for BDD100K, SoccerNet, TasteMatch, and
   Qwen examples while keeping upstream code, data, models, checkpoints, caches,
   environments, and outputs outside the distribution.

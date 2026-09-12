@@ -155,7 +155,8 @@ def test_react_client_retains_per_tab_auth_and_checked_blob_boundaries():
     assert "URL.revokeObjectURL" in app
     assert "sampleGuard.current.isCurrent(request)" in app
     assert "artifactGuard.current.isCurrent(request)" in app
-    assert 'aria-label={artifact.kind === "assistant-text"' in app
+    assert 'artifact.kind === "assistant-text"' in app
+    assert '"Checked assistant response"' in app
     assert 'value.kind === "table"' in app
     assert "tableProjection" in app
     assert "next.project_id !== expectedProject" in app
@@ -164,8 +165,11 @@ def test_react_client_retains_per_tab_auth_and_checked_blob_boundaries():
     index = (root / "index.html").read_text(encoding="utf-8")
     assert '<link rel="icon" href="data:," />' in index
     styles = (root / "src" / "styles.css").read_text(encoding="utf-8")
-    assert "word-break:break-all" in styles
-    assert 'grid-template-areas:"title" "rail" "tabs" "work" "inspector" "status"' in styles
+    assert "overflow-wrap: anywhere" in styles
+    assert '"title title title"' in styles
+    assert '"rail workspace assistant"' in styles
+    assert '"rail bottom assistant"' in styles
+    assert '"status status status"' in styles
 
 
 def test_live_projection_preserves_split_utf8_and_split_progress_lines():

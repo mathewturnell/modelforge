@@ -1,11 +1,10 @@
 {
   "approval": {
-    "approved_revision": "10dda5f37c550902a0ae2e0d7ff16b75ba59b928",
-    "date": "2026-09-11",
+    "date": null,
     "owner": "Mathew Turnell",
     "scope": "Exact files, dependency lock, and proposed Apache-2.0 treatment in this inventory"
   },
-  "approval_status": "approved_for_apache_review_candidate",
+  "approval_status": "pending_human_approval",
   "bundled_runtime_dependencies": [
     {
       "license": "MIT",
@@ -62,7 +61,7 @@
       "license": "Apache-2.0",
       "origin": {
         "donor_path": "modelforge/browser/workbench/README.md",
-        "donor_revision": "2dfeaa6564f7ce4f8a689e9800579f8c2947936e",
+        "donor_revision": "caed2d4a2d4bb8d0c52c7c7c3815546a1dd9d457",
         "kind": "adapted-model-forge-react"
       },
       "path": "workbench/README.md",
@@ -74,7 +73,7 @@
       "license": "Apache-2.0",
       "origin": {
         "donor_path": "modelforge/browser/workbench/index.html",
-        "donor_revision": "2dfeaa6564f7ce4f8a689e9800579f8c2947936e",
+        "donor_revision": "caed2d4a2d4bb8d0c52c7c7c3815546a1dd9d457",
         "kind": "adapted-model-forge-react"
       },
       "path": "workbench/index.html",
@@ -97,35 +96,35 @@
       "license": "Apache-2.0",
       "origin": {
         "donor_path": "modelforge/browser/workbench/package.json",
-        "donor_revision": "2dfeaa6564f7ce4f8a689e9800579f8c2947936e",
+        "donor_revision": "caed2d4a2d4bb8d0c52c7c7c3815546a1dd9d457",
         "kind": "adapted-model-forge-react"
       },
       "path": "workbench/package.json",
       "sha256": "6181aa3d5708edfbb274d0a04ed98780ab3bcd0fa31310d02653262e8bcd4dc0"
     },
     {
-      "bytes": 3170,
+      "bytes": 3616,
       "disposition": "adapted",
       "license": "Apache-2.0",
       "origin": {
         "donor_path": "modelforge/browser/workbench/src/App.test.tsx",
-        "donor_revision": "2dfeaa6564f7ce4f8a689e9800579f8c2947936e",
+        "donor_revision": "caed2d4a2d4bb8d0c52c7c7c3815546a1dd9d457",
         "kind": "adapted-model-forge-react"
       },
       "path": "workbench/src/App.test.tsx",
-      "sha256": "66448af974658399fba9862dfb14f5dc926e84eae479de6ba4af496bc1588297"
+      "sha256": "191a9b792c910edd7e6af77293f82b2d5229d1f132d61d76a4dd89d059a4d770"
     },
     {
-      "bytes": 28271,
+      "bytes": 85530,
       "disposition": "adapted",
       "license": "Apache-2.0",
       "origin": {
         "donor_path": "modelforge/browser/workbench/src/App.tsx",
-        "donor_revision": "2dfeaa6564f7ce4f8a689e9800579f8c2947936e",
+        "donor_revision": "caed2d4a2d4bb8d0c52c7c7c3815546a1dd9d457",
         "kind": "adapted-model-forge-react"
       },
       "path": "workbench/src/App.tsx",
-      "sha256": "8324b59f0a2ef02d0ae8fe157468b599d4258d054aa06a06fd0bc301213228cb"
+      "sha256": "3f18a3a3222dc0a2a3dc903fdefb58462b467bcf2892dcd0a10fea0dbf8bac27"
     },
     {
       "bytes": 1397,
@@ -138,16 +137,16 @@
       "sha256": "3ec70f128ca17e922ad3bbfc8a53d9b6843e4b3637f5f31e35c685a675fe3168"
     },
     {
-      "bytes": 4023,
+      "bytes": 4536,
       "disposition": "adapted",
       "license": "Apache-2.0",
       "origin": {
         "donor_path": "modelforge/browser/workbench/src/lib/api.ts",
-        "donor_revision": "2dfeaa6564f7ce4f8a689e9800579f8c2947936e",
+        "donor_revision": "caed2d4a2d4bb8d0c52c7c7c3815546a1dd9d457",
         "kind": "adapted-model-forge-react"
       },
       "path": "workbench/src/lib/api.ts",
-      "sha256": "6f10e8dc70bea7a985ed67950ebfe4cdc219ce072c307da5d5fbfeae44adb123"
+      "sha256": "7f4af8fd362bad384b1542b7ca427c461b908c1a1b13623615ae4b29ace890d0"
     },
     {
       "bytes": 1006,
@@ -155,35 +154,35 @@
       "license": "Apache-2.0",
       "origin": {
         "donor_path": "modelforge/browser/workbench/src/main.tsx",
-        "donor_revision": "2dfeaa6564f7ce4f8a689e9800579f8c2947936e",
+        "donor_revision": "caed2d4a2d4bb8d0c52c7c7c3815546a1dd9d457",
         "kind": "adapted-model-forge-react"
       },
       "path": "workbench/src/main.tsx",
       "sha256": "6fcfeef99705f9692c5fdec4e58cc13ae9d3cf30fbb556c38fa4cb2f7a22c86e"
     },
     {
-      "bytes": 9751,
+      "bytes": 53910,
       "disposition": "adapted",
       "license": "Apache-2.0",
       "origin": {
         "donor_path": "modelforge/browser/workbench/src/styles.css",
-        "donor_revision": "2dfeaa6564f7ce4f8a689e9800579f8c2947936e",
+        "donor_revision": "caed2d4a2d4bb8d0c52c7c7c3815546a1dd9d457",
         "kind": "adapted-model-forge-react"
       },
       "path": "workbench/src/styles.css",
-      "sha256": "c5312c1894f8dda8396bde7cfd69eb76c9eed79a8879f42ad56e33bd49d0c480"
+      "sha256": "8df833714bb5b5572835f1c548aa9a62b4ab6c2a4fb7cfeafb383f13e85ed8b0"
     },
     {
-      "bytes": 1710,
+      "bytes": 2327,
       "disposition": "adapted",
       "license": "Apache-2.0",
       "origin": {
         "donor_path": "modelforge/browser/workbench/src/types.ts",
-        "donor_revision": "2dfeaa6564f7ce4f8a689e9800579f8c2947936e",
+        "donor_revision": "caed2d4a2d4bb8d0c52c7c7c3815546a1dd9d457",
         "kind": "adapted-model-forge-react"
       },
       "path": "workbench/src/types.ts",
-      "sha256": "45e800d0ac1efa9dc96359cc932c1deda6ce7397b8a8e0c206c10f10fc53ec63"
+      "sha256": "e0ac970143b8a993121a955e3fbf88de049ce8954a624baa3b4b4a00cf1dd668"
     },
     {
       "bytes": 38,
@@ -191,7 +190,7 @@
       "license": "Apache-2.0",
       "origin": {
         "donor_path": "modelforge/browser/workbench/src/vite-env.d.ts",
-        "donor_revision": "2dfeaa6564f7ce4f8a689e9800579f8c2947936e",
+        "donor_revision": "caed2d4a2d4bb8d0c52c7c7c3815546a1dd9d457",
         "kind": "adapted-model-forge-react"
       },
       "path": "workbench/src/vite-env.d.ts",
@@ -203,7 +202,7 @@
       "license": "Apache-2.0",
       "origin": {
         "donor_path": "modelforge/browser/workbench/tsconfig.app.json",
-        "donor_revision": "2dfeaa6564f7ce4f8a689e9800579f8c2947936e",
+        "donor_revision": "caed2d4a2d4bb8d0c52c7c7c3815546a1dd9d457",
         "kind": "adapted-model-forge-react"
       },
       "path": "workbench/tsconfig.app.json",
@@ -215,7 +214,7 @@
       "license": "Apache-2.0",
       "origin": {
         "donor_path": "modelforge/browser/workbench/tsconfig.json",
-        "donor_revision": "2dfeaa6564f7ce4f8a689e9800579f8c2947936e",
+        "donor_revision": "caed2d4a2d4bb8d0c52c7c7c3815546a1dd9d457",
         "kind": "adapted-model-forge-react"
       },
       "path": "workbench/tsconfig.json",
@@ -227,7 +226,7 @@
       "license": "Apache-2.0",
       "origin": {
         "donor_path": "modelforge/browser/workbench/tsconfig.node.json",
-        "donor_revision": "2dfeaa6564f7ce4f8a689e9800579f8c2947936e",
+        "donor_revision": "caed2d4a2d4bb8d0c52c7c7c3815546a1dd9d457",
         "kind": "adapted-model-forge-react"
       },
       "path": "workbench/tsconfig.node.json",
@@ -239,7 +238,7 @@
       "license": "Apache-2.0",
       "origin": {
         "donor_path": "modelforge/browser/workbench/vite.config.ts",
-        "donor_revision": "2dfeaa6564f7ce4f8a689e9800579f8c2947936e",
+        "donor_revision": "caed2d4a2d4bb8d0c52c7c7c3815546a1dd9d457",
         "kind": "adapted-model-forge-react"
       },
       "path": "workbench/vite.config.ts",
@@ -249,9 +248,9 @@
   "package_lock_sha256": "b0bb6b0bcb12232333b02638701b5dd089d9e0c8a0649003d912b167b3c344ab",
   "protocol": "modelforge.react-source-inventory/v1",
   "source_rights_context": {
-    "apache_labelled_reference_revision": "953e7be49a3554a9d6dea0bdbcf894133b4d1c31",
+    "apache_labelled_reference_revision": "caed2d4a2d4bb8d0c52c7c7c3815546a1dd9d457",
     "donor_author": "Mathew Turnell",
-    "donor_revision": "2dfeaa6564f7ce4f8a689e9800579f8c2947936e",
-    "note": "Authorship and the earlier Apache-labelled revision are provenance evidence; the exact inventory still requires explicit human approval."
+    "donor_revision": "caed2d4a2d4bb8d0c52c7c7c3815546a1dd9d457",
+    "note": "The donor revision is Apache-2.0 and was used only as a file-level visual/source reference. Exact generated inventory identities remain the release boundary."
   }
 }

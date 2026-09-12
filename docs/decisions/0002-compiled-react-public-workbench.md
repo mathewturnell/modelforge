@@ -43,6 +43,16 @@ service and capability authorize it. An incomplete service is presented with
 an explicit reason and remains a tracked implementation gap; it is not removed
 from the product definition and is not represented as shipped.
 
+The first bounded implementation of that target keeps the v1 singular-action
+projection for compatibility and adds an `actions` collection for exact
+route-selected inference, prompt, and training actions. Dataset annotations
+are private, revisioned owner-state sidecars bound to the registered sample
+digest; they never rewrite source samples. Training remains a project-owned
+adapter executed by the existing managed lifecycle and may return only
+validated metrics and digest-checked artifacts. Deterministic named-project
+fixtures qualify these framework paths without claiming upstream data, model,
+checkpoint, provider, or scientific behavior.
+
 Commercial identity, membership, billing, customer tenancy, hosted workbench,
 commercial-plane services, Cloudflare publication, desktop updating, and
 general provider control are outside this public source boundary.

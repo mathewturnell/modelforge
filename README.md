@@ -24,19 +24,30 @@ with coding agents. Agents help you develop and integrate the ML code;
 ModelForge supplies the reusable interface around it: choose inputs, configure
 supported experiments, start runs, follow execution, and inspect the outputs.
 
-Today, the public alpha supports selected-video inference and prompt workflows
-through one consistent local application. You can browse checked samples,
-choose local or configured Modal execution, follow run status and logs, watch
-video results, inspect result tables, read model responses, and reopen completed
-runs later. Projects still own their model code, datasets, task semantics, and
-environments—ModelForge does not claim universal project compatibility or
-control how a coding agent behaves.
+Today, the public alpha supports checked dataset loading, revisioned annotation,
+registered local training, selected-input inference, and prompt workflows
+through one consistent local application. You can follow run status and logs,
+inspect checked metrics and checkpoints, watch video results, inspect result
+tables, read model responses, and reopen completed runs later. Projects still
+own their model code, datasets, task semantics, recipes, and environments—
+ModelForge does not claim universal project compatibility, scientific validity,
+or control how a coding agent behaves.
 
 ![The current ModelForge workbench showing project selection, product navigation, readiness, and run output](docs/assets/screenshots/01-project-overview.png)
 
 <p align="center"><sub>Select a registered project, move between its available workflows, and keep run evidence in view. This capture uses an explicitly labelled synthetic documentation fixture.</sub></p>
 
 <table>
+  <tr>
+    <td width="50%">
+      <img src="docs/assets/screenshots/03-annotation-editor.png" alt="The revisioned annotation editor showing a checked synthetic visual sample and normalized box">
+      <br><sub>Review a checked sample and save digest-bound annotation sidecars without changing source data.</sub>
+    </td>
+    <td width="50%">
+      <img src="docs/assets/screenshots/04-training-dashboard.png" alt="The managed training dashboard showing recorded metrics, logs, and checked checkpoint artifacts">
+      <br><sub>Run a declared local trainer and inspect only recorded metrics and checked artifacts.</sub>
+    </td>
+  </tr>
   <tr>
     <td width="50%">
       <img src="docs/assets/screenshots/03-vision-result.png" alt="A completed synthetic vision-shaped run with logs, checked artifacts, and native video playback">
@@ -59,6 +70,10 @@ control how a coding agent behaves.
 
 - **Work with the inputs you can see.** Browse a bounded sample catalog, select
   a video or image, and preview checked content before launch.
+- **Keep curation separate from source data.** Save revisioned labels, notes,
+  and normalized boxes in owner state, bound to the exact sample digest.
+- **Train through the same evidence path.** Declared project trainers produce
+  durable state, logs, recorded metrics, and checked checkpoint artifacts.
 - **Keep execution understandable.** Choose a ready target, start an inference
   or prompt action, and follow explicit queued, running, failed, cancelled, or
   completed state with bounded logs and progress when the action reports it.
@@ -73,17 +88,21 @@ control how a coding agent behaves.
 ## What works today
 
 The implemented public-alpha path covers project registration and switching,
-checked dataset samples, prompt entry, managed local inference/prompt execution,
-run status and cancellation, bounded logs, digest-checked artifacts, native
-video/image/text/table results, and recovery of completed run records. The
-bundled Synthetic Threshold Lab provides a small offline installation check.
+checked dataset samples, revisioned digest-bound annotation sidecars, registered
+local training, prompt entry, managed local inference/prompt execution, run
+status and cancellation, bounded logs, digest-checked metrics/checkpoints and
+native video/image/text/table results, plus recovery of completed run records.
+The bundled Synthetic Threshold Lab remains the smallest offline installation
+check; named-project conformance fixtures exercise the complete UI/backend path
+without loading upstream data, models, checkpoints, providers, or paid compute.
 
-Scientific telemetry is unavailable for the current example actions and is not
-shown as zero. Source and Git workflows, annotation, model/architecture
-inspection, managed training and evaluation, run comparison, broader settings,
-and the local ModelForge Coding Assistant are visible product directions but
-remain planned or partial. See the exact [product boundary](docs/product-boundary.md)
-for the status of each area.
+Only recorded training metrics are plotted; absent scientific telemetry is not
+shown as zero. Source and Git workflows, model/architecture inspection,
+validation and scientific run comparison, broader settings, and the local
+ModelForge Coding Assistant remain planned or partial. The retained real-model
+examples still expose only their reviewed inference or prompt adapters; their
+training prerequisites and recipes remain project-owned. See the exact
+[product boundary](docs/product-boundary.md) for the status of each area.
 
 ## Quickstart
 
