@@ -41,9 +41,20 @@ where = ["src"]
 [tool.setuptools.data-files]
 "share/modelforge/docs" = [
   "docs/example-setup.md",
+  "docs/getting-started.md",
   "docs/licensing.md",
   "docs/modal.md",
   "docs/release-status.md",
+]
+"share/modelforge/docs/assets" = ["docs/assets/modelforge-wordmark.svg"]
+"share/modelforge/docs/assets/screenshots" = [
+  "docs/assets/screenshots/01-project-overview.png",
+  "docs/assets/screenshots/02-dataset-selection.png",
+  "docs/assets/screenshots/03-vision-result.png",
+  "docs/assets/screenshots/04-qwen-prompt.png",
+  "docs/assets/screenshots/05-qwen-result.png",
+  "docs/assets/screenshots/06-tastematch-result.png",
+  "docs/assets/screenshots/07-mobile-saved-run.png",
 ]
 "share/modelforge/examples/bdd100k-road-scene-lab" = [
   "examples/bdd100k-road-scene-lab/README.md",

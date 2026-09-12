@@ -34,6 +34,18 @@ def test_archive_name_policy_rejects_traversal_and_private_wheel_areas():
         verifier.check_name("tests/private.py", wheel=True)
 
 
+def test_wheel_accepts_only_the_named_reviewed_documentation_screenshots():
+    verifier = _verifier()
+    prefix = "package-0.1.data/data/share/modelforge/"
+    verifier.check_name(
+        prefix + "docs/assets/screenshots/01-project-overview.png", wheel=True,
+    )
+    with pytest.raises(ValueError, match="private_binary_or_execution_material"):
+        verifier.check_name(
+            prefix + "docs/assets/screenshots/unreviewed.png", wheel=True,
+        )
+
+
 def test_payload_policy_rejects_private_paths_without_printing_matched_bytes():
     with pytest.raises(ValueError, match="private_home_path") as caught:
         _verifier().check_payload("safe.txt", b"/" + b"home" + b"/person/private")
@@ -93,3 +105,19 @@ def test_distribution_requires_compiled_client_and_reproducible_source():
     verifier.require_react_members(sdist_names, wheel=False)
     with pytest.raises(ValueError, match="React source or inventory missing"):
         verifier.require_react_members(sdist_names[:-1], wheel=False)
+
+
+def test_distribution_requires_complete_screenshot_backed_guide():
+    verifier = _verifier()
+    wheel_names = [
+        "package-0.1.data/data/share/modelforge/" + path
+        for path in verifier.DOCUMENTATION_MEMBERS
+    ]
+    verifier.require_documentation_members(wheel_names, wheel=True)
+    with pytest.raises(ValueError, match="Getting-started documentation missing"):
+        verifier.require_documentation_members(wheel_names[:-1], wheel=True)
+
+    sdist_names = [f"package/{path}" for path in verifier.DOCUMENTATION_MEMBERS]
+    verifier.require_documentation_members(sdist_names, wheel=False)
+    with pytest.raises(ValueError, match="Getting-started documentation missing"):
+        verifier.require_documentation_members(sdist_names[:-1], wheel=False)

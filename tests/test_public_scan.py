@@ -61,11 +61,18 @@ def test_reviewed_environment_templates_are_not_classified_as_credentials():
     assert scanner._category_for_path("config/.env.template") is None
 
 
-def test_only_named_visual_baselines_are_accepted_as_binary_fixtures():
+def test_only_named_reviewed_visuals_are_accepted_as_binary_fixtures():
     scanner = _scanner()
     expected = {
         "browser-tests/journeys/first-use.spec.js-snapshots/first-use-desktop-linux.png",
         "browser-tests/journeys/first-use.spec.js-snapshots/first-use-mobile-390-linux.png",
+        "docs/assets/screenshots/01-project-overview.png",
+        "docs/assets/screenshots/02-dataset-selection.png",
+        "docs/assets/screenshots/03-vision-result.png",
+        "docs/assets/screenshots/04-qwen-prompt.png",
+        "docs/assets/screenshots/05-qwen-result.png",
+        "docs/assets/screenshots/06-tastematch-result.png",
+        "docs/assets/screenshots/07-mobile-saved-run.png",
         "browser-tests/journeys/first-use.spec.js-snapshots/first-use-desktop-github-ubuntu-24.04.png",
         "browser-tests/journeys/first-use.spec.js-snapshots/first-use-mobile-390-github-ubuntu-24.04.png",
     }
