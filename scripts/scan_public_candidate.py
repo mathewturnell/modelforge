@@ -36,6 +36,13 @@ APPROVED_BINARY_FIXTURES = {
     "browser-tests/journeys/first-use.spec.js-snapshots/first-use-desktop-linux.png",
     "browser-tests/journeys/first-use.spec.js-snapshots/first-use-mobile-390-github-ubuntu-24.04.png",
     "browser-tests/journeys/first-use.spec.js-snapshots/first-use-mobile-390-linux.png",
+    "docs/assets/screenshots/01-project-overview.png",
+    "docs/assets/screenshots/02-dataset-selection.png",
+    "docs/assets/screenshots/03-vision-result.png",
+    "docs/assets/screenshots/04-qwen-prompt.png",
+    "docs/assets/screenshots/05-qwen-result.png",
+    "docs/assets/screenshots/06-tastematch-result.png",
+    "docs/assets/screenshots/07-mobile-saved-run.png",
 }
 PATTERNS = {
     "private_home_path": re.compile(rb"/(?:home|Users)/[^/\s]+/"),

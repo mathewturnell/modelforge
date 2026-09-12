@@ -19,6 +19,7 @@ parser.add_argument("--checkpoint")
 parser.add_argument("--output-dir")
 parser.add_argument("--device")
 parser.add_argument("--max-frames")
+parser.add_argument("--fixture-kind", choices=("vision", "table"), default="vision")
 args = parser.parse_args()
 
 
@@ -45,6 +46,39 @@ artifact = Path(args.artifact)
 checkpoint = Path(args.checkpoint)
 output = Path(args.output_dir)
 mode = artifact.stem
+if args.fixture_kind == "table":
+    print("Synthetic base-SigLIP-shaped fixture started; no model was loaded.", flush=True)
+    print('[MODELFORGE_PROGRESS] {"stage":"scoring","percent":50}', flush=True)
+    table = output / "base-siglip-scores.json"
+    table.write_text(json.dumps({
+        "protocol": "tastematch.documentation-fixture/v1",
+        "evidence_mode": "synthetic-documentation-fixture",
+        "top": [
+            {"label": "pizza", "score": 0.8124},
+            {"label": "bruschetta", "score": 0.6417},
+            {"label": "caprese salad", "score": 0.4931},
+            {"label": "garlic bread", "score": 0.3386},
+            {"label": "grilled cheese sandwich", "score": 0.2148},
+        ],
+        "notice": "Authored scores for documentation; not model-quality evidence.",
+    }, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    result = {
+        "format": "modelforge.inference-result/v1",
+        "kind": "table",
+        "input_artifact": {"sha256": digest(artifact)},
+        "model_artifact": {"id": "fixture-checkpoint", "sha256": digest(checkpoint)},
+        "results": [{
+            "role": "primary",
+            "kind": "table",
+            "path": table.name,
+            "mime_type": "application/json",
+            "sha256": digest(table),
+        }],
+    }
+    (output / "result.json").write_text(json.dumps(result), encoding="utf-8")
+    print('[MODELFORGE_PROGRESS] {"stage":"complete","percent":100}', flush=True)
+    raise SystemExit(0)
+
 print(f"Synthetic vision fixture started in {mode} mode; no model was loaded.", flush=True)
 print('[MODELFORGE_PROGRESS] {"stage":"loading","percent":10}', flush=True)
 if mode == "failure":

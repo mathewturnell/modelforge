@@ -37,9 +37,10 @@ and does not execute the fetched checkout during setup.
 
 ## 3. Open the project
 
-Copy `project.local.template.json` outside the distribution. Set its interpreter,
-MeMOTR source, BDD root, selected-video size/SHA-256, checkpoint path/SHA-256,
-and output/cache paths to external locations, then register it:
+Copy `project.local.template.json` outside the distribution. Set its example
+repository, interpreter, MeMOTR source, BDD root, selected-video
+path/size/SHA-256, and checkpoint path/SHA-256 to external locations, then
+register it:
 
 ```bash
 modelforge project register --state-root /tmp/modelforge-state --config /secure/bdd100k.local.json

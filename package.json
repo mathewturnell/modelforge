@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "test:browser": "playwright test",
-    "test:browser:update": "playwright test browser-tests/journeys/first-use.spec.js --update-snapshots"
+    "test:browser:update": "playwright test browser-tests/journeys/first-use.spec.js --update-snapshots",
+    "docs:screenshots": "MODELFORGE_CAPTURE_DOCUMENTATION=1 playwright test browser-tests/journeys/documentation-captures.spec.js"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.10.2",

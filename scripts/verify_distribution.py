@@ -27,6 +27,17 @@ SDIST_REQUIRED_REACT = {
     "workbench/src/lib/api.ts",
     "src/modelforge_workbench/workbench/static/modal-setup.css",
 }
+DOCUMENTATION_MEMBERS = {
+    "docs/getting-started.md",
+    "docs/assets/modelforge-wordmark.svg",
+    "docs/assets/screenshots/01-project-overview.png",
+    "docs/assets/screenshots/02-dataset-selection.png",
+    "docs/assets/screenshots/03-vision-result.png",
+    "docs/assets/screenshots/04-qwen-prompt.png",
+    "docs/assets/screenshots/05-qwen-result.png",
+    "docs/assets/screenshots/06-tastematch-result.png",
+    "docs/assets/screenshots/07-mobile-saved-run.png",
+}
 
 
 def require_react_members(names: list[str], *, wheel: bool) -> None:
@@ -47,6 +58,25 @@ def require_react_members(names: list[str], *, wheel: bool) -> None:
     missing = SDIST_REQUIRED_REACT - relative
     if missing:
         raise ValueError(f"React source or inventory missing from sdist: {sorted(missing)}")
+
+
+def require_documentation_members(names: list[str], *, wheel: bool) -> None:
+    if wheel:
+        suffixes = {
+            "share/modelforge/" + member for member in DOCUMENTATION_MEMBERS
+        }
+        missing = {
+            suffix for suffix in suffixes
+            if not any(name.endswith(suffix) for name in names)
+        }
+    else:
+        relative = {
+            "/".join(PurePosixPath(name).parts[1:])
+            for name in names if len(PurePosixPath(name).parts) > 1
+        }
+        missing = DOCUMENTATION_MEMBERS - relative
+    if missing:
+        raise ValueError(f"Getting-started documentation missing from distribution: {sorted(missing)}")
 
 
 def verify_sdist_react_inventory(
@@ -84,7 +114,15 @@ def check_name(name: str, *, wheel: bool) -> None:
         raise ValueError(f"excluded wheel member: {name}")
     if path.suffix in {".pyc", ".pth", ".pt", ".safetensors"}:
         raise ValueError(f"forbidden archive member: {name}")
-    relative = "/".join(path.parts[1:]) if not wheel and len(path.parts) > 1 else name
+    if wheel and "share" in path.parts:
+        share_index = path.parts.index("share")
+        relative = (
+            "/".join(path.parts[share_index + 2:])
+            if path.parts[share_index + 1:share_index + 2] == ("modelforge",)
+            else name
+        )
+    else:
+        relative = "/".join(path.parts[1:]) if not wheel and len(path.parts) > 1 else name
     category = _category_for_path(relative)
     standard_sdist_metadata = (
         not wheel
@@ -138,6 +176,7 @@ def main() -> int:
                 members = bundle.infolist()
                 names = [member.filename for member in members]
                 require_react_members(names, wheel=True)
+                require_documentation_members(names, wheel=True)
                 if any(PurePosixPath(name).parts[0] == "modelforge" for name in names):
                     raise ValueError("stale private modelforge namespace in wheel")
                 if not any(name.startswith("modelforge_workbench/") for name in names):
@@ -184,7 +223,9 @@ def main() -> int:
         else:
             with tarfile.open(archive, "r:gz") as bundle:
                 members = bundle.getmembers()
-                require_react_members([member.name for member in members], wheel=False)
+                names = [member.name for member in members]
+                require_react_members(names, wheel=False)
+                require_documentation_members(names, wheel=False)
                 verify_sdist_react_inventory(bundle, members)
                 for member in members:
                     total += 1
