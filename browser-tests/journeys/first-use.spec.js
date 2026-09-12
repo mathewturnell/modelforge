@@ -72,7 +72,7 @@ test("restored workbench presents the complete established shell and real projec
   await expectNoSeriousAccessibilityViolations(page);
   expect(requests.every(url => new URL(url).hostname === "127.0.0.1")).toBeTruthy();
   expect(errors).toEqual([]);
-  await expect(page).toHaveScreenshot("first-use-desktop.png", {fullPage: true, animations: "disabled", mask: [page.locator(".execution-health"), page.locator(".bottom-panel pre")]});
+  await expect(page).toHaveScreenshot("first-use-desktop.png", {fullPage: true, animations: "disabled", mask: [page.locator(".execution-provider"), page.locator(".execution-health"), page.locator(".bottom-panel pre")]});
 });
 
 test("compiled React journey annotates, trains, and renders checked inference evidence", async ({page, workbench}) => {

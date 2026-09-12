@@ -141,34 +141,34 @@
       "sha256": "d756e29b189b4098f88ffed356722f53be220220d1ccb0bd6c86d5125828e1b6"
     },
     {
-      "bytes": 10719,
+      "bytes": 10756,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "browser-tests/journeys/first-use.spec.js",
-      "sha256": "9ac8fc9f7b3e8837743fc6a6467b4a0dd2f88099cb05b35034df490bd892074c"
+      "sha256": "023ba3839781d537fccaf9496c7128ef912eb01e6438aa19b2ad3417bc51b43f"
     },
     {
-      "bytes": 166911,
+      "bytes": 168827,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "browser-tests/journeys/first-use.spec.js-snapshots/first-use-desktop-github-ubuntu-24.04.png",
-      "sha256": "c668ad9ac4f9e5f4f30441529a5d53fec34279f6fd56c4203ecb48eb0da4f801"
+      "sha256": "3420b1a359ce07273a82754e5ab1fb70d2854365acfb0773f70ed87bd1d87a70"
     },
     {
-      "bytes": 166607,
+      "bytes": 166338,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "browser-tests/journeys/first-use.spec.js-snapshots/first-use-desktop-linux.png",
-      "sha256": "f588db57aed02bc7f67b17bd845e5887211b6213940a2024f069d6d1302438d4"
+      "sha256": "d428e0589c2bdacaf4e7dc1236ca84a4eab1c3f9294fe6922ede8b305d1c4832"
     },
     {
       "bytes": 37237,
