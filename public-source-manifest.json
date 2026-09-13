@@ -171,14 +171,14 @@
       "sha256": "d428e0589c2bdacaf4e7dc1236ca84a4eab1c3f9294fe6922ede8b305d1c4832"
     },
     {
-      "bytes": 37237,
+      "bytes": 81094,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "browser-tests/journeys/first-use.spec.js-snapshots/first-use-mobile-390-github-ubuntu-24.04.png",
-      "sha256": "8fe97f01f68cbaf8974f1f3b0293f2b2cff5bbe814eef43368f5c419eedfdadc"
+      "sha256": "45b7f7b2afc498755ed811d093315c553cdba049a5ff48e074a632d53d0a473e"
     },
     {
       "bytes": 81091,
