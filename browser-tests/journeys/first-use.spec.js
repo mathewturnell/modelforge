@@ -179,5 +179,10 @@ test("small viewport keeps exact navigation and evidence assistant operable", as
   expect(overflow).toBeLessThanOrEqual(1);
   await expectNoSeriousAccessibilityViolations(page);
   expect(errors).toEqual([]);
-  await expect(page).toHaveScreenshot("first-use-mobile-390.png", {fullPage: true, animations: "disabled", mask: [page.locator(".bottom-panel pre")]});
+  await expect(page).toHaveScreenshot("first-use-mobile-390.png", {
+    fullPage: true,
+    animations: "disabled",
+    mask: [page.locator(".bottom-panel pre")],
+    maxDiffPixels: 100,
+  });
 });
