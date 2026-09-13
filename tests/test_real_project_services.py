@@ -88,6 +88,9 @@ def test_registered_projects_share_durable_lifecycle_and_checked_artifacts(tmp_p
     config, project, payload = _project(tmp_path, kind=kind)
     registered = app.register_project(config)
     assert registered["runtime_readiness"] == "ready"
+    assert [item["id"] for item in app.list_projects()] == [
+        project["id"], "synthetic-threshold",
+    ]
     execution = app.start_project_action(project["id"], payload)
     running = app.get_run(execution.run_id, project["id"])
     assert running["status"] == "running"

@@ -451,14 +451,14 @@
       "sha256": "489299006bef9afa8ae17b55c61f95c498141394304c7408f0cae740df3ba260"
     },
     {
-      "bytes": 6634,
+      "bytes": 6716,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/requirements.md",
-      "sha256": "9514e96fb71da59ea266afa033c0b4c620e535c60856f8f769f254e0bb8c9e85"
+      "sha256": "3adb600e06be46d16cc0e694a949e8082c0cf85364725cdbb2e7ba4ca7952fb8"
     },
     {
       "bytes": 8691,
@@ -1179,14 +1179,14 @@
       "sha256": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d"
     },
     {
-      "bytes": 28441,
+      "bytes": 28661,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "src/modelforge_workbench/alpha.py",
-      "sha256": "265bdba0a3e2735c787c9d936ef1d1932c35e03d61ab6a699c4e3c2cc735e88b"
+      "sha256": "de7d12268e3a1771ba7e0753ff69a029bb0861a9d292560baa2415746876326b"
     },
     {
       "bytes": 133,
@@ -2213,14 +2213,14 @@
       "sha256": "ab58780df5f2286255fdfbc0b32f548554709387dac284630506b0a65d301fb1"
     },
     {
-      "bytes": 10531,
+      "bytes": 10644,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "tests/test_real_project_services.py",
-      "sha256": "7e8f5149d6888d8fc6ee0909c8906a204ea72f1911a608759b54fd3ef8da1823"
+      "sha256": "cc6734c2930fc45a51bbddf0af358c2a94a7ed58b9e1466e4541b5b4bd919ad0"
     },
     {
       "bytes": 2916,

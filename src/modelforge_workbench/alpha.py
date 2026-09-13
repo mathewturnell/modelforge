@@ -264,7 +264,10 @@ class AlphaWorkbench:
             ]
             runtime = self._with_execution_targets(runtime)
             configured.append(runtime)
-        return [synthetic, *configured]
+        # A configured installation should open owner-registered work before the
+        # bundled conformance lab. Keep the smoke project available, but do not
+        # let it masquerade as the user's default project.
+        return [*configured, synthetic]
 
     def register_project(self, path: str | Path) -> dict:
         runtime = self.runtime_configurations.prepare_file(path)
