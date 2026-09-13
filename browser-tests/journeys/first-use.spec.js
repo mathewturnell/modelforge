@@ -10,7 +10,7 @@ async function openWorkbench(page, workbench, mode = "full") {
     if (message.type() === "error") errors.push(`console: ${message.text()}`);
   });
   await page.goto(await workbench.start(mode), {waitUntil: "domcontentloaded"});
-  await expect(page.getByRole("heading", {name: "Synthetic Threshold Lab", exact: true})).toBeVisible();
+  await expect(page.getByRole("heading", {name: /^BDD100K Road Scene Lab/}).first()).toBeVisible();
   return errors;
 }
 
@@ -174,7 +174,7 @@ test("small viewport keeps exact navigation and evidence assistant operable", as
   const errors = await openWorkbench(page, workbench);
   await page.getByRole("button", {name: "Open workspace navigation"}).click();
   await page.getByRole("menuitem", {name: "Datasets", exact: true}).click();
-  await expect(page.getByText("No dataset selected", {exact: true})).toBeVisible();
+  await expect(page.getByText("Authored road scenes", {exact: true}).first()).toBeVisible();
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
   expect(overflow).toBeLessThanOrEqual(1);
   await expectNoSeriousAccessibilityViolations(page);

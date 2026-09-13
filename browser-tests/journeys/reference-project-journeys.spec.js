@@ -78,7 +78,7 @@ for (const project of projects) {
     page.on("console", message => {if (message.type() === "error") errors.push(message.text());});
     await page.setViewportSize({width: 1440, height: 960});
     await page.goto(await workbench.start("full"), {waitUntil: "domcontentloaded"});
-    await expect(page.getByRole("heading", {name: "Synthetic Threshold Lab", exact: true})).toBeVisible();
+    await expect(page.getByRole("heading", {name: /^BDD100K Road Scene Lab/}).first()).toBeVisible();
     await chooseProject(page, project.name);
     await page.getByRole("button", {name: "Datasets", exact: true}).click();
     await expect(page.getByText(project.dataset, {exact: true}).first()).toBeVisible();

@@ -141,14 +141,14 @@
       "sha256": "d756e29b189b4098f88ffed356722f53be220220d1ccb0bd6c86d5125828e1b6"
     },
     {
-      "bytes": 10756,
+      "bytes": 10760,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "browser-tests/journeys/first-use.spec.js",
-      "sha256": "023ba3839781d537fccaf9496c7128ef912eb01e6438aa19b2ad3417bc51b43f"
+      "sha256": "2141d29c3f630e195636c3a0d9cd1990ee8d1dd08ad4b928dd05084cece6b6ba"
     },
     {
       "bytes": 168827,
@@ -181,24 +181,24 @@
       "sha256": "8fe97f01f68cbaf8974f1f3b0293f2b2cff5bbe814eef43368f5c419eedfdadc"
     },
     {
-      "bytes": 37237,
+      "bytes": 81091,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "browser-tests/journeys/first-use.spec.js-snapshots/first-use-mobile-390-linux.png",
-      "sha256": "8fe97f01f68cbaf8974f1f3b0293f2b2cff5bbe814eef43368f5c419eedfdadc"
+      "sha256": "53102014a555ad7310228d3b7979786c7ee9ef8d249d46a68ea17ba0fca5f8bb"
     },
     {
-      "bytes": 4750,
+      "bytes": 4745,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "browser-tests/journeys/local-lifecycle.spec.js",
-      "sha256": "c01044e259a2b85a41d3f4f1edf4f7ba188ff972278c556b066e0ebe2f3de8ee"
+      "sha256": "60f497436d9c15853562b480b5b59187d4307e181b092f7593422a6dab91f7ef"
     },
     {
       "bytes": 5286,
@@ -211,14 +211,14 @@
       "sha256": "b1eaebe1bde402fafeac56108606b8f117e8ff157c083b86f258d00a69c1aacb"
     },
     {
-      "bytes": 6631,
+      "bytes": 6626,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "browser-tests/journeys/reference-project-journeys.spec.js",
-      "sha256": "56166ba32c0c4170c8a86765dc265ff79f49a2cbfa7f8d8d5bf9ef6f2b485015"
+      "sha256": "8329dc61cefd5213179285d1960026084f0070743d2f985e4338d20fbd1c27ac"
     },
     {
       "bytes": 3829,

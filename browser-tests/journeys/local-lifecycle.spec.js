@@ -7,7 +7,7 @@ async function open(page, workbench) {
   const pageErrors = [];
   page.on("pageerror", error => pageErrors.push(error.message));
   await page.goto(await workbench.start("full"), {waitUntil: "domcontentloaded"});
-  await expect(page.getByRole("heading", {name: "Synthetic Threshold Lab", exact: true})).toBeVisible();
+  await expect(page.getByRole("heading", {name: /^BDD100K Road Scene Lab/}).first()).toBeVisible();
   return pageErrors;
 }
 
