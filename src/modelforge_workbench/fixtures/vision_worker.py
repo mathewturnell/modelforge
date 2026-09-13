@@ -29,6 +29,7 @@ result = {
     "results": [{
         "role": "primary", "kind": "video", "path": "result.mp4",
         "mime_type": "video/mp4", "sha256": video_sha,
+        "frames": 2, "fps": 5.0, "duration_seconds": 0.4,
         "manifest_path": "manifest.json",
         "manifest_sha256": hashlib.sha256(manifest.read_bytes()).hexdigest(),
     }],

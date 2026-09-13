@@ -30,6 +30,9 @@ SDIST_REQUIRED_REACT = {
     "workbench/src/lib/api.ts",
     "src/modelforge_workbench/workbench/static/modal-setup.css",
 }
+BDD_ARCHITECTURE_DESCRIPTOR = (
+    "share/modelforge/examples/bdd100k-road-scene-lab/architecture.inspectable.json"
+)
 DOCUMENTATION_MEMBERS = {
     "docs/getting-started.md",
     "docs/assets/modelforge-wordmark.svg",
@@ -83,6 +86,20 @@ def require_documentation_members(names: list[str], *, wheel: bool) -> None:
         missing = DOCUMENTATION_MEMBERS - relative
     if missing:
         raise ValueError(f"Getting-started documentation missing from distribution: {sorted(missing)}")
+
+
+def require_bdd_architecture_descriptor(names: list[str], *, wheel: bool) -> None:
+    if wheel:
+        if not any(name.endswith(BDD_ARCHITECTURE_DESCRIPTOR) for name in names):
+            raise ValueError("BDD100K architecture descriptor missing from wheel")
+        return
+    relative = {
+        "/".join(PurePosixPath(name).parts[1:])
+        for name in names if len(PurePosixPath(name).parts) > 1
+    }
+    expected = BDD_ARCHITECTURE_DESCRIPTOR.removeprefix("share/modelforge/")
+    if expected not in relative:
+        raise ValueError("BDD100K architecture descriptor missing from sdist")
 
 
 def verify_sdist_react_inventory(
@@ -191,6 +208,7 @@ def main() -> int:
                 names = [member.filename for member in members]
                 require_react_members(names, wheel=True)
                 require_documentation_members(names, wheel=True)
+                require_bdd_architecture_descriptor(names, wheel=True)
                 if any(PurePosixPath(name).parts[0] == "modelforge" for name in names):
                     raise ValueError("stale private modelforge namespace in wheel")
                 if not any(name.startswith("modelforge_workbench/") for name in names):
@@ -238,6 +256,7 @@ def main() -> int:
                 names = [member.name for member in members]
                 require_react_members(names, wheel=False)
                 require_documentation_members(names, wheel=False)
+                require_bdd_architecture_descriptor(names, wheel=False)
                 verify_sdist_react_inventory(bundle, members)
                 for member in members:
                     total += 1

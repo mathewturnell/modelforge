@@ -4,6 +4,7 @@
   "name": "BDD100K Road Scene Lab",
   "repository": ".",
   "dataset_descriptor": "dataset.inspectable.json",
+  "architecture_descriptor": "architecture.inspectable.json",
   "runtime": {
     "protocol": "modelforge.project-runtime/v1",
     "actions": {

@@ -49,6 +49,7 @@ class RegisteredActionBinder:
     private_request: Mapping[str, Any]
     sample: ResolvedSample | None
     dataset_root: Path | None = None
+    effective_parameters: Mapping[str, Any] | None = None
 
     def bind(self, allocation) -> BoundManagedAction:
         action = self.action
@@ -56,13 +57,15 @@ class RegisteredActionBinder:
         output_path = allocation.evidence_root / "result.json"
         request_path.write_bytes(_json_bytes(self.private_request))
         os.chmod(request_path, 0o600)
+        parameters = dict(action.get("parameters") or {})
+        parameters.update(dict(self.effective_parameters or {}))
         values = {
             "request": str(request_path),
             "output": str(output_path if action["kind"] == "prompt" else allocation.evidence_root),
             "dataset_root": str(self.sample.root if self.sample else self.dataset_root or ""),
             "artifact": str(self.sample.path if self.sample else ""),
-            "device": str(action.get("parameters", {}).get("device", "auto")),
-            "max_frames": str(action.get("parameters", {}).get("max_frames", 0)),
+            "device": str(parameters.get("device", "auto")),
+            "max_frames": str(parameters.get("max_frames", 0)),
             "checkpoint": "",
             "model_cache": "",
         }
@@ -201,11 +204,29 @@ class ProjectActionService:
             target = "local"
         sample = None
         dataset_root = None
+        effective_parameters: dict[str, Any] = {}
         if kind == "inference":
             dataset_id = str(action_input.get("dataset_id") or "")
             sample_id = str(action_input.get("sample_id") or "")
             sample = self.datasets.resolve(project_id, dataset_id, sample_id)
             checkpoint = (project.get("bindings") or {}).get("checkpoint") or {}
+            effective_parameters = dict(action.get("parameters") or {})
+            requested_parameters = action_input.get("parameters") or {}
+            if not isinstance(requested_parameters, Mapping):
+                raise ValueError("Inference parameters must be an object")
+            if set(requested_parameters) - {"max_frames"}:
+                raise ValueError("Inference parameter is not supported by the registered action")
+            if "max_frames" in requested_parameters:
+                if not any("{max_frames}" in value for value in action.get("arguments") or ()):
+                    raise ValueError("Maximum frames is not configurable for this action")
+                maximum = requested_parameters["max_frames"]
+                if isinstance(maximum, bool) or not isinstance(maximum, int) or not 0 <= maximum <= 1_000_000:
+                    raise ValueError("Maximum frames must be an integer from 0 to 1000000")
+                effective_parameters["max_frames"] = maximum
+            if target == "modal" and any(
+                "{max_frames}" in value for value in action.get("arguments") or ()
+            ) and not 1 <= effective_parameters.get("max_frames", 0) <= 24:
+                raise ValueError("Modal inference requires an explicit maximum from 1 to 24 frames")
             request = {
                 "workflow": "inference",
                 "action_id": action["id"],
@@ -215,8 +236,8 @@ class ProjectActionService:
                 "dataset_split": sample.split,
                 "checkpoint_id": checkpoint.get("id"),
                 "checkpoint_sha256": checkpoint.get("sha256"),
-                "device": action.get("parameters", {}).get("device", "auto"),
-                "max_frames": action.get("parameters", {}).get("max_frames", 0),
+                "device": effective_parameters.get("device", "auto"),
+                "max_frames": effective_parameters.get("max_frames", 0),
             }
             private_request = request
             dataset_ref = f"{dataset_id}:{sample_id}:{sample.sha256}"
@@ -343,7 +364,10 @@ class ProjectActionService:
             )
             return self.managed.start_plan(
                 plan,
-                RegisteredActionBinder(project, action, private_request, sample, dataset_root),
+                RegisteredActionBinder(
+                    project, action, private_request, sample, dataset_root,
+                    effective_parameters,
+                ),
                 on_event=on_event,
             )
         if target != "modal" or not managed_envelope:
@@ -585,7 +609,15 @@ class ProjectActionService:
                 if Path(name).name != name:
                     raise ValueError("Managed result artifact path must be a filename")
                 path = root / name
-                candidate = self._candidate(path, kind, fallback_type)
+                presentation_metadata = {}
+                if path_field == "path":
+                    for field in ("role", "frames", "fps", "duration_seconds"):
+                        value = item.get(field)
+                        if value is not None:
+                            presentation_metadata[field] = value
+                candidate = self._candidate(
+                    path, kind, fallback_type, **presentation_metadata,
+                )
                 if item.get(digest_field) and candidate.sha256 != item[digest_field]:
                     raise OSError("Managed result artifact digest does not match its envelope")
                 artifacts.append(candidate)

@@ -73,6 +73,37 @@ def test_local_project_assistant_is_durable_read_only_and_idempotent(tmp_path):
     assert stat.S_IMODE(stored.stat().st_mode) == 0o600
 
 
+def test_project_owned_architecture_descriptor_replaces_generic_action_projection(tmp_path):
+    app = AlphaWorkbench(tmp_path / "state")
+    config, value = _registered_multi_action_project(tmp_path)
+    root = tmp_path / "project"
+    descriptor = {
+        "protocol": "modelforge.project-architecture-presentation/v1",
+        "architecture": {
+            "model": {"name": "Reviewed tracker"},
+            "metadata": {"model_sources": [{
+                "id": "upstream", "name": "Reviewed upstream", "provider": "GitHub",
+                "url": "https://example.test/model", "revision": "abc123", "role": "source",
+            }]},
+            "inputs": [{"id": "frames", "type": "video_frames"}],
+            "nodes": [{"id": "backbone", "type": "resnet50_backbone", "input": "frames"}],
+            "outputs": [{"id": "tracks", "type": "tracking_result", "input": "backbone"}],
+        },
+    }
+    (root / "architecture.inspectable.json").write_text(json.dumps(descriptor), encoding="utf-8")
+    manifest = json.loads((root / "project.json").read_text(encoding="utf-8"))
+    manifest["architecture_descriptor"] = "architecture.inspectable.json"
+    (root / "project.json").write_text(json.dumps(manifest), encoding="utf-8")
+    app.register_project(config)
+
+    architecture = app.project_architecture(value["id"])
+
+    assert architecture["validation"]["mode"] == "reviewed_project_descriptor"
+    assert architecture["architecture"]["model"]["name"] == "Reviewed tracker"
+    assert architecture["architecture"]["nodes"][0]["type"] == "resnet50_backbone"
+    assert str(tmp_path) not in json.dumps(architecture)
+
+
 def _request(server, method, path, token=None, cookie=None, body=None):
     connection = http.client.HTTPConnection("127.0.0.1", server.server_address[1], timeout=5)
     headers = {"Host": f"127.0.0.1:{server.server_address[1]}"}

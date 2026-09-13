@@ -59,6 +59,23 @@ function cloudJobActive(job: JsonMap | null): boolean {
   return job !== null && ["queued", "running"].includes(String(job.status || ""));
 }
 
+export function formatInferenceDuration(value: unknown): string {
+  const seconds = Number(value);
+  if (!Number.isFinite(seconds) || seconds < 0) return "—";
+  if (seconds < 1) return `${seconds.toFixed(2)}s`;
+  if (seconds < 60) return `${seconds.toFixed(1)}s`;
+  const minutes = Math.floor(seconds / 60);
+  return `${minutes}m ${(seconds - minutes * 60).toFixed(0)}s`;
+}
+
+function elapsedSeconds(started: unknown, completed: unknown): number | null {
+  const start = Date.parse(String(started || ""));
+  const end = Date.parse(String(completed || ""));
+  return Number.isFinite(start) && Number.isFinite(end) && end >= start
+    ? (end - start) / 1000
+    : null;
+}
+
 function JsonArtifactResult({value}: {value: unknown}) {
   const document = objectAt(value);
   const candidateRows = [document.top, document.results, document.predictions]
@@ -287,14 +304,19 @@ export function InferenceView({project, inferenceTarget, onChooseTarget, onClear
   const inferenceProcess = inferenceAction.interface === "inference_process";
   const resultContract = objectAt(inferenceAction.result_contract);
   const reusesExistingResult = inferenceProcess && resultContract.reuse_existing === true;
+  const inferenceOptions = objectAt(inferenceAction.options);
   const inferenceRuntimeTemplates = JSON.stringify([
     ...(Array.isArray(inferenceAction.arguments) ? inferenceAction.arguments : []),
     ...Object.values(objectAt(inferenceAction.environment)),
   ]);
-  const supportsMaxFrames = inferenceRuntimeTemplates.includes("{max_frames}");
+  const supportsMaxFrames = Object.keys(objectAt(inferenceOptions.max_frames)).length > 0;
   const supportsConfidence = inferenceRuntimeTemplates.includes("{conf}");
   const supportsIou = inferenceRuntimeTemplates.includes("{iou}");
   const supportsInferenceOptions = supportsMaxFrames || supportsConfidence || supportsIou;
+  useEffect(() => {
+    const configured = Number(objectAt(inferenceOptions.max_frames).default ?? 0);
+    setMaxFrames(Number.isInteger(configured) && configured >= 0 ? configured : 0);
+  }, [project.id, inferenceAction.id]);
   const projectCheckpoints = (architectureInference
     ? eligibleArchitectureCheckpointArtifacts(architectureInfo.weights)
     : [
@@ -320,7 +342,8 @@ export function InferenceView({project, inferenceTarget, onChooseTarget, onClear
   const preservedTargetSelected = preservedFixedResult && Boolean(target);
   const cloudArtifactBlocked = cloudSelected && Boolean(target);
   const cloudRuntimeBlocked = cloudSelected && (architectureInference || (inferenceProcess && !projectCloudInference));
-  const launchBlocked = preservedTargetSelected || cloudArtifactBlocked || cloudRuntimeBlocked;
+  const cloudFrameBoundRequired = cloudSelected && supportsMaxFrames && maxFrames === 0;
+  const launchBlocked = preservedTargetSelected || cloudArtifactBlocked || cloudRuntimeBlocked || cloudFrameBoundRequired;
   const visibleJob = cloudSelected || cloudJobActive(projectCloudJob) ? projectCloudJob : null;
   const progress = visibleJob ? objectAt(visibleJob.progress) : objectAt(status.progress);
   const logValue = objectAt(status.log).lines;
@@ -340,6 +363,11 @@ export function InferenceView({project, inferenceTarget, onChooseTarget, onClear
   );
   const gateway = applicationUrl(status);
   const resultArtifact = objectAt(status.result_artifact);
+  const resultMetadata = objectAt(resultArtifact.metadata);
+  const resultFrames = Number(resultMetadata.frames || 0);
+  const resultDuration = Number(resultMetadata.duration_seconds);
+  const processingDuration = elapsedSeconds(visibleJob?.started_at || status.started_at, visibleJob?.completed_at || status.completed_at);
+  const requestedFrameLimit = Number(objectAt(visibleJob?.request || status.request).max_frames ?? maxFrames);
   const cancelled = status.status === "cancelled";
   const resultVisualization = objectAt(resultArtifact.visualization);
   const resultSceneUrl = String(resultVisualization.scene_url || "");
@@ -379,8 +407,10 @@ export function InferenceView({project, inferenceTarget, onChooseTarget, onClear
   const cloudDownloadUrl = String(cloudVideo?.download_url || "");
   const cloudLogTail = String(progress.log_tail || "").trim();
   const visibleLogLines = visibleJob ? (cloudLogTail ? cloudLogTail.split("\n") : []) : logLines;
-  const visibleProcess = visibleJob ? String(visibleJob.provider_action_id || "Cloud") : String(status.pid || "—");
-  const visibleSession = visibleJob ? String(visibleJob.id || "—") : String(status.run_id || "—");
+  const visibleProcess = visibleJob ? String(visibleJob.provider_action_id || "Cloud") : String(status.provider || status.pid || "—");
+  const visibleSession = visibleJob
+    ? String(visibleJob.id || "—")
+    : String(status.run_id || status.id || "—").slice(0, 12);
   const jobConfiguration = objectAt(visibleJob?.configuration);
   const visibleStage = String(progress.phase || progress.stage || jobConfiguration.phase || (active ? starting ? "starting" : "processing" : visibleJob ? visibleJob.status : "Idle"));
   const progressPresentation = inferenceProgressPresentation(progress, active);
@@ -556,7 +586,7 @@ export function InferenceView({project, inferenceTarget, onChooseTarget, onClear
           {playbackContent}
           {processingOverlayVisible && <div className="inference-processing-overlay" role="status" aria-live="polite"><div className="inference-processing-heading"><span><RefreshCw className="animate-spin" size={18} aria-hidden="true" /></span><div><strong>{processingTitle}</strong><small>{humanize(visibleStage)}</small></div><b>{progressPresentation.indeterminate ? "In progress" : `${progressPercent.toFixed(0)}%`}</b></div><p>{processingDetail}</p><ProgressBar value={progressPercent} indeterminate={progressPresentation.indeterminate} label={inferenceProgressLabel} /><small>The source remains visible while ModelForge works. Validated result playback replaces it when processing completes.</small></div>}
         </div>
-        <div className="inference-source-copy"><strong>{target?.name || dataset.split(/[\\/]/).filter(Boolean).at(-1) || (webApplication ? "Project-managed source" : "No dataset selected")}</strong><small title={target?.path || dataset}>{target?.path || dataset || (webApplication ? "The registered application resolves its own bounded source." : "Choose a dataset in the Dataset workspace.")}</small>{target ? <span>{target.kind} · selected in Datasets</span> : video && <span>{pathName(video)}</span>}</div>
+        <div className="inference-source-copy"><strong>{target?.name || dataset.split(/[\\/]/).filter(Boolean).at(-1) || (webApplication ? "Project-managed source" : "No dataset selected")}</strong><small title={target?.path || dataset}>{target?.path || dataset || (webApplication ? "The registered application resolves its own bounded source." : "Choose a dataset in the Dataset workspace.")}</small>{resultDuration > 0 ? <span>{resultFrames.toLocaleString()} output frames · {formatInferenceDuration(resultDuration)} media · {processingDuration === null ? "processing time unavailable" : `${formatInferenceDuration(processingDuration)} processing`}</span> : target ? <span>{target.kind} · selected in Datasets</span> : video && <span>{pathName(video)}</span>}</div>
       </div>
       <Card className="inference-config">
         <div className="card-title"><span><Gauge size={16} /> Execution configuration</span><Badge tone={inferenceRegistered ? "success" : "warning"}>{inferenceRegistered ? "Adapter registered" : "Unavailable"}</Badge></div>
@@ -567,15 +597,16 @@ export function InferenceView({project, inferenceTarget, onChooseTarget, onClear
         <ComputeTargetPicker value={compute} onChange={onComputeChange} disabled={busy || active} allowCloud={!architectureInference && !webApplication && (!inferenceProcess || projectCloudInference)} />
         {preservedTargetSelected && <p className="inference-boundary-note">This adapter only opens a saved detection result and cannot process the selected object. Use the whole dataset to clear the target before opening it.</p>}
         {cloudSelected && target && <p className="inference-boundary-note">Individual artifact targets are catalog-bound local inputs. Use the whole dataset to launch cloud batch inference, or choose a local device to run this object.</p>}
+        {cloudFrameBoundRequired && <p className="inference-boundary-note">Cloud inference requires an explicit positive frame bound. Full-input processing remains available on the registered local runtime.</p>}
         {inferenceProcess && <p className="inference-boundary-note">{projectCloudInference ? "Local inference uses the registered process; Cloud uses this project's declared Modal composition with the same selected checkpoint and dataset." : "Registered inference processes currently run on this workstation. Cloud inference requires a packaged release and a registered cloud-batch adapter."}</p>}
-        {!webApplication && !reusesExistingResult && supportsInferenceOptions && <div className="inference-options">{supportsMaxFrames && <label><span>Maximum frames</span><input aria-label="Maximum inference frames" type="number" min="0" value={maxFrames} disabled={busy || active} onChange={(event) => setMaxFrames(Number(event.target.value))} /><small>0 processes the full video.</small></label>}{supportsConfidence && <label><span>Confidence</span><input type="number" min="0" max="1" step="0.05" value={confidence} disabled={busy || active} onChange={(event) => setConfidence(Number(event.target.value))} /></label>}{supportsIou && <label><span>IoU threshold</span><input type="number" min="0" max="1" step="0.05" value={iou} disabled={busy || active} onChange={(event) => setIou(Number(event.target.value))} /></label>}</div>}
+        {!webApplication && !reusesExistingResult && supportsInferenceOptions && <div className="inference-options">{supportsMaxFrames && <label><span>Frame processing limit</span><input aria-label="Maximum inference frames" type="number" min={cloudSelected ? 1 : 0} max={cloudSelected ? 24 : Number(objectAt(inferenceOptions.max_frames).maximum || 1000000)} value={maxFrames} disabled={busy || active} onChange={(event) => setMaxFrames(Number(event.target.value))} /><small>{cloudSelected ? "Cloud requires an explicit 1–24 frame bound." : "0 means the complete selected video; any positive value is an explicit preview bound."}</small></label>}{supportsConfidence && <label><span>Confidence</span><input type="number" min="0" max="1" step="0.05" value={confidence} disabled={busy || active} onChange={(event) => setConfidence(Number(event.target.value))} /></label>}{supportsIou && <label><span>IoU threshold</span><input type="number" min="0" max="1" step="0.05" value={iou} disabled={busy || active} onChange={(event) => setIou(Number(event.target.value))} /></label>}</div>}
         <div className="inference-actions">{active ? <Button variant="danger" busy={busy} onClick={() => void stop()}><Square size={14} fill="currentColor" /> {webApplication ? "Stop application" : "Stop inference"}</Button> : <Button variant="primary" busy={busy} disabled={localBlockedByOtherContext || launchBlocked || !sourceReady || (!weights && !webApplication) || !inferenceRegistered} onClick={() => void start()}><Play size={14} fill="currentColor" /> {architectureInference ? "Predict sample" : webApplication ? "Run application" : preservedFixedResult ? "Play detection result" : "Launch inference"}</Button>}{cloudSelected && (busy || active) && <div className="cloud-transfer-progress"><div><strong>{stagingInference ? "Loading data to Modal" : humanize(visibleStage)}</strong><span>{waitingForInferenceProgress ? "In progress…" : `${progressPercent.toFixed(0)}%`}</span></div><ProgressBar value={progressPercent} indeterminate={waitingForInferenceProgress} label={inferenceProgressLabel} /></div>}<small>{localBlockedByOtherContext ? "Another project or dataset has an active local inference session. Return to that context to stop it before launching here." : preservedTargetSelected ? "Clear the selected object before opening this adapter's fixed saved result." : cloudArtifactBlocked ? "Use the whole dataset or switch to a local device before launching." : cloudRuntimeBlocked ? "Switch to a local device; this inference path currently runs on the selected local device." : compute.target === "cloud" ? "ModelForge content-addresses and stages the selected dataset and release before dispatching this cloud job." : architectureInference ? "Uses the framework's checkpoint-bound sample inference path; the heatmap scores are display-normalized separately from the calibrated sample decision." : webApplication ? "Runs the registered project application behind an isolated ModelForge gateway." : inferenceProcess ? "ModelForge validates and serves the registered result; the project supplies no player or transport." : "Runs through the project-owned adapter on the chosen local device."}</small></div>
       </Card>
     </div>
     <Card className="inference-status-card">
       <div className="card-title"><span><Activity size={16} /> Session status</span><Badge tone={architectureResult ? "success" : active ? "active" : otherContextActive ? "warning" : cancelled ? "warning" : returnCode === 0 ? "success" : returnCode !== null ? "danger" : "neutral"}>{architectureResult ? "Complete" : starting ? "Starting" : running ? "Running" : otherContextActive ? "Other context active" : cancelled ? "Cancelled" : returnCode === 0 ? "Complete" : returnCode !== null ? "Failed" : "Idle"}</Badge></div>
       <ProgressBar value={architectureResult ? 100 : progressPercent} indeterminate={!architectureResult && waitingForInferenceProgress} label={architectureResult ? "Checkpoint sample inference complete" : waitingForInferenceProgress ? inferenceProgressLabel : `Inference ${humanize(visibleStage)}`} className="inference-progress" />
-      <div className="inference-status-facts"><span><b>{architectureResult ? "sample inference" : stagingInference ? "Loading data to Modal" : visibleStage}</b> Stage</span><span><b>{architectureResult ? "100%" : waitingForInferenceProgress ? "In progress" : `${progressPercent.toFixed(0)}%`}</b> Progress</span><span><b>{architectureResult ? "Framework" : visibleProcess}</b> Process</span><span><b>{architectureResult ? String(architectureSample.id || sampleIndex + 1) : visibleSession}</b> Session</span></div>
+      <div className="inference-status-facts"><span><b>{architectureResult ? "sample inference" : stagingInference ? "Loading data to Modal" : visibleStage}</b> Stage</span><span><b>{architectureResult ? "100%" : waitingForInferenceProgress ? "In progress" : `${progressPercent.toFixed(0)}%`}</b> Progress</span><span><b>{architectureResult ? "Framework" : visibleProcess}</b> Worker</span><span><b>{architectureResult ? String(architectureSample.id || sampleIndex + 1) : visibleSession}</b> Session</span><span><b>{processingDuration === null ? "—" : formatInferenceDuration(processingDuration)}</b> Processing time</span><span><b>{resultDuration > 0 ? `${formatInferenceDuration(resultDuration)} · ${resultFrames.toLocaleString()} frames` : "—"}</b> Output media</span><span><b>{requestedFrameLimit > 0 ? `${requestedFrameLimit.toLocaleString()} frames` : "Full input"}</b> Requested scope</span></div>
       {Boolean(visibleJob?.error) && <ErrorNotice message={String(visibleJob?.error)} />}
       {!visibleJob && Boolean(status.startup_error) && <ErrorNotice message={String(status.startup_error)} />}
       {!visibleJob && Boolean(status.result_error) && <ErrorNotice message={String(status.result_error)} />}

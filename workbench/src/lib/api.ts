@@ -283,7 +283,13 @@ async function startManagedAction(kind: string, configuration: JsonMap): Promise
       const samples = await request<{samples: JsonMap[]}>(`/api/v1/projects/${encodeURIComponent(project.id)}/datasets/${encodeURIComponent(datasetId)}/samples?limit=1`);
       sampleId = String(samples.samples?.[0]?.id || "");
     }
-    input = {dataset_id: target?.datasetId || datasetId, sample_id: sampleId};
+    input = {
+      dataset_id: target?.datasetId || datasetId,
+      sample_id: sampleId,
+      parameters: Number.isInteger(configuration.max_frames)
+        ? {max_frames: Number(configuration.max_frames)}
+        : {},
+    };
   }
   const executionTarget = configuration.compute_target === "cloud" ? "modal" : "local";
   if (executionTarget === "modal" && !window.confirm("Dispatch this registered action to Modal? Provider compute may be billable.")) {

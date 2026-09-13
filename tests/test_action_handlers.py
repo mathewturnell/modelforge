@@ -100,6 +100,28 @@ def test_inference_result_requires_a_valid_artifact(result):
 
 
 @pytest.mark.parametrize(
+    "metadata",
+    (
+        {"frames": 0, "fps": 5.0, "duration_seconds": 0.0},
+        {"frames": 2, "fps": 5.0, "duration_seconds": 5.0},
+        {"frames": 2, "fps": 0, "duration_seconds": 0.4},
+    ),
+)
+def test_inference_result_rejects_zero_or_inconsistent_video_metadata(metadata):
+    with pytest.raises(ValueError, match="media metadata"):
+        action_handler("inference").validate_result(
+            {
+                "format": "modelforge.inference-result/v1",
+                "results": [{
+                    "kind": "video", "path": "result.mp4", "sha256": "a" * 64,
+                    **metadata,
+                }],
+            },
+            expected_protocol="modelforge.inference-result/v1",
+        )
+
+
+@pytest.mark.parametrize(
     "messages",
     (
         [{"role": "assistant", "content": ""}],

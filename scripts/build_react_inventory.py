@@ -15,6 +15,7 @@ DONOR_REVISION = "caed2d4a2d4bb8d0c52c7c7c3815546a1dd9d457"
 APACHE_REFERENCE_REVISION = DONOR_REVISION
 NEW_PUBLIC_FILES = {
     "workbench/.gitignore",
+    "workbench/src/views/InferenceView.test.tsx",
 }
 EXCLUDED_PARTS = {"node_modules"}
 

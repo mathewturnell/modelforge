@@ -62,6 +62,7 @@ where = ["src"]
 "share/modelforge/examples/bdd100k-road-scene-lab" = [
   "examples/bdd100k-road-scene-lab/README.md",
   "examples/bdd100k-road-scene-lab/PROVENANCE.md",
+  "examples/bdd100k-road-scene-lab/architecture.inspectable.json",
   "examples/bdd100k-road-scene-lab/dataset.inspectable.json",
   "examples/bdd100k-road-scene-lab/project.json",
   "examples/bdd100k-road-scene-lab/project.local.template.json",

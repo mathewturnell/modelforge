@@ -388,6 +388,24 @@ class ProjectRuntimeConfigurationService:
                         reasons.append(
                             f"Configured {configured_action['id']} {label} is unavailable"
                         )
+        def public_action(item: Mapping[str, Any]) -> dict[str, Any]:
+            arguments = list(item.get("arguments") or ())
+            options = {}
+            if any("{max_frames}" in argument for argument in arguments):
+                configured = item.get("parameters", {}).get("max_frames", 0)
+                if isinstance(configured, int) and not isinstance(configured, bool) and 0 <= configured <= 1_000_000:
+                    options["max_frames"] = {
+                        "default": configured,
+                        "minimum": 0,
+                        "maximum": 1_000_000,
+                        "zero_means": "full_input",
+                    }
+            return {
+                "id": item["id"], "kind": item["kind"],
+                "display_name": item["display_name"], "interface": item["interface"],
+                "options": options,
+            }
+
         return {
             "id": project["id"],
             "name": project["name"],
@@ -395,17 +413,8 @@ class ProjectRuntimeConfigurationService:
             "support_level": project.get("support_level", "experimental"),
             "capabilities": sorted({f"action.{item['kind']}" for item in actions})
             + (["dataset.default"] if dataset else []),
-            "action": {
-                "id": action["id"], "kind": action["kind"],
-                "display_name": action["display_name"], "interface": action["interface"],
-            },
-            "actions": [
-                {
-                    "id": item["id"], "kind": item["kind"],
-                    "display_name": item["display_name"], "interface": item["interface"],
-                }
-                for item in actions
-            ],
+            "action": public_action(action),
+            "actions": [public_action(item) for item in actions],
             "runtime_readiness": readiness,
             "readiness_reasons": reasons,
             "local_enabled": local_enabled,

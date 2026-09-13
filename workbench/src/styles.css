@@ -812,6 +812,7 @@ a { color: inherit; text-decoration: none; }
 .training-checkpoint-field select { min-height: 30px; padding: 0 8px; border: 1px solid var(--line-strong); border-radius: 6px; outline: 0; background: #080b0e; color: var(--text-soft); }
 .training-checkpoint-field select:focus { border-color: #76b900; box-shadow: 0 0 0 3px #76b90016; }
 .training-checkpoint-field small { overflow: hidden; color: var(--muted); text-overflow: ellipsis; white-space: nowrap; }
+.inference-status-facts { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
 
 @media (max-width: 960px) {
   .llm-stat-strip { grid-template-columns: repeat(2, minmax(100px, 1fr)); }.llm-stat-strip .llm-adapter-stat { grid-column: 1 / -1; }

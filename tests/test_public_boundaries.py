@@ -160,13 +160,16 @@ def test_bdd_authored_manifest_declares_inspectable_dataset_without_runtime_auth
     projection = project_capabilities(manifest)
 
     assert {item["id"] for item in projection["capabilities"]} == {
-        "action.inference", "dataset.default",
+        "action.inference", "dataset.default", "model.default",
     }
     assert projection["runtime_readiness"] == "not_evaluated"
     assert projection["execution_authorized"] is False
     descriptor = json.loads((root / manifest["dataset_descriptor"]).read_text())
     assert descriptor["availability"] == "acquisition_required"
     assert descriptor["redistribution"] == "not_included"
+    architecture = json.loads((root / manifest["architecture_descriptor"]).read_text())
+    assert architecture["protocol"] == "modelforge.project-architecture-presentation/v1"
+    assert architecture["architecture"]["model"]["name"] == "MeMOTR · BDD100K"
 
 
 def test_tastematch_inspection_declares_inference_without_execution_authority():

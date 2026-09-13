@@ -31,6 +31,11 @@ Full notes: [ModelForge 0.1.0a1 — public source alpha](docs/releases/0.1.0a1.m
   TasteMatch, and Qwen. Bounded live journeys, provider-confirmed cancellation,
   same-call recovery, and native video/table/text results passed on one
   recorded owner environment; this is not a general provider or quality claim.
+- Replaced the BDD100K Models placeholder with a reviewed, inspection-only
+  MeMOTR topology descriptor tied to the pinned public source revision. Wired
+  the Inference studio's frame limit into the durable managed request and real
+  process argument, made full selected-video processing the local default, and
+  separated process time from exact checked-media duration and frame count.
 - Recorded per-file provenance and conservative license treatment for the
   nineteen retained real-example Python files. The rights holder approved the
   Apache-2.0 and notice-preserving mixed treatments on 2026-09-10.

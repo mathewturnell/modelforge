@@ -7,7 +7,9 @@ paths to the browser.
 
 from __future__ import annotations
 
+import json
 import os
+import re
 import subprocess
 from pathlib import Path, PurePosixPath
 from typing import Any, Mapping
@@ -32,6 +34,8 @@ _VIEWABLE_SUFFIXES = frozenset({
 })
 _MAX_SOURCE_BYTES = 512 * 1024
 _MAX_TREE_ENTRIES = 500
+_MAX_ARCHITECTURE_BYTES = 512 * 1024
+_ARCHITECTURE_ID = re.compile(r"^[A-Za-z_][A-Za-z0-9_.-]{0,79}$")
 
 
 def _relative(value: str) -> PurePosixPath:
@@ -238,6 +242,9 @@ class ProjectWorkspacePresentationService:
         actions = list(runtime.get("actions") or [runtime["action"]])
         dataset = runtime.get("dataset") or {}
         bindings = runtime.get("bindings") or {}
+        declared = self._declared_architecture(project, bindings)
+        if declared is not None:
+            return declared
         input_id = "registered_dataset" if dataset else "action_request"
         nodes = []
         for action in actions:
@@ -298,6 +305,130 @@ class ProjectWorkspacePresentationService:
             },
             "training_ready": any(item.get("kind") == "training" for item in actions),
             "project": dict(project),
+        }
+
+    def _declared_architecture(
+        self, project: Mapping[str, Any], bindings: Mapping[str, Any],
+    ) -> dict[str, Any] | None:
+        """Read one bounded project-owned inspection descriptor without imports."""
+
+        project_id = str(project["id"])
+        root = self._root(project_id)
+        manifest_path = _regular_contained(root, PurePosixPath("project.json"))
+        if not manifest_path.is_file() or manifest_path.stat().st_size > _MAX_ARCHITECTURE_BYTES:
+            return None
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        descriptor_value = manifest.get("architecture_descriptor")
+        if descriptor_value is None:
+            return None
+        if not isinstance(descriptor_value, str):
+            raise ValueError("Project architecture descriptor path is invalid")
+        descriptor_relative = _relative(descriptor_value)
+        descriptor_path = _regular_contained(root, descriptor_relative)
+        if (
+            descriptor_path.is_symlink()
+            or not descriptor_path.is_file()
+            or descriptor_path.stat().st_size > _MAX_ARCHITECTURE_BYTES
+        ):
+            raise ValueError("Project architecture descriptor is unavailable or too large")
+        document = json.loads(descriptor_path.read_text(encoding="utf-8"))
+        if not isinstance(document, dict) or document.get("protocol") != "modelforge.project-architecture-presentation/v1":
+            raise ValueError("Project architecture descriptor protocol is unsupported")
+        architecture = document.get("architecture")
+        if not isinstance(architecture, dict):
+            raise ValueError("Project architecture descriptor requires an architecture object")
+        collections = {}
+        identities: set[str] = set()
+        for name, lower, upper in (("inputs", 1, 16), ("nodes", 1, 128), ("outputs", 1, 32)):
+            values = architecture.get(name)
+            if not isinstance(values, list) or not lower <= len(values) <= upper:
+                raise ValueError(f"Project architecture {name} are invalid or unbounded")
+            normalized = []
+            for value in values:
+                if not isinstance(value, dict):
+                    raise ValueError(f"Project architecture {name} must contain objects")
+                identity = str(value.get("id") or "")
+                kind = str(value.get("type") or "")
+                if not _ARCHITECTURE_ID.fullmatch(identity) or identity in identities:
+                    raise ValueError("Project architecture object identity is invalid or duplicated")
+                if not kind or len(kind) > 120:
+                    raise ValueError("Project architecture object type is invalid")
+                identities.add(identity)
+                normalized.append(dict(value))
+            collections[name] = normalized
+        for value in [*collections["nodes"], *collections["outputs"]]:
+            raw = value.get("inputs", value.get("input"))
+            references = (
+                list(raw.values()) if isinstance(raw, dict)
+                else raw if isinstance(raw, list)
+                else [raw]
+            )
+            for reference in references:
+                reference_id = str(reference.get("id") if isinstance(reference, dict) else reference or "")
+                if reference_id not in identities:
+                    raise ValueError("Project architecture contains an unresolved graph reference")
+        dependencies: dict[str, list[str]] = {}
+        for value in [*collections["nodes"], *collections["outputs"]]:
+            raw = value.get("inputs", value.get("input"))
+            references = list(raw.values()) if isinstance(raw, dict) else raw if isinstance(raw, list) else [raw]
+            dependencies[str(value["id"])] = [
+                str(reference.get("id") if isinstance(reference, dict) else reference or "")
+                for reference in references
+            ]
+        visiting: set[str] = set()
+        visited: set[str] = set()
+
+        def visit(identity: str) -> None:
+            if identity in visiting:
+                raise ValueError("Project architecture graph contains a cycle")
+            if identity in visited:
+                return
+            visiting.add(identity)
+            for dependency in dependencies.get(identity, []):
+                visit(dependency)
+            visiting.remove(identity)
+            visited.add(identity)
+
+        for identity in identities:
+            visit(identity)
+        model = architecture.get("model")
+        intent = architecture.get("intent")
+        metadata = architecture.get("metadata")
+        for value, label in ((model, "model"), (intent, "intent"), (metadata, "metadata")):
+            if value is not None and not isinstance(value, dict):
+                raise ValueError(f"Project architecture {label} must be an object")
+        checkpoint = bindings.get("checkpoint") or {}
+        model_binding = bindings.get("model") or bindings.get("source") or {}
+        projected = {
+            **architecture,
+            **collections,
+            "model": {
+                **dict(model or {}),
+                "checkpoint": checkpoint.get("name") or checkpoint.get("id") or "",
+                "checkpoint_sha256": checkpoint.get("sha256"),
+            },
+        }
+        return {
+            "available": True,
+            "architecture": projected,
+            "validation": {
+                "valid": True,
+                "errors": [],
+                "mode": "reviewed_project_descriptor",
+                "descriptor": descriptor_relative.as_posix(),
+            },
+            "checkpoint_binding": {
+                "registered": bool(checkpoint),
+                "valid": bool(checkpoint),
+                "name": checkpoint.get("name") or checkpoint.get("id"),
+                "sha256": checkpoint.get("sha256"),
+            },
+            "model_binding": {
+                "registered": bool(model_binding),
+                "revision": model_binding.get("revision"),
+            },
+            "training_ready": False,
+            "project": {**dict(project), "architecture_descriptor": {"path": descriptor_relative.as_posix()}},
         }
 
 

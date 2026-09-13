@@ -16,7 +16,7 @@
     "working_directory": "/absolute/path/to/this-example",
     "arguments": ["--dataset-root", "{dataset_root}", "--artifact", "{artifact}", "--checkpoint", "{checkpoint}", "--output-dir", "{output}", "--device", "{device}", "--max-frames", "{max_frames}"],
     "environment": {},
-    "parameters": {"device": "0", "max_frames": 2}
+    "parameters": {"device": "0", "max_frames": 0}
   },
   "dataset": {
     "id": "bdd100k-videos",

@@ -53,14 +53,21 @@ Use the browser's Inference view, or submit the equivalent request through
 `modelforge action run`. The qualified boundary is checkpoint-bound,
 selected-video inference on Linux x86-64 with compatible CUDA. Direct project
 scripts remain debugging paths and do not demonstrate managed-run behavior.
-The same bounded two-frame shape also completed through the owner-bound Modal
-L40S deployment described in [`docs/modal.md`](../../docs/modal.md).
+Local inference defaults to the complete selected video. The Inference studio
+can set a positive **Frame processing limit** for an explicitly bounded preview;
+the chosen value is retained in the durable request and passed to MeMOTR. The
+owner-bound Modal path requires an explicit 1–24 frame bound so a cloud launch
+cannot silently turn into an unbounded paid run. A two-frame Modal L40S run was
+previously qualified as described in [`docs/modal.md`](../../docs/modal.md);
+changing the local bound does not claim new paid evidence.
 
 ## 5. Logs and results
 
 The shared lifecycle creates the durable run before process start. Bounded logs,
 result metadata, and digest-checked video artifacts live below the owner-only
-state root and remain recoverable after browser reconnect/service restart.
+state root and remain recoverable after browser reconnect/service restart. The
+Inference studio reports processing time separately from exact output-media
+frames, frame rate, and duration, including sub-second preview results.
 
 ## 6. Limits and terms
 

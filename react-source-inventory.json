@@ -1,8 +1,8 @@
 {
   "approval": {
-    "date": "2026-09-12",
+    "date": "2026-09-13",
     "owner": "Mathew Turnell",
-    "scope": "User-approved React source revision 10dda5f37c550902a0ae2e0d7ff16b75ba59b928, approval record 9d18d787441a7b44c35d31c3f102cf2994b89a87, and bounded public API adaptations and Vitest security update represented by these exact file identities"
+    "scope": "User-approved React source revision 10dda5f37c550902a0ae2e0d7ff16b75ba59b928, approval record 9d18d787441a7b44c35d31c3f102cf2994b89a87, and bounded public inference/architecture adaptations requested on 2026-09-13 represented by these exact file identities"
   },
   "approval_status": "approved_for_apache_review_candidate",
   "bundled_runtime_dependencies": [
@@ -649,7 +649,7 @@
       "sha256": "1a35ec15bd3870082deee6c0ae0aba37f09fa75cdd3bc5d98d0ca82e57956c88"
     },
     {
-      "bytes": 48671,
+      "bytes": 48822,
       "disposition": "adapted",
       "license": "Apache-2.0",
       "origin": {
@@ -658,7 +658,7 @@
         "kind": "adapted-model-forge-react"
       },
       "path": "workbench/src/lib/api.ts",
-      "sha256": "ca3449433d9b90977d0f16b60c2df87f33a156af72178ac7836797bff7593787"
+      "sha256": "c266268be1a26ee8c909f39dba4de7d332ce8f2e3b41469f3b52f83170c38f79"
     },
     {
       "bytes": 4257,
@@ -973,7 +973,7 @@
       "sha256": "eaa72e8b1c8ab2ce65b51a537861f82656038e1675af4c3d86667803a434ddcf"
     },
     {
-      "bytes": 229245,
+      "bytes": 229334,
       "disposition": "adapted",
       "license": "Apache-2.0",
       "origin": {
@@ -982,7 +982,7 @@
         "kind": "adapted-model-forge-react"
       },
       "path": "workbench/src/styles.css",
-      "sha256": "ad652ff6438a540604d26ca2dac71fbd4c48f0fa3b05cf8f0ba15584a85a5948"
+      "sha256": "118ec4001398d5bdc0da1a701280bd7387c45882109e006cd89aa1be371fff19"
     },
     {
       "bytes": 13231,
@@ -1093,7 +1093,17 @@
       "sha256": "a80e4cb9f985ad9346194fdd687e08c44b1f51e9292e0687fca15a7e62fdfe41"
     },
     {
-      "bytes": 51068,
+      "bytes": 388,
+      "disposition": "new",
+      "license": "Apache-2.0",
+      "origin": {
+        "kind": "new-public-recovery-source"
+      },
+      "path": "workbench/src/views/InferenceView.test.tsx",
+      "sha256": "913e5766db7b0ac389aaec283744910ef3f08f8a003e2bbc34482d802b8c0903"
+    },
+    {
+      "bytes": 53761,
       "disposition": "adapted",
       "license": "Apache-2.0",
       "origin": {
@@ -1102,7 +1112,7 @@
         "kind": "adapted-model-forge-react"
       },
       "path": "workbench/src/views/InferenceView.tsx",
-      "sha256": "969645a46f4d60d7fd4547bf919d23ca51577c351964d4db5188398f0a99e876"
+      "sha256": "650463b6f269aedb0acf7684ad21cd339b3d9093927512cc8dfa6d694a0d375a"
     },
     {
       "bytes": 2788,
