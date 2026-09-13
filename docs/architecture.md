@@ -23,6 +23,12 @@ compiled React loopback workbench / CLI (unstable delivery)
                   Artifact Service <-+
                          |
                SQLite + checked files
+
+        React Settings / Coding Assistant
+                         |
+          project-scoped assistant service
+                         |
+           local Codex App Server -> OS-user Codex account
 ```
 
 Project Service stores only a shallow authored manifest registration and emits
@@ -96,11 +102,21 @@ The status of those service slices is recorded in
 [`requirements.md`](requirements.md); absence is a gap to implement, not an
 architecture decision to remove the product area.
 
+[Decision 0003](decisions/0003-os-user-codex-app-server.md) replaces the
+synthetic evidence responder with a clean provider adapter over the documented
+Codex App Server lifecycle. Codex retains the OS-user credential. ModelForge
+owns project/session/run identity, normalized public events, cancellation, and
+the read-only disclosure boundary; connecting the account grants no project or
+managed-action authority.
+
 The workbench binds only `127.0.0.1`, uses a per-launch bearer token, validates
 Host and mutation Origin, disables CORS, and emits restrictive browser headers.
-Authenticated media is fetched into page-owned `blob:` URLs allowed only by the
-media CSP. Artifact/sample endpoints support byte ranges; public JSON never
-contains storage locators or registered paths.
+The fragment bootstrap is removed from browser history and retained only in
+per-tab session storage. A successful bearer-authenticated request also issues
+an HttpOnly, SameSite=Strict launch-session cookie so native image/video
+elements can read checked media without putting authority in a URL. Query-token
+authentication is rejected. Artifact/sample endpoints support byte ranges;
+public JSON never contains storage locators or registered paths.
 
 The application can call a process live only while its executor handle is
 attached in that workbench process. After restart, an unfinished unattached row
@@ -112,12 +128,14 @@ resume the process and remains an explicit nonclaim.
 
 ## Product and release boundary
 
-The target local architecture includes bounded project/source/Git services,
-annotation, safe model inspection, training/evaluation services with held-out
-protection, run comparison, jobs, settings, and a project-scoped local Coding
-Assistant. They are not all implemented in this candidate. Active subprocess
-resume after service restart, dynamic project renderers, arbitrary action
-interfaces, and stable HTTP/Python compatibility remain nonclaims.
+The current candidate implements bounded project overview and read-only source
+inspection, read-only Git status, safe structural model/action inspection,
+annotation, registered training, run metrics/comparison, jobs, settings, and a
+durable Codex-backed ModelForge Coding Assistant. Git mutation, source editing,
+write-capable agent operation, assistant attachments or delegation, LLM
+evaluation, release building, and deployment remain disabled gaps. Active subprocess resume after service restart, dynamic
+project renderers, arbitrary action interfaces, and stable HTTP/Python
+compatibility remain nonclaims.
 
 Commercial identity, customer tenancy, billing, hosted operation,
 Cloudflare/application publication, general provider/object-storage control,

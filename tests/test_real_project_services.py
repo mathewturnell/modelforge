@@ -88,6 +88,9 @@ def test_registered_projects_share_durable_lifecycle_and_checked_artifacts(tmp_p
     config, project, payload = _project(tmp_path, kind=kind)
     registered = app.register_project(config)
     assert registered["runtime_readiness"] == "ready"
+    assert [item["id"] for item in app.list_projects()] == [
+        project["id"], "synthetic-threshold",
+    ]
     execution = app.start_project_action(project["id"], payload)
     running = app.get_run(execution.run_id, project["id"])
     assert running["status"] == "running"
@@ -111,7 +114,44 @@ def test_registered_projects_share_durable_lifecycle_and_checked_artifacts(tmp_p
         assert any(item["kind"] == "assistant-text" for item in recovered["artifacts"])
     else:
         assert recovered["request"]["dataset_sample_sha256"]
-        assert any(item["content_type"] == "video/mp4" for item in recovered["artifacts"])
+        video = next(item for item in recovered["artifacts"] if item["content_type"] == "video/mp4")
+        assert video["metadata"]["evidence_id"] == execution.run_id
+        assert video["metadata"]["frames"] == 2
+        assert video["metadata"]["fps"] == 5.0
+        assert video["metadata"]["duration_seconds"] == 0.4
+
+
+def test_inference_frame_bound_is_an_effective_durable_process_parameter(tmp_path):
+    app = AlphaWorkbench(tmp_path / "state")
+    config, project, payload = _project(tmp_path, kind="inference")
+    registered = app.register_project(config)
+    action = registered["actions"][0]
+    assert action["options"]["max_frames"] == {
+        "default": 2, "minimum": 0, "maximum": 1_000_000,
+        "zero_means": "full_input",
+    }
+
+    execution = app.start_project_action(
+        project["id"], {**payload, "parameters": {"max_frames": 7}},
+    )
+    completed = app.finish_project_action(execution)
+    assert completed["request"]["max_frames"] == 7
+    request = json.loads((
+        tmp_path / "state" / "runs" / "local" / execution.run_id / "evidence" / "request.json"
+    ).read_text(encoding="utf-8"))
+    assert request["max_frames"] == 7
+
+    with pytest.raises(ValueError, match="0 to 1000000"):
+        app.start_project_action(
+            project["id"], {**payload, "parameters": {"max_frames": -1}},
+        )
+
+    with pytest.raises(ValueError, match="explicit maximum from 1 to 24"):
+        app.project_actions.start(project["id"], {
+            "protocol": "modelforge.managed-action-request/v1",
+            "execution": {"target": "modal"},
+            "input": {**payload, "parameters": {"max_frames": 0}},
+        })
 
 
 def test_registration_preserves_virtual_environment_interpreter_invocation(tmp_path):

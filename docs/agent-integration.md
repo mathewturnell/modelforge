@@ -1,12 +1,23 @@
 # Agent integration
 
-The public product includes a local ModelForge Coding Assistant/Codex
-integration, but that service remains planned until its project-scoping,
-environment filtering, durable history, cancellation, write authorization,
-and held-out-data protections pass. Until then, a coding agent edits the
-project repository externally and integrates it into the same visible services
-used by a human; the React shell labels the in-product assistant unavailable
-rather than simulating it.
+The public product includes **ModelForge Coding Assistant**, backed by the OS
+user's authenticated Codex account through the documented Codex App Server
+protocol. Settings projects bounded account status and starts provider-owned
+ChatGPT login; ModelForge never reads or stores the provider credential.
+
+The server-owned assistant service is exact-project scoped, keeps durable
+ModelForge session/run history, normalizes streamed public events, supports
+cancellation, and receives only the redacted project, dataset, action, run, and
+checked-artifact projection. Missing Codex, sign-out, provider failure, and
+timeout are explicit states—there is no canned or deterministic answer
+fallback.
+
+This first public provider slice runs Codex with a `read-only` project sandbox
+and `never` approval policy. Account connection does not grant writes,
+commands outside that sandbox, Git, paid compute, publication, deployment,
+attachments, or delegation. Those capabilities remain disabled until their
+host-owned action, approval, conflict, and isolation gates are separately
+implemented and qualified. See [Decision 0003](decisions/0003-os-user-codex-app-server.md).
 
 1. Keep models, dataset decoding, metric meaning, and task semantics in the
    project.

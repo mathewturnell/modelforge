@@ -57,10 +57,15 @@ with `Ctrl-C`.
 ## 2. Find your way around
 
 The title bar contains the `Project` selector. The left rail contains
-`Overview`, `Dataset`, `Inference`, `Jobs / Runs`, and `Settings`, alongside
-planned destinations that are visibly marked unavailable or partial. The
-right-hand `Current run` inspector keeps status, `Output`, and `Checked
-artifacts` visible while you move around the project.
+`Overview`, `Source`, `Datasets`, `Models`, `LLM Lab`, `Training`, `Inference`,
+`Performance`, `Deployments`, `Jobs`, `Knowledge Base`, and `Settings`.
+Controls backed by the public services are active; excluded write-capable Git,
+deployment, evaluation, and hosted features remain visibly bounded. The
+right-hand ModelForge Coding Assistant panel uses the OS user's Codex account
+through Codex App Server. Its public-alpha sandbox is project-scoped and
+read-only, and Settings shows the connected account without exposing its
+credential. The bottom evidence panel keeps status, `Output`, logs, problems,
+jobs, and checked artifacts visible while you move around the project.
 
 ![Project selection and workbench navigation in the current UI](assets/screenshots/01-project-overview.png)
 
@@ -177,11 +182,29 @@ Registration is local-only and does not start the model.
 *The screenshot uses the authored synthetic clip; a configured BDD100K project
 shows the selected local video in the same implemented view.*
 
-3. Open `Inference`. Confirm `Execution target` is `local · ready`, check the
+3. Open `Annotation` to attach revisioned labels, review notes, and normalized
+   boxes to the selected sample. Saving creates an owner-state sidecar bound to
+   the sample SHA-256; it does not alter the video or project checkout.
+
+![Revisioned annotation editor using the deterministic BDD100K-shaped fixture](assets/screenshots/03-annotation-editor.png)
+
+*The deterministic fixture proves the real dataset-to-annotation service and
+responsive editor. It is not upstream BDD100K data or annotation-quality
+evidence.*
+
+4. `Training` is enabled only when the registered project declares an exact
+   `training_process` action. The qualification fixture exercises the real
+   durable run, progress, metrics, checkpoint, cancellation, and artifact path;
+   the retained MeMOTR example remains inference-only until its project owns a
+   reviewed public trainer.
+
+![Managed local training dashboard with recorded fixture metrics](assets/screenshots/04-training-dashboard.png)
+
+5. Open `Inference`. Confirm `Execution target` is `local · ready`, check the
    filename under `Selected input`, and select `Run MeMOTR on selected video`.
-4. ModelForge switches to `Jobs / Runs`. The new run moves through queued and
+6. ModelForge switches to `Jobs / Runs`. The new run moves through queued and
    running state; `Output` shows bounded process logs and reported progress.
-5. Wait for `completed`. Under `Checked artifacts`, open `result.mp4` to play
+7. Wait for `completed`. Under `Checked artifacts`, open `result.mp4` to play
    the digest-checked tracking output. `result.json`, its manifest, and
    `process.log` remain available separately.
 
@@ -198,7 +221,10 @@ success.
 
 This workflow sends bounded messages and generation settings to an explicitly
 pinned offline Qwen2.5-7B-Instruct snapshot and returns checked assistant text.
-It has no dataset or training action.
+The retained real prompt example has no dataset or training action. The
+deterministic Qwen-shaped conformance project separately verifies conversation
+sample loading, revisioned curation, managed training evidence, and prompt
+results without loading the upstream model or making a fine-tuning claim.
 
 ### Before you begin
 

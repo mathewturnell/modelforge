@@ -38,11 +38,25 @@ APPROVED_BINARY_FIXTURES = {
     "browser-tests/journeys/first-use.spec.js-snapshots/first-use-mobile-390-linux.png",
     "docs/assets/screenshots/01-project-overview.png",
     "docs/assets/screenshots/02-dataset-selection.png",
+    "docs/assets/screenshots/03-annotation-editor.png",
     "docs/assets/screenshots/03-vision-result.png",
+    "docs/assets/screenshots/04-training-dashboard.png",
     "docs/assets/screenshots/04-qwen-prompt.png",
     "docs/assets/screenshots/05-qwen-result.png",
     "docs/assets/screenshots/06-tastematch-result.png",
+    "docs/assets/screenshots/06-soccernet-jobs.png",
     "docs/assets/screenshots/07-mobile-saved-run.png",
+    "src/modelforge_workbench/workbench/static/workbench/assets/cliff-mascot-qBawjJzG.gif",
+    "src/modelforge_workbench/workbench/static/workbench/modalitysystems.png",
+    "workbench/public/modalitysystems.png",
+    "workbench/src/assets/cliff-mascot.gif",
+}
+APPROVED_OVERSIZED_BUNDLE_MEMBERS = {
+    # Monaco and its TypeScript worker are deliberately code-split, pinned
+    # production artifacts. Their source inputs and digests remain covered by
+    # the React inventory and public source manifest.
+    "src/modelforge_workbench/workbench/static/workbench/assets/monaco-DKPOLAUe.js",
+    "src/modelforge_workbench/workbench/static/workbench/assets/ts.worker-Bt-G9PB_.js",
 }
 PATTERNS = {
     "private_home_path": re.compile(rb"/(?:home|Users)/[^/\s]+/"),
@@ -104,8 +118,13 @@ def main() -> int:
         path_category = _category_for_path(relative)
         if path_category:
             issues.append({"scope": "tree", "path": relative, "category": path_category})
-        if path.stat().st_size > TEXT_LIMIT:
+        if (
+            path.stat().st_size > TEXT_LIMIT
+            and relative not in APPROVED_OVERSIZED_BUNDLE_MEMBERS
+        ):
             issues.append({"path": relative, "category": "oversized_member"})
+            continue
+        if relative in APPROVED_OVERSIZED_BUNDLE_MEMBERS:
             continue
         _scan_payload(path.read_bytes(), scope="tree", label=relative, issues=issues)
 
@@ -155,8 +174,13 @@ def main() -> int:
         path_category = _category_for_path(historical_path)
         if path_category:
             issues.append({"scope": "history", "path": label, "category": path_category})
-        if len(payload) > TEXT_LIMIT:
+        if (
+            len(payload) > TEXT_LIMIT
+            and historical_path not in APPROVED_OVERSIZED_BUNDLE_MEMBERS
+        ):
             issues.append({"scope": "history", "path": label, "category": "oversized_member"})
+            continue
+        if historical_path in APPROVED_OVERSIZED_BUNDLE_MEMBERS:
             continue
         _scan_payload(payload, scope="history", label=label, issues=issues)
 

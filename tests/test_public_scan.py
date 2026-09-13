@@ -68,11 +68,18 @@ def test_only_named_reviewed_visuals_are_accepted_as_binary_fixtures():
         "browser-tests/journeys/first-use.spec.js-snapshots/first-use-mobile-390-linux.png",
         "docs/assets/screenshots/01-project-overview.png",
         "docs/assets/screenshots/02-dataset-selection.png",
+        "docs/assets/screenshots/03-annotation-editor.png",
         "docs/assets/screenshots/03-vision-result.png",
+        "docs/assets/screenshots/04-training-dashboard.png",
         "docs/assets/screenshots/04-qwen-prompt.png",
         "docs/assets/screenshots/05-qwen-result.png",
         "docs/assets/screenshots/06-tastematch-result.png",
+        "docs/assets/screenshots/06-soccernet-jobs.png",
         "docs/assets/screenshots/07-mobile-saved-run.png",
+        "src/modelforge_workbench/workbench/static/workbench/assets/cliff-mascot-qBawjJzG.gif",
+        "src/modelforge_workbench/workbench/static/workbench/modalitysystems.png",
+        "workbench/public/modalitysystems.png",
+        "workbench/src/assets/cliff-mascot.gif",
         "browser-tests/journeys/first-use.spec.js-snapshots/first-use-desktop-github-ubuntu-24.04.png",
         "browser-tests/journeys/first-use.spec.js-snapshots/first-use-mobile-390-github-ubuntu-24.04.png",
     }
@@ -81,3 +88,10 @@ def test_only_named_reviewed_visuals_are_accepted_as_binary_fixtures():
     assert scanner._category_for_path("docs/unreviewed-screenshot.png") == (
         "private_binary_or_execution_material"
     )
+
+
+def test_only_exact_pinned_monaco_outputs_bypass_the_text_size_and_regex_scan():
+    assert _scanner().APPROVED_OVERSIZED_BUNDLE_MEMBERS == {
+        "src/modelforge_workbench/workbench/static/workbench/assets/monaco-DKPOLAUe.js",
+        "src/modelforge_workbench/workbench/static/workbench/assets/ts.worker-Bt-G9PB_.js",
+    }

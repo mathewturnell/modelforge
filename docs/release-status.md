@@ -1,43 +1,56 @@
 # Public alpha recovery status
 
 The React recovery candidate is approved for qualification and clean
-publication. Mathew Turnell approved the
-exact React source inventory at recovery commit `10dda5f37c550902a0ae2e0d7ff16b75ba59b928`
-for Apache-2.0 public-candidate inclusion on 2026-09-11. This approval does not
-approve write-capable Git or assistant services. Mathew separately confirmed
-authorization on 2026-09-11 to replace `mathewturnell/modelforge` with only the
-qualified clean `main`, apply protection, and make it public. Tags, GitHub
-Releases, package publication, service deployment, and paid workloads remain
-outside that authorization.
+publication. Mathew Turnell approved the earlier exact React source inventory
+at recovery commit `10dda5f37c550902a0ae2e0d7ff16b75ba59b928` on 2026-09-11,
+then explicitly directed restoration of the established UI/UX from the
+Apache-licensed archive and connection of every exposed workflow to the public
+backend on 2026-09-12. The final exact React file identities and dependency
+graph are recorded in `react-source-inventory.json`. This approval does not
+approve write-capable Git or assistant services. On 2026-09-13 Mathew directed
+replacement of the synthetic assistant with the OS user's Codex account
+configured through Settings; Decision 0003 records the bounded read-only App
+Server integration. Mathew separately confirmed
+authorization to replace `mathewturnell/modelforge` with only the qualified
+clean `main`, apply protection, and make it public. Tags, GitHub Releases,
+package publication, service deployment, and paid workloads remain outside
+that authorization.
 
 The recovery is being built in a clean standalone Git object store derived
 from the Apache candidate. The commercially classified repository history is
-not a permissible release input. Mathew must approve the exact source and
-dependency inventory, security exposure, candidate digest, remote
-reconstruction, merge, and publication after all gates pass.
+not a permissible release input. The approved clean-publication sequence
+requires the exact source and dependency inventory, security exposure,
+candidate digest, hosted checks, and remote state to remain verifiable through
+publication.
 
 The Modal acceptance apps from the previously qualified baseline are stopped
 and their dedicated staging volumes were deleted.
 
 ## Current local recovery evidence
 
-- The React donor was reduced to seventeen inventoried source, configuration,
-  and lock files. The commercial API client, components, views, dependencies,
-  identity, billing, hosting, and deployment surfaces are absent.
-- The public client uses only additive `/api/v1` projections and supports the
-  real project, dataset/prompt, local/Modal target, durable run, cancellation,
-  recovery, checked artifact, process-log, text, semantic-table, image, and
-  video journeys.
-- Nine React tests, TypeScript checking, and the production build pass. The
-  bundle is approximately 213 KiB JavaScript and 10 KiB CSS before gzip.
-- Thirteen real packaged-loopback browser journeys pass at desktop and
-  390-pixel widths, including Axe and accessibility-tree gates.
+- The restored React client is limited to 102 inventoried source, asset,
+  configuration, and lock files from the Apache-licensed archive plus bounded
+  public adaptations. Commercial
+  API clients, identity, billing, hosting, and deployment surfaces are absent.
+- The public client uses only additive `/api/v1` projections and supports
+  project selection, authenticated dataset inspection, sample-bound visual and
+  conversation annotation, local training, inference/prompt execution, durable
+  jobs, cancellation, recovery, checked artifacts, logs, telemetry, native
+  result previews, authenticated read-only Codex chat, and Modal readiness.
+- Ninety React tests, TypeScript checking, the production build, and 249
+  Python tests pass. Monaco language workers and the architecture/chart chunks
+  remain code-split from the primary shell.
+- Twenty-three packaged-loopback browser journeys exercise the compiled client at
+  desktop and 390-pixel widths, including Axe and accessibility-tree gates.
+  Four redistributable conformance projects each cover dataset loading,
+  persisted annotation, annotation-bound training metrics/checkpoint evidence,
+  and inference or prompt results. These fixtures qualify framework plumbing,
+  not scientific model quality.
 - The npm production and full development graphs report zero known
   vulnerabilities with Vitest 4.1.11.
-- Mathew approved the exact seventeen-file React source inventory and locked
-  dependency graph for Apache-2.0 public-candidate inclusion on 2026-09-11.
-  The boundary verifier passes this source-licensing gate. Publication proceeds
-  only under the separate clean-reconstruction authorization recorded above.
+- The exact 102-file React source inventory and locked dependency graph
+  are bound to the implementation revision identified in the inventory. The
+  boundary verifier must pass this source-licensing gate before publication.
 
 ## Previously qualified baseline evidence
 
@@ -120,8 +133,8 @@ dedicated input volumes were deleted, and the environment reported no deployed
 app, volume, or active container. Declared resource plans remain disclosures,
 not quotes or budget enforcement.
 
-The revised wheel plus source distribution contain 307 archive members in
-total. The verifier inspected all 271 regular-file payloads and excluded 36
+The revised wheel plus source distribution contain 536 archive members in
+total. The verifier inspected all 484 regular-file payloads and excluded 52
 directory-container records because they carry no payload. Symbolic links and
 other non-regular members are rejected rather than counted as exclusions. This
 resolves the earlier count discrepancy: “total” described archive records,

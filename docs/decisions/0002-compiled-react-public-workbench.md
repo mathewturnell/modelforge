@@ -2,7 +2,7 @@
 
 - Date: 2026-09-10
 - Owner: Mathew Turnell
-- Status: accepted for local implementation; publication pending exact-candidate approval
+- Status: accepted; React source approval recorded, exact integrated revision pending final qualification
 - Affected requirements: `PUB-ARCH-001`, `PUB-UI-001`–`PUB-UI-004`,
   `PUB-LIC-001`, `PUB-REL-001`, and the feature requirements recorded in
   `docs/requirements.md`
@@ -43,6 +43,16 @@ service and capability authorize it. An incomplete service is presented with
 an explicit reason and remains a tracked implementation gap; it is not removed
 from the product definition and is not represented as shipped.
 
+The first bounded implementation of that target keeps the v1 singular-action
+projection for compatibility and adds an `actions` collection for exact
+route-selected inference, prompt, and training actions. Dataset annotations
+are private, revisioned owner-state sidecars bound to the registered sample
+digest; they never rewrite source samples. Training remains a project-owned
+adapter executed by the existing managed lifecycle and may return only
+validated metrics and digest-checked artifacts. Deterministic named-project
+fixtures qualify these framework paths without claiming upstream data, model,
+checkpoint, provider, or scientific behavior.
+
 Commercial identity, membership, billing, customer tenancy, hosted workbench,
 commercial-plane services, Cloudflare publication, desktop updating, and
 general provider control are outside this public source boundary.
@@ -56,8 +66,9 @@ general provider control are outside this public source boundary.
   capability-authorized by the server.
 - A durable queued run exists before any process or provider operation starts.
 - Terminal success and its checked artifact identities commit atomically.
-- Tokens never enter request URLs. Authenticated media is fetched into
-  page-owned `blob:` URLs and revoked on replacement or project change.
+- Tokens never enter request URLs. Bearer-authenticated API access establishes
+  an HttpOnly SameSite launch session used by checked native media elements;
+  query-token access is rejected.
 - The server retains loopback binding, Host validation, mutation-Origin checks,
   CORS denial, restrictive CSP, bounded bodies, range validation, redaction,
   and safe error projection.
@@ -109,7 +120,8 @@ wheel/sdist inspection, source and dependency provenance, exact inventory
 reconciliation, secret/history scans, and an independent release-readiness
 review.
 
-Only Mathew may approve the exact React Apache disposition, any write-capable
-assistant or Git exposure, remote reconstruction, merge, release, or
-publication. This decision authorizes local implementation and verification;
-it does not authorize a remote change or publication.
+Only Mathew may approve the exact React Apache disposition and any new
+write-capable assistant or Git exposure. React source approval and remote
+publication authorization are recorded separately and remain in force; this
+decision does not reopen either approval. New authority is required only for a
+material scope expansion beyond the approved public candidate.

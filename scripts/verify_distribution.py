@@ -6,16 +6,19 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import re
 import stat
 import tarfile
 import zipfile
 from pathlib import Path, PurePosixPath
 
-from scan_public_candidate import _category_for_path, _scan_payload
+from scan_public_candidate import (
+    APPROVED_BINARY_FIXTURES,
+    APPROVED_OVERSIZED_BUNDLE_MEMBERS,
+    _category_for_path,
+    _scan_payload,
+)
 
 
-PRIVATE_PATH = re.compile(rb"/(?:home|Users)/[^/\s]+/")
 FORBIDDEN_PARTS = {"projects", "deploy", "assistant", "commercial", "browser", "training", "architecture"}
 WHEEL_REACT_ROOT = "modelforge_workbench/workbench/static/workbench/"
 WHEEL_MODAL_STYLE = "modelforge_workbench/workbench/static/modal-setup.css"
@@ -27,15 +30,21 @@ SDIST_REQUIRED_REACT = {
     "workbench/src/lib/api.ts",
     "src/modelforge_workbench/workbench/static/modal-setup.css",
 }
+BDD_ARCHITECTURE_DESCRIPTOR = (
+    "share/modelforge/examples/bdd100k-road-scene-lab/architecture.inspectable.json"
+)
 DOCUMENTATION_MEMBERS = {
     "docs/getting-started.md",
     "docs/assets/modelforge-wordmark.svg",
     "docs/assets/screenshots/01-project-overview.png",
     "docs/assets/screenshots/02-dataset-selection.png",
+    "docs/assets/screenshots/03-annotation-editor.png",
     "docs/assets/screenshots/03-vision-result.png",
+    "docs/assets/screenshots/04-training-dashboard.png",
     "docs/assets/screenshots/04-qwen-prompt.png",
     "docs/assets/screenshots/05-qwen-result.png",
     "docs/assets/screenshots/06-tastematch-result.png",
+    "docs/assets/screenshots/06-soccernet-jobs.png",
     "docs/assets/screenshots/07-mobile-saved-run.png",
 }
 
@@ -79,6 +88,20 @@ def require_documentation_members(names: list[str], *, wheel: bool) -> None:
         raise ValueError(f"Getting-started documentation missing from distribution: {sorted(missing)}")
 
 
+def require_bdd_architecture_descriptor(names: list[str], *, wheel: bool) -> None:
+    if wheel:
+        if not any(name.endswith(BDD_ARCHITECTURE_DESCRIPTOR) for name in names):
+            raise ValueError("BDD100K architecture descriptor missing from wheel")
+        return
+    relative = {
+        "/".join(PurePosixPath(name).parts[1:])
+        for name in names if len(PurePosixPath(name).parts) > 1
+    }
+    expected = BDD_ARCHITECTURE_DESCRIPTOR.removeprefix("share/modelforge/")
+    if expected not in relative:
+        raise ValueError("BDD100K architecture descriptor missing from sdist")
+
+
 def verify_sdist_react_inventory(
     bundle: tarfile.TarFile, members: list[tarfile.TarInfo],
 ) -> None:
@@ -106,6 +129,19 @@ def verify_sdist_react_inventory(
             raise ValueError(f"inventoried React source changed in sdist: {record['path']}")
 
 
+def repository_relative(name: str, *, wheel: bool) -> str:
+    path = PurePosixPath(name)
+    if wheel and path.parts[:4] == (
+        "modelforge_workbench", "workbench", "static", "workbench",
+    ):
+        return "src/" + name
+    if wheel and "share" in path.parts:
+        share_index = path.parts.index("share")
+        if path.parts[share_index + 1:share_index + 2] == ("modelforge",):
+            return "/".join(path.parts[share_index + 2:])
+    return "/".join(path.parts[1:]) if not wheel and len(path.parts) > 1 else name
+
+
 def check_name(name: str, *, wheel: bool) -> None:
     path = PurePosixPath(name)
     if path.is_absolute() or ".." in path.parts:
@@ -114,15 +150,7 @@ def check_name(name: str, *, wheel: bool) -> None:
         raise ValueError(f"excluded wheel member: {name}")
     if path.suffix in {".pyc", ".pth", ".pt", ".safetensors"}:
         raise ValueError(f"forbidden archive member: {name}")
-    if wheel and "share" in path.parts:
-        share_index = path.parts.index("share")
-        relative = (
-            "/".join(path.parts[share_index + 2:])
-            if path.parts[share_index + 1:share_index + 2] == ("modelforge",)
-            else name
-        )
-    else:
-        relative = "/".join(path.parts[1:]) if not wheel and len(path.parts) > 1 else name
+    relative = repository_relative(name, wheel=wheel)
     category = _category_for_path(relative)
     standard_sdist_metadata = (
         not wheel
@@ -134,7 +162,10 @@ def check_name(name: str, *, wheel: bool) -> None:
         raise ValueError(f"forbidden archive member category {category}: {name}")
 
 
-def check_payload(name: str, payload: bytes) -> None:
+def check_payload(name: str, payload: bytes, *, wheel: bool = False) -> None:
+    relative = repository_relative(name, wheel=wheel)
+    if relative in APPROVED_BINARY_FIXTURES | APPROVED_OVERSIZED_BUNDLE_MEMBERS:
+        return
     issues: list[dict] = []
     _scan_payload(payload, scope="archive", label=name, issues=issues)
     if issues:
@@ -177,6 +208,7 @@ def main() -> int:
                 names = [member.filename for member in members]
                 require_react_members(names, wheel=True)
                 require_documentation_members(names, wheel=True)
+                require_bdd_architecture_descriptor(names, wheel=True)
                 if any(PurePosixPath(name).parts[0] == "modelforge" for name in names):
                     raise ValueError("stale private modelforge namespace in wheel")
                 if not any(name.startswith("modelforge_workbench/") for name in names):
@@ -216,9 +248,7 @@ def main() -> int:
                         excluded["directory_container"] += 1
                         continue
                     payload = bundle.read(name)
-                    if PRIVATE_PATH.search(payload):
-                        raise ValueError(f"private-machine reference in {name}")
-                    check_payload(name, payload)
+                    check_payload(name, payload, wheel=True)
                     checked += 1
         else:
             with tarfile.open(archive, "r:gz") as bundle:
@@ -226,6 +256,7 @@ def main() -> int:
                 names = [member.name for member in members]
                 require_react_members(names, wheel=False)
                 require_documentation_members(names, wheel=False)
+                require_bdd_architecture_descriptor(names, wheel=False)
                 verify_sdist_react_inventory(bundle, members)
                 for member in members:
                     total += 1
@@ -235,9 +266,7 @@ def main() -> int:
                         continue
                     stream = bundle.extractfile(member)
                     payload = stream.read() if stream else b""
-                    if PRIVATE_PATH.search(payload):
-                        raise ValueError(f"private-machine reference in {member.name}")
-                    check_payload(member.name, payload)
+                    check_payload(member.name, payload, wheel=False)
                     checked += 1
     print(json.dumps({
         "total_members": total,

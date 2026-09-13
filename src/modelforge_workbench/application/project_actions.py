@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import Any, Mapping
 
 from .action_handlers import action_handler
+from .annotations import AnnotationService
 from .artifacts import LocalArtifactCandidate
 from .datasets import DatasetService, ResolvedSample
 from .managed_execution import (
@@ -44,22 +45,27 @@ def _json_bytes(value: Mapping[str, Any]) -> bytes:
 @dataclass(frozen=True)
 class RegisteredActionBinder:
     project: Mapping[str, Any]
+    action: Mapping[str, Any]
     private_request: Mapping[str, Any]
     sample: ResolvedSample | None
+    dataset_root: Path | None = None
+    effective_parameters: Mapping[str, Any] | None = None
 
     def bind(self, allocation) -> BoundManagedAction:
-        action = self.project["action"]
+        action = self.action
         request_path = allocation.evidence_root / "request.json"
         output_path = allocation.evidence_root / "result.json"
         request_path.write_bytes(_json_bytes(self.private_request))
         os.chmod(request_path, 0o600)
+        parameters = dict(action.get("parameters") or {})
+        parameters.update(dict(self.effective_parameters or {}))
         values = {
             "request": str(request_path),
             "output": str(output_path if action["kind"] == "prompt" else allocation.evidence_root),
-            "dataset_root": str(self.sample.root if self.sample else ""),
+            "dataset_root": str(self.sample.root if self.sample else self.dataset_root or ""),
             "artifact": str(self.sample.path if self.sample else ""),
-            "device": str(action.get("parameters", {}).get("device", "auto")),
-            "max_frames": str(action.get("parameters", {}).get("max_frames", 0)),
+            "device": str(parameters.get("device", "auto")),
+            "max_frames": str(parameters.get("max_frames", 0)),
             "checkpoint": "",
             "model_cache": "",
         }
@@ -165,6 +171,7 @@ class ProjectActionService:
         datasets: DatasetService,
         managed: ManagedLocalActionService,
         modal_bindings: ModalActionBindingService | None = None,
+        annotations: AnnotationService | None = None,
         *,
         organization_id: str = "local-alpha",
         user_id: str = "local-user",
@@ -173,15 +180,17 @@ class ProjectActionService:
         self.datasets = datasets
         self.managed = managed
         self.modal_bindings = modal_bindings
+        self.annotations = annotations
         self.organization_id = organization_id
         self.user_id = user_id
         self._launch_lock = threading.RLock()
 
     def start(
-        self, project_id: str, payload: Mapping[str, Any], *, on_event=None,
+        self, project_id: str, payload: Mapping[str, Any], *, action_id: str | None = None,
+        on_event=None,
     ) -> ManagedActionExecution | dict[str, Any]:
         project = self.projects.get(project_id)
-        action = project["action"]
+        action = self._action(project, action_id)
         kind = action["kind"]
         execution_request = payload.get("execution") if isinstance(payload, Mapping) else None
         managed_envelope = payload.get("protocol") == "modelforge.managed-action-request/v1"
@@ -194,11 +203,30 @@ class ProjectActionService:
             action_input = dict(payload)
             target = "local"
         sample = None
+        dataset_root = None
+        effective_parameters: dict[str, Any] = {}
         if kind == "inference":
             dataset_id = str(action_input.get("dataset_id") or "")
             sample_id = str(action_input.get("sample_id") or "")
             sample = self.datasets.resolve(project_id, dataset_id, sample_id)
             checkpoint = (project.get("bindings") or {}).get("checkpoint") or {}
+            effective_parameters = dict(action.get("parameters") or {})
+            requested_parameters = action_input.get("parameters") or {}
+            if not isinstance(requested_parameters, Mapping):
+                raise ValueError("Inference parameters must be an object")
+            if set(requested_parameters) - {"max_frames"}:
+                raise ValueError("Inference parameter is not supported by the registered action")
+            if "max_frames" in requested_parameters:
+                if not any("{max_frames}" in value for value in action.get("arguments") or ()):
+                    raise ValueError("Maximum frames is not configurable for this action")
+                maximum = requested_parameters["max_frames"]
+                if isinstance(maximum, bool) or not isinstance(maximum, int) or not 0 <= maximum <= 1_000_000:
+                    raise ValueError("Maximum frames must be an integer from 0 to 1000000")
+                effective_parameters["max_frames"] = maximum
+            if target == "modal" and any(
+                "{max_frames}" in value for value in action.get("arguments") or ()
+            ) and not 1 <= effective_parameters.get("max_frames", 0) <= 24:
+                raise ValueError("Modal inference requires an explicit maximum from 1 to 24 frames")
             request = {
                 "workflow": "inference",
                 "action_id": action["id"],
@@ -208,8 +236,8 @@ class ProjectActionService:
                 "dataset_split": sample.split,
                 "checkpoint_id": checkpoint.get("id"),
                 "checkpoint_sha256": checkpoint.get("sha256"),
-                "device": action.get("parameters", {}).get("device", "auto"),
-                "max_frames": action.get("parameters", {}).get("max_frames", 0),
+                "device": effective_parameters.get("device", "auto"),
+                "max_frames": effective_parameters.get("max_frames", 0),
             }
             private_request = request
             dataset_ref = f"{dataset_id}:{sample_id}:{sample.sha256}"
@@ -237,6 +265,87 @@ class ProjectActionService:
             private_request = validated
             dataset_ref = ""
             authorized = (str(model.get("path") or ""),)
+        elif kind == "training":
+            dataset_id = str(action_input.get("dataset_id") or "")
+            split = str(
+                action_input.get("dataset_split") or action_input.get("split") or "train"
+            ).strip().casefold()
+            dataset = project.get("dataset") or {}
+            if not dataset_id or dataset.get("id") != dataset_id:
+                raise ValueError("Training requires the registered project dataset")
+            selected = [
+                item for item in dataset.get("samples") or ()
+                if str(item.get("split") or "").strip().casefold() == split
+            ]
+            if not selected:
+                raise ValueError("Training split has no registered samples")
+            parameters = dict(action_input.get("parameters") or {})
+            if "epochs" in action_input:
+                parameters["epochs"] = action_input["epochs"]
+            if not isinstance(parameters, Mapping) or len(parameters) > 64:
+                raise ValueError("Training parameters must be a bounded object")
+            resolved = [
+                self.datasets.resolve(project_id, dataset_id, str(item["id"]))
+                for item in selected
+            ]
+            dataset_root = Path(str(dataset["root"]))
+            identities = [
+                {"id": item.sample_id, "sha256": item.sha256, "size_bytes": item.size_bytes}
+                for item in resolved
+            ]
+            manifest_sha = hashlib.sha256(_json_bytes({"samples": identities})).hexdigest()
+            annotation_identities = []
+            if self.annotations is not None:
+                for item in resolved:
+                    document = self.annotations.get(
+                        project_id, dataset_id, item.sample_id,
+                    )
+                    annotation_identities.append({
+                        "sample_id": item.sample_id,
+                        "sample_sha256": item.sha256,
+                        "revision": document["revision"],
+                        "document_sha256": hashlib.sha256(_json_bytes(document)).hexdigest(),
+                    })
+            annotation_revision = max(
+                (int(item["revision"]) for item in annotation_identities), default=0,
+            )
+            requested_annotation_revision = action_input.get("annotation_revision")
+            if (
+                requested_annotation_revision is not None
+                and requested_annotation_revision != annotation_revision
+            ):
+                raise ValueError("Training annotation revision is stale")
+            annotation_manifest_sha = hashlib.sha256(
+                _json_bytes({"annotations": annotation_identities}),
+            ).hexdigest()
+            private_request = {
+                "protocol": "modelforge.training-request/v1",
+                "workflow": "training",
+                "action_id": action["id"],
+                "dataset_id": dataset_id,
+                "split": split,
+                "dataset_manifest_sha256": manifest_sha,
+                "samples": identities,
+                "annotation_revision": annotation_revision,
+                "annotation_manifest_sha256": annotation_manifest_sha,
+                "annotations": annotation_identities,
+                "parameters": dict(parameters),
+            }
+            validated = action_handler("training").validate_request(private_request).detached()
+            request = {
+                "workflow": "training",
+                "action_id": action["id"],
+                "dataset_id": dataset_id,
+                "dataset_split": split,
+                "dataset_sample_count": len(identities),
+                "dataset_manifest_sha256": manifest_sha,
+                "annotation_revision": annotation_revision,
+                "annotation_manifest_sha256": annotation_manifest_sha,
+                "parameters": validated.get("parameters") or {},
+            }
+            private_request = validated
+            dataset_ref = f"{dataset_id}:{split}:{manifest_sha}"
+            authorized = tuple(str(item.path) for item in resolved)
         else:  # pragma: no cover - registration validator closes this set.
             raise ValueError("Registered action kind is unsupported")
         if target == "local":
@@ -247,24 +356,40 @@ class ProjectActionService:
                 raise ValueError("Local execution cannot carry Modal authority or confirmation")
             if not project.get("local_enabled", True):
                 raise ValueError("Local execution is not configured for this project action")
-            configuration = self._execution_identity(project)
+            configuration = self._execution_identity(project, action)
             plan = ManagedActionPlan(
                 RunScope(self.organization_id, project["id"]), self.user_id, kind,
                 action["display_name"], request, action["result_protocol"], dataset_ref,
                 tuple(item for item in authorized if item), configuration,
             )
             return self.managed.start_plan(
-                plan, RegisteredActionBinder(project, private_request, sample), on_event=on_event,
+                plan,
+                RegisteredActionBinder(
+                    project, action, private_request, sample, dataset_root,
+                    effective_parameters,
+                ),
+                on_event=on_event,
             )
         if target != "modal" or not managed_envelope:
             raise ValueError("Managed action execution target is unsupported")
+        if kind == "training":
+            raise ValueError("Modal execution is not configured for public training actions")
         return self._start_modal(
-            project, request, private_request, dataset_ref, sample,
+            project, action, request, private_request, dataset_ref, sample,
             execution_request, on_event=on_event,
         )
 
+    @staticmethod
+    def _action(project: Mapping[str, Any], action_id: str | None) -> Mapping[str, Any]:
+        actions = list(project.get("actions") or (project["action"],))
+        requested = str(action_id or project["action"]["id"]).strip().casefold()
+        action = next((item for item in actions if item["id"] == requested), None)
+        if action is None:
+            raise ValueError("Action is not registered for this project")
+        return action
+
     def _start_modal(
-        self, project, request, private_request, dataset_ref, sample, execution_request,
+        self, project, action, request, private_request, dataset_ref, sample, execution_request,
         *, on_event=None,
     ) -> ManagedActionExecution | dict[str, Any]:
         if self.modal_bindings is None:
@@ -275,14 +400,14 @@ class ProjectActionService:
             idempotency_key = str(uuid.UUID(str(execution_request.get("idempotency_key") or "")))
         except ValueError as exc:
             raise ValueError("Managed action idempotency key must be a UUID") from exc
-        binding = self.modal_bindings.get(project["id"], project["action"]["id"])
+        binding = self.modal_bindings.get(project["id"], action["id"])
         binding_sha = modal_action_binding_sha256(binding)
         if execution_request.get("binding_sha256") != binding_sha:
             raise ValueError("Modal confirmation is stale; review the current binding and confirm again")
         self._validate_modal_assets(project, sample, binding)
         request_sha = hashlib.sha256(_json_bytes({
             "project_id": project["id"],
-            "action_id": project["action"]["id"],
+            "action_id": action["id"],
             "binding_sha256": binding_sha,
             "input": private_request,
         })).hexdigest()
@@ -294,8 +419,8 @@ class ProjectActionService:
         public_binding = self.modal_bindings.public(binding)
         plan = ManagedActionPlan(
             RunScope(self.organization_id, project["id"]), self.user_id,
-            project["action"]["kind"], project["action"]["display_name"],
-            durable_request, project["action"]["result_protocol"], dataset_ref,
+            action["kind"], action["display_name"],
+            durable_request, action["result_protocol"], dataset_ref,
             (), {
                 "modal": public_binding,
                 "idempotency_key": idempotency_key,
@@ -305,7 +430,7 @@ class ProjectActionService:
             binding["compute"]["timeout_seconds"],
         )
         run_id = hashlib.sha256(
-            f"{self.organization_id}\0{project['id']}\0{project['action']['id']}\0{idempotency_key}".encode(),
+            f"{self.organization_id}\0{project['id']}\0{action['id']}\0{idempotency_key}".encode(),
         ).hexdigest()[:32]
         with self._launch_lock:
             try:
@@ -319,7 +444,7 @@ class ProjectActionService:
             try:
                 return self.managed.start_plan(
                     plan,
-                    RegisteredModalActionBinder(binding, private_request, project["action"]["kind"]),
+                    RegisteredModalActionBinder(binding, private_request, action["kind"]),
                     on_event=on_event,
                     run_id=run_id,
                 )
@@ -363,9 +488,9 @@ class ProjectActionService:
 
     def recover_modal(self, project_id: str, run_id: str, *, on_event=None) -> ManagedActionExecution:
         project = self.projects.get(project_id)
-        action = project["action"]
         scope = RunScope(self.organization_id, project_id)
         durable = self.managed.runs.get(scope, run_id, include_artifacts=False)
+        action = self._action(project, str(durable.get("request", {}).get("action_id") or ""))
         if durable.get("provider") != "modal":
             raise ValueError("Only a Modal project action can be recovered")
         binding = self.modal_bindings.get(project_id, action["id"]) if self.modal_bindings else None
@@ -415,11 +540,17 @@ class ProjectActionService:
                 raise OSError("Inference result input identity differs from the durable request")
             if expected_request.get("checkpoint_sha256") and model_identity.get("sha256") != expected_request.get("checkpoint_sha256"):
                 raise OSError("Inference result checkpoint identity differs from the durable request")
+        if expected_request and expected_request.get("workflow") == "training":
+            claimed = value.get("dataset_manifest_sha256")
+            expected = expected_request.get("dataset_manifest_sha256")
+            if claimed not in (None, expected):
+                raise OSError("Training result dataset identity differs from the durable request")
         return value
 
     @staticmethod
-    def _execution_identity(project: Mapping[str, Any]) -> dict[str, Any]:
-        action = project["action"]
+    def _execution_identity(
+        project: Mapping[str, Any], action: Mapping[str, Any],
+    ) -> dict[str, Any]:
         interpreter = Path(action["interpreter"])
         executable = Path(action["executable"])
         registration_sha = hashlib.sha256(_json_bytes(project)).hexdigest()
@@ -478,7 +609,15 @@ class ProjectActionService:
                 if Path(name).name != name:
                     raise ValueError("Managed result artifact path must be a filename")
                 path = root / name
-                candidate = self._candidate(path, kind, fallback_type)
+                presentation_metadata = {}
+                if path_field == "path":
+                    for field in ("role", "frames", "fps", "duration_seconds"):
+                        value = item.get(field)
+                        if value is not None:
+                            presentation_metadata[field] = value
+                candidate = self._candidate(
+                    path, kind, fallback_type, **presentation_metadata,
+                )
                 if item.get(digest_field) and candidate.sha256 != item[digest_field]:
                     raise OSError("Managed result artifact digest does not match its envelope")
                 artifacts.append(candidate)

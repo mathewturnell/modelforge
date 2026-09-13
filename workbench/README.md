@@ -1,8 +1,17 @@
-# ModelForge public workbench client
+# ModelForge compiled workbench
 
-Purpose-built React presentation for the Apache public-alpha `/api/v1` contracts.
-It contains no commercial identity, billing, hosting, or deployment integration.
+This directory owns the trusted React/TypeScript browser shell described by
+`doc/workbench-ui-ux.md` and ADR 0023. Project repositories provide bounded
+descriptor and media data only; they do not provide executable UI modules.
 
-`npm ci && npm test && npm run typecheck && npm run build`
+Build the packaged assets with:
 
-The build is emitted into `src/modelforge_workbench/workbench/static/workbench`.
+```console
+npm ci
+npm run build
+```
+
+The build is written to `../static/workbench/` and is served by the existing
+ModelForge Python server. Use `npm run typecheck` for the typed contract check.
+The production build uses `/workbench/` asset URLs and is the sole local
+workbench client. Historical `/legacy` bookmarks redirect to `/workbench`.

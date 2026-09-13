@@ -12,8 +12,8 @@ repository. The gate requires:
 - capability-derived navigation for the full local product definition, with
   every incomplete service labelled unavailable and no inert or fabricated
   success control;
-- token fragment removal, bearer-only API access, stale-response rejection,
-  project-switch invalidation, and object-URL revocation;
+- token fragment removal, per-tab bearer API access, HttpOnly SameSite media
+  sessions, query-token rejection, and project-switch invalidation;
 - no commercial identity, tenancy, billing, hosted-workbench, deployment, or
   publication control;
 - keyboard operation, visible focus, meaningful landmarks and live regions,
@@ -27,17 +27,18 @@ The current implementation and evidence status is recorded in
 screen-reader session remain human checks and must not be inferred from narrow
 viewport, Axe, or accessibility-tree automation.
 
-Against the local recovery candidate on 2026-09-10, nine React unit/contract
-tests, TypeScript checking, the production build, and thirteen real loopback
-browser journeys passed. The browser suite covers empty state, full intended
-navigation, truthful unavailable destinations, vision and prompt execution,
-failure, invalid output, cancellation, reload, server restart, checked
-artifacts, process logs, Modal status variants, request failure, Axe, and the
-Chrome accessibility tree. Production npm dependencies and the full npm
-development graph reported zero known vulnerabilities after updating Vitest
-to 4.1.11. The new 1280-pixel and 390-pixel baselines were reviewed locally;
-their CI variants are generated from the same React candidate and remain
-subject to review when rendering changes.
+Against the current local integration candidate on 2026-09-12, 89 React
+unit/contract tests, TypeScript checking, the production build, 240 Python
+tests, and twenty-one real loopback Playwright journeys pass. The browser journeys
+exercise the exact restored shell, read-only Monaco source inspection, persisted
+annotation for all four deterministic reference projects, their complete
+dataset/training/inference or prompt paths, BDD/TasteMatch/SoccerNet native
+results, Qwen curation and prompt output, fast-result artifact recovery,
+explicit failure and cancellation, Modal readiness, checked-media failure,
+desktop and 390-pixel layouts, Axe, and zero
+unexpected console errors or non-loopback requests. The current desktop and
+390-pixel baselines were regenerated and inspected locally. Hosted CI and its
+Ubuntu baselines remain pending until this exact candidate is pushed.
 
 ## Previous clean-candidate evidence
 

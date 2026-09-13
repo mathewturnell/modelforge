@@ -52,6 +52,22 @@ def test_payload_policy_rejects_private_paths_without_printing_matched_bytes():
     assert "person/private" not in str(caught.value)
 
 
+def test_only_exact_pinned_monaco_wheel_outputs_skip_payload_pattern_scanning():
+    verifier = _verifier()
+    prefix = "modelforge_workbench/workbench/static/workbench/assets/"
+    verifier.check_payload(
+        prefix + "ts.worker-Bt-G9PB_.js",
+        b"upstream parser fixture /" + b"home/person/not-a-machine-path",
+        wheel=True,
+    )
+    with pytest.raises(ValueError, match="private_home_path"):
+        verifier.check_payload(
+            prefix + "ts.worker-unreviewed.js",
+            b"unreviewed /" + b"home/person/private",
+            wheel=True,
+        )
+
+
 def test_tar_symlinks_are_not_treated_as_excluded_directories(tmp_path):
     verifier = _verifier()
     archive = tmp_path / "source.tar.gz"

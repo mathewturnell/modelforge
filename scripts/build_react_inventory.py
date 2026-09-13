@@ -11,17 +11,57 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 WORKBENCH = ROOT / "workbench"
 INVENTORY = ROOT / "react-source-inventory.json"
-DONOR_REVISION = "2dfeaa6564f7ce4f8a689e9800579f8c2947936e"
-APACHE_REFERENCE_REVISION = "953e7be49a3554a9d6dea0bdbcf894133b4d1c31"
+DONOR_REVISION = "caed2d4a2d4bb8d0c52c7c7c3815546a1dd9d457"
+APACHE_REFERENCE_REVISION = DONOR_REVISION
 NEW_PUBLIC_FILES = {
     "workbench/.gitignore",
-    "workbench/src/lib/api.test.ts",
+    "workbench/src/views/InferenceView.test.tsx",
 }
 EXCLUDED_PARTS = {"node_modules"}
+
+RUNTIME_DEPENDENCIES = [
+    ("@monaco-editor/react", "4.7.0", "MIT"),
+    ("@radix-ui/react-dialog", "1.1.23", "MIT"),
+    ("@radix-ui/react-dropdown-menu", "2.1.24", "MIT"),
+    ("@radix-ui/react-tabs", "1.1.21", "MIT"),
+    ("@radix-ui/react-tooltip", "1.2.16", "MIT"),
+    ("@xyflow/react", "12.11.2", "MIT"),
+    ("class-variance-authority", "0.7.1", "Apache-2.0"),
+    ("clsx", "2.1.1", "MIT"),
+    ("lucide-react", "1.30.0", "ISC"),
+    ("monaco-editor", "0.53.0", "MIT"),
+    ("react", "19.2.8", "MIT"),
+    ("react-dom", "19.2.8", "MIT"),
+    ("react-resizable-panels", "4.12.2", "MIT"),
+    ("recharts", "3.10.1", "MIT"),
+    ("scheduler", "0.27.0", "MIT"),
+    ("tailwind-merge", "3.6.0", "MIT"),
+]
+
+BUILD_AND_TEST_TOOLS = [
+    ("@tailwindcss/vite", "4.3.3", "MIT"),
+    ("@types/node", "24.13.3", "MIT"),
+    ("@types/react", "19.2.18", "MIT"),
+    ("@types/react-dom", "19.2.4", "MIT"),
+    ("@vitejs/plugin-react", "6.0.5", "MIT"),
+    ("tailwindcss", "4.3.3", "MIT"),
+    ("typescript", "7.0.2", "Apache-2.0"),
+    ("vite", "8.2.1", "MIT"),
+    ("vitest", "4.1.11", "MIT"),
+]
 
 
 def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _donor_path(relative: str) -> str:
+    public_prefix = "workbench/public/"
+    if relative.startswith(public_prefix):
+        return "modelforge/browser/static/" + relative.removeprefix(public_prefix)
+    if relative == "workbench/src/assets/cliff-mascot.gif":
+        return "modelforge/browser/static/cliff-mascot.gif"
+    return f"modelforge/browser/{relative}"
 
 
 def _file_records() -> list[dict]:
@@ -45,7 +85,7 @@ def _file_records() -> list[dict]:
             origin = {
                 "kind": "adapted-model-forge-react",
                 "donor_revision": DONOR_REVISION,
-                "donor_path": f"modelforge/browser/{relative}",
+                "donor_path": _donor_path(relative),
             }
         records.append({
             "path": relative,
@@ -83,22 +123,23 @@ def main() -> int:
             "donor_revision": DONOR_REVISION,
             "donor_author": "Mathew Turnell",
             "apache_labelled_reference_revision": APACHE_REFERENCE_REVISION,
+            "approved_react_source_revision": "10dda5f37c550902a0ae2e0d7ff16b75ba59b928",
+            "approval_record_revision": "9d18d787441a7b44c35d31c3f102cf2994b89a87",
             "note": (
-                "Authorship and the earlier Apache-labelled revision are provenance evidence; "
-                "the exact inventory still requires explicit human approval."
+                "The donor revision is Apache-2.0 and was used only as a file-level visual/source "
+                "reference. The approved clean React recovery and its approval record remain the "
+                "architecture/licensing baseline. Exact generated inventory identities remain the "
+                "release boundary."
             ),
         },
         "package_lock_sha256": lock_digest,
         "bundled_runtime_dependencies": [
-            {"name": "react", "version": "19.2.8", "license": "MIT"},
-            {"name": "react-dom", "version": "19.2.8", "license": "MIT"},
-            {"name": "scheduler", "version": "0.27.0", "license": "MIT"},
+            {"name": name, "version": version, "license": license_name}
+            for name, version, license_name in RUNTIME_DEPENDENCIES
         ],
         "direct_build_and_test_tools": [
-            {"name": "@vitejs/plugin-react", "version": "6.0.5", "license": "MIT"},
-            {"name": "typescript", "version": "7.0.2", "license": "Apache-2.0"},
-            {"name": "vite", "version": "8.2.1", "license": "MIT"},
-            {"name": "vitest", "version": "4.1.11", "license": "MIT"},
+            {"name": name, "version": version, "license": license_name}
+            for name, version, license_name in BUILD_AND_TEST_TOOLS
         ],
         "files": files,
     }

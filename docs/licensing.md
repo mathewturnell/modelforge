@@ -11,15 +11,17 @@ The React recovery is handled as a separate, fail-closed source boundary.
 `react-source-inventory.json` identifies every retained workbench file, its
 digest, disposition, exact donor revision, and proposed Apache-2.0 treatment.
 It also binds the npm lockfile used to produce the packaged browser bundle.
-The donor was authored under Mathew's Git identity and an earlier React release
-revision carried Apache-2.0 root metadata, but neither fact substitutes for
-explicit approval of the exact recovered inventory. Until that dated approval
-is recorded, the publication boundary verifier intentionally fails.
-The compiled bundle contains React, React DOM, and Scheduler under their MIT
-terms. Vite, its React plugin, TypeScript, and Vitest are source-build/test
-tools rather than installed Python runtime dependencies. Exact versions are
-pinned by the inventoried npm lockfile and the redistributed runtime notice is
-in `THIRD_PARTY_NOTICES`.
+The donor was authored under Mathew's Git identity and its selected revision
+carried Apache-2.0 root metadata. Mathew approved the React source revision
+`10dda5f3…` for Apache-2.0 public-candidate inclusion; approval record
+`9d18d787…` and the dated exact-file inventory bind that decision to this
+candidate. The publication boundary verifier fails closed if an inventoried
+file or dependency lock changes without a matching approval update.
+The compiled bundle's direct runtime dependencies include React, Monaco,
+Radix UI, XYFlow, Recharts, Lucide, and small UI utilities. Build/test tooling
+includes Vite, Tailwind CSS, TypeScript, and Vitest. Exact direct and transitive
+versions are pinned by the inventoried npm lockfile, and redistributed terms
+are recorded in `THIRD_PARTY_NOTICES`.
 
 The nineteen retained BDD100K, SoccerNet, TasteMatch, and Qwen Python files were
 reviewed individually. Seventeen appear to be independently authored ModelForge

@@ -1,0 +1,122 @@
+{
+  "protocol": "modelforge.project-architecture-presentation/v1",
+  "architecture": {
+    "model": {
+      "name": "MeMOTR · BDD100K",
+      "description": "Checkpoint-bound MeMOTR multiple-object tracking over a selected BDD100K video. This inspection graph describes the pinned upstream model and project-owned checked-result boundary without importing code or deserializing the checkpoint.",
+      "key_aspects": [
+        "ResNet-50 multi-scale visual backbone",
+        "Six-layer multi-scale deformable transformer encoder and decoder",
+        "300 DAB detection queries plus carried track queries",
+        "Eight native BDD100K classes with iterative box refinement",
+        "Runtime association and long-memory query update"
+      ],
+      "project_modifications": [
+        "ModelForge binds one selected MP4 and exact checkpoint digest.",
+        "The adapter adds owner-selected frame bounds, progress, native prediction evidence, and checked MP4 result registration.",
+        "Native eight-class predictions remain intact; the vehicle view is an explicit compatibility mapping, not checkpoint relabelling."
+      ]
+    },
+    "intent": {
+      "description": "Track road users across every selected frame using the published MeMOTR BDD100K checkpoint, then retain digest-bound native predictions and playable result media.",
+      "goals": ["Run real selected-video tracking", "Preserve native classes and track identities", "Produce reviewable checked evidence"],
+      "reasoning": ["The checkpoint and source revision are explicitly pinned.", "The model's query memory is designed for temporal association.", "ModelForge keeps execution and artifact authority outside the model graph."]
+    },
+    "metadata": {
+      "model_sources": [{
+        "id": "memotr-upstream",
+        "name": "MeMOTR",
+        "provider": "GitHub",
+        "url": "https://github.com/MCG-NJU/MeMOTR",
+        "revision": "eb7a177b9cbcb89742ec69b2545ab3af2ea31a80",
+        "role": "Pinned upstream model source",
+        "license": "MIT"
+      }]
+    },
+    "inputs": [
+      {
+        "id": "video_frame",
+        "type": "normalized_rgb_frame",
+        "shape": {"batch": 1, "channels": 3, "height": "scaled", "width": "scaled"},
+        "metadata": {"name": "Selected BDD100K video frame"}
+      },
+      {
+        "id": "prior_tracks",
+        "type": "track_query_state",
+        "shape": {"batch": 1, "queries": "active", "features": 256},
+        "metadata": {"name": "Carried track queries"}
+      }
+    ],
+    "nodes": [
+      {
+        "id": "resnet50_feature_pyramid",
+        "type": "resnet50_multiscale_backbone",
+        "input": "video_frame",
+        "config": {
+          "preprocessing": "resize short side to 800; cap long side at 1536; ImageNet normalization",
+          "backbone": "ResNet-50 + FrozenBatchNorm2d",
+          "feature_levels": 4,
+          "projection_channels": 256,
+          "position_embedding": "sine",
+          "model_source_id": "memotr-upstream"
+        },
+        "metadata": {
+          "name": "ResNet-50 multi-scale features",
+          "model_source_id": "memotr-upstream",
+          "presentation": {"groups": [{"label": "Visual encoder", "items": [{"label": "Backbone", "value": "ResNet-50"}, {"label": "Feature levels", "value": "4"}, {"label": "Hidden channels", "value": "256"}, {"label": "Input scale", "value": "800 / 1536 max"}]}]}
+        }
+      },
+      {
+        "id": "deformable_tracking_core",
+        "type": "memotr_deformable_transformer_queries",
+        "inputs": {"features": "resnet50_feature_pyramid", "track_state": "prior_tracks"},
+        "config": {
+          "hidden_dim": 256,
+          "attention_heads": 8,
+          "encoder_layers": 6,
+          "decoder_layers": 6,
+          "feedforward_dim": 2048,
+          "encoder_points": 4,
+          "decoder_points": 4,
+          "detection_queries": 300,
+          "dynamic_anchor_boxes": true,
+          "model_source_id": "memotr-upstream"
+        },
+        "metadata": {
+          "name": "Deformable transformer + queries",
+          "model_source_id": "memotr-upstream",
+          "presentation": {"groups": [{"label": "Transformer", "items": [{"label": "Encoder", "value": "6 layers"}, {"label": "Decoder", "value": "6 layers"}, {"label": "Attention", "value": "8 heads · 4 points"}]}, {"label": "Query state", "items": [{"label": "Detection queries", "value": "300 DAB anchors"}, {"label": "Track queries", "value": "carried from prior frame"}]}]}
+        }
+      },
+      {
+        "id": "tracking_heads_and_memory",
+        "type": "classification_boxes_runtime_association_query_update",
+        "input": "deformable_tracking_core",
+        "config": {
+          "native_classes": 8,
+          "box_coordinates": "normalized cxcywh",
+          "iterative_box_refinement": true,
+          "detection_threshold": 0.5,
+          "track_threshold": 0.5,
+          "miss_tolerance_frames": 10,
+          "motion_model": false,
+          "update_threshold": 0.5,
+          "long_memory_lambda": 0.01,
+          "model_source_id": "memotr-upstream"
+        },
+        "metadata": {
+          "name": "Tracking heads, association & memory",
+          "model_source_id": "memotr-upstream",
+          "presentation": {"groups": [{"label": "Native BDD100K heads", "items": ["pedestrian", "rider", "car", "truck", "bus", "train", "motorcycle", "bicycle"]}, {"label": "Temporal tracking", "items": [{"label": "Association", "value": "RuntimeTracker"}, {"label": "Memory", "value": "QueryUpdater long memory"}, {"label": "Miss tolerance", "value": "10 frames"}]}]}
+        }
+      }
+    ],
+    "outputs": [{
+      "id": "tracked_video_result",
+      "type": "checked_tracking_video_and_native_predictions",
+      "input": "tracking_heads_and_memory",
+      "config": {"result_protocol": "modelforge.inference-result/v1", "prediction_protocol": "modelforge.mot-predictions/v1", "execution": "managed project action"},
+      "metadata": {"name": "Tracked video + native predictions", "source_file": "src/bdd_memotr/inference_runtime.py"}
+    }]
+  }
+}

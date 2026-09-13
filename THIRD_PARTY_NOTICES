@@ -8,16 +8,40 @@ bundle contains the pinned JavaScript runtime libraries listed below.
 Setuptools and wheel are Python build tools; pytest, Ruff, build, and Twine are
 development tools and are not included in the wheel.
 
+Optional external Codex integration
+-----------------------------------
+
+ModelForge can connect to an OS-user-installed Codex CLI through Codex App
+Server. Codex is not included in this repository, the Python package, or the
+compiled React bundle. Installing or using Codex is governed by its own terms;
+ModelForge does not redistribute its executable, SDK, credentials, or model.
+
 Compiled React workbench
 ------------------------
 
-The browser bundle contains:
+The browser bundle contains these direct runtime dependencies:
 
+- @monaco-editor/react 4.7.0 (MIT)
+- @radix-ui/react-dialog 1.1.23 (MIT)
+- @radix-ui/react-dropdown-menu 2.1.24 (MIT)
+- @radix-ui/react-tabs 1.1.21 (MIT)
+- @radix-ui/react-tooltip 1.2.16 (MIT)
+- @xyflow/react 12.11.2 (MIT)
+- class-variance-authority 0.7.1 (Apache-2.0)
+- clsx 2.1.1 (MIT)
+- lucide-react 1.30.0 (ISC)
+- monaco-editor 0.53.0 (MIT)
 - React 19.2.8 (MIT), https://github.com/facebook/react
 - React DOM 19.2.8 (MIT), https://github.com/facebook/react
+- react-resizable-panels 4.12.2 (MIT)
+- Recharts 3.10.1 (MIT)
 - Scheduler 0.27.0 (MIT), https://github.com/facebook/react
+- tailwind-merge 3.6.0 (MIT)
 
-The following common MIT notice applies to those three packages:
+Their exact direct and transitive identities and license declarations are
+pinned in `workbench/package-lock.json`. The transitive graph uses MIT, ISC,
+Apache-2.0, BSD-3-Clause, 0BSD, and dual MIT/ISC terms. The following common
+MIT notice applies to the Meta packages listed above:
 
 MIT License
 
@@ -41,12 +65,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-Vite 8.2.1 (MIT), `@vitejs/plugin-react` 6.0.5 (MIT), TypeScript
-7.0.2 (Apache-2.0), and Vitest 4.1.11 (MIT) build and test the workbench but
-are not shipped as executable Node tooling in the Python distributions. Their
-exact direct and transitive identities are pinned by
-`workbench/package-lock.json`; installing them obtains each package under its
-own recorded terms.
+Vite 8.2.1 (MIT), `@vitejs/plugin-react` 6.0.5 (MIT), Tailwind CSS and its
+Vite plugin 4.3.3 (MIT), TypeScript 7.0.2 (Apache-2.0), and Vitest 4.1.11
+(MIT) build and test the workbench but are not shipped as executable Node
+tooling in the Python distributions. Installing build tooling obtains each
+package under its own recorded terms.
 
 The wheel stages four selected project-integration source groups. Seventeen
 independently authored Python files are licensed under Apache-2.0. Two BDD100K

@@ -51,14 +51,17 @@ def _execute(payload: Mapping) -> dict:
         action_kind="inference",
     )
     action = request["request"]
+    max_frames = action.get("max_frames")
     if (
         action.get("workflow") != "inference"
         or action.get("action_id") != "inference"
         or action.get("dataset_split") != "train"
-        or action.get("max_frames") != 2
+        or isinstance(max_frames, bool)
+        or not isinstance(max_frames, int)
+        or not 1 <= max_frames <= 24
         or action.get("device") not in {"auto", "0", "cuda", "cuda:0"}
     ):
-        raise ValueError("BDD100K Modal inference is fixed to two training-split CUDA frames")
+        raise ValueError("BDD100K Modal inference requires an explicit 1–24 frame training-split CUDA bound")
 
     video_asset = asset_by_id(request, "selected-video")
     checkpoint_asset = asset_by_id(request, "memotr-checkpoint")
@@ -99,7 +102,7 @@ def _execute(payload: Mapping) -> dict:
                     checkpoint=str(checkpoint),
                     output_directory=str(output),
                     requested_device="cuda:0",
-                    max_frames=2,
+                    max_frames=max_frames,
                 )
             value = __import__("json").loads(result.read_text(encoding="utf-8"))
             primary = value["results"][0]

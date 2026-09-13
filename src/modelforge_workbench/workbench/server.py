@@ -7,6 +7,7 @@ import os
 import secrets
 import threading
 import webbrowser
+from http.cookies import SimpleCookie
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from importlib.resources import files
@@ -14,12 +15,17 @@ from pathlib import Path, PurePosixPath
 from urllib.parse import parse_qs, unquote, urlparse
 
 from modelforge_workbench.alpha import AlphaWorkbench
+from modelforge_workbench.application.annotations import AnnotationConflictError
+from modelforge_workbench.application.workspace_presentations import system_metrics
 
 
 _SECURITY_HEADERS = {
     "Content-Security-Policy": (
-        "default-src 'self'; script-src 'self'; style-src 'self'; "
-        "img-src 'self' data:; media-src 'self' blob:; connect-src 'self'; "
+        "default-src 'self'; "
+        "script-src 'self' 'sha256-0pPWvtstVsuXWlSi4V0iyl77sE/fECtEOVp4n44YmeM='; "
+        "style-src 'self' 'unsafe-inline'; "
+        "img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; "
+        "font-src 'self' data:; worker-src 'self' blob:; "
         "object-src 'none'; base-uri 'none'; frame-ancestors 'none'"
     ),
     "Referrer-Policy": "no-referrer",
@@ -39,10 +45,25 @@ _CLIENT_CONTENT_TYPES = {
     ".json": "application/json; charset=utf-8",
     ".png": "image/png",
     ".svg": "image/svg+xml",
+    ".ttf": "font/ttf",
     ".webp": "image/webp",
     ".wasm": "application/wasm",
     ".woff": "font/woff",
     ".woff2": "font/woff2",
+}
+
+_CLIENT_PUBLIC_ASSETS = {
+    "/amd-mark.svg",
+    "/favicon.svg",
+    "/github-mark.svg",
+    "/huggingface-mark.svg",
+    "/intel-mark.svg",
+    "/modalitysystems.png",
+    "/nvidia-mark.svg",
+    "/device-renderings/cpu-v2.webp",
+    "/device-renderings/datacenter-v2.webp",
+    "/device-renderings/edge-v2.webp",
+    "/device-renderings/gpu-v2.webp",
 }
 
 
@@ -124,6 +145,12 @@ class _Handler(BaseHTTPRequestHandler):
         self.send_header("Cache-Control", cache_control)
         for name, value in _SECURITY_HEADERS.items():
             self.send_header(name, value)
+        if getattr(self, "_refresh_session_cookie", False):
+            self.send_header(
+                "Set-Cookie",
+                f"modelforge_session={self.server.token}; HttpOnly; SameSite=Strict; Path=/",
+            )
+            self._refresh_session_cookie = False
         if length is not None:
             self.send_header("Content-Length", str(length))
 
@@ -136,9 +163,20 @@ class _Handler(BaseHTTPRequestHandler):
             self._json(HTTPStatus.BAD_REQUEST, {"error": "Invalid loopback host"})
             return False
         expected = f"Bearer {self.server.token}"
-        if not secrets.compare_digest(self.headers.get("Authorization", ""), expected):
+        header_valid = secrets.compare_digest(self.headers.get("Authorization", ""), expected)
+        cookie = SimpleCookie()
+        try:
+            cookie.load(self.headers.get("Cookie", ""))
+            supplied_cookie = cookie.get("modelforge_session")
+            cookie_value = supplied_cookie.value if supplied_cookie else ""
+        except Exception:
+            cookie_value = ""
+        cookie_valid = bool(cookie_value) and secrets.compare_digest(cookie_value, self.server.token)
+        if not header_valid and not cookie_valid:
             self._json(HTTPStatus.UNAUTHORIZED, {"error": "Local session token required"})
             return False
+        if header_valid:
+            self._refresh_session_cookie = True
         if mutation:
             origin = self.headers.get("Origin")
             port = self.server.server_address[1]
@@ -226,6 +264,14 @@ class _Handler(BaseHTTPRequestHandler):
                 return
             self._json(HTTPStatus.NOT_FOUND, {"error": "Client asset was not found"})
             return
+        if route in _CLIENT_PUBLIC_ASSETS:
+            relative = route.removeprefix("/")
+            suffix = PurePosixPath(relative).suffix.lower()
+            self._static(
+                *_CLIENT_ROOT, *PurePosixPath(relative).parts,
+                content_type=_CLIENT_CONTENT_TYPES[suffix], immutable=True,
+            )
+            return
         if not self._authorized():
             return
         if route == "/api/v1/project":
@@ -237,11 +283,95 @@ class _Handler(BaseHTTPRequestHandler):
         if route == "/api/v1/providers/modal":
             self._json(HTTPStatus.OK, _modal_provider_status())
             return
+        if route == "/api/v1/system/metrics":
+            modal = _modal_provider_status()
+            self._json(HTTPStatus.OK, system_metrics(modal))
+            return
+        if route == "/api/v1/assistant/status":
+            self._json(HTTPStatus.OK, self.server.app.assistant_status())
+            return
         if route == "/api/v1/runs":
             project_id = parse_qs(parsed.query).get("project_id", [None])[0]
             self._json(HTTPStatus.OK, {"runs": self.server.app.list_runs(project_id)})
             return
         parts = [part for part in route.split("/") if part]
+        if (
+            len(parts) == 5 and parts[:3] == ["api", "v1", "projects"]
+            and parts[4] in {"overview", "source", "git", "architecture"}
+        ):
+            try:
+                if parts[4] == "overview":
+                    value = self.server.app.project_overview(parts[3])
+                elif parts[4] == "source":
+                    value = self.server.app.project_source(
+                        parts[3], parse_qs(parsed.query).get("path", [""])[0],
+                    )
+                elif parts[4] == "git":
+                    value = self.server.app.project_git_status(parts[3])
+                else:
+                    value = self.server.app.project_architecture(parts[3])
+                self._json(HTTPStatus.OK, value)
+            except KeyError:
+                self._json(HTTPStatus.NOT_FOUND, {"error": "Project was not found"})
+            except (OSError, RuntimeError, ValueError) as exc:
+                self._json(HTTPStatus.BAD_REQUEST, {"error": str(exc)[:300]})
+            return
+        if (
+            len(parts) == 6 and parts[:3] == ["api", "v1", "projects"]
+            and parts[4:] == ["source", "file"]
+        ):
+            try:
+                value = self.server.app.project_source_file(
+                    parts[3], parse_qs(parsed.query).get("path", [""])[0],
+                )
+                self._json(HTTPStatus.OK, value)
+            except KeyError:
+                self._json(HTTPStatus.NOT_FOUND, {"error": "Project or source file was not found"})
+            except (OSError, RuntimeError, ValueError) as exc:
+                self._json(HTTPStatus.BAD_REQUEST, {"error": str(exc)[:300]})
+            return
+        if (
+            len(parts) == 6 and parts[:3] == ["api", "v1", "projects"]
+            and parts[4:] == ["assistant", "history"]
+        ):
+            try:
+                self._json(HTTPStatus.OK, self.server.app.assistant_history(parts[3]))
+            except KeyError:
+                self._json(HTTPStatus.NOT_FOUND, {"error": "Project was not found"})
+            except (OSError, ValueError, json.JSONDecodeError) as exc:
+                self._json(HTTPStatus.BAD_REQUEST, {"error": str(exc)[:300]})
+            return
+        if (
+            len(parts) == 7 and parts[:3] == ["api", "v1", "projects"]
+            and parts[4:7] == ["assistant", "runs", "active"]
+        ):
+            try:
+                query = parse_qs(parsed.query)
+                run = self.server.app.active_assistant_run(
+                    parts[3], query.get("session_id", [""])[0],
+                    since=max(0, int(query.get("since", ["0"])[0])),
+                )
+                self._json(HTTPStatus.OK, {"run": run})
+            except (KeyError, OSError, ValueError, json.JSONDecodeError) as exc:
+                self._json(HTTPStatus.BAD_REQUEST, {"error": str(exc)[:300]})
+            return
+        if (
+            len(parts) == 7 and parts[:3] == ["api", "v1", "projects"]
+            and parts[4:6] == ["assistant", "runs"]
+        ):
+            try:
+                query = parse_qs(parsed.query)
+                run = self.server.app.assistant_run(
+                    parts[3], query.get("session_id", [""])[0], parts[6],
+                    query.get("request_id", [""])[0],
+                    since=max(0, int(query.get("since", ["0"])[0])),
+                )
+                self._json(HTTPStatus.OK, {"run": run})
+            except KeyError:
+                self._json(HTTPStatus.NOT_FOUND, {"error": "Assistant run was not found"})
+            except (OSError, ValueError, json.JSONDecodeError) as exc:
+                self._json(HTTPStatus.BAD_REQUEST, {"error": str(exc)[:300]})
+            return
         if len(parts) == 4 and parts[:3] == ["api", "v1", "projects"]:
             try:
                 self._json(HTTPStatus.OK, self.server.app.project(parts[3]))
@@ -270,6 +400,39 @@ class _Handler(BaseHTTPRequestHandler):
                 self._file(sample.path, sample.content_type, sample.size_bytes, sample.path.name)
             except (KeyError, OSError, ValueError):
                 self._json(HTTPStatus.NOT_FOUND, {"error": "Sample was not found or changed"})
+            return
+        if (
+            len(parts) == 10 and parts[:3] == ["api", "v1", "projects"]
+            and parts[4] == "datasets" and parts[6:8] == ["samples", "index"]
+            and parts[9] == "content"
+        ):
+            try:
+                index = int(parts[8])
+                if index < 1:
+                    raise ValueError("Sample index must be positive")
+                page = self.server.app.list_samples(
+                    parts[3], parts[5], cursor=index - 1, limit=1,
+                )
+                if not page["samples"]:
+                    raise KeyError("Sample index is outside the registered catalog")
+                sample = self.server.app.open_sample(
+                    parts[3], parts[5], page["samples"][0]["id"],
+                )
+                self._file(sample.path, sample.content_type, sample.size_bytes, sample.path.name)
+            except (KeyError, OSError, ValueError):
+                self._json(HTTPStatus.NOT_FOUND, {"error": "Sample was not found or changed"})
+            return
+        if (
+            len(parts) == 9 and parts[:3] == ["api", "v1", "projects"]
+            and parts[4] == "datasets" and parts[6] == "samples"
+            and parts[8] == "annotations"
+        ):
+            try:
+                self._json(HTTPStatus.OK, self.server.app.get_annotation(
+                    parts[3], parts[5], parts[7],
+                ))
+            except (KeyError, OSError, ValueError, json.JSONDecodeError) as exc:
+                self._json(HTTPStatus.BAD_REQUEST, {"error": str(exc)[:300]})
             return
         if len(parts) == 4 and parts[:3] == ["api", "v1", "runs"]:
             try:
@@ -337,6 +500,12 @@ class _Handler(BaseHTTPRequestHandler):
         route = urlparse(self.path).path
         if not self._authorized(mutation=True):
             return
+        if route == "/api/v1/assistant/account/login":
+            try:
+                self._json(HTTPStatus.OK, self.server.app.begin_assistant_login())
+            except (OSError, RuntimeError, ValueError) as exc:
+                self._json(HTTPStatus.BAD_REQUEST, {"error": str(exc)[:300]})
+            return
         if route == "/api/v1/example-runs":
             try:
                 execution = self.server.app.start_example()
@@ -359,12 +528,63 @@ class _Handler(BaseHTTPRequestHandler):
             return
         parts = [part for part in route.split("/") if part]
         if (
+            len(parts) == 6 and parts[:3] == ["api", "v1", "projects"]
+            and parts[4:] == ["assistant", "runs"]
+        ):
+            try:
+                payload = self._body()
+                run = self.server.app.start_assistant(
+                    parts[3], session_id=payload.get("session_id"),
+                    request_id=str(payload.get("request_id") or ""),
+                    message=str(payload.get("message") or ""),
+                )
+                self._json(HTTPStatus.ACCEPTED, {"run": run})
+            except (KeyError, OSError, RuntimeError, ValueError, json.JSONDecodeError) as exc:
+                self._json(HTTPStatus.BAD_REQUEST, {"error": str(exc)[:300]})
+            return
+        if (
+            len(parts) == 8 and parts[:3] == ["api", "v1", "projects"]
+            and parts[4:6] == ["assistant", "runs"] and parts[7] == "cancel"
+        ):
+            try:
+                payload = self._body()
+                run = self.server.app.cancel_assistant_run(
+                    parts[3], str(payload.get("session_id") or ""), parts[6],
+                    str(payload.get("request_id") or ""),
+                )
+                self._json(HTTPStatus.OK, {"run": run})
+            except KeyError:
+                self._json(HTTPStatus.NOT_FOUND, {"error": "Assistant run was not found"})
+            except (OSError, RuntimeError, ValueError, json.JSONDecodeError) as exc:
+                self._json(HTTPStatus.BAD_REQUEST, {"error": str(exc)[:300]})
+            return
+        if (
+            len(parts) == 9 and parts[:3] == ["api", "v1", "projects"]
+            and parts[4] == "datasets" and parts[6] == "samples"
+            and parts[8] == "annotations"
+        ):
+            try:
+                value = self.server.app.save_annotation(
+                    parts[3], parts[5], parts[7], self._body(),
+                )
+            except AnnotationConflictError as exc:
+                self._json(HTTPStatus.CONFLICT, {"error": str(exc)[:300]})
+                return
+            except (KeyError, OSError, ValueError, json.JSONDecodeError) as exc:
+                self._json(HTTPStatus.BAD_REQUEST, {"error": str(exc)[:300]})
+                return
+            self._json(HTTPStatus.OK, value)
+            return
+        if (
             len(parts) == 7 and parts[:3] == ["api", "v1", "projects"]
             and parts[4] == "actions" and parts[6] == "runs"
         ):
             try:
                 project = self.server.app.project(parts[3])
-                if project["action"]["id"] != parts[5]:
+                if not any(
+                    action["id"] == parts[5]
+                    for action in project.get("actions") or (project["action"],)
+                ):
                     raise ValueError("Action is not registered for this project")
                 payload = self._body()
                 if parts[3] == self.server.app.capabilities()["project_id"]:
@@ -376,7 +596,9 @@ class _Handler(BaseHTTPRequestHandler):
                     execution = self.server.app.start_example()
                     finish_action = self.server.app.finish_example
                 else:
-                    execution = self.server.app.start_project_action(parts[3], payload)
+                    execution = self.server.app.start_project_action(
+                        parts[3], payload, action_id=parts[5],
+                    )
                     finish_action = self.server.app.finish_project_action
             except (KeyError, OSError, RuntimeError, ValueError, json.JSONDecodeError) as exc:
                 self._json(HTTPStatus.BAD_REQUEST, {"error": str(exc)[:300]})

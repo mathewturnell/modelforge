@@ -12,10 +12,73 @@ import threading
 from pathlib import Path
 
 from modelforge_workbench.alpha import AlphaWorkbench
+from modelforge_workbench.application.project_assistant import LocalProjectAssistantService
 from modelforge_workbench.workbench.server import _Server
 
 
 TOKEN = "public-browser-fixture-token"
+
+
+class BrowserFixtureCodex:
+    """Protocol fixture for browser qualification; it never enters the product."""
+
+    installed = True
+
+    def __init__(self) -> None:
+        self.listeners = {}
+        self.next_listener = 1
+
+    def account(self):
+        return {"account": {"type": "chatgpt", "email": "browser-fixture@example.test", "planType": "pro"}}
+
+    def begin_chatgpt_login(self):
+        return {"login_id": "browser-login", "auth_url": "https://auth.openai.com/browser-fixture"}
+
+    def add_listener(self, listener):
+        identity = self.next_listener
+        self.next_listener += 1
+        self.listeners[identity] = listener
+        return identity
+
+    def remove_listener(self, identity):
+        self.listeners.pop(identity, None)
+
+    def request(self, method, params=None, **_kwargs):
+        params = params or {}
+        if method == "thread/start":
+            return {"thread": {"id": "browser-thread"}}
+        if method == "thread/resume":
+            return {"thread": {"id": params["threadId"]}}
+        if method == "turn/start":
+            turn_id = "browser-turn"
+            answer = (
+                "## Authenticated Codex provider\n\n"
+                "This compiled journey reached the Codex App Server adapter with the exact "
+                "selected project and retained the provider answer in durable ModelForge history."
+            )
+            for listener in tuple(self.listeners.values()):
+                listener({
+                    "method": "item/reasoning/summaryTextDelta",
+                    "params": {"threadId": "browser-thread", "turnId": turn_id,
+                               "itemId": "reason", "delta": "Inspecting selected project evidence."},
+                })
+                listener({
+                    "method": "turn/completed",
+                    "params": {"threadId": "browser-thread", "turn": {
+                        "id": turn_id, "status": "completed", "items": [{
+                            "id": "answer", "type": "agentMessage", "phase": "final_answer",
+                            "text": answer,
+                        }],
+                    }},
+                })
+            return {"turn": {"id": turn_id, "status": "inProgress", "items": []}}
+        if method == "turn/interrupt":
+            return {}
+        raise RuntimeError(f"Unsupported browser Codex fixture method: {method}")
+
+    def close(self):
+        return None
+
 VIDEO = base64.b64decode(
     "AAAAIGZ0eXBpc29tAAACAGlzb21pc28yYXZjMW1wNDEAAAPWbW9vdgAAAGxtdmhkAAAAAAAAAAAAAAAAAAAD6AAAAggAAQAAAQAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAwF0cmFrAAAAXHRraGQAAAADAAAAAAAAAAAAAAABAAAAAAAAAggAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAAKAAAABaAAAAAAAkZWR0cwAAABxlbHN0AAAAAAAAAAEAAAIIAAAEAAABAAAAAAJ5bWRpYQAAACBtZGhkAAAAAAAAAAAAAAAAAAAyAAAAGgBVxAAAAAAALWhkbHIAAAAAAAAAAHZpZGUAAAAAAAAAAAAAAABWaWRlb0hhbmRsZXIAAAACJG1pbmYAAAAUdm1oZAAAAAEAAAAAAAAAAAAAACRkaW5mAAAAHGRyZWYAAAAAAAAAAQAAAAx1cmwgAAAAAQAAAeRzdGJsAAAAwHN0c2QAAAAAAAAAAQAAALBhdmMxAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAKAAWgBIAAAASAAAAAAAAAABFUxhdmM2Mi4xMS4xMDAgbGlieDI2NAAAAAAAAAAAAAAAGP//AAAANmF2Y0MBZAAL/+EAGWdkAAus2UKN+TARAAADAAEAAAMAMg8UKZYBAAZo6+PLIsD9+PgAAAAAEHBhc3AAAAABAAAAAQAAABRidHJ0AAAAAAAANkQAAAAAAAAAGHN0dHMAAAAAAAAAAQAAAA0AAAIAAAAAFHN0c3MAAAAAAAAAAQAAAAEAAAB4Y3R0cwAAAAAAAAANAAAAAQAABAAAAAABAAAKAAAAAAEAAAQAAAAAAQAAAAAAAAABAAACAAAAAAEAAAoAAAAAAQAABAAAAAABAAAAAAAAAAEAAAIAAAAAAQAACgAAAAABAAAEAAAAAAEAAAAAAAAAAQAAAgAAAAAcc3RzYwAAAAAAAAABAAAAAQAAAA0AAAABAAAASHN0c3oAAAAAAAAAAAAAAA0AAALbAAAADwAAAA0AAAAMAAAADAAAABUAAAAPAAAADAAAAAwAAAAVAAAADwAAAAwAAAAMAAAAFHN0Y28AAAAAAAAAAQAABAYAAABhdWR0YQAAAFltZXRhAAAAAAAAACFoZGxyAAAAAAAAAABtZGlyYXBwbAAAAAAAAAAAAAAAACxpbHN0AAAAJKl0b28AAAAcZGF0YQAAAAEAAAAATGF2ZjYyLjMuMTAwAAAACGZyZWUAAAOPbWRhdAAAAqAGBf//nNxF6b3m2Ui3lizYINkj7u94MjY0IC0gY29yZSAxNjUgLSBILjI2NC9NUEVHLTQgQVZDIGNvZGVjIC0gQ29weWxlZnQgMjAwMy0yMDI1IC0gaHR0cDovL3d3dy52aWRlb2xhbi5vcmcveDI2NC5odG1sIC0gb3B0aW9uczogY2FiYWM9MSByZWY9MyBkZWJsb2NrPTE6MDowIGFuYWx5c2U9MHgzOjB4MTEzIG1lPWhleCBzdWJtZT03IHBzeT0xIHBzeV9yZD0xLjAwOjAuMDAgbWl4ZWRfcmVmPTEgbWVfcmFuZ2U9MTYgY2hyb21hX21lPTEgdHJlbGxpcz0xIDh4OGRjdD0xIGNxbT0wIGRlYWR6b25lPTIxLDExIGZhc3RfcHNraXA9MSBjaHJvbWFfcXBfb2Zmc2V0PS0yIHRocmVhZHM9MyBsb29rYWhlYWRfdGhyZWFkcz0xIHNsaWNlZF90aHJlYWRzPTAgbnI9MCBkZWNpbWF0ZT0wIGludGVybGFjZWQ9MCBibHVyYXlfY29tcGF0PTAgY29uc3RyYWluZWRfaW50cmE9MCBiZnJhbWVzPTMgYl9weXJhbWlkPTIgYl9hZGFwdD0xIGJfYmlhcz0wIGRpcmVjdD0xIHdlaWdodGI9MSBvcGVuX2dvcD0wIHdlaWdodHA9MiBrZXlpbnQ9MjUwIGtleWludF9taW49MjUgc2NlbmVjdXQ9NDAgaW50cmFfcmVzaD0wIHJjX2xvb2thaGVhZD00MCByYz1jcmYgbWJ0cmVlPTEgY3JmPTIzLjAgcWNvbXA9MC42MCBxcG1pbj0wIHFwbWF4PTY5IHFwc3RlcD00IGlwX3JhdGlvPTEuNDAgYXE9MToxLjAwAIAAAAAzZYiEADv//uOr+BTEWCcnJxOfNDRjT88Ul2zyEzccsFUPz6rlbvBltktL8gDIAAXkH/+RAAAAC0GaJGxDf/6nhAHHAAAACUGeQniF/wDzgQAAAAgBnmF0Qr8BUwAAAAgBnmNqQr8BUwAAABFBmmhJqEFomUwIZ//+nhAGzQAAAAtBnoZFESwv/wDzgQAAAAgBnqV0Qr8BUwAAAAgBnqdqQr8BUwAAABFBmqxJqEFsmUwIV//+OEAaMAAAAAtBnspFFSwv/wDzgQAAAAgBnul0Qr8BUwAAAAgBnutqQr8BUw=="
 )
@@ -71,7 +134,49 @@ def digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def authored_manifest(project_id: str, name: str, action_id: str, interface: str, protocol: str) -> dict:
+def action(
+    worker: Path, repository: Path, *, action_id: str, kind: str,
+    fixture_kind: str, display_name: str,
+) -> dict:
+    interface, protocol = {
+        "training": ("training_process", "modelforge.training-result/v1"),
+        "inference": ("inference_process", "modelforge.inference-result/v1"),
+        "prompt": ("prompt_process", "modelforge.prompt-result/v1"),
+    }[kind]
+    if kind == "prompt":
+        arguments = [
+            "--task", "prompt", "--request", "{request}", "--output", "{output}",
+            "--fixture-kind", fixture_kind,
+        ]
+    elif kind == "training":
+        arguments = [
+            "--task", "training", "--request", "{request}",
+            "--dataset-root", "{dataset_root}", "--output-dir", "{output}",
+            "--fixture-kind", fixture_kind,
+        ]
+    else:
+        arguments = [
+            "--task", "inference", "--dataset-root", "{dataset_root}",
+            "--artifact", "{artifact}", "--checkpoint", "{checkpoint}",
+            "--output-dir", "{output}", "--device", "{device}",
+            "--max-frames", "{max_frames}", "--fixture-kind", fixture_kind,
+        ]
+    return {
+        "id": action_id,
+        "kind": kind,
+        "interface": interface,
+        "display_name": display_name,
+        "result_protocol": protocol,
+        "interpreter": sys.executable,
+        "executable": str(worker),
+        "working_directory": str(repository),
+        "arguments": arguments,
+        "environment": {},
+        "parameters": {"device": "cpu", "max_frames": 1} if kind == "inference" else {},
+    }
+
+
+def authored_manifest(project_id: str, name: str, actions: list[dict]) -> dict:
     return {
         "schema_version": 1,
         "id": project_id,
@@ -79,199 +184,183 @@ def authored_manifest(project_id: str, name: str, action_id: str, interface: str
         "repository": ".",
         "runtime": {
             "protocol": "modelforge.project-runtime/v1",
-            "actions": {action_id: {
-                "kind": "executable",
-                "interface": interface,
-                "executable": "managed_worker.py",
-                "result_contract": {"protocol": protocol},
-            }},
+            "actions": {
+                item["id"]: {
+                    "kind": "executable",
+                    "interface": item["interface"],
+                    "executable": "managed_worker.py",
+                    "result_contract": {"protocol": item["result_protocol"]},
+                }
+                for item in actions
+            },
         },
     }
 
 
-def configure_projects(
-    app: AlphaWorkbench, root: Path, worker: Path, *, documentation: bool = False,
-) -> None:
-    root.mkdir(mode=0o700, parents=True, exist_ok=True)
-    vision = root / "vision-project"
-    prompt = root / "prompt-project"
-    dataset = root / "dataset"
-    for directory in (vision, prompt, dataset):
-        directory.mkdir(mode=0o700, exist_ok=True)
-    vision_id = "bdd100k-docs-fixture" if documentation else "vision-fixture"
-    vision_name = (
-        "BDD100K Road Scene Lab · synthetic docs fixture"
-        if documentation else "Synthetic Vision Lab"
-    )
-    prompt_id = "qwen-docs-fixture" if documentation else "prompt-fixture"
-    prompt_name = (
-        "Qwen2.5-7B Prompt Lab · synthetic docs fixture"
-        if documentation else "Synthetic Prompt Lab"
-    )
-    write_json(vision / "project.json", authored_manifest(
-        vision_id, vision_name, "inference", "inference_process",
-        "modelforge.inference-result/v1",
-    ))
-    write_json(prompt / "project.json", authored_manifest(
-        prompt_id, prompt_name, "prompt", "prompt_process",
-        "modelforge.prompt-result/v1",
-    ))
-    samples = []
-    for mode in ("success", "cancel", "failure", "invalid"):
-        sample = dataset / f"{mode}.mp4"
-        sample.write_bytes(
-            (DOCUMENTATION_VIDEO if documentation else VIDEO) + mode.encode("ascii")
+def svg_sample(kind: str, caption: str) -> str:
+    if kind == "bdd100k":
+        scene = (
+            '<rect width="640" height="360" fill="#172337"/>'
+            '<rect y="210" width="640" height="150" fill="#282c32"/>'
+            '<path d="M280 210 200 360M360 210l80 150" stroke="#f6f7f8" stroke-width="5"/>'
+            '<rect x="348" y="190" width="118" height="76" fill="#3c81c3"/>'
+            '<rect x="344" y="186" width="126" height="84" fill="none" stroke="#76b900" stroke-width="4"/>'
+            '<text x="344" y="180" fill="#76b900" font-size="16">car 0.94</text>'
         )
-        samples.append({
-            "id": mode,
-            "name": f"{mode.title()} synthetic clip",
-            "path": sample.name,
-            "split": "train",
-            "content_type": "video/mp4",
-            "size_bytes": sample.stat().st_size,
-            "sha256": digest(sample),
-        })
-    checkpoint = root / "checkpoint.bin"
-    checkpoint.write_bytes(b"public browser fixture checkpoint\n")
-    vision_config = {
-        "protocol": "modelforge.local-runtime-configuration/v1",
-        "id": vision_id,
-        "project_repository": str(vision),
-        "name": vision_name,
-        "description": (
-            "Safe authored media exercising the current BDD100K-shaped workflow; "
-            "no dataset, checkpoint, or model is loaded."
-            if documentation else
-            "Redistributable tracked-video-shaped fixture; no model is loaded."
-        ),
-        "support_level": "conformance-fixture",
-        "action": {
-            "id": "inference",
-            "kind": "inference",
-            "interface": "inference_process",
-            "display_name": "Run synthetic vision fixture",
-            "result_protocol": "modelforge.inference-result/v1",
-            "interpreter": sys.executable,
-            "executable": str(worker),
-            "working_directory": str(vision),
-            "arguments": ["--dataset-root", "{dataset_root}", "--artifact", "{artifact}", "--checkpoint", "{checkpoint}", "--output-dir", "{output}", "--device", "{device}", "--max-frames", "{max_frames}"],
-            "environment": {},
-            "parameters": {"device": "cpu", "max_frames": 1},
-        },
-        "dataset": {"id": "clips", "name": "Synthetic clips", "root": str(dataset), "samples": samples},
-        "bindings": {"checkpoint": {"id": "fixture-checkpoint", "path": str(checkpoint), "sha256": digest(checkpoint)}},
-    }
-    model = root / "fake-model"
-    model.mkdir(mode=0o700, exist_ok=True)
-    prompt_config = {
-        "protocol": "modelforge.local-runtime-configuration/v1",
-        "id": prompt_id,
-        "project_repository": str(prompt),
-        "name": prompt_name,
-        "description": (
-            "Safe authored prompts exercising the current Qwen-shaped workflow; "
-            "no model or provider is loaded."
-            if documentation else
-            "Redistributable prompt-shaped fixture; no model is loaded."
-        ),
-        "support_level": "conformance-fixture",
-        "action": {
-            "id": "prompt",
-            "kind": "prompt",
-            "interface": "prompt_process",
-            "display_name": "Run synthetic prompt fixture",
-            "result_protocol": "modelforge.prompt-result/v1",
-            "interpreter": sys.executable,
-            "executable": str(worker),
-            "working_directory": str(prompt),
-            "arguments": ["--request", "{request}", "--output", "{output}"],
-            "environment": {},
-            "parameters": {},
-        },
-        "bindings": {"model": {"path": str(model), "model_id": "fixture/model", "revision": "fixture-revision"}},
-    }
-    for name, value in (("vision.json", vision_config), ("prompt.json", prompt_config)):
-        config = root / name
-        write_json(config, value)
-        app.register_project(config)
-
-    if documentation:
-        taste = root / "tastematch-project"
-        taste.mkdir(mode=0o700, exist_ok=True)
-        taste_id = "tastematch-docs-fixture"
-        taste_name = "TasteMatch · synthetic docs fixture"
-        write_json(taste / "project.json", authored_manifest(
-            taste_id, taste_name, "inference", "inference_process",
-            "modelforge.inference-result/v1",
-        ))
-        image = dataset / "authored-food-plate.svg"
-        image.write_text(
-            '<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" '
-            'viewBox="0 0 640 360"><rect width="640" height="360" fill="#171b18"/>'
+    else:
+        scene = (
+            '<rect width="640" height="360" fill="#171b18"/>'
             '<circle cx="320" cy="180" r="135" fill="#e8ece6"/>'
             '<circle cx="320" cy="180" r="105" fill="#d96c3f"/>'
             '<circle cx="275" cy="145" r="22" fill="#f2d36b"/>'
             '<circle cx="365" cy="205" r="28" fill="#f2d36b"/>'
             '<path d="M255 235c45-65 90-65 130 0" fill="none" stroke="#57962a" '
             'stroke-width="18" stroke-linecap="round"/>'
-            '<text x="320" y="335" text-anchor="middle" fill="#c9cdd3" '
-            'font-family="ui-sans-serif,system-ui,sans-serif" font-size="20">'
-            'authored documentation image</text></svg>',
-            encoding="utf-8",
         )
-        taste_config = {
-            "protocol": "modelforge.local-runtime-configuration/v1",
-            "id": taste_id,
-            "project_repository": str(taste),
-            "name": taste_name,
-            "description": (
-                "Safe authored image and scores exercising the current base-SigLIP "
-                "table workflow; no dataset, model, or trained adapter is loaded."
-            ),
-            "support_level": "conformance-fixture",
-            "action": {
-                "id": "inference",
-                "kind": "inference",
-                "interface": "inference_process",
-                "display_name": "Run synthetic base-SigLIP fixture",
-                "result_protocol": "modelforge.inference-result/v1",
-                "interpreter": sys.executable,
-                "executable": str(worker),
-                "working_directory": str(taste),
-                "arguments": [
-                    "--dataset-root", "{dataset_root}", "--artifact", "{artifact}",
-                    "--checkpoint", "{checkpoint}", "--output-dir", "{output}",
-                    "--device", "{device}", "--max-frames", "{max_frames}",
-                    "--fixture-kind", "table",
-                ],
-                "environment": {},
-                "parameters": {"device": "cpu", "max_frames": 1},
+    return (
+        '<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" '
+        f'viewBox="0 0 640 360">{scene}<text x="320" y="338" text-anchor="middle" '
+        'fill="#c9cdd3" font-family="ui-sans-serif,system-ui,sans-serif" '
+        f'font-size="17">{caption}</text></svg>'
+    )
+
+
+def sample_record(path: Path, sample_id: str, name: str, content_type: str) -> dict:
+    return {
+        "id": sample_id,
+        "name": name,
+        "path": path.name,
+        "split": "train",
+        "content_type": content_type,
+        "size_bytes": path.stat().st_size,
+        "sha256": digest(path),
+    }
+
+
+def configure_reference_project(
+    app: AlphaWorkbench, root: Path, worker: Path, *, key: str, name: str,
+    fixture_kind: str, documentation: bool,
+) -> None:
+    repository = root / f"{key}-project"
+    dataset_root = root / f"{key}-dataset"
+    repository.mkdir(mode=0o700, exist_ok=True)
+    dataset_root.mkdir(mode=0o700, exist_ok=True)
+    project_id = f"{key}-docs-fixture" if documentation else f"{key}-conformance-fixture"
+    display_name = f"{name} · synthetic {'docs' if documentation else 'conformance'} fixture"
+
+    if fixture_kind == "soccernet":
+        sample = dataset_root / "success.mp4"
+        sample.write_bytes((DOCUMENTATION_VIDEO if documentation else VIDEO) + key.encode("ascii"))
+        samples = [sample_record(sample, "success", "Authored match clip", "video/mp4")]
+        dataset_name = "Authored match clips"
+    elif fixture_kind == "bdd100k" and documentation:
+        sample = dataset_root / "success.mp4"
+        sample.write_bytes(DOCUMENTATION_VIDEO + b"bdd100k")
+        samples = [sample_record(sample, "success", "Success synthetic clip", "video/mp4")]
+        dataset_name = "Synthetic clips"
+    elif fixture_kind == "qwen":
+        sample = dataset_root / "conversation.json"
+        write_json(sample, {
+            "messages": [
+                {"role": "user", "content": "Why keep experiment evidence attached to a run?"},
+                {"role": "assistant", "content": "So results remain reviewable and reproducible."},
+            ],
+            "synthetic": True,
+        })
+        samples = [sample_record(sample, "conversation", "Authored conversation", "application/json")]
+        dataset_name = "Authored conversations"
+    else:
+        filename = "road-scene.svg" if fixture_kind == "bdd100k" else "food-plate.svg"
+        sample = dataset_root / filename
+        sample.write_text(svg_sample(fixture_kind, f"authored {name} conformance sample"), encoding="utf-8")
+        sample_id = "road-scene" if fixture_kind == "bdd100k" else "food-plate"
+        sample_name = "Authored road scene" if fixture_kind == "bdd100k" else "Authored food plate"
+        samples = [sample_record(sample, sample_id, sample_name, "image/svg+xml")]
+        dataset_name = "Authored road scenes" if fixture_kind == "bdd100k" else "Authored food images"
+
+    if fixture_kind == "bdd100k":
+        for mode in ("cancel", "failure", "invalid"):
+            mode_path = dataset_root / f"{mode}.mp4"
+            mode_path.write_bytes(VIDEO + mode.encode("ascii"))
+            samples.append(sample_record(
+                mode_path, mode, f"{mode.title()} synthetic clip", "video/mp4",
+            ))
+
+    checkpoint = repository / "fixture-checkpoint.bin"
+    checkpoint.write_bytes(f"{key} deterministic conformance checkpoint\n".encode())
+    model = repository / "fixture-model"
+    model.mkdir(mode=0o700, exist_ok=True)
+
+    training = action(
+        worker, repository, action_id="training", kind="training",
+        fixture_kind=fixture_kind, display_name=f"Train synthetic {name} adapter",
+    )
+    inference_kind = "prompt" if fixture_kind == "qwen" else "inference"
+    inference_id = "prompt" if fixture_kind == "qwen" else "inference"
+    inference_label = {
+        "bdd100k": "Run synthetic vision fixture",
+        "soccernet": "Run synthetic SoccerNet inference",
+        "tastematch": "Run synthetic base-SigLIP fixture",
+        "qwen": "Run synthetic prompt fixture",
+    }[fixture_kind]
+    inference = action(
+        worker, repository, action_id=inference_id, kind=inference_kind,
+        fixture_kind=fixture_kind, display_name=inference_label,
+    )
+    actions = [training, inference]
+    write_json(repository / "project.json", authored_manifest(project_id, display_name, actions))
+    config = {
+        "protocol": "modelforge.local-runtime-configuration/v1",
+        "id": project_id,
+        "project_repository": str(repository),
+        "name": display_name,
+        "description": (
+            f"Deterministic, redistributable {name}-shaped workflow exercising the public "
+            "dataset, annotation, training, and inference contracts. No upstream dataset, "
+            "model, checkpoint, provider, or quality claim is used."
+        ),
+        "support_level": "conformance-fixture",
+        # `action` keeps old clients usable; `actions` is the multi-action contract.
+        "action": inference,
+        "actions": actions,
+        "dataset": {
+            "id": "conformance-data",
+            "name": dataset_name,
+            "root": str(dataset_root),
+            "samples": samples,
+        },
+        "bindings": {
+            "checkpoint": {
+                "id": f"{key}-fixture-checkpoint",
+                "path": str(checkpoint),
+                "sha256": digest(checkpoint),
             },
-            "dataset": {
-                "id": "images",
-                "name": "Authored documentation images",
-                "root": str(dataset),
-                "samples": [{
-                    "id": "food-plate",
-                    "name": "Authored food plate",
-                    "path": image.name,
-                    "split": "documentation",
-                    "content_type": "image/svg+xml",
-                    "size_bytes": image.stat().st_size,
-                    "sha256": digest(image),
-                }],
+            "model": {
+                "path": str(model),
+                "model_id": f"fixture/{key}",
+                "revision": "synthetic-conformance-v1",
             },
-            "bindings": {
-                "checkpoint": {
-                    "id": "fixture-checkpoint",
-                    "path": str(checkpoint),
-                    "sha256": digest(checkpoint),
-                },
-            },
-        }
-        taste_config_path = root / "tastematch.json"
-        write_json(taste_config_path, taste_config)
-        app.register_project(taste_config_path)
+        },
+    }
+    config_path = root / f"{key}.json"
+    write_json(config_path, config)
+    app.register_project(config_path)
+
+
+def configure_projects(
+    app: AlphaWorkbench, root: Path, worker: Path, *, documentation: bool = False,
+) -> None:
+    root.mkdir(mode=0o700, parents=True, exist_ok=True)
+    for key, name, fixture_kind in (
+        ("bdd100k", "BDD100K Road Scene Lab", "bdd100k"),
+        ("soccernet", "SoccerNet Match Intelligence", "soccernet"),
+        ("tastematch", "TasteMatch", "tastematch"),
+        ("qwen", "Qwen2.5-7B Prompt Lab", "qwen"),
+    ):
+        configure_reference_project(
+            app, root, worker, key=key, name=name,
+            fixture_kind=fixture_kind, documentation=documentation,
+        )
 
 
 def main() -> None:
@@ -283,6 +372,9 @@ def main() -> None:
     )
     args = parser.parse_args()
     app = AlphaWorkbench(args.state_root)
+    app.assistant = LocalProjectAssistantService(
+        args.state_root, provider=BrowserFixtureCodex(),
+    )
     if args.mode in {"full", "documentation"}:
         configure_projects(
             app,

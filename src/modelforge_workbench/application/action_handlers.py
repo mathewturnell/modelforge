@@ -7,6 +7,7 @@ register artifacts.
 
 from __future__ import annotations
 
+import math
 import re
 from dataclasses import dataclass
 from types import MappingProxyType
@@ -132,6 +133,22 @@ class InferenceActionHandler(ActionHandler):
             digest = str(result.get("sha256") or "").casefold()
             if not path or "/" in path or "\\" in path or not re.fullmatch(r"[a-f0-9]{64}", digest):
                 raise ValueError("Inference result artifact identity is invalid")
+            if str(result.get("kind") or "").strip().casefold() == "video" and any(
+                field in result for field in ("frames", "fps", "duration_seconds")
+            ):
+                frames = result.get("frames")
+                fps = result.get("fps")
+                duration = result.get("duration_seconds")
+                if (
+                    isinstance(frames, bool) or not isinstance(frames, int)
+                    or not 1 <= frames <= 10_000_000
+                    or isinstance(fps, bool) or not isinstance(fps, (int, float))
+                    or not math.isfinite(float(fps)) or not 0 < float(fps) <= 1_000
+                    or isinstance(duration, bool) or not isinstance(duration, (int, float))
+                    or not math.isfinite(float(duration)) or not 0 < float(duration) <= 604_800
+                    or abs(float(duration) - frames / float(fps)) > max(.05, 1 / float(fps))
+                ):
+                    raise ValueError("Inference video media metadata is invalid or inconsistent")
         for name in ("input_artifact", "model_artifact"):
             identity = value.get(name)
             if identity is None:
