@@ -141,14 +141,14 @@
       "sha256": "d756e29b189b4098f88ffed356722f53be220220d1ccb0bd6c86d5125828e1b6"
     },
     {
-      "bytes": 10788,
+      "bytes": 10831,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "browser-tests/journeys/first-use.spec.js",
-      "sha256": "d67c87be4bc8c7118554c4afde44ac5b20005cd6c04728fdb1c0111f816479f7"
+      "sha256": "5c32d56edf9cdc4845e9a5a330d42ff4f9bf5d24080d840a2a46d3054eb00808"
     },
     {
       "bytes": 170237,
