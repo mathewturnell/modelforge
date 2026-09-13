@@ -8,6 +8,14 @@ bundle contains the pinned JavaScript runtime libraries listed below.
 Setuptools and wheel are Python build tools; pytest, Ruff, build, and Twine are
 development tools and are not included in the wheel.
 
+Optional external Codex integration
+-----------------------------------
+
+ModelForge can connect to an OS-user-installed Codex CLI through Codex App
+Server. Codex is not included in this repository, the Python package, or the
+compiled React bundle. Installing or using Codex is governed by its own terms;
+ModelForge does not redistribute its executable, SDK, credentials, or model.
+
 Compiled React workbench
 ------------------------
 

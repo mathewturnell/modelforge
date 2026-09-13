@@ -332,7 +332,9 @@ class AlphaWorkbench:
 
     def project(self, project_id: str) -> dict:
         if project_id == ALPHA_PROJECT:
-            return self.list_projects()[0]
+            return next(
+                item for item in self.list_projects() if item["id"] == ALPHA_PROJECT
+            )
         runtime = self.runtime_configurations.public(
             self.runtime_configurations.get(project_id),
         )
@@ -366,6 +368,9 @@ class AlphaWorkbench:
     def assistant_status(self) -> dict:
         return self.assistant.status()
 
+    def begin_assistant_login(self) -> dict:
+        return self.assistant.begin_login()
+
     def assistant_history(self, project_id: str) -> dict:
         self.project(project_id)
         return self.assistant.history(project_id)
@@ -373,20 +378,30 @@ class AlphaWorkbench:
     def start_assistant(
         self, project_id: str, *, session_id: str | None, request_id: str, message: str,
     ) -> dict:
+        project_root = (
+            Path(str(files("modelforge_workbench")))
+            if project_id == ALPHA_PROJECT
+            else self.projects.lookup(project_id).repository
+        )
         return self.assistant.start(
             self.project(project_id), self.list_runs(project_id),
-            session_id=session_id, request_id=request_id, message=message,
+            project_root=project_root, session_id=session_id,
+            request_id=request_id, message=message,
         )
 
     def assistant_run(
-        self, project_id: str, session_id: str, run_id: str, request_id: str,
+        self, project_id: str, session_id: str, run_id: str, request_id: str, *, since: int = 0,
     ) -> dict:
         self.project(project_id)
-        return self.assistant.run(project_id, session_id, run_id, request_id)
+        return self.assistant.run(
+            project_id, session_id, run_id, request_id, since=since,
+        )
 
-    def active_assistant_run(self, project_id: str, session_id: str) -> dict | None:
+    def active_assistant_run(
+        self, project_id: str, session_id: str, *, since: int = 0,
+    ) -> dict | None:
         self.project(project_id)
-        return self.assistant.active(project_id, session_id)
+        return self.assistant.active(project_id, session_id, since=since)
 
     def cancel_assistant_run(
         self, project_id: str, session_id: str, run_id: str, request_id: str,
@@ -447,6 +462,7 @@ class AlphaWorkbench:
     def shutdown(self) -> tuple[dict, ...]:
         """Cancel local work and detach from provider work without stopping it."""
 
+        self.assistant.close()
         stopped = self.actions.cancel_active(provider="local")
         self.actions.detach_active(provider="modal")
         return stopped

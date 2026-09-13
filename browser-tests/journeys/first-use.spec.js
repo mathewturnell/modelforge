@@ -60,7 +60,7 @@ test("restored workbench presents the complete established shell and real projec
   for (const name of ["Overview", "Source", "Datasets", "Models", "LLM Lab", "Training", "Inference", "Performance", "Deployments", "Jobs", "Knowledge Base", "Command palette", "Settings"]) {
     await expect(page.getByRole("button", {name, exact: true})).toBeVisible();
   }
-  await expect(page.getByText("Cliff · local evidence assistant", {exact: true})).toBeVisible();
+  await expect(page.getByText("Codex · ChatGPT Pro", {exact: true})).toBeVisible();
 
   await selectProject(page, "BDD100K Road Scene Lab");
   await page.getByRole("button", {name: "Source", exact: true}).click();

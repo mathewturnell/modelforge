@@ -7,7 +7,10 @@ then explicitly directed restoration of the established UI/UX from the
 Apache-licensed archive and connection of every exposed workflow to the public
 backend on 2026-09-12. The final exact React file identities and dependency
 graph are recorded in `react-source-inventory.json`. This approval does not
-approve write-capable Git or assistant services. Mathew separately confirmed
+approve write-capable Git or assistant services. On 2026-09-13 Mathew directed
+replacement of the synthetic assistant with the OS user's Codex account
+configured through Settings; Decision 0003 records the bounded read-only App
+Server integration. Mathew separately confirmed
 authorization to replace `mathewturnell/modelforge` with only the qualified
 clean `main`, apply protection, and make it public. Tags, GitHub Releases,
 package publication, service deployment, and paid workloads remain outside
@@ -25,7 +28,7 @@ and their dedicated staging volumes were deleted.
 
 ## Current local recovery evidence
 
-- The restored React client is limited to 101 inventoried source, asset,
+- The restored React client is limited to 102 inventoried source, asset,
   configuration, and lock files from the Apache-licensed archive plus bounded
   public adaptations. Commercial
   API clients, identity, billing, hosting, and deployment surfaces are absent.
@@ -33,11 +36,11 @@ and their dedicated staging volumes were deleted.
   project selection, authenticated dataset inspection, sample-bound visual and
   conversation annotation, local training, inference/prompt execution, durable
   jobs, cancellation, recovery, checked artifacts, logs, telemetry, native
-  result previews, read-only project assistant chat, and Modal readiness.
-- Eighty-nine React tests, TypeScript checking, the production build, and 240
+  result previews, authenticated read-only Codex chat, and Modal readiness.
+- Ninety React tests, TypeScript checking, the production build, and 249
   Python tests pass. Monaco language workers and the architecture/chart chunks
   remain code-split from the primary shell.
-- Twenty-one packaged-loopback browser journeys exercise the compiled client at
+- Twenty-three packaged-loopback browser journeys exercise the compiled client at
   desktop and 390-pixel widths, including Axe and accessibility-tree gates.
   Four redistributable conformance projects each cover dataset loading,
   persisted annotation, annotation-bound training metrics/checkpoint evidence,
@@ -45,7 +48,7 @@ and their dedicated staging volumes were deleted.
   not scientific model quality.
 - The npm production and full development graphs report zero known
   vulnerabilities with Vitest 4.1.11.
-- The exact 101-file React source inventory and locked dependency graph
+- The exact 102-file React source inventory and locked dependency graph
   are bound to the implementation revision identified in the inventory. The
   boundary verifier must pass this source-licensing gate before publication.
 
@@ -130,8 +133,8 @@ dedicated input volumes were deleted, and the environment reported no deployed
 app, volume, or active container. Declared resource plans remain disclosures,
 not quotes or budget enforcement.
 
-The revised wheel plus source distribution contain 527 archive members in
-total. The verifier inspected all 476 regular-file payloads and excluded 51
+The revised wheel plus source distribution contain 536 archive members in
+total. The verifier inspected all 484 regular-file payloads and excluded 52
 directory-container records because they carry no payload. Symbolic links and
 other non-regular members are rejected rather than counted as exclusions. This
 resolves the earlier count discrepancy: “total” described archive records,

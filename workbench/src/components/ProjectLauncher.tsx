@@ -65,12 +65,12 @@ export function ProjectLauncher({onCreated}: {
     if (!prompt.trim() && !inputs.length) { setError("Describe the project or add a source file first."); return; }
     submittingRef.current = true;
     setBusy(true);
-    setStatus("Preserving source material, resolving pinned sources, and preparing Cliff’s workspace…");
+    setStatus("Preserving source material, resolving pinned sources, and preparing the Coding Assistant workspace…");
     try {
       const result = await api.createPromptProject(prompt.trim(), inputs);
       const destination = result.destination_panel === "data" ? "data" : "source";
       setStatus(`${result.project.name || result.project.id} is ready. Opening the project workspace…`);
-      // This is the user's first Cliff turn. Platform commissioning rules live
+      // This is the user's first ModelForge Coding Assistant turn. Platform commissioning rules live
       // in trusted context; never make an internal checklist look user-authored.
       const cliffRequest = prompt.trim() || "Please build the project described in PROJECT_BRIEF.md.";
       setPrompt(""); setInputs([]);
@@ -92,7 +92,7 @@ export function ProjectLauncher({onCreated}: {
     <section className="project-launcher-content" aria-labelledby="project-launcher-title">
       <div className="project-launcher-kicker"><i /><span>New workspace</span></div>
       <h1 id="project-launcher-title">Start with an <strong>idea.</strong></h1>
-      <p>Describe what you want to build and attach the source material a user would naturally start with. ModelForge preserves it in a project workspace where Cliff can inspect, build, and verify the result.</p>
+      <p>Describe what you want to build and attach the source material a user would naturally start with. ModelForge preserves it in a project workspace where the Coding Assistant can inspect the result.</p>
       <form className="project-launcher-prompt" onSubmit={(event) => void submit(event)}>
         <label className="sr-only" htmlFor="project-launcher-request">Describe a new ModelForge project</label>
         <textarea id="project-launcher-request" autoFocus maxLength={32_000} rows={5} value={prompt} onChange={(event) => setPrompt(event.target.value)} placeholder="Build a visual inspection project using https://huggingface.co/datasets/… and the model code from https://github.com/…" />

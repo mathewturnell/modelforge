@@ -36,6 +36,11 @@ Full notes: [ModelForge 0.1.0a1 — public source alpha](docs/releases/0.1.0a1.m
   the Inference studio's frame limit into the durable managed request and real
   process argument, made full selected-video processing the local default, and
   separated process time from exact checked-media duration and frame count.
+- Replaced the synthetic assistant responder with ModelForge Coding Assistant
+  backed by the OS user's authenticated Codex account through Codex App Server.
+  Settings now shows and initiates provider-owned account connection; turns are
+  exact-project scoped, durable, cancellable, and fixed to a read-only sandbox
+  with no credential storage or canned-answer fallback.
 - Recorded per-file provenance and conservative license treatment for the
   nineteen retained real-example Python files. The rights holder approved the
   Apache-2.0 and notice-preserving mixed treatments on 2026-09-10.

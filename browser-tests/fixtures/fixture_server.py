@@ -12,10 +12,73 @@ import threading
 from pathlib import Path
 
 from modelforge_workbench.alpha import AlphaWorkbench
+from modelforge_workbench.application.project_assistant import LocalProjectAssistantService
 from modelforge_workbench.workbench.server import _Server
 
 
 TOKEN = "public-browser-fixture-token"
+
+
+class BrowserFixtureCodex:
+    """Protocol fixture for browser qualification; it never enters the product."""
+
+    installed = True
+
+    def __init__(self) -> None:
+        self.listeners = {}
+        self.next_listener = 1
+
+    def account(self):
+        return {"account": {"type": "chatgpt", "email": "browser-fixture@example.test", "planType": "pro"}}
+
+    def begin_chatgpt_login(self):
+        return {"login_id": "browser-login", "auth_url": "https://auth.openai.com/browser-fixture"}
+
+    def add_listener(self, listener):
+        identity = self.next_listener
+        self.next_listener += 1
+        self.listeners[identity] = listener
+        return identity
+
+    def remove_listener(self, identity):
+        self.listeners.pop(identity, None)
+
+    def request(self, method, params=None, **_kwargs):
+        params = params or {}
+        if method == "thread/start":
+            return {"thread": {"id": "browser-thread"}}
+        if method == "thread/resume":
+            return {"thread": {"id": params["threadId"]}}
+        if method == "turn/start":
+            turn_id = "browser-turn"
+            answer = (
+                "## Authenticated Codex provider\n\n"
+                "This compiled journey reached the Codex App Server adapter with the exact "
+                "selected project and retained the provider answer in durable ModelForge history."
+            )
+            for listener in tuple(self.listeners.values()):
+                listener({
+                    "method": "item/reasoning/summaryTextDelta",
+                    "params": {"threadId": "browser-thread", "turnId": turn_id,
+                               "itemId": "reason", "delta": "Inspecting selected project evidence."},
+                })
+                listener({
+                    "method": "turn/completed",
+                    "params": {"threadId": "browser-thread", "turn": {
+                        "id": turn_id, "status": "completed", "items": [{
+                            "id": "answer", "type": "agentMessage", "phase": "final_answer",
+                            "text": answer,
+                        }],
+                    }},
+                })
+            return {"turn": {"id": turn_id, "status": "inProgress", "items": []}}
+        if method == "turn/interrupt":
+            return {}
+        raise RuntimeError(f"Unsupported browser Codex fixture method: {method}")
+
+    def close(self):
+        return None
+
 VIDEO = base64.b64decode(
     "AAAAIGZ0eXBpc29tAAACAGlzb21pc28yYXZjMW1wNDEAAAPWbW9vdgAAAGxtdmhkAAAAAAAAAAAAAAAAAAAD6AAAAggAAQAAAQAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAwF0cmFrAAAAXHRraGQAAAADAAAAAAAAAAAAAAABAAAAAAAAAggAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAAKAAAABaAAAAAAAkZWR0cwAAABxlbHN0AAAAAAAAAAEAAAIIAAAEAAABAAAAAAJ5bWRpYQAAACBtZGhkAAAAAAAAAAAAAAAAAAAyAAAAGgBVxAAAAAAALWhkbHIAAAAAAAAAAHZpZGUAAAAAAAAAAAAAAABWaWRlb0hhbmRsZXIAAAACJG1pbmYAAAAUdm1oZAAAAAEAAAAAAAAAAAAAACRkaW5mAAAAHGRyZWYAAAAAAAAAAQAAAAx1cmwgAAAAAQAAAeRzdGJsAAAAwHN0c2QAAAAAAAAAAQAAALBhdmMxAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAKAAWgBIAAAASAAAAAAAAAABFUxhdmM2Mi4xMS4xMDAgbGlieDI2NAAAAAAAAAAAAAAAGP//AAAANmF2Y0MBZAAL/+EAGWdkAAus2UKN+TARAAADAAEAAAMAMg8UKZYBAAZo6+PLIsD9+PgAAAAAEHBhc3AAAAABAAAAAQAAABRidHJ0AAAAAAAANkQAAAAAAAAAGHN0dHMAAAAAAAAAAQAAAA0AAAIAAAAAFHN0c3MAAAAAAAAAAQAAAAEAAAB4Y3R0cwAAAAAAAAANAAAAAQAABAAAAAABAAAKAAAAAAEAAAQAAAAAAQAAAAAAAAABAAACAAAAAAEAAAoAAAAAAQAABAAAAAABAAAAAAAAAAEAAAIAAAAAAQAACgAAAAABAAAEAAAAAAEAAAAAAAAAAQAAAgAAAAAcc3RzYwAAAAAAAAABAAAAAQAAAA0AAAABAAAASHN0c3oAAAAAAAAAAAAAAA0AAALbAAAADwAAAA0AAAAMAAAADAAAABUAAAAPAAAADAAAAAwAAAAVAAAADwAAAAwAAAAMAAAAFHN0Y28AAAAAAAAAAQAABAYAAABhdWR0YQAAAFltZXRhAAAAAAAAACFoZGxyAAAAAAAAAABtZGlyYXBwbAAAAAAAAAAAAAAAACxpbHN0AAAAJKl0b28AAAAcZGF0YQAAAAEAAAAATGF2ZjYyLjMuMTAwAAAACGZyZWUAAAOPbWRhdAAAAqAGBf//nNxF6b3m2Ui3lizYINkj7u94MjY0IC0gY29yZSAxNjUgLSBILjI2NC9NUEVHLTQgQVZDIGNvZGVjIC0gQ29weWxlZnQgMjAwMy0yMDI1IC0gaHR0cDovL3d3dy52aWRlb2xhbi5vcmcveDI2NC5odG1sIC0gb3B0aW9uczogY2FiYWM9MSByZWY9MyBkZWJsb2NrPTE6MDowIGFuYWx5c2U9MHgzOjB4MTEzIG1lPWhleCBzdWJtZT03IHBzeT0xIHBzeV9yZD0xLjAwOjAuMDAgbWl4ZWRfcmVmPTEgbWVfcmFuZ2U9MTYgY2hyb21hX21lPTEgdHJlbGxpcz0xIDh4OGRjdD0xIGNxbT0wIGRlYWR6b25lPTIxLDExIGZhc3RfcHNraXA9MSBjaHJvbWFfcXBfb2Zmc2V0PS0yIHRocmVhZHM9MyBsb29rYWhlYWRfdGhyZWFkcz0xIHNsaWNlZF90aHJlYWRzPTAgbnI9MCBkZWNpbWF0ZT0wIGludGVybGFjZWQ9MCBibHVyYXlfY29tcGF0PTAgY29uc3RyYWluZWRfaW50cmE9MCBiZnJhbWVzPTMgYl9weXJhbWlkPTIgYl9hZGFwdD0xIGJfYmlhcz0wIGRpcmVjdD0xIHdlaWdodGI9MSBvcGVuX2dvcD0wIHdlaWdodHA9MiBrZXlpbnQ9MjUwIGtleWludF9taW49MjUgc2NlbmVjdXQ9NDAgaW50cmFfcmVzaD0wIHJjX2xvb2thaGVhZD00MCByYz1jcmYgbWJ0cmVlPTEgY3JmPTIzLjAgcWNvbXA9MC42MCBxcG1pbj0wIHFwbWF4PTY5IHFwc3RlcD00IGlwX3JhdGlvPTEuNDAgYXE9MToxLjAwAIAAAAAzZYiEADv//uOr+BTEWCcnJxOfNDRjT88Ul2zyEzccsFUPz6rlbvBltktL8gDIAAXkH/+RAAAAC0GaJGxDf/6nhAHHAAAACUGeQniF/wDzgQAAAAgBnmF0Qr8BUwAAAAgBnmNqQr8BUwAAABFBmmhJqEFomUwIZ//+nhAGzQAAAAtBnoZFESwv/wDzgQAAAAgBnqV0Qr8BUwAAAAgBnqdqQr8BUwAAABFBmqxJqEFsmUwIV//+OEAaMAAAAAtBnspFFSwv/wDzgQAAAAgBnul0Qr8BUwAAAAgBnutqQr8BUw=="
 )
@@ -309,6 +372,9 @@ def main() -> None:
     )
     args = parser.parse_args()
     app = AlphaWorkbench(args.state_root)
+    app.assistant = LocalProjectAssistantService(
+        args.state_root, provider=BrowserFixtureCodex(),
+    )
     if args.mode in {"full", "documentation"}:
         configure_projects(
             app,

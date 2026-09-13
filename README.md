@@ -82,6 +82,9 @@ or control how a coding agent behaves.
   web application.
 - **Come back to the evidence.** Completed runs and their checked artifacts
   remain available after a browser reconnect or workbench restart.
+- **Use your actual Codex account.** Settings connects the OS user's ChatGPT
+  account through Codex App Server; the project assistant makes real Codex
+  turns instead of returning canned project summaries.
 - **Choose where supported work runs.** Use local compute by default or an
   explicitly configured function in your own Modal account.
 
@@ -98,8 +101,10 @@ without loading upstream data, models, checkpoints, providers, or paid compute.
 
 Only recorded training metrics are plotted; absent scientific telemetry is not
 shown as zero. Source and Git workflows, model/architecture inspection,
-validation and scientific run comparison, broader settings, and the local
-ModelForge Coding Assistant remain planned or partial. The retained real-model
+validation and scientific run comparison, and broader settings remain planned
+or partial. ModelForge Coding Assistant is Codex-backed and project-scoped in a
+read-only sandbox; write authority, attachments, and delegation remain disabled.
+The retained real-model
 examples still expose only their reviewed inference or prompt adapters; their
 training prerequisites and recipes remain project-owned. See the exact
 [product boundary](docs/product-boundary.md) for the status of each area.
@@ -126,6 +131,12 @@ Verify the installation without an account, model download, or GPU:
 
 `serve` prints and opens a tokenized loopback URL. Stop it with `Ctrl-C`; start
 it again with the same state directory to reopen completed runs and outputs.
+
+To use ModelForge Coding Assistant, install the Codex CLI, then open
+**Settings → ModelForge Coding Assistant**. An existing `codex login` session
+is detected automatically, or Settings can start Codex's ChatGPT sign-in flow.
+Codex owns the credential; ModelForge stores only its own project-scoped
+conversation and run projection.
 
 > [!TIP]
 > Continue with **[Your first ModelForge experiment](docs/getting-started.md)**

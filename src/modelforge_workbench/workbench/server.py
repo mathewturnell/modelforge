@@ -349,6 +349,7 @@ class _Handler(BaseHTTPRequestHandler):
                 query = parse_qs(parsed.query)
                 run = self.server.app.active_assistant_run(
                     parts[3], query.get("session_id", [""])[0],
+                    since=max(0, int(query.get("since", ["0"])[0])),
                 )
                 self._json(HTTPStatus.OK, {"run": run})
             except (KeyError, OSError, ValueError, json.JSONDecodeError) as exc:
@@ -363,6 +364,7 @@ class _Handler(BaseHTTPRequestHandler):
                 run = self.server.app.assistant_run(
                     parts[3], query.get("session_id", [""])[0], parts[6],
                     query.get("request_id", [""])[0],
+                    since=max(0, int(query.get("since", ["0"])[0])),
                 )
                 self._json(HTTPStatus.OK, {"run": run})
             except KeyError:
@@ -497,6 +499,12 @@ class _Handler(BaseHTTPRequestHandler):
     def do_POST(self):  # noqa: N802
         route = urlparse(self.path).path
         if not self._authorized(mutation=True):
+            return
+        if route == "/api/v1/assistant/account/login":
+            try:
+                self._json(HTTPStatus.OK, self.server.app.begin_assistant_login())
+            except (OSError, RuntimeError, ValueError) as exc:
+                self._json(HTTPStatus.BAD_REQUEST, {"error": str(exc)[:300]})
             return
         if route == "/api/v1/example-runs":
             try:

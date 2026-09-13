@@ -108,7 +108,7 @@ function TitleBar({projects, project, activity, productVersion, user, compute, o
     <DropdownMenu.Root><DropdownMenu.Trigger asChild><button className="project-switcher"><FolderKanban size={15} /><span>{project ? project.name || project.id : "New project"}</span><ChevronDown size={13} /></button></DropdownMenu.Trigger><DropdownMenu.Portal><DropdownMenu.Content className="dropdown-content" align="start" sideOffset={8} collisionPadding={8}><DropdownMenu.Label>Open project</DropdownMenu.Label>{projects.length ? projects.map((item) => <div key={item.id} className="dropdown-item" role="presentation"><DropdownMenu.Item className="project-open" onSelect={() => onSelectProject(item.id)}><span className="project-color" /><div><strong>{item.name || item.id}</strong><small>{item.id}</small></div>{item.id === project?.id && <Badge tone="success">Active</Badge>}</DropdownMenu.Item><DropdownMenu.Item className="project-remove" aria-label={`Remove ${item.name || item.id} from project list`} title="Remove from project list" onSelect={(event) => {event.preventDefault(); onRemoveProject(item);}}><Trash2 size={14} /></DropdownMenu.Item></div>) : <DropdownMenu.Label>No projects yet</DropdownMenu.Label>}<DropdownMenu.Separator className="dropdown-separator" /><DropdownMenu.Item className="dropdown-add-project" onSelect={onAddExisting}><FolderPlus size={15} /><span>Add existing project folder…</span></DropdownMenu.Item></DropdownMenu.Content></DropdownMenu.Portal></DropdownMenu.Root>
     <ExecutionToolbar value={compute} onChange={onComputeChange} projectId={project?.id || ""} />
     <button className="command-trigger" aria-label="Search or run a command" onClick={onCommand}><Search size={14} /><span>Search or run a command</span><kbd>Ctrl K</kbd></button>
-    <div className="title-actions"><IconButton label="Share project context" variant="ghost"><Share2 size={15} /></IconButton><IconButton label="Notifications" variant="ghost"><Bell size={15} /></IconButton><IconButton label="Toggle Cliff" variant="ghost" onClick={onToggleCliff}><CliffMark /></IconButton><a className="avatar" href="/account" aria-label={`Open account for ${accountName}`} title={accountName}><span>{accountInitials(user)}</span>{accountImage && <img src={accountImage} alt="" referrerPolicy="no-referrer" onError={(event) => {event.currentTarget.hidden = true;}} />}<i /></a><ModalitySystemsLogo /></div>
+    <div className="title-actions"><IconButton label="Share project context" variant="ghost"><Share2 size={15} /></IconButton><IconButton label="Notifications" variant="ghost"><Bell size={15} /></IconButton><IconButton label="Toggle ModelForge Coding Assistant" variant="ghost" onClick={onToggleCliff}><CliffMark /></IconButton><a className="avatar" href="/account" aria-label={`Open account for ${accountName}`} title={accountName}><span>{accountInitials(user)}</span>{accountImage && <img src={accountImage} alt="" referrerPolicy="no-referrer" onError={(event) => {event.currentTarget.hidden = true;}} />}<i /></a><ModalitySystemsLogo /></div>
   </header>;
 }
 
@@ -392,7 +392,7 @@ export default function App() {
     sessionStorage.setItem("modelforge.workbench.activity", destination);
     setLauncherOpen(false);
   };
-  const cliffRunConflict = error.includes("active Cliff agent run");
+  const cliffRunConflict = error.includes("active ModelForge Coding Assistant run");
   const canShowActiveCliffRun = cliffRunConflict && Boolean(project);
   const showActiveCliffRun = () => {
     setLauncherOpen(false);
@@ -402,9 +402,9 @@ export default function App() {
   };
   const errorNotice = error && <ErrorNotice
     message={cliffRunConflict
-      ? "Cliff is still working in this project. Stop the active run before changing projects or models."
+      ? "ModelForge Coding Assistant is still working in this project. Stop the active run before changing projects or models."
       : error}
-    action={canShowActiveCliffRun ? <Button size="sm" onClick={showActiveCliffRun}>Show Cliff</Button> : undefined}
+    action={canShowActiveCliffRun ? <Button size="sm" onClick={showActiveCliffRun}>Show Coding Assistant</Button> : undefined}
   />;
 
   if (loading && !project) return <WorkbenchLoading version={productVersion} />;

@@ -2,7 +2,7 @@
   "approval": {
     "date": "2026-09-13",
     "owner": "Mathew Turnell",
-    "scope": "User-approved React source revision 10dda5f37c550902a0ae2e0d7ff16b75ba59b928, approval record 9d18d787441a7b44c35d31c3f102cf2994b89a87, and bounded public inference/architecture adaptations requested on 2026-09-13 represented by these exact file identities"
+    "scope": "User-approved React source revision 10dda5f37c550902a0ae2e0d7ff16b75ba59b928, approval record 9d18d787441a7b44c35d31c3f102cf2994b89a87, and bounded public inference, architecture, and OS-user Codex account adaptations requested on 2026-09-13 represented by these exact file identities"
   },
   "approval_status": "approved_for_apache_review_candidate",
   "bundled_runtime_dependencies": [
@@ -337,7 +337,7 @@
       "sha256": "3eafcd71be04f0ca648f45706845d4292383938e721c08e86e8e0800fcacfe1e"
     },
     {
-      "bytes": 38040,
+      "bytes": 38111,
       "disposition": "adapted",
       "license": "Apache-2.0",
       "origin": {
@@ -346,7 +346,7 @@
         "kind": "adapted-model-forge-react"
       },
       "path": "workbench/src/App.tsx",
-      "sha256": "0d75cfdead7a61c10ec6074f71788801a70d5eaa36be51db38827c524962dcac"
+      "sha256": "7ae77033552d8ec5b8421d7ed8680c02a55d3b9a32263ebe94250d5897d5cfe3"
     },
     {
       "bytes": 58669,
@@ -433,7 +433,7 @@
       "sha256": "6f544c4bcfdc7e40eb69a81c7ed11a2eda9cb627d8dc10e863ebc73ec8c1b16c"
     },
     {
-      "bytes": 37070,
+      "bytes": 37125,
       "disposition": "adapted",
       "license": "Apache-2.0",
       "origin": {
@@ -442,7 +442,7 @@
         "kind": "adapted-model-forge-react"
       },
       "path": "workbench/src/components/CliffPanel.tsx",
-      "sha256": "d83fea60e69870d78a7a97ae7090ba7432d9c8927a3a1c304e8e3d1f73132fad"
+      "sha256": "d41c50932076eecf938576dfccc0249c3939e92d5b5d0ddd5caabda80d5570f3"
     },
     {
       "bytes": 3695,
@@ -541,7 +541,7 @@
       "sha256": "6baf452ffafebcda3df6c03e84bf4e37ab45f8b662e4bd874523b917d918264f"
     },
     {
-      "bytes": 6370,
+      "bytes": 6399,
       "disposition": "adapted",
       "license": "Apache-2.0",
       "origin": {
@@ -550,7 +550,7 @@
         "kind": "adapted-model-forge-react"
       },
       "path": "workbench/src/components/ProjectLauncher.tsx",
-      "sha256": "d187ef437fa1ad93888f81c17bebca60b70e067a326eab27e6a52aa06e4898aa"
+      "sha256": "5e660ca38671325a27868299e87f65ac28bd8205fde53cfd19c26f0be8514832"
     },
     {
       "bytes": 3956,
@@ -649,7 +649,7 @@
       "sha256": "1a35ec15bd3870082deee6c0ae0aba37f09fa75cdd3bc5d98d0ca82e57956c88"
     },
     {
-      "bytes": 48822,
+      "bytes": 48951,
       "disposition": "adapted",
       "license": "Apache-2.0",
       "origin": {
@@ -658,7 +658,7 @@
         "kind": "adapted-model-forge-react"
       },
       "path": "workbench/src/lib/api.ts",
-      "sha256": "c266268be1a26ee8c909f39dba4de7d332ce8f2e3b41469f3b52f83170c38f79"
+      "sha256": "6f0b1295480a36937beadb865a038f71b228a67a4a755f232a4bba5c391526b5"
     },
     {
       "bytes": 4257,
@@ -973,7 +973,7 @@
       "sha256": "eaa72e8b1c8ab2ce65b51a537861f82656038e1675af4c3d86667803a434ddcf"
     },
     {
-      "bytes": 229334,
+      "bytes": 229586,
       "disposition": "adapted",
       "license": "Apache-2.0",
       "origin": {
@@ -982,7 +982,7 @@
         "kind": "adapted-model-forge-react"
       },
       "path": "workbench/src/styles.css",
-      "sha256": "118ec4001398d5bdc0da1a701280bd7387c45882109e006cd89aa1be371fff19"
+      "sha256": "d663b2466a495bdcc14584efe632475d5c8fc6d2054f2f6e56f88741518eec6f"
     },
     {
       "bytes": 13231,
@@ -1151,7 +1151,7 @@
       "sha256": "085c04cb4b73dc8269669ed09409314beae992cbb45a5f8aea2783308b64ecf0"
     },
     {
-      "bytes": 20019,
+      "bytes": 20118,
       "disposition": "adapted",
       "license": "Apache-2.0",
       "origin": {
@@ -1160,7 +1160,7 @@
         "kind": "adapted-model-forge-react"
       },
       "path": "workbench/src/views/KnowledgeBaseView.tsx",
-      "sha256": "e52cb95d3f15cbf4bde3b122046d3aa9f798d1202a6e521ac3b96dff45d5edd1"
+      "sha256": "4e5f9098e8652034f46ef9cf65d34847c52ce02196384fdd216a1ba6117c133e"
     },
     {
       "bytes": 9422,
@@ -1271,7 +1271,7 @@
       "sha256": "300f3def34ebefb7631406382c4d186cb6407507277ac11a578f1ee5f6a80d2a"
     },
     {
-      "bytes": 4627,
+      "bytes": 7180,
       "disposition": "adapted",
       "license": "Apache-2.0",
       "origin": {
@@ -1280,7 +1280,7 @@
         "kind": "adapted-model-forge-react"
       },
       "path": "workbench/src/views/SettingsView.tsx",
-      "sha256": "f5e57bf0953e1c4fb9fb1023c9021948a089cbe96c8970e30a35dcc555a16c47"
+      "sha256": "6734c22ec271e86549e1100f6a817421858c320521ee2542af743693468afb3f"
     },
     {
       "bytes": 12253,

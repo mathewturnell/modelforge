@@ -2,8 +2,9 @@ import {expect, test} from "../support/workbench.js";
 
 
 async function openSettings(page) {
-  await expect(page.getByRole("heading", {name: "Synthetic Threshold Lab", exact: true})).toBeVisible();
-  await page.getByRole("button", {name: "Settings", exact: true}).click();
+  const settings = page.getByRole("button", {name: "Settings", exact: true});
+  await expect(settings).toBeVisible();
+  await settings.click();
   await expect(page.getByRole("heading", {name: "Settings", exact: true})).toBeVisible();
 }
 
@@ -27,19 +28,47 @@ test("the real Modal status endpoint is non-live, visible, and actionable", asyn
   expect(["unconfigured", "configured", "error"]).toContain(response.value.state);
 });
 
-test("Cliff answers from project evidence and restores its durable conversation", async ({page, workbench}) => {
+test("authenticated Codex answer restores from durable ModelForge history", async ({page, workbench}) => {
   const url = await workbench.start("full");
   await page.goto(url, {waitUntil: "domcontentloaded"});
   await chooseProject(page, "BDD100K Road Scene Lab");
-  await expect(page.getByText("Cliff · local evidence assistant", {exact: true})).toBeVisible();
-  await page.getByRole("textbox", {name: "Ask Cliff"}).fill("Summarize the registered dataset and annotation boundary");
-  await page.getByRole("button", {name: "Send to Cliff"}).click();
-  await expect(page.getByRole("heading", {name: "Dataset boundary"})).toBeVisible();
-  await expect(page.getByText(/Annotations are revisioned owner-state sidecars/)).toBeVisible();
+  await expect(page.getByText("Codex · ChatGPT Pro", {exact: true})).toBeVisible();
+  await page.getByRole("textbox", {name: "Ask ModelForge Coding Assistant"}).fill("Summarize the registered dataset and annotation boundary");
+  await page.getByRole("button", {name: "Send to ModelForge Coding Assistant"}).click();
+  await expect(page.getByRole("heading", {name: "Authenticated Codex provider"})).toBeVisible();
+  await expect(page.getByText(/reached the Codex App Server adapter/)).toBeVisible();
 
   await page.reload({waitUntil: "domcontentloaded"});
   await expect(page.getByText("Summarize the registered dataset and annotation boundary", {exact: true})).toBeVisible();
-  await expect(page.getByRole("heading", {name: "Dataset boundary"})).toBeVisible();
+  await expect(page.getByRole("heading", {name: "Authenticated Codex provider"})).toBeVisible();
+});
+
+test("Settings shows the OS-user Codex account boundary", async ({page, workbench}) => {
+  await page.goto(await workbench.start("full"), {waitUntil: "domcontentloaded"});
+  await openSettings(page);
+  await expect(page.getByTestId("workbench-center").getByText("ModelForge Coding Assistant", {exact: true})).toBeVisible();
+  await expect(page.getByText("Codex connected", {exact: true})).toBeVisible();
+  await expect(page.getByText("browser-fixture@example.test", {exact: true})).toBeVisible();
+  await expect(page.getByText(/ModelForge receives account status, never the credential/)).toBeVisible();
+});
+
+test("Settings makes a signed-out Codex account explicit", async ({page, workbench}) => {
+  await page.route("**/api/v1/assistant/status", route => route.fulfill({
+    status: 200,
+    contentType: "application/json",
+    body: JSON.stringify({
+      available: false,
+      state: "signed_out",
+      provider: "Codex · account not connected",
+      codex_connected: false,
+      write_available: false,
+      message: "Connect your ChatGPT account to use ModelForge Coding Assistant.",
+    }),
+  }));
+  await page.goto(await workbench.start("full"), {waitUntil: "domcontentloaded"});
+  await openSettings(page);
+  await expect(page.getByText("signed_out", {exact: true})).toBeVisible();
+  await expect(page.getByRole("button", {name: "Connect ChatGPT account"})).toBeVisible();
 });
 
 test("essential request failures and unknown routes remain visible and bounded", async ({page, workbench}) => {

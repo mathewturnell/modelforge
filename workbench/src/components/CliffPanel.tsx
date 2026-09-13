@@ -187,13 +187,13 @@ function runProgress(run: JsonMap): string {
   const event = [...events].reverse().find((value) => value && typeof value === "object") as JsonMap | undefined;
   const kind = String(event?.type || event?.kind || "").toLowerCase().replace(/[.-]/g, "_");
   const phase = String(event?.phase || run.phase || run.status || "running").toLowerCase();
-  if (kind.startsWith("command")) return phase === "completed" ? "Cliff finished a project command…" : "Cliff is running a project command…";
-  if (kind.startsWith("file_change")) return "Cliff is updating project files…";
-  if (kind === "assistant_delta" || kind === "assistant" || kind.includes("reasoning")) return "Cliff is reasoning…";
+  if (kind.startsWith("command")) return phase === "completed" ? "Codex finished a project command…" : "Codex is running a project command…";
+  if (kind.startsWith("file_change")) return "Codex is updating project files…";
+  if (kind === "assistant_delta" || kind === "assistant" || kind.includes("reasoning")) return "Codex is reasoning…";
   const label = activityText(event?.label || event?.message, 180);
   if (label && label.toLowerCase() !== "cliff update") return label;
   const readablePhase = String(run.phase || run.status || "running").replace(/_/g, " ");
-  return readablePhase === "completed" ? "Cliff finished." : `Cliff is ${readablePhase}…`;
+  return readablePhase === "completed" ? "Codex finished." : `Codex is ${readablePhase}…`;
 }
 
 function activityText(value: unknown, limit: number): string {
@@ -330,7 +330,7 @@ export function cliffRunActivities(run: JsonMap): RunActivity[] {
       category = "reasoning";
       label = activityText(field("summary") ?? field("content") ?? field("text") ?? field("delta") ?? field("detail"), 2_400);
       detail = "";
-    } else if (label.toLowerCase() === "cliff update" && detail) {
+    } else if (["cliff update", "codex update"].includes(label.toLowerCase()) && detail) {
       category = "reasoning";
       label = detail;
       detail = "";
@@ -339,7 +339,7 @@ export function cliffRunActivities(run: JsonMap): RunActivity[] {
     const sequence = String(event.sequence ?? event.seq ?? event.cursor ?? index);
     const stableItem = itemId || command || files?.map((file) => file.path).join("|") || label || sequence;
     const append = kind === "assistant_delta" || kind.includes("reasoning")
-      || activityText(field("label") ?? field("message"), 180).toLowerCase() === "cliff update";
+      || ["cliff update", "codex update"].includes(activityText(field("label") ?? field("message"), 180).toLowerCase());
     return [{
       key: kind.startsWith("command") ? `command:${stableItem}`
         : kind.startsWith("file_change") ? `file:${stableItem}`
@@ -347,7 +347,7 @@ export function cliffRunActivities(run: JsonMap): RunActivity[] {
             : `${kind}:${sequence}`,
       kind,
       category,
-      label: label || "Cliff update",
+      label: label || "Codex update",
       detail,
       append,
       command,
@@ -384,7 +384,7 @@ export function CliffRunActivity({activities}: {activities: RunActivity[]}) {
   const earlierSummaries = summaries.slice(0, -1);
   const operations = activities.filter((activity) => activity.category === "command" || activity.category === "files");
   if (!currentSummary && !operations.length) return null;
-  return <section className="cliff-run-activity" aria-label="Cliff project activity">
+  return <section className="cliff-run-activity" aria-label="ModelForge Coding Assistant project activity">
     {currentSummary && <div className="cliff-run-reasoning">
       <p>{currentSummary}</p>
       {Boolean(earlierSummaries.length) && <details>
@@ -459,7 +459,7 @@ export function CliffPanel({project, context, initialTurn, onInitialTurnConsumed
     setBusy(false); setRunStatus(""); setActiveRun(null); setActivities([]);
     void Promise.all([api.cliffStatus(), api.cliffHistory(project.id)]).then(([status, history]) => {
       if (!active || lifecycleRef.current !== lifecycle) return;
-      setProvider(String(status.provider || status.status || "Cliff ready"));
+      setProvider(String(status.provider || status.status || "Codex ready"));
       const sessions = (Array.isArray(history.sessions) ? history.sessions : []) as JsonMap[];
       const session = sessions.find((item) => item.id === history.active_session_id) || sessions[0];
       if (session) {
@@ -494,7 +494,7 @@ export function CliffPanel({project, context, initialTurn, onInitialTurnConsumed
     const pictures = Array.from(files).filter((file) => file.type.startsWith("image/"));
     if (!pictures.length) return;
     if (attachments.length + pictures.length > cliffMaximumImages) {
-      setAttachmentError(`Cliff accepts up to ${cliffMaximumImages} pictures per message.`);
+      setAttachmentError(`ModelForge Coding Assistant accepts up to ${cliffMaximumImages} pictures per message.`);
       return;
     }
     processingAttachmentsRef.current = true;
@@ -552,17 +552,17 @@ export function CliffPanel({project, context, initialTurn, onInitialTurnConsumed
     const changes = cliffRunChanges(run);
     const delegations = cliffRunDelegations(run);
     const failed = ["failed", "error", "startup_failed", "startup_timeout"].includes(status);
-    if (failed && !answer) throw new Error(String(run.error || "Cliff’s project task failed."));
+    if (failed && !answer) throw new Error(String(run.error || "The Codex project turn failed."));
     setMessages((current) => [...current, {
       role: "assistant",
       content: answer || (status.startsWith("cancel") || status === "stopped"
         ? "The project task was stopped."
-        : "Cliff completed the project task."),
+        : "Codex completed the project task."),
       changes,
       delegations,
     }]);
     const result = runResult(run);
-    setProvider(result.provider ? `${String(result.provider)} · project agent` : "Cliff · project agent");
+    setProvider(result.provider ? `${String(result.provider)} · authenticated project agent` : "Codex · authenticated project agent");
   }, []);
 
   const monitorRun = useCallback(async (
@@ -571,7 +571,7 @@ export function CliffPanel({project, context, initialTurn, onInitialTurnConsumed
     let run = initialRun;
     let runId = String(run.id || run.run_id || "");
     let resolvedSessionId = String(run.session_id || sessionId || "");
-    if (!runId || !resolvedSessionId) throw new Error("Cliff started without a run or conversation identifier.");
+    if (!runId || !resolvedSessionId) throw new Error("Codex started without a run or conversation identifier.");
     setSessionId(resolvedSessionId);
     setActiveRun({id: runId, requestId: stableRequestId, sessionId: resolvedSessionId});
     let cursor = Number(run.event_cursor || 0);
@@ -612,7 +612,7 @@ export function CliffPanel({project, context, initialTurn, onInitialTurnConsumed
     setInput(""); setBusy(true); setError("");
     setActivities([]);
     setMessages((current) => [...current, {role: "user", content: message, attachments: submittedAttachments}]);
-    setRunStatus("Contacting Cliff’s project agent…");
+    setRunStatus("Starting the authenticated Codex turn…");
     try {
       const response = await api.startCliffRun(
         project.id, sessionId, message, stableRequestId, submittedAttachments,
@@ -620,7 +620,7 @@ export function CliffPanel({project, context, initialTurn, onInitialTurnConsumed
       );
       const runId = String(response.run.id || response.run.run_id || "");
       const resolvedSessionId = String(response.run.session_id || sessionId || "");
-      if (!runId || !resolvedSessionId) throw new Error("Cliff started without a run or conversation identifier.");
+      if (!runId || !resolvedSessionId) throw new Error("Codex started without a run or conversation identifier.");
       setAttachments([]); setAttachmentError(""); setDelegateRoleId("");
       onAccepted?.();
       await monitorRun(response.run, stableRequestId, lifecycle);
@@ -640,10 +640,10 @@ export function CliffPanel({project, context, initialTurn, onInitialTurnConsumed
     void api.activeCliffRun(project.id, sessionId).then(async ({run}) => {
       if (!run || lifecycleRef.current !== lifecycle) return;
       const stableRequestId = String(run.request_id || "");
-      if (!stableRequestId) throw new Error("The active Cliff task has no recovery identity.");
+      if (!stableRequestId) throw new Error("The active Codex turn has no recovery identity.");
       busyRef.current = true;
       setBusy(true); setError(""); setActivities([]);
-      setRunStatus("Restoring the active Cliff project task…");
+      setRunStatus("Restoring the active Codex project turn…");
       await monitorRun(run, stableRequestId, lifecycle);
     }).catch((reason) => {
       if (lifecycleRef.current === lifecycle) setError(reason instanceof Error ? reason.message : String(reason));
@@ -670,7 +670,7 @@ export function CliffPanel({project, context, initialTurn, onInitialTurnConsumed
 
   const stop = async () => {
     if (!activeRun) return;
-    setRunStatus("Stopping Cliff’s project task…");
+    setRunStatus("Stopping the Codex project turn…");
     try {
       await api.cancelCliffRun(project.id, activeRun.sessionId, activeRun.id, activeRun.requestId);
     } catch (reason) {
@@ -684,13 +684,13 @@ export function CliffPanel({project, context, initialTurn, onInitialTurnConsumed
   );
 
   return <aside className="cliff-panel">
-    <header><div className="cliff-title"><span><CliffMark /></span><div><strong>Cliff</strong><small>{provider}</small></div></div>{busy && activeRun ? <Button size="sm" variant="ghost" onClick={() => void stop()}><Square size={12} /> Stop</Button> : <Button size="sm" variant="ghost" onClick={() => { setMessages([]); setSessionId(undefined); setAttachments([]); setAttachmentError(""); setDelegateRoleId(""); }}><Plus size={14} /> New</Button>}</header>
+    <header><div className="cliff-title"><span><CliffMark /></span><div><strong>ModelForge Coding Assistant</strong><small>{provider}</small></div></div>{busy && activeRun ? <Button size="sm" variant="ghost" onClick={() => void stop()}><Square size={12} /> Stop</Button> : <Button size="sm" variant="ghost" onClick={() => { setMessages([]); setSessionId(undefined); setAttachments([]); setAttachmentError(""); setDelegateRoleId(""); }}><Plus size={14} /> New</Button>}</header>
     <div className="cliff-context"><span>Context</span><Badge>{context}</Badge></div>
     <div className="cliff-messages">
-      {!messages.length && !busy && <div className="cliff-intro"><span><CliffMark animated /></span><strong>Your ModelForge project assistant</strong><p>Ask Cliff to explain registered project, dataset, action, run, and artifact evidence. This public-alpha service is read-only and makes no model call.</p><div>{suggestions.map((suggestion) => <button key={suggestion} onClick={() => void send(suggestion)}>{suggestion}</button>)}</div></div>}
-      {messages.map((message, index) => <article key={index} className={`cliff-message ${message.role}`}><span>{message.role === "user" ? <User size={14} /> : <CliffMark animated={index === latestAssistantIndex} />}</span><div><strong>{message.role === "user" ? "You" : "Cliff"}</strong>{message.role === "assistant" ? <><CliffDelegationFeedback delegations={message.delegations || []} /><CliffMarkdown source={message.content} />{Boolean(message.changes?.length) && <div className="cliff-run-changes"><small>Project changes</small>{message.changes!.map((change) => <span key={`${change.status}:${change.path}`}><b>{change.status}</b><code>{change.path}</code></span>)}</div>}</> : <><p>{message.content}</p>{Boolean(message.attachments?.length) && <div className="cliff-message-images">{message.attachments!.map((attachment, attachmentIndex) => <img key={`${attachment.name}:${attachmentIndex}`} src={attachment.url} alt={attachment.name} />)}</div>}{Boolean(message.attachmentNames?.length) && <div className="cliff-message-attachment-names">{message.attachmentNames!.map((name, attachmentIndex) => <span key={`${name}:${attachmentIndex}`}><FileImage size={11} />{name}</span>)}</div>}</>}</div></article>)}
+      {!messages.length && !busy && <div className="cliff-intro"><span><CliffMark animated /></span><strong>Your authenticated Codex agent</strong><p>Ask ModelForge Coding Assistant about the selected project. It uses the Codex account shown in Settings and runs in a project-scoped read-only sandbox.</p><div>{suggestions.map((suggestion) => <button key={suggestion} onClick={() => void send(suggestion)}>{suggestion}</button>)}</div></div>}
+      {messages.map((message, index) => <article key={index} className={`cliff-message ${message.role}`}><span>{message.role === "user" ? <User size={14} /> : <CliffMark animated={index === latestAssistantIndex} />}</span><div><strong>{message.role === "user" ? "You" : "Codex"}</strong>{message.role === "assistant" ? <><CliffDelegationFeedback delegations={message.delegations || []} /><CliffMarkdown source={message.content} />{Boolean(message.changes?.length) && <div className="cliff-run-changes"><small>Project changes</small>{message.changes!.map((change) => <span key={`${change.status}:${change.path}`}><b>{change.status}</b><code>{change.path}</code></span>)}</div>}</> : <><p>{message.content}</p>{Boolean(message.attachments?.length) && <div className="cliff-message-images">{message.attachments!.map((attachment, attachmentIndex) => <img key={`${attachment.name}:${attachmentIndex}`} src={attachment.url} alt={attachment.name} />)}</div>}{Boolean(message.attachmentNames?.length) && <div className="cliff-message-attachment-names">{message.attachmentNames!.map((name, attachmentIndex) => <span key={`${name}:${attachmentIndex}`}><FileImage size={11} />{name}</span>)}</div>}</>}</div></article>)}
       {busy && Boolean(activities.length) && <CliffRunActivity activities={activities} />}
-      {busy && <div className="cliff-thinking"><i /><i /><i /><span>{runStatus || "Cliff is working in the project…"}</span></div>}
+      {busy && <div className="cliff-thinking"><i /><i /><i /><span>{runStatus || "Codex is working in the project…"}</span></div>}
       {error && <ErrorNotice message={error} />}
       <div ref={bottomRef} />
     </div>
@@ -698,11 +698,11 @@ export function CliffPanel({project, context, initialTurn, onInitialTurnConsumed
       {Boolean(attachments.length) && <div className="cliff-composer-attachments">{attachments.map((attachment, index) => <div key={`${attachment.name}:${index}`}><img src={attachment.url} alt="" /><span title={attachment.name}>{attachment.name}</span><button type="button" onClick={() => setAttachments((current) => current.filter((_, candidate) => candidate !== index))} aria-label={`Remove ${attachment.name}`}><X size={11} /></button></div>)}</div>}
       <div className="cliff-composer-row">
         <input ref={imageInputRef} type="file" accept="image/jpeg,image/png,image/webp" multiple hidden onChange={(event) => { void addImages(event.target.files || []); event.target.value = ""; }} />
-        <Button variant="ghost" size="icon" type="button" disabled title="Image analysis is not enabled in the public assistant contract" onClick={() => imageInputRef.current?.click()} aria-label="Attach pictures to Cliff"><Paperclip size={15} /></Button>
-        <textarea rows={2} value={input} onChange={(event) => setInput(event.target.value)} onPaste={(event) => { const files = cliffClipboardImageFiles(event.clipboardData); if (files.length) { event.preventDefault(); void addImages(files); } }} onKeyDown={(event) => { if (event.key === "Enter" && !event.shiftKey) { event.preventDefault(); void send(); } }} placeholder={`Ask Cliff about ${context.toLowerCase()}…`} aria-label="Ask Cliff" />
-        <Button variant="primary" size="icon" type="submit" disabled={(!input.trim() && !attachments.length) || busy || processingAttachments || !ready || !recoveryChecked} aria-label="Send to Cliff"><Send size={15} /></Button>
+        <Button variant="ghost" size="icon" type="button" disabled title="Image analysis is not enabled in the public assistant contract" onClick={() => imageInputRef.current?.click()} aria-label="Attach pictures to ModelForge Coding Assistant"><Paperclip size={15} /></Button>
+        <textarea rows={2} value={input} onChange={(event) => setInput(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter" && !event.shiftKey) { event.preventDefault(); void send(); } }} placeholder={`Ask Codex about ${context.toLowerCase()}…`} aria-label="Ask ModelForge Coding Assistant" />
+        <Button variant="primary" size="icon" type="submit" disabled={(!input.trim() && !attachments.length) || busy || processingAttachments || !ready || !recoveryChecked} aria-label="Send to ModelForge Coding Assistant"><Send size={15} /></Button>
       </div>
-      <label className="cliff-specialist-select"><span>Specialist for this turn</span><select value={delegateRoleId} disabled title="Specialist delegation is not enabled in the public assistant contract" onChange={(event) => setDelegateRoleId(event.target.value === "ml_systems_engineer" ? "ml_systems_engineer" : "")}><option value="">Cliff only</option><option value="ml_systems_engineer">Ask Maya (read-only)</option></select></label>
+      <label className="cliff-specialist-select"><span>Specialist for this turn</span><select value={delegateRoleId} disabled title="Specialist delegation is not enabled in the public assistant contract" onChange={(event) => setDelegateRoleId(event.target.value === "ml_systems_engineer" ? "ml_systems_engineer" : "")}><option value="">Codex only</option><option value="ml_systems_engineer">Ask Maya (read-only)</option></select></label>
       {attachmentError && <small className="cliff-attachment-error" role="alert">{attachmentError}</small>}
     </form>
   </aside>;

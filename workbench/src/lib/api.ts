@@ -767,6 +767,7 @@ export const api = {
   applicationDeployment: async (): Promise<JsonMap> => ({available: false, deployed: false, deployment: {}, reason: "Hosted application deployment is outside the public local workbench boundary."}),
   deployApplication: (projectId: string) => post<JsonMap>("/api/project/application-deployment", {project_id: projectId, visibility: "public", confirm_public: true}),
   cliffStatus: () => request<JsonMap>("/api/v1/assistant/status"),
+  connectCodexAccount: () => post<{auth_url: string; login_id: string; message: string}>("/api/v1/assistant/account/login", {}),
   cliffHistory: (projectId: string) => request<JsonMap>(`/api/v1/projects/${encodeURIComponent(projectId)}/assistant/history`),
   startCliffRun: (
     projectId: string, sessionId: string | undefined, message: string, requestId: string,

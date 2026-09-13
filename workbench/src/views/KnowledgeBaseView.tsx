@@ -18,7 +18,7 @@ interface KnowledgeArticle {
 
 export const knowledgeArticles: KnowledgeArticle[] = [
   {id: "welcome", section: "Start here", title: "What is ModelForge?", description: "A practical introduction to the local-first ML workbench and its project lifecycle.", readTime: "4 min", tags: ["overview", "local-first", "workflow"]},
-  {id: "first-project", section: "Start here", title: "Create your first project", description: "Move from an idea to a bounded project workspace with Cliff.", readTime: "6 min", tags: ["project", "cliff", "quickstart"]},
+  {id: "first-project", section: "Start here", title: "Create your first project", description: "Move from an idea to a bounded project workspace with ModelForge Coding Assistant.", readTime: "6 min", tags: ["project", "codex", "quickstart"]},
   {id: "data-to-inference", section: "How-to guides", title: "Dataset to inference", description: "Import data, choose a training target, run a model, and inspect the result.", readTime: "9 min", tags: ["dataset", "training", "inference"]},
   {id: "annotations", section: "How-to guides", title: "Review and edit annotations", description: "Inspect visual datasets and work with boxes, tracks, masks, and keyframes.", readTime: "7 min", tags: ["annotations", "video", "images"]},
   {id: "release", section: "How-to guides", title: "Build a release", description: "Turn evaluated evidence into an immutable application release.", readTime: "8 min", tags: ["deploy", "release", "cloud"]},
@@ -66,12 +66,12 @@ function Callout({children}: {children: React.ReactNode}) {
 
 function ArticleBody({id}: {id: string}) {
   if (id === "first-project") return <>
-    <p className="knowledge-lead">A ModelForge project is a bounded repository plus typed metadata. Start with a plain-language outcome; the workbench creates the workspace and passes your original request to Cliff.</p>
+    <p className="knowledge-lead">A ModelForge project is a bounded repository plus typed metadata. Start with a plain-language outcome; the workbench creates the workspace and passes your original request to ModelForge Coding Assistant.</p>
     <h2>Start from the workbench</h2>
     <WorkflowSteps items={[
       {title: "Return to New Project", text: "Select the ModelForge identity in the title bar to open the trusted project launcher."},
       {title: "Describe the outcome", text: "Name the data, task, and result you want. Attach small source inputs when they clarify the request."},
-      {title: "Review the generated workspace", text: "ModelForge selects the new project and opens Cliff. Confirm the Overview explains the goal and that Source contains a project manifest."},
+      {title: "Review the generated workspace", text: "ModelForge selects the new project and opens ModelForge Coding Assistant. Confirm the Overview explains the goal and that Source contains a project manifest."},
       {title: "Follow the visible lifecycle", text: "Use Datasets, Model, Training, and Inference in order. Each workspace shows its own prerequisites and evidence."},
     ]} />
     <h2>A useful first prompt</h2>
@@ -164,7 +164,7 @@ function ArticleBody({id}: {id: string}) {
     <h2>Why it exists</h2>
     <p>ModelForge connects typed ML contracts, visual workspaces, local execution, admitted cloud compute, durable artifacts, and a project-scoped engineering agent. The aim is to move from data and an explicit task to a reproducible application without losing provenance or crossing security boundaries implicitly.</p>
     <h2>Local first, cloud when chosen</h2>
-    <p>The primary workbench runs on your machine. Project source, mutable workspaces, ordinary datasets, credentials, and local Cliff execution stay within that trusted installation. Managed cloud services handle narrower concerns such as admitted GPU jobs, immutable storage, application publication, entitlement, and billing.</p>
+    <p>The primary workbench runs on your machine. Project source, mutable workspaces, ordinary datasets, credentials, and local Coding Assistant execution stay within that trusted installation. Managed cloud services handle narrower concerns such as admitted GPU jobs, immutable storage, application publication, entitlement, and billing.</p>
     <Callout>A project can provide Python implementations and typed metadata, but it cannot inject browser code, replace trusted shell controls, or acquire platform credentials.</Callout>
   </>;
 }
@@ -221,7 +221,7 @@ export function KnowledgeBaseView() {
         </article>
       </main>
 
-      <aside className="knowledge-toc"><span>ON THIS PAGE</span><a href="#article-top">Overview</a><a href="#article-content">Details</a><div><TerminalSquare /><p><strong>Need project help?</strong>Ask Cliff about the active project, selected dataset, or current run.</p></div></aside>
+      <aside className="knowledge-toc"><span>ON THIS PAGE</span><a href="#article-top">Overview</a><a href="#article-content">Details</a><div><TerminalSquare /><p><strong>Need project help?</strong>Ask ModelForge Coding Assistant about the active project, selected dataset, or current run.</p></div></aside>
     </div>}
   </div>;
 }

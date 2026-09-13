@@ -1,13 +1,23 @@
 # Agent integration
 
-The public product includes Cliff, a local read-only project-evidence
-assistant. Its server-owned service is project scoped, filters its evidence,
-keeps durable history, supports cancellation, and cannot read credentials or
-held-out samples. It answers from registered project, dataset, action, run,
-and checked-artifact evidence without making a model or network call. A
-model-backed coding provider, attachments, delegation, and any write authority
-remain disabled until separately qualified. External coding agents integrate
-through the same visible services used by a human.
+The public product includes **ModelForge Coding Assistant**, backed by the OS
+user's authenticated Codex account through the documented Codex App Server
+protocol. Settings projects bounded account status and starts provider-owned
+ChatGPT login; ModelForge never reads or stores the provider credential.
+
+The server-owned assistant service is exact-project scoped, keeps durable
+ModelForge session/run history, normalizes streamed public events, supports
+cancellation, and receives only the redacted project, dataset, action, run, and
+checked-artifact projection. Missing Codex, sign-out, provider failure, and
+timeout are explicit states—there is no canned or deterministic answer
+fallback.
+
+This first public provider slice runs Codex with a `read-only` project sandbox
+and `never` approval policy. Account connection does not grant writes,
+commands outside that sandbox, Git, paid compute, publication, deployment,
+attachments, or delegation. Those capabilities remain disabled until their
+host-owned action, approval, conflict, and isolation gates are separately
+implemented and qualified. See [Decision 0003](decisions/0003-os-user-codex-app-server.md).
 
 1. Keep models, dataset decoding, metric meaning, and task semantics in the
    project.

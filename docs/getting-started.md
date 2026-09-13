@@ -61,8 +61,10 @@ The title bar contains the `Project` selector. The left rail contains
 `Performance`, `Deployments`, `Jobs`, `Knowledge Base`, and `Settings`.
 Controls backed by the public services are active; excluded write-capable Git,
 deployment, evaluation, and hosted features remain visibly bounded. The
-right-hand Cliff panel is a functional, durable, read-only project-evidence
-assistant. The bottom evidence panel keeps status, `Output`, logs, problems,
+right-hand ModelForge Coding Assistant panel uses the OS user's Codex account
+through Codex App Server. Its public-alpha sandbox is project-scoped and
+read-only, and Settings shows the connected account without exposing its
+credential. The bottom evidence panel keeps status, `Output`, logs, problems,
 jobs, and checked artifacts visible while you move around the project.
 
 ![Project selection and workbench navigation in the current UI](assets/screenshots/01-project-overview.png)
