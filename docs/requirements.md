@@ -22,7 +22,7 @@ repository. `planned` and `partial` describe gaps; they are not release claims.
 | `PUB-AGENT-001` | planned | The local ModelForge Coding Assistant/Codex integration is provider-neutral, exact-project scoped, environment-filtered, cancellable, durable, and excluded from credentials, commercial authority, and held-out evidence. | assistant service/security/browser tests |
 | `PUB-SET-001` | partial | The read-only Settings projection exposes server-owned browser-security and Modal readiness status without credential values or commercial controls; broader local configuration remains planned. | Settings browser tests; provider route tests |
 | `PUB-LIC-001` | partial | Root `LICENSE`, package metadata, every retained React file, dependency notice, source archive, and built distribution agree on the approved public licensing treatment. | boundary verifier; React provenance inventory; distribution verifier |
-| `PUB-REL-001` | partial | The exact tracked tree matches the approved source manifest, has one clean public root, contains no forbidden commercial inventory/history, and passes redacted secret scans. | source-manifest verifier; public scanner; Gitleaks |
+| `PUB-REL-001` | partial | The exact tracked tree matches the approved source manifest, has one clean public root, contains no forbidden commercial inventory/history, and passes redacted secret scans. | source-manifest verifier; public scanner; Gitleaks; exact reviewed showcase inventory and separate media attribution in `docs/showcase.md` |
 
 ## Source-requirement lineage
 

@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Replace the README’s synthetic fixture gallery with actual current-workbench
+  captures: BDD100K dataset/annotation and MeMOTR model/training, SoccerNet
+  tracking, Weather playback, and Jobs. Publish the three real result clips and
+  a MUI workbench tour with run identities, hashes, and bounded evidence claims.
+  See [showcase publication notes](docs/releases/2026-09-23-real-showcase.md).
+
 - Restore the established workbench with a shared MUI/React foundation: compact
   shell and bottom logs, original React Flow inspection, Recharts comparisons
   and essential curves, full-screen temporal annotation, and full-width Jobs.

@@ -32,6 +32,20 @@ GENERATED_PARTS = {
     "dist", "html-report", "node_modules", "playwright-report", "test-results",
 }
 APPROVED_BINARY_FIXTURES = {
+    # Explicitly reviewed owner-requested real showcase excerpts.
+    "docs/assets/showcase/annotation.png",
+    "docs/assets/showcase/architecture.png",
+    "docs/assets/showcase/bdd100k-dataset.png",
+    "docs/assets/showcase/bdd100k-inference.png",
+    "docs/assets/showcase/bdd100k-result.mp4",
+    "docs/assets/showcase/current-workbench.webm",
+    "docs/assets/showcase/jobs.png",
+    "docs/assets/showcase/soccernet-inference.png",
+    "docs/assets/showcase/soccernet-result.mp4",
+    "docs/assets/showcase/training-comparison.png",
+    "docs/assets/showcase/weatherbench2-inference.png",
+    "docs/assets/showcase/weatherbench2-result.mp4",
+
     # Owner-authored product identity: exact source and digest-named Vite output,
     # recorded in the React/public source inventories. Other binary assets remain denied.
     "workbench/src/assets/modalitysystems.png",

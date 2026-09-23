@@ -50,7 +50,9 @@ def main() -> int:
             (value for prefix, value in EXAMPLE_SOURCES.items() if relative.startswith(prefix)),
             None,
         )
+        showcase_media = relative.startswith("docs/assets/showcase/") and path.suffix in {".png", ".mp4", ".webm"}
         license_id = (
+            "LicenseRef-Showcase-Media" if showcase_media else
             "CC0-1.0"
             if relative.endswith("samples.json") or relative.endswith("request.example.json")
             else MIXED_MEMOTR_SOURCES[relative]
@@ -65,6 +67,9 @@ def main() -> int:
             "mode": "100755" if path.stat().st_mode & 0o111 else "100644",
             "license": license_id,
             "origin": (
+                {"kind": "reviewed-real-showcase-media", "provenance": "docs/assets/showcase/manifest.json",
+                 "notice": "docs/assets/showcase/NOTICE.md"}
+                if showcase_media else
                 {
                     "kind": "retained-project-source",
                     "project_id": example_source,
