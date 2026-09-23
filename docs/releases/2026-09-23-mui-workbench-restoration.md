@@ -34,6 +34,10 @@ inline-style or script exception is introduced.
 Local validation: **342 Python tests**, **26 frontend tests**, and **27 browser
 journeys passed**, with two explicitly optional capture skips. The browser
 suite includes the published 1728 × 1080 geometry and 390 px interaction checks.
+GitHub Ubuntu desktop/mobile baselines were inspected from the actual runner
+images after their interaction and accessibility checks passed. Seven
+documentation captures are regenerated through real UI journeys with explicitly
+authored synthetic fixtures; they are separate from the real-model evidence.
 
 The real selected annotation sequence contains **3,594 source rectangles across
 203 frames and 79 tracks**, with revision-preserving import into a separate

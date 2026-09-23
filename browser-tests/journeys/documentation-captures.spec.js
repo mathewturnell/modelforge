@@ -17,12 +17,13 @@ test.skip(
 );
 
 async function chooseProject(page, name) {
-  await page.getByLabel("Project").selectOption({label: name});
+  await page.getByRole("combobox", {name: "Project", exact: true}).selectOption({label: name});
   await expect(page.locator(".project-heading")).toHaveText(name);
 }
 
 async function openDestination(page, name) {
-  await page.getByRole("button", {name: new RegExp(`^${name}`)}).click();
+  await page.getByRole("navigation", {name: "Workbench destinations"})
+    .getByRole("button", {name, exact: true}).click();
 }
 
 async function capture(page, filename) {
@@ -46,6 +47,8 @@ async function expectCompleted(page) {
 test("capture current workbench journeys with redistributable fixtures", async ({page, workbench}) => {
   test.setTimeout(120_000);
   await mkdir(output, {recursive: true});
+  const errors = [];
+  page.on("pageerror", error => errors.push(error.message));
   await page.setViewportSize({width: 1440, height: 960});
   await page.goto(await workbench.start("documentation"), {waitUntil: "domcontentloaded"});
   await expect(page.getByText("Connected", {exact: true})).toBeVisible();
@@ -65,9 +68,12 @@ test("capture current workbench journeys with redistributable fixtures", async (
   await page.getByRole("button", {name: "Run synthetic vision fixture", exact: true}).click();
   await expectCompleted(page);
   await page.getByRole("button", {name: /result\.mp4/}).first().click();
-  const video = page.getByLabel("result.mp4 result preview");
+  const video = page.getByLabel("Main result playback", {exact: true});
   await expect(video).toBeVisible();
-  await video.evaluate(element => { element.currentTime = 0.2; });
+  await expect.poll(() => video.evaluate(element => element.readyState)).toBeGreaterThanOrEqual(2);
+  await video.evaluate(element => { element.pause(); element.currentTime = 0.2; });
+  await expect.poll(() => video.evaluate(element => element.currentTime)).toBeCloseTo(0.2, 1);
+  await video.scrollIntoViewIfNeeded();
   await capture(page, "03-vision-result.png");
 
   await chooseProject(page, QWEN);
@@ -78,6 +84,8 @@ test("capture current workbench journeys with redistributable fixtures", async (
 
   await page.getByRole("button", {name: "Run synthetic prompt fixture", exact: true}).click();
   await expectCompleted(page);
+  const promptRunId = await page.locator(".run-live > code").textContent();
+  expect(promptRunId).toMatch(/^[a-f0-9]{32}$/);
   await page.getByRole("button", {name: /^assistant\.txt/}).first().click();
   await expect(page.getByLabel("Checked assistant response")).toContainText(prompt);
   await capture(page, "05-qwen-result.png");
@@ -94,9 +102,19 @@ test("capture current workbench journeys with redistributable fixtures", async (
   await capture(page, "06-tastematch-result.png");
 
   await page.setViewportSize({width: 390, height: 844});
-  await chooseProject(page, QWEN);
-  await page.getByRole("button", {name: /^assistant\.txt/}).first().click();
+  // The tool-wide Jobs registry owns saved-run navigation. Open the prior
+  // prompt run while a different project is selected and verify its owner,
+  // exact persisted identity, destination and checked output are restored.
   await openDestination(page, "Jobs / Runs");
-  await expect(page.getByLabel("Checked assistant response")).toBeVisible();
+  await page.getByRole("button", {name: `Open run ${promptRunId}`, exact: true}).click();
+  await expect(page.getByRole("combobox", {name: "Project", exact: true})).toHaveValue("qwen-docs-fixture");
+  await expect(page.getByRole("navigation", {name: "Workbench destinations"})
+    .getByRole("button", {name: "Inference", exact: true})).toHaveAttribute("aria-current", "page");
+  await expect(page.locator(".run-live > code")).toHaveText(promptRunId);
+  await expectCompleted(page);
+  await page.getByRole("button", {name: /^assistant\.txt/}).first().click();
+  await expect(page.getByLabel("Checked assistant response")).toContainText(prompt);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
   await capture(page, "07-mobile-saved-run.png");
+  expect(errors).toEqual([]);
 });

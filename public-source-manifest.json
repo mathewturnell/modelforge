@@ -141,14 +141,14 @@
       "sha256": "24693424991042f2d940b488a51633c612149ceb95f74d43da2248885d0114e8"
     },
     {
-      "bytes": 4292,
+      "bytes": 5669,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "browser-tests/journeys/documentation-captures.spec.js",
-      "sha256": "fe5bdf7235dc5bea0e6db336294fe563f29ffad78b5e4f2eece244d8e501eb64"
+      "sha256": "c5640b11fcb67736703835422b2c33d9807f3d3fb166ea10091bbab49c87923f"
     },
     {
       "bytes": 6111,
@@ -161,14 +161,14 @@
       "sha256": "bb58a39edb7acf22be8a27c98004d039547e2cdec5cdcb0dcac1c6af18f5e9e2"
     },
     {
-      "bytes": 92745,
+      "bytes": 103258,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "browser-tests/journeys/first-use.spec.js-snapshots/first-use-desktop-github-ubuntu-24.04.png",
-      "sha256": "deaf36eef02747ccaad8b6b37b149634498fb23c68e1e4e675dcf3dc44b010fb"
+      "sha256": "c54f01267df5b704075773a45483db50ca29e9a1505f0d2c1696d19676677304"
     },
     {
       "bytes": 100092,
@@ -181,14 +181,14 @@
       "sha256": "8a2d7630e3b8463e0b2c396b45173e3f695c94176c22ba7ca069177fa0f5e1d5"
     },
     {
-      "bytes": 52837,
+      "bytes": 46257,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "browser-tests/journeys/first-use.spec.js-snapshots/first-use-mobile-390-github-ubuntu-24.04.png",
-      "sha256": "c2c4e6828bbf5943d92cc3097ad29e46655cef5340e21efe0600693ccf66165f"
+      "sha256": "536588477c3ffb7ec35f67c73f9df61118bb48665c417ebf1e11029e9874420c"
     },
     {
       "bytes": 44137,
@@ -301,74 +301,74 @@
       "sha256": "6e38f424625be23a1bfbb3875839a8ce6ccf50d27afabd6cbae51f55622ca71c"
     },
     {
-      "bytes": 109630,
+      "bytes": 119259,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/assets/screenshots/01-project-overview.png",
-      "sha256": "08cb18fdd45184dda1f6b1e05a50fd6e4c5e6cec7a041d686a4a5c4cd9b13493"
+      "sha256": "7bd2dfbd572552ea6629bbf3409e2fa9d0e661691d5242c5bd474e3c0f4b9b1c"
     },
     {
-      "bytes": 119649,
+      "bytes": 107951,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/assets/screenshots/02-dataset-selection.png",
-      "sha256": "a5506c0ffacd3cf236a639f991192b0898399fa0afa4377b8c4c6ea26043ef49"
+      "sha256": "68c03dccd6b307a52a7080cb9cd809d0364884f2d368f546176173b09236c4cc"
     },
     {
-      "bytes": 107863,
+      "bytes": 115789,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/assets/screenshots/03-vision-result.png",
-      "sha256": "a54ff261abc11187d9a673ed976906856481d805ac0b3d551b6da6dff0471869"
+      "sha256": "6a15063fdffcabdbb25a95c08dc57bc42a0b70ca0cf8111ddd0c91c28a813ee2"
     },
     {
-      "bytes": 84283,
+      "bytes": 78964,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/assets/screenshots/04-qwen-prompt.png",
-      "sha256": "e997846aec9ab6569983fb802bfa0d99d622dc74617270356db78324de4f19b9"
+      "sha256": "7b8f78ca8252ee92f1343d793e81b466a3a6df04f0f8563b2522883e7d42839d"
     },
     {
-      "bytes": 107505,
+      "bytes": 95604,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/assets/screenshots/05-qwen-result.png",
-      "sha256": "45ceea584171dcc2776c2f9c3e332cb45eae9094565834c9c510e84e0c046f14"
+      "sha256": "27a4f57eb651cdf4a7daaca3b4d9ccb4209476d10fe69afa99efb67cc441d019"
     },
     {
-      "bytes": 109918,
+      "bytes": 100921,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/assets/screenshots/06-tastematch-result.png",
-      "sha256": "dd0c8c15d5786c970dbf61437a4944ed4f49ccef015d460c4eee6b855a313b90"
+      "sha256": "ed5b4326964c4cf0f319692850e2d17bbe098724f67e3fdfe60a1b8830cea6a5"
     },
     {
-      "bytes": 79773,
+      "bytes": 59632,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/assets/screenshots/07-mobile-saved-run.png",
-      "sha256": "772ef7d76e7aa2d2052e46f524e8678e2e731727158b2ae0b0e6fcdfc80ef1e1"
+      "sha256": "89653d4ce1d805967e6f8bc5d07529d5d0ef7d641a886f94d63b2affccc8d4b6"
     },
     {
       "bytes": 11556,
@@ -501,14 +501,14 @@
       "sha256": "55874918dfd1a9e6327f2674c73504c3f6e58e8fac913bb2e462a28d203317fa"
     },
     {
-      "bytes": 3285,
+      "bytes": 3589,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/releases/2026-09-23-mui-workbench-restoration.md",
-      "sha256": "a3ad9bac8462609059c37955976fbccd90a1c7d1ee59992d4216c17d6b2fd158"
+      "sha256": "18a816aa5e94c36831effec644a863b73525705da6ce111dd64491089de91e63"
     },
     {
       "bytes": 6924,
@@ -2045,14 +2045,14 @@
       "sha256": "836236f123dce601c1f70e48f3001f1bc20609c6ed10be3b814d16369f063bf9"
     },
     {
-      "bytes": 3344,
+      "bytes": 3619,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "tests/test_public_scan.py",
-      "sha256": "335384a90edf256108a43d4309036168e5b7d3085c342db07333c54f53e09521"
+      "sha256": "1405cde22edf7c281af04df54619fdd91621252f2f2083d7dae9da2c2c10c64b"
     },
     {
       "bytes": 6483,
