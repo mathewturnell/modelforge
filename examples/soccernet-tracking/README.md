@@ -65,3 +65,16 @@ mixed file-level notices; no MOTR bytes or patch are distributed. See
 `setup.json`, `PROVENANCE.md`, and [`docs/licensing.md`](../../docs/licensing.md)
 before any future patch or
 runtime claim.
+
+## Checked local sequence excerpts
+
+`infer_selected.py` accepts a `modelforge.soccernet-local-selection/v1` JSON
+selection with an explicit split, sequence, maximum frame count (up to 750), and
+exact filename/size/SHA-256 inventory. `MODELFORGE_SOCCERNET_DATASET_ROOT` binds
+the owner-acquired dataset; `MODELFORGE_MOTR_SOURCE_ROOT` binds clean pinned
+upstream code. The adapter copies only selected frames into run-owned storage,
+uses serial loading to avoid long multiprocessing socket paths, and binds the
+result to the selected descriptor and checkpoint. It does not modify the
+independent 24-frame Modal contract. Current local verification completed 125
+SNMOT-060 frames (5 seconds), including the showcased seconds 2–5 excerpt.
+This is a tracking demonstration, not ball-detection or benchmark evidence.

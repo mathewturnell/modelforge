@@ -1,0 +1,81 @@
+{
+  "protocol": "modelforge.local-runtime-configuration/v1",
+  "id": "bdd100k-box-head-training",
+  "project_repository": "/absolute/path/to/training-project",
+  "name": "BDD100K MeMOTR Box Head Training",
+  "description": "20 real optimizer updates of the final MeMOTR bbox layer; frozen upstream features, separate validation, unpromoted delta.",
+  "support_level": "bounded-finetuning-smoke",
+  "action": {
+    "id": "training",
+    "kind": "training",
+    "interface": "training_process",
+    "display_name": "Finetune MeMOTR box head",
+    "result_protocol": "modelforge.training-result/v1",
+    "interpreter": "/absolute/path/to/project-python",
+    "executable": "/absolute/path/to/this-example/train_box_head.py",
+    "working_directory": "/absolute/path/to/this-example",
+    "arguments": [
+      "--request",
+      "{request}",
+      "--train",
+      "{training_sample}",
+      "--validation",
+      "{validation_sample}",
+      "--output",
+      "{output}",
+      "--checkpoint",
+      "{checkpoint}"
+    ],
+    "environment": {
+      "OMP_NUM_THREADS": "4",
+      "MKL_NUM_THREADS": "4"
+    },
+    "parameters": {
+      "device": "cuda:0",
+      "epochs": 1,
+      "max_batches": 20,
+      "learning_rate": 0.0001,
+      "seed": 42
+    }
+  },
+  "dataset": {
+    "id": "bdd-box-training",
+    "name": "Real BDD100K train and validation frames",
+    "root": "/absolute/path/to/training-samples",
+    "samples": [
+      {
+        "id": "train",
+        "name": "Explicit train frame",
+        "path": "train.json",
+        "split": "train",
+        "content_type": "application/json",
+        "size_bytes": 0,
+        "sha256": "replace-with-64-character-sha256"
+      },
+      {
+        "id": "validation",
+        "name": "Explicit validation frame",
+        "path": "validation.json",
+        "split": "validation",
+        "content_type": "application/json",
+        "size_bytes": 0,
+        "sha256": "replace-with-64-character-sha256"
+      }
+    ]
+  },
+  "bindings": {
+    "source": {
+      "name": "MeMOTR source",
+      "path": "/absolute/path/to/MeMOTR",
+      "revision": "eb7a177b9cbcb89742ec69b2545ab3af2ea31a80",
+      "environment_variable": "MODELFORGE_MEMOTR_SOURCE_ROOT"
+    },
+    "checkpoint": {
+      "id": "google-drive-3d41be3b9c10",
+      "name": "MeMOTR BDD100K checkpoint",
+      "path": "/absolute/path/to/memotr_bdd100k.pth",
+      "size_bytes": 603623604,
+      "sha256": "c90604ab0b4036d1f6b0d5ff4be7c1ea41ff581e344b234fb802b24f9d3487bd"
+    }
+  }
+}

@@ -16,7 +16,13 @@ APACHE_REFERENCE_REVISION = "953e7be49a3554a9d6dea0bdbcf894133b4d1c31"
 NEW_PUBLIC_FILES = {
     "workbench/.gitignore",
     "workbench/src/lib/api.test.ts",
+    "workbench/src/theme.ts",
+    "workbench/src/JobsRegistry.tsx",
+    "workbench/src/ModelArchitectureView.test.ts",
+    "workbench/src/TrainingTelemetryView.test.ts",
+    "workbench/src/LifecycleViews.test.ts",
 }
+
 EXCLUDED_PARTS = {"node_modules"}
 
 
@@ -26,6 +32,10 @@ def _sha256(path: Path) -> str:
 
 def _file_records() -> list[dict]:
     records = []
+    prior_records = {}
+    if INVENTORY.is_file():
+        prior = json.loads(INVENTORY.read_text(encoding="utf-8"))
+        prior_records = {record["path"]: record for record in prior.get("files", [])}
     for path in sorted(WORKBENCH.rglob("*")):
         if (
             not path.is_file()
@@ -47,6 +57,10 @@ def _file_records() -> list[dict]:
                 "donor_revision": DONOR_REVISION,
                 "donor_path": f"modelforge/browser/{relative}",
             }
+        # Preserve reviewed file-by-file donor identities for adapted components.
+        if relative in prior_records:
+            origin = prior_records[relative].get("origin", origin)
+            disposition = prior_records[relative].get("disposition", disposition)
         records.append({
             "path": relative,
             "sha256": _sha256(path),
@@ -61,6 +75,7 @@ def _file_records() -> list[dict]:
 def main() -> int:
     files = _file_records()
     lock_digest = _sha256(WORKBENCH / "package-lock.json")
+    prior = {}
     approval_status = "pending_human_approval"
     approval = {
         "owner": "Mathew Turnell",
@@ -90,9 +105,15 @@ def main() -> int:
         },
         "package_lock_sha256": lock_digest,
         "bundled_runtime_dependencies": [
-            {"name": "react", "version": "19.2.8", "license": "MIT"},
-            {"name": "react-dom", "version": "19.2.8", "license": "MIT"},
-            {"name": "scheduler", "version": "0.27.0", "license": "MIT"},
+            {
+                "name": metadata.get("name") or path.split("node_modules/")[-1],
+                "version": metadata["version"],
+                "license": metadata.get("license", "SEE LICENSE"),
+            }
+            for path, metadata in sorted(json.loads(
+                (WORKBENCH / "package-lock.json").read_text(encoding="utf-8")
+            )["packages"].items())
+            if path and not metadata.get("dev")
         ],
         "direct_build_and_test_tools": [
             {"name": "@vitejs/plugin-react", "version": "6.0.5", "license": "MIT"},
@@ -102,6 +123,8 @@ def main() -> int:
         ],
         "files": files,
     }
+    if approval_status != "pending_human_approval" and prior.get("maintenance_authorization"):
+        payload["maintenance_authorization"] = prior["maintenance_authorization"]
     INVENTORY.write_text(
         json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8",
     )

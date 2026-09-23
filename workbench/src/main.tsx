@@ -1,6 +1,12 @@
 import {Component, StrictMode, type ErrorInfo, type ReactNode} from "react";
 import {createRoot} from "react-dom/client";
 import App from "./App";
+import {CacheProvider} from "@emotion/react";
+import createCache from "@emotion/cache";
+import {CssBaseline, ThemeProvider} from "@mui/material";
+import {workbenchTheme} from "./theme";
+const styleNonce = document.querySelector<HTMLMetaElement>('meta[name="modelforge-style-nonce"]')?.content;
+const styleCache = createCache({key:"modelforge", nonce:styleNonce, prepend:true});
 import {bootstrapSessionToken} from "./lib/api";
 import "./styles.css";
 bootstrapSessionToken();
@@ -12,4 +18,4 @@ class ErrorBoundary extends Component<{children: ReactNode}, {error: Error | nul
 }
 const root = document.getElementById("root");
 if (!root) throw new Error("ModelForge workbench root is missing");
-createRoot(root).render(<StrictMode><ErrorBoundary><App /></ErrorBoundary></StrictMode>);
+createRoot(root).render(<StrictMode><CacheProvider value={styleCache}><ThemeProvider theme={workbenchTheme}><CssBaseline/><ErrorBoundary><App /></ErrorBoundary></ThemeProvider></CacheProvider></StrictMode>);

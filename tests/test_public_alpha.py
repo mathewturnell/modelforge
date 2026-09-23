@@ -163,9 +163,8 @@ def test_react_client_retains_per_tab_auth_and_checked_blob_boundaries():
     assert '`${run.status} · unavailable`' in app
     index = (root / "index.html").read_text(encoding="utf-8")
     assert '<link rel="icon" href="data:," />' in index
-    styles = (root / "src" / "styles.css").read_text(encoding="utf-8")
-    assert "word-break:break-all" in styles
-    assert 'grid-template-areas:"title" "rail" "tabs" "work" "inspector" "status"' in styles
+    # Responsive overflow and inspector access are checked against real DOM
+    # geometry in the packaged browser journeys, not CSS implementation text.
 
 
 def test_live_projection_preserves_split_utf8_and_split_progress_lines():
@@ -361,3 +360,21 @@ def test_cross_origin_mutation_and_invalid_host_are_rejected(tmp_path):
         server.shutdown()
         server.server_close()
         thread.join(timeout=3)
+
+
+def test_live_training_projection_validates_scalar_splits_order_and_finiteness():
+    from datetime import datetime, timezone
+    from modelforge_workbench.application.execution import ExecutionEvent
+    live = {}
+    projection = _LiveEventProjection(lambda: live)
+    values = [
+        {"protocol": "modelforge.training-scalar/v1", "step": 1, "split": "train", "name": "loss", "value": 0.2},
+        {"protocol": "modelforge.training-scalar/v1", "step": 1, "split": "train", "name": "loss", "value": 99},
+        {"protocol": "modelforge.training-scalar/v1", "step": 2, "split": "held-out", "name": "loss", "value": 0.1},
+        {"protocol": "modelforge.training-scalar/v1", "step": 2, "split": "train", "name": "loss", "value": float("nan")},
+        {"protocol": "modelforge.training-scalar/v1", "step": 2, "split": "validation", "name": "loss", "value": 0.3},
+    ]
+    payload = "".join("[MODELFORGE_TELEMETRY] " + json.dumps(value) + "\n" for value in values).encode()
+    for sequence, part in enumerate((payload[:43], payload[43:]), 1):
+        projection(ExecutionEvent(sequence, datetime.now(timezone.utc), "stdout", part))
+    assert live["telemetry_events"] == [values[0], values[4]]

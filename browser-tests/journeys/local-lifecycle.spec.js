@@ -1,6 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 
 import {expect, test} from "../support/workbench.js";
+import {openRunDetails, openOutput} from "../support/visible-evidence.js";
 
 
 async function open(page, workbench) {
@@ -41,6 +42,7 @@ test("vision execution exposes live evidence, checked media, reload, and restart
   await openDestination(page, "Inference");
   await page.getByRole("button", {name: "Run synthetic vision fixture", exact: true}).click();
   await expectTerminal(page, "completed");
+  await openOutput(page);
   await expect(page.getByRole("region", {name: "Run log"})).toContainText("Synthetic vision fixture started");
   const artifact = page.getByRole("button", {name: /result\.mp4/}).first();
   await expect(artifact).toBeVisible();
@@ -50,12 +52,14 @@ test("vision execution exposes live evidence, checked media, reload, and restart
   expect(runIdentity).toMatch(/^[a-f0-9]{32}$/);
 
   await page.reload({waitUntil: "domcontentloaded"});
+  await openRunDetails(page);
   await expect(page.locator(".run-live > code")).toHaveText(runIdentity);
   await expectTerminal(page, "completed");
 
   const restartedUrl = await workbench.restart();
   await page.goto(restartedUrl, {waitUntil: "domcontentloaded"});
   await chooseProject(page, "Synthetic Vision Lab");
+  await openRunDetails(page);
   await expect(page.locator(".run-live > code")).toHaveText(runIdentity);
   await expectTerminal(page, "completed");
 
@@ -73,7 +77,7 @@ test("prompt action renders checked text without inventing training support", as
   await expect(page.getByRole("button", {name: /start training/i})).toHaveCount(0);
 
   await openDestination(page, "Inference");
-  await page.getByRole("textbox", {name: "Prompt"}).fill("Why are durable local runs useful?");
+  await page.getByRole("textbox", {name: "Prompt", exact: true}).fill("Why are durable local runs useful?");
   await page.getByRole("button", {name: "Run synthetic prompt fixture", exact: true}).click();
   await expectTerminal(page, "completed");
   const artifact = page.getByRole("complementary", {name: "Current run"}).getByRole("button", {name: /^assistant\.txt/});
@@ -112,6 +116,7 @@ test("cancellation is requested through the shared lifecycle and reaches cancell
   await openDestination(page, "Inference");
   await page.getByRole("button", {name: "Run synthetic vision fixture", exact: true}).click();
   await expect(page.locator(".run-inspector .badge")).toContainText(/running|queued/);
+  await openOutput(page);
   await expect(page.getByRole("region", {name: "Run log"})).toContainText("fixture_heartbeat");
   await page.getByRole("button", {name: "Request cancellation"}).click();
   await expectTerminal(page, "cancelled");

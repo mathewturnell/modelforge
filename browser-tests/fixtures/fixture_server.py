@@ -63,6 +63,87 @@ DOCUMENTATION_VIDEO = base64.b64decode(
 )
 
 
+# Original black32x18 video:203frames at5fps, generated without any model.
+TIMELINE_VIDEO = base64.b64decode(
+    "AAAAIGZ0eXBpc29tAAACAGlzb21pc28yYXZjMW1wNDEAAAy+bW9vdgAAAGxtdmhkAAAAAAAAAAAAAAAAAAAD6AAAnpgAAQAAAQAAAAAAAAAAAAAAAAEAAAAA"
+    "AAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAC+l0cmFrAAAAXHRraGQAAAADAAAAAAAAAAAAAAAB"
+    "AAAAAAAAnpgAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAACAAAAASAAAAAAAkZWR0cwAAABxlbHN0AAAAAAAA"
+    "AAEAAJ6YAAAQAAABAAAAAAthbWRpYQAAACBtZGhkAAAAAAAAAAAAAAAAAAAoAAAGWABVxAAAAAAALWhkbHIAAAAAAAAAAHZpZGUAAAAAAAAAAAAAAABWaWRl"
+    "b0hhbmRsZXIAAAALDG1pbmYAAAAUdm1oZAAAAAEAAAAAAAAAAAAAACRkaW5mAAAAHGRyZWYAAAAAAAAAAQAAAAx1cmwgAAAAAQAACsxzdGJsAAAAwHN0c2QA"
+    "AAAAAAAAAQAAALBhdmMxAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAACAAEgBIAAAASAAAAAAAAAABFUxhdmM2Mi4xMS4xMDAgbGlieDI2NAAAAAAAAAAAAAAA"
+    "GP//AAAANmF2Y0MBZAAK/+EAGWdkAAqs2Ul+IwEQAAADABAAAAMAoPEiWWABAAZo6+PLIsD9+PgAAAAAEHBhc3AAAAABAAAAAQAAABRidHJ0AAAAAAAAAsAA"
+    "AAAAAAAAGHN0dHMAAAAAAAAAAQAAAMsAAAgAAAAAFHN0c3MAAAAAAAAAAQAAAAEAAAZoY3R0cwAAAAAAAADLAAAAAQAAEAAAAAABAAAoAAAAAAEAABAAAAAA"
+    "AQAAAAAAAAABAAAIAAAAAAEAACgAAAAAAQAAEAAAAAABAAAAAAAAAAEAAAgAAAAAAQAAKAAAAAABAAAQAAAAAAEAAAAAAAAAAQAACAAAAAABAAAoAAAAAAEA"
+    "ABAAAAAAAQAAAAAAAAABAAAIAAAAAAEAACgAAAAAAQAAEAAAAAABAAAAAAAAAAEAAAgAAAAAAQAAKAAAAAABAAAQAAAAAAEAAAAAAAAAAQAACAAAAAABAAAo"
+    "AAAAAAEAABAAAAAAAQAAAAAAAAABAAAIAAAAAAEAACgAAAAAAQAAEAAAAAABAAAAAAAAAAEAAAgAAAAAAQAAKAAAAAABAAAQAAAAAAEAAAAAAAAAAQAACAAA"
+    "AAABAAAoAAAAAAEAABAAAAAAAQAAAAAAAAABAAAIAAAAAAEAACgAAAAAAQAAEAAAAAABAAAAAAAAAAEAAAgAAAAAAQAAKAAAAAABAAAQAAAAAAEAAAAAAAAA"
+    "AQAACAAAAAABAAAoAAAAAAEAABAAAAAAAQAAAAAAAAABAAAIAAAAAAEAACgAAAAAAQAAEAAAAAABAAAAAAAAAAEAAAgAAAAAAQAAKAAAAAABAAAQAAAAAAEA"
+    "AAAAAAAAAQAACAAAAAABAAAoAAAAAAEAABAAAAAAAQAAAAAAAAABAAAIAAAAAAEAACgAAAAAAQAAEAAAAAABAAAAAAAAAAEAAAgAAAAAAQAAKAAAAAABAAAQ"
+    "AAAAAAEAAAAAAAAAAQAACAAAAAABAAAoAAAAAAEAABAAAAAAAQAAAAAAAAABAAAIAAAAAAEAACgAAAAAAQAAEAAAAAABAAAAAAAAAAEAAAgAAAAAAQAAKAAA"
+    "AAABAAAQAAAAAAEAAAAAAAAAAQAACAAAAAABAAAoAAAAAAEAABAAAAAAAQAAAAAAAAABAAAIAAAAAAEAACgAAAAAAQAAEAAAAAABAAAAAAAAAAEAAAgAAAAA"
+    "AQAAKAAAAAABAAAQAAAAAAEAAAAAAAAAAQAACAAAAAABAAAoAAAAAAEAABAAAAAAAQAAAAAAAAABAAAIAAAAAAEAACgAAAAAAQAAEAAAAAABAAAAAAAAAAEA"
+    "AAgAAAAAAQAAKAAAAAABAAAQAAAAAAEAAAAAAAAAAQAACAAAAAABAAAoAAAAAAEAABAAAAAAAQAAAAAAAAABAAAIAAAAAAEAACgAAAAAAQAAEAAAAAABAAAA"
+    "AAAAAAEAAAgAAAAAAQAAKAAAAAABAAAQAAAAAAEAAAAAAAAAAQAACAAAAAABAAAoAAAAAAEAABAAAAAAAQAAAAAAAAABAAAIAAAAAAEAACgAAAAAAQAAEAAA"
+    "AAABAAAAAAAAAAEAAAgAAAAAAQAAKAAAAAABAAAQAAAAAAEAAAAAAAAAAQAACAAAAAABAAAoAAAAAAEAABAAAAAAAQAAAAAAAAABAAAIAAAAAAEAACgAAAAA"
+    "AQAAEAAAAAABAAAAAAAAAAEAAAgAAAAAAQAAKAAAAAABAAAQAAAAAAEAAAAAAAAAAQAACAAAAAABAAAoAAAAAAEAABAAAAAAAQAAAAAAAAABAAAIAAAAAAEA"
+    "ACgAAAAAAQAAEAAAAAABAAAAAAAAAAEAAAgAAAAAAQAAKAAAAAABAAAQAAAAAAEAAAAAAAAAAQAACAAAAAABAAAoAAAAAAEAABAAAAAAAQAAAAAAAAABAAAI"
+    "AAAAAAEAACgAAAAAAQAAEAAAAAABAAAAAAAAAAEAAAgAAAAAAQAAKAAAAAABAAAQAAAAAAEAAAAAAAAAAQAACAAAAAABAAAoAAAAAAEAABAAAAAAAQAAAAAA"
+    "AAABAAAIAAAAAAEAACgAAAAAAQAAEAAAAAABAAAAAAAAAAEAAAgAAAAAAQAAKAAAAAABAAAQAAAAAAEAAAAAAAAAAQAACAAAAAABAAAoAAAAAAEAABAAAAAA"
+    "AQAAAAAAAAABAAAIAAAAAAEAACgAAAAAAQAAEAAAAAABAAAAAAAAAAEAAAgAAAAAAQAAKAAAAAABAAAQAAAAAAEAAAAAAAAAAQAACAAAAAABAAAoAAAAAAEA"
+    "ABAAAAAAAQAAAAAAAAABAAAIAAAAAAEAACgAAAAAAQAAEAAAAAABAAAAAAAAAAEAAAgAAAAAAQAAGAAAAAABAAAIAAAAABxzdHNjAAAAAAAAAAEAAAABAAAA"
+    "ywAAAAEAAANAc3RzegAAAAAAAAAAAAAAywAAArwAAAANAAAADAAAAAwAAAAMAAAAEwAAAA4AAAAMAAAADAAAABMAAAAOAAAADAAAAAwAAAATAAAADgAAAAwA"
+    "AAAMAAAAEwAAAA4AAAAMAAAADAAAABMAAAAOAAAADAAAAAwAAAATAAAADgAAAAwAAAAMAAAAEwAAAA4AAAAMAAAADAAAABMAAAAOAAAADAAAAAwAAAATAAAA"
+    "DgAAAAwAAAAMAAAAEwAAAA4AAAAMAAAADAAAABMAAAAOAAAADAAAAAwAAAATAAAADgAAAAwAAAAMAAAAEwAAAA4AAAAMAAAADAAAABMAAAAOAAAADAAAAAwA"
+    "AAATAAAADgAAAAwAAAAMAAAAEwAAAA4AAAAMAAAADAAAABMAAAAOAAAADAAAAAwAAAATAAAADgAAAAwAAAAMAAAAEwAAAA4AAAAMAAAADAAAABMAAAAOAAAA"
+    "DAAAAAwAAAATAAAADgAAAAwAAAAMAAAAEwAAAA4AAAAMAAAADAAAABMAAAAOAAAADAAAAAwAAAATAAAADgAAAAwAAAAMAAAAEwAAAA4AAAAMAAAADAAAABMA"
+    "AAAOAAAADAAAAAwAAAATAAAADgAAAAwAAAAMAAAAEwAAAA4AAAAMAAAADAAAABMAAAAOAAAADAAAAAwAAAATAAAADgAAAAwAAAAMAAAAEwAAAA4AAAAMAAAA"
+    "DAAAABMAAAAOAAAADAAAAAwAAAATAAAADgAAAAwAAAAMAAAAEwAAAA4AAAAMAAAADAAAABMAAAAOAAAADAAAAAwAAAATAAAADgAAAAwAAAAMAAAAEwAAAA4A"
+    "AAAMAAAADAAAABMAAAAOAAAADAAAAAwAAAATAAAADgAAAAwAAAAMAAAAEwAAAA4AAAAMAAAADAAAABMAAAAOAAAADAAAAAwAAAATAAAADgAAAAwAAAAMAAAA"
+    "EwAAAA4AAAAMAAAADAAAABMAAAAOAAAADAAAAAwAAAATAAAADgAAAAwAAAAMAAAAEwAAAA4AAAAMAAAADAAAABMAAAAOAAAADAAAAAwAAAATAAAADgAAAAwA"
+    "AAAMAAAAEwAAAA4AAAAMAAAADAAAABQAAAAMAAAAFHN0Y28AAAAAAAAAAQAADO4AAABhdWR0YQAAAFltZXRhAAAAAAAAACFoZGxyAAAAAAAAAABtZGlyYXBw"
+    "bAAAAAAAAAAAAAAAACxpbHN0AAAAJKl0b28AAAAcZGF0YQAAAAEAAAAATGF2ZjYyLjMuMTAwAAAACGZyZWUAAA3+bWRhdAAAAp8GBf//m9xF6b3m2Ui3lizY"
+    "INkj7u94MjY0IC0gY29yZSAxNjUgLSBILjI2NC9NUEVHLTQgQVZDIGNvZGVjIC0gQ29weWxlZnQgMjAwMy0yMDI1IC0gaHR0cDovL3d3dy52aWRlb2xhbi5v"
+    "cmcveDI2NC5odG1sIC0gb3B0aW9uczogY2FiYWM9MSByZWY9MyBkZWJsb2NrPTE6MDowIGFuYWx5c2U9MHgzOjB4MTEzIG1lPWhleCBzdWJtZT03IHBzeT0x"
+    "IHBzeV9yZD0xLjAwOjAuMDAgbWl4ZWRfcmVmPTEgbWVfcmFuZ2U9MTYgY2hyb21hX21lPTEgdHJlbGxpcz0xIDh4OGRjdD0xIGNxbT0wIGRlYWR6b25lPTIx"
+    "LDExIGZhc3RfcHNraXA9MSBjaHJvbWFfcXBfb2Zmc2V0PS0yIHRocmVhZHM9MSBsb29rYWhlYWRfdGhyZWFkcz0xIHNsaWNlZF90aHJlYWRzPTAgbnI9MCBk"
+    "ZWNpbWF0ZT0xIGludGVybGFjZWQ9MCBibHVyYXlfY29tcGF0PTAgY29uc3RyYWluZWRfaW50cmE9MCBiZnJhbWVzPTMgYl9weXJhbWlkPTIgYl9hZGFwdD0x"
+    "IGJfYmlhcz0wIGRpcmVjdD0xIHdlaWdodGI9MSBvcGVuX2dvcD0wIHdlaWdodHA9MiBrZXlpbnQ9MjUwIGtleWludF9taW49NSBzY2VuZWN1dD00MCBpbnRy"
+    "YV9yZWZyZXNoPTAgcmNfbG9va2FoZWFkPTQwIHJjPWNyZiBtYnRyZWU9MSBjcmY9MjMuMCBxY29tcD0wLjYwIHFwbWluPTAgcXBtYXg9NjkgcXBzdGVwPTQg"
+    "aXBfcmF0aW89MS40MCBhcT0xOjEuMDAAgAAAABVliIQAFP/+98dPwKbq3CLLnEkAf+EAAAAJQZokbEFP/tbgAAAACEGeQniCHzUhAAAACAGeYXRD/0RAAAAA"
+    "CAGeY2pD/0RBAAAAD0GaaEmoQWiZTAgp//7W4QAAAApBnoZFESwQ/zUhAAAACAGepXRD/0RBAAAACAGep2pD/0RAAAAAD0GarEmoQWyZTAgp//7W4AAAAApB"
+    "nspFFSwQ/zUhAAAACAGe6XRD/0RAAAAACAGe62pD/0RAAAAAD0Ga8EmoQWyZTAgp//7W4QAAAApBnw5FFSwQ/zUhAAAACAGfLXRD/0RBAAAACAGfL2pD/0RA"
+    "AAAAD0GbNEmoQWyZTAgp//7W4AAAAApBn1JFFSwQ/zUhAAAACAGfcXRD/0RAAAAACAGfc2pD/0RAAAAAD0GbeEmoQWyZTAgp//7W4QAAAApBn5ZFFSwQ/zUg"
+    "AAAACAGftXRD/0RBAAAACAGft2pD/0RBAAAAD0GbvEmoQWyZTAgp//7W4AAAAApBn9pFFSwQ/zUhAAAACAGf+XRD/0RAAAAACAGf+2pD/0RBAAAAD0Gb4Emo"
+    "QWyZTAgp//7W4QAAAApBnh5FFSwQ/zUgAAAACAGePXRD/0RAAAAACAGeP2pD/0RBAAAAD0GaJEmoQWyZTAgp//7W4AAAAApBnkJFFSwQ/zUhAAAACAGeYXRD"
+    "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"
+)
+
 def write_json(path: Path, value: object) -> None:
     path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
@@ -190,10 +271,46 @@ def configure_projects(
         },
         "bindings": {"model": {"path": str(model), "model_id": "fixture/model", "revision": "fixture-revision"}},
     }
+    if not documentation:
+        timeline = dataset / "timeline.mp4"
+        timeline.write_bytes(TIMELINE_VIDEO)
+        vision_config["dataset"]["samples"].append({
+            "id": "timeline", "name": "Long authored timeline", "path": timeline.name,
+            "split": "train", "content_type": "video/mp4", "size_bytes": timeline.stat().st_size,
+            "sha256": digest(timeline),
+        })
+        vision_config["dataset"]["samples"].append({
+            **samples[0], "id": "protected", "name": "Protected test clip", "split": "test",
+        })
+        descriptor = root / "vision-model.json"
+        write_json(descriptor, {
+            "protocol": "modelforge.model-descriptor/v1", "model_id": "fixture-model",
+            "name": "Authored fixture architecture",
+            "checkpoint": {"sha256": digest(checkpoint)},
+            "nodes": [
+                {"id": "encoder", "label": "Image encoder", "kind": "encoder", "parameter_count": 42, "category": "encoder", "detail": "[B, 3, 8, 8]", "config": {"native_class_count": 8}},
+                {"id": "head", "label": "Tracking head", "kind": "head"},
+            ],
+            "edges": [{"source": "encoder", "target": "head"}],
+            "sources": [{"id": "authored", "name": "Authored fixture backbone", "revision": "fixture-revision", "node_ids": ["encoder"]}],
+            "brief": {"description": "Authored structural fixture; no model is loaded.", "rationale": ["Deterministic browser graph inspection."], "goals": ["Keep safe descriptor identity visible."]},
+        })
+        vision_config["bindings"]["model_descriptor"] = {"path": str(descriptor), "sha256": digest(descriptor)}
+
     for name, value in (("vision.json", vision_config), ("prompt.json", prompt_config)):
         config = root / name
         write_json(config, value)
         app.register_project(config)
+
+    if not documentation:
+        app.annotations.save(vision_id, "clips", "timeline", {
+            "expected_revision": 0,
+            "annotations": [
+                {"id": f"frame-{frame}", "frame": frame, "label": "authored object",
+                 "track_id": "authored-track", "x": .1, "y": .1, "width": .2, "height": .2}
+                for frame in range(1, 204)
+            ],
+        })
 
     if documentation:
         taste = root / "tastematch-project"
@@ -274,6 +391,43 @@ def configure_projects(
         app.register_project(taste_config_path)
 
 
+
+def configure_training(app: AlphaWorkbench, root: Path) -> None:
+    project = root / "training-project"
+    project.mkdir(parents=True, exist_ok=True)
+    worker = Path(__file__).with_name("training_worker.py").resolve()
+    write_json(project / "project.json", authored_manifest(
+        "training-fixture", "Synthetic Scalar Training Lab", "training", "training_process",
+        "modelforge.training-result/v1",
+    ))
+    samples = []
+    for split, target in (("train", 2.0), ("validation", 2.1), ("test", 999)):
+        path = project / f"{split}.json"
+        write_json(path, {"target": target, "split": split})
+        samples.append({
+            "id": split, "name": f"Authored {split} target", "path": path.name,
+            "split": split, "content_type": "application/json", "sha256": digest(path),
+            "size_bytes": path.stat().st_size,
+        })
+    config = root / "training.json"
+    write_json(config, {
+        "protocol": "modelforge.local-runtime-configuration/v1", "id": "training-fixture",
+        "project_repository": str(project), "name": "Synthetic Scalar Training Lab",
+        "description": "Three actual scalar optimization steps on authored train and validation targets; no model-quality claim.",
+        "support_level": "conformance-fixture",
+        "action": {
+            "id": "training", "kind": "training", "interface": "training_process",
+            "display_name": "Train authored scalar", "result_protocol": "modelforge.training-result/v1",
+            "interpreter": sys.executable, "executable": str(worker), "working_directory": str(project),
+            "arguments": ["--request", "{request}", "--train", "{training_sample}", "--validation", "{validation_sample}", "--output", "{output}"],
+            "parameters": {"device": "cpu", "epochs": 1, "max_batches": 3, "learning_rate": 0.1, "seed": 7},
+        },
+        "dataset": {"id": "scalar-targets", "name": "Authored scalar targets", "root": str(project), "samples": samples},
+        "bindings": {},
+    })
+    app.register_project(config)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--state-root", type=Path, required=True)
@@ -290,6 +444,8 @@ def main() -> None:
             Path(__file__).with_name("managed_worker.py").resolve(),
             documentation=args.mode == "documentation",
         )
+    if args.mode == "full":
+        configure_training(app, args.fixture_root)
     server = _Server(("127.0.0.1", 0), app, TOKEN)
     port = server.server_address[1]
     print(json.dumps({"url": f"http://127.0.0.1:{port}/#token={TOKEN}", "port": port}), flush=True)

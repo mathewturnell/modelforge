@@ -76,6 +76,11 @@ def test_only_named_reviewed_visuals_are_accepted_as_binary_fixtures():
         "browser-tests/journeys/first-use.spec.js-snapshots/first-use-desktop-github-ubuntu-24.04.png",
         "browser-tests/journeys/first-use.spec.js-snapshots/first-use-mobile-390-github-ubuntu-24.04.png",
     }
+    expected.update({
+        "workbench/src/assets/modalitysystems.png",
+        "src/modelforge_workbench/workbench/static/workbench/assets/modalitysystems-upIcUup5.png",
+        "modelforge_workbench/workbench/static/workbench/assets/modalitysystems-upIcUup5.png",
+    })
     assert scanner.APPROVED_BINARY_FIXTURES == expected
     assert all(scanner._category_for_path(path) is None for path in expected)
     assert scanner._category_for_path("docs/unreviewed-screenshot.png") == (

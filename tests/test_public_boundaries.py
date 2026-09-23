@@ -125,7 +125,7 @@ def test_example_source_inventory_is_file_complete_and_content_bound():
             assert "SPDX-License-Identifier:" in "\n".join(
                 path.read_text(encoding="utf-8").splitlines()[:15]
             )
-    assert len(records) == 19
+    assert len(records) == 19 + inventory["additions_2026_09_23"]["independently_authored_files"]
     assert sum(item["upstream_revision"] is not None for item in records) == 5
     mixed = [item["treatment"] for item in records if "notice-preserving" in item["treatment"]]
     assert len(mixed) == 2

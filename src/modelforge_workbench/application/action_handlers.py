@@ -97,6 +97,25 @@ class TrainingActionHandler(ActionHandler):
             raise ValueError("Managed training result cannot claim promotion")
 
 
+        if value.get("protocol") == "modelforge.training-result/v1":
+            results = value.get("results")
+            if not isinstance(results, tuple) or not 1 <= len(results) <= 8:
+                raise ValueError("Training result requires bounded checkpoint artifacts")
+            for item in results:
+                if not isinstance(item, Mapping) or item.get("kind") != "checkpoint":
+                    raise ValueError("Training result must declare checkpoint artifacts")
+                path = str(item.get("path") or "")
+                if path in {"", ".", "..", "result.json", "telemetry.jsonl"} or "/" in path or "\\" in path:
+                    raise ValueError("Training checkpoint path must be a filename")
+                if not re.fullmatch(r"[a-f0-9]{64}", str(item.get("sha256") or "")):
+                    raise ValueError("Training checkpoint digest is required")
+            telemetry = value.get("telemetry")
+            if not isinstance(telemetry, Mapping) or telemetry.get("path") != "telemetry.jsonl" or not re.fullmatch(r"[a-f0-9]{64}", str(telemetry.get("sha256") or "")):
+                raise ValueError("Training result requires digest-bound scalar telemetry")
+            if value.get("candidate_status") != "unpromoted":
+                raise ValueError("Training checkpoint must remain an unpromoted candidate")
+
+
 class EvaluationActionHandler(ActionHandler):
     kind = "evaluation"
     request_workflows = frozenset({"evaluation"})

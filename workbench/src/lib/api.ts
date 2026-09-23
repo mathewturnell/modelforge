@@ -47,7 +47,7 @@ export const api = {
   project: (id: string, signal?: AbortSignal) => request<Project>(`/api/v1/projects/${enc(id)}`, {signal}),
   samples: (projectId: string, datasetId: string, signal?: AbortSignal) => request<{items?: Sample[]; samples?: Sample[]}>(`/api/v1/projects/${enc(projectId)}/datasets/${enc(datasetId)}/samples`, {signal}),
   sampleContent: (projectId: string, datasetId: string, sampleId: string, signal?: AbortSignal) => authenticatedBlob(`/api/v1/projects/${enc(projectId)}/datasets/${enc(datasetId)}/samples/${enc(sampleId)}/content`, signal),
-  runs: (projectId: string, signal?: AbortSignal) => request<{runs: Run[]}>(`/api/v1/runs?project_id=${enc(projectId)}`, {signal}),
+  runs: (projectId?: string, signal?: AbortSignal) => request<{runs: Run[]}>(`/api/v1/runs${projectId ? `?project_id=${enc(projectId)}` : ""}`, {signal}),
   run: (id: string, signal?: AbortSignal) => request<Run>(`/api/v1/runs/${enc(id)}`, {signal}),
   artifact: (runId: string, artifactId: string, signal?: AbortSignal) => authenticatedBlob(`/api/v1/runs/${enc(runId)}/artifacts/${enc(artifactId)}`, signal),
   modal: (signal?: AbortSignal) => request<ModalStatus>("/api/v1/providers/modal", {signal}),

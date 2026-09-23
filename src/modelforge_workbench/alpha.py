@@ -6,6 +6,7 @@ import hashlib
 import codecs
 import json
 import os
+import secrets
 import stat
 import sys
 from importlib.resources import files
@@ -98,6 +99,17 @@ class _LiveEventProjection:
             self.line_carry[event.stream] = lines.pop()
         for line in lines:
             line = line.rstrip("\r\n")
+            if line.startswith("[MODELFORGE_TELEMETRY] "):
+                try:
+                    from .application.training_telemetry import validate_training_scalar
+                    scalar = validate_training_scalar(json.loads(line.split(" ", 1)[1]))
+                    observed = live.setdefault("telemetry_events", [])
+                    same = [item for item in observed if (item["split"], item["name"]) == (scalar["split"], scalar["name"])]
+                    if len(observed) < 2000 and (not same or scalar["step"] > same[-1]["step"]):
+                        observed.append(scalar)
+                except (ValueError, TypeError, KeyError):
+                    pass
+                continue
             if not line.startswith("[MODELFORGE_PROGRESS] "):
                 continue
             try:
@@ -213,6 +225,10 @@ class AlphaWorkbench:
             FileModalActionBindingRepository(self.state_root), self.projects,
         )
         self.datasets = DatasetService(self.runtime_configurations)
+        from .application.annotations import AnnotationService
+        from .application.model_inspection import ModelInspectionService
+        self.annotations = AnnotationService(self.state_root, self.datasets)
+        self.model_inspection = ModelInspectionService(self.runtime_configurations)
         self.project_actions = ProjectActionService(
             self.runtime_configurations, self.datasets, self.actions, self.modal_bindings,
         )
@@ -272,6 +288,17 @@ class AlphaWorkbench:
         return self.modal_bindings.register_file(path)
 
     def _with_execution_targets(self, runtime: dict) -> dict:
+        registered = self.runtime_configurations.get(runtime["id"])
+        runtime["features"] = {
+            "annotation": any(
+                item.get("content_type", "").startswith(("image/", "video/"))
+                for item in (registered.get("dataset") or {}).get("samples", [])
+            ),
+            "training": runtime.get("action", {}).get("kind") == "training",
+            "model_inspection": any(
+                item.get("id") == "model_descriptor" for item in runtime.get("bindings", [])
+            ),
+        }
         targets = []
         if runtime.get("local_enabled", True):
             targets.append({
@@ -348,6 +375,13 @@ class AlphaWorkbench:
             }
         if run_id in self._live:
             value["live"] = dict(self._live[run_id])
+        if value.get("request", {}).get("workflow") == "training":
+            try:
+                value["telemetry"] = self.project_actions.training_telemetry(value["project_id"], run_id)
+            except (OSError, ValueError):
+                value["telemetry"] = {"status": "unavailable", "events": [], "reason": "Training evidence is invalid or changed"}
+            if value["status"] in {"queued", "running"} and value.get("live", {}).get("telemetry_events"):
+                value["telemetry"] = {"status": "available", "events": value["live"]["telemetry_events"], "source": "live-observation"}
         return value
 
     def get_run(self, run_id: str, project_id: str | None = None) -> dict:
@@ -526,15 +560,16 @@ class AlphaWorkbench:
                     "; ".join(readiness.get("reasons") or ())
                     or "Modal SDK credentials are not configured"
                 )
-        run_key = ["pending"]
+        pending_key = "pending-" + secrets.token_hex(16)
+        run_key = [pending_key]
         self._live.setdefault(run_key[0], {})
         observe = _LiveEventProjection(lambda: self._live.setdefault(run_key[0], {}))
         execution = self.project_actions.start(project_id, payload, on_event=observe)
         if isinstance(execution, dict):
-            self._live.pop("pending", None)
+            self._live.pop(pending_key, None)
             return self.artifacts.public_job(execution)
-        if "pending" in self._live:
-            self._live[execution.run_id] = self._live.pop("pending")
+        if pending_key in self._live:
+            self._live[execution.run_id] = self._live.pop(pending_key)
         run_key[0] = execution.run_id
         if on_started:
             on_started(execution)

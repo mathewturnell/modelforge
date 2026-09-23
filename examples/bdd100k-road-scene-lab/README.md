@@ -2,7 +2,8 @@
 
 This integration runs the pinned MeMOTR checkpoint on one ModelForge-selected
 local MP4 and emits a checked `modelforge.inference-result/v1` video result. It
-declares no training action and makes no tracking-quality claim.
+declares inference in its default manifest and makes no tracking-quality claim.
+A separate, explicitly bounded box-head training configuration is described below.
 
 ## 1. Obtain external components
 
@@ -69,3 +70,26 @@ See `setup.json`, `PROVENANCE.md`, upstream license/access links in the setup
 plan, and the repository licensing page. Two adapter files retain conservative
 MeMOTR-derived MIT treatment; ModelForge additions are licensed under Apache-2.0
 following the 2026-09-10 authority confirmation.
+
+## Bounded box-head training
+
+The separate `project.training.json` manifest declares a real MeMOTR final
+box-head adaptation recipe. Copy it as `project.json` in an external owner
+project directory, fill `project.training.local.template.json`, and register
+that configuration. Its project ID is `bdd100k-box-head-training`; the default
+inference project's registration is unchanged. Each selected JSON input must
+contain an actual JPEG (`image_base64`), normalized `boxes` in cxcywh format,
+a distinct source sequence, and explicit train or validation split under
+`modelforge.bdd-box-training-sample/v1`. No dataset is distributed here.
+
+`train_box_head.py` freezes the upstream model, extracts query features, and
+optimizes 1,028 parameters in the final box-regression layer against matched
+real annotations. `modal_training.py` and the separate training Modal binding
+template expose the same recipe with one epoch, at most 100 steps, zero
+retries/warm containers, and 900-second deadlines. Results are an unpromoted,
+parent-bound JSON delta, checked scalar telemetry, and logs. Select the delta
+explicitly with an `adaptation` binding that sets
+`MODELFORGE_MEMOTR_DELTA_PATH` to use it for inference.
+
+This bounded smoke recipe is not full MeMOTR temporal training or tracking
+quality evidence. See [training contracts](../../docs/training.md).

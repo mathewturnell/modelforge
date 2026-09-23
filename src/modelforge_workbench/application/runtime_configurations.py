@@ -22,7 +22,8 @@ _SHA256 = re.compile(r"^[a-f0-9]{64}$")
 _MAX_CONFIG_BYTES = 256 * 1024
 _PLACEHOLDERS = {
     "request", "output", "dataset_root", "artifact", "checkpoint", "device",
-    "max_frames", "model_cache",
+    "max_frames", "model_cache", "training_sample", "validation_sample",
+    "epochs", "max_batches", "learning_rate", "seed",
 }
 _ENVIRONMENT_NAME = re.compile(r"^[A-Z][A-Z0-9_]{0,99}$")
 _HOST_ENVIRONMENT = frozenset({
@@ -89,8 +90,9 @@ def _normalize_project(value: Mapping[str, Any]) -> dict[str, Any]:
     interface = str(action.get("interface") or "").strip()
     if (kind, interface) not in {
         ("inference", "inference_process"), ("prompt", "prompt_process"),
+        ("training", "training_process"),
     }:
-        raise ValueError("Public alpha supports local inference_process or prompt_process actions")
+        raise ValueError("Supported actions are inference_process, prompt_process, or training_process")
     arguments = action.get("arguments")
     if not isinstance(arguments, list) or len(arguments) > 32 or not all(
         isinstance(item, str) and len(item) <= 4096 for item in arguments
@@ -113,6 +115,7 @@ def _normalize_project(value: Mapping[str, Any]) -> dict[str, Any]:
     expected_protocol = {
         "inference": "modelforge.inference-result/v1",
         "prompt": "modelforge.prompt-result/v1",
+        "training": "modelforge.training-result/v1",
     }[kind]
     if result_protocol != expected_protocol:
         raise ValueError(f"{kind.title()} result protocol must be {expected_protocol}")
@@ -141,6 +144,9 @@ def _normalize_project(value: Mapping[str, Any]) -> dict[str, Any]:
         "environment": environment,
         "parameters": _object(action.get("parameters") or {}, "Project action parameters"),
     }
+    if kind == "training":
+        from .training_telemetry import validate_training_parameters
+        normalized_action["parameters"] = validate_training_parameters(normalized_action["parameters"])
     result: dict[str, Any] = {
         "protocol": "modelforge.local-runtime-configuration/v1",
         "id": project_id,
@@ -182,6 +188,8 @@ def _normalize_project(value: Mapping[str, Any]) -> dict[str, Any]:
             "root": _absolute_directory(dataset.get("root"), "Dataset root"),
             "samples": normalized_samples,
         }
+    if kind == "training" and "dataset" not in result:
+        raise ValueError("Registered training requires explicit train and validation samples")
     bindings = result["bindings"]
     for binding_id, binding in bindings.items():
         normalized_binding = _object(binding, f"{binding_id} binding")

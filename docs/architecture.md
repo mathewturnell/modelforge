@@ -33,7 +33,7 @@ not create state, and the same project ID cannot be silently reassigned.
 Dataset Service pages a bounded
 catalog and resolves only a declared relative sample whose regular-file type,
 size, and SHA-256 still match. The generic action binder resolves explicit
-placeholders for inference or prompt actions; it contains no project-name
+placeholders for inference, prompt, or bounded training actions; it contains no project-name
 branch. Python virtual-environment interpreter invocation paths are preserved
 because resolving such a symlink would select the base interpreter.
 
@@ -128,3 +128,20 @@ architecture.
 
 The installed package is `modelforge_workbench`; the CLI and wire protocols
 retain the ModelForge name.
+
+Decision [0003](decisions/0003-native-lifecycle-restoration.md) adds native
+annotation/model-review ports and registered bounded training using these same
+services. Annotation sidecars preserve checked source media; model graphs bind
+to checkpoint identities without loading weights. Training binds separate
+train/validation inputs, unpromoted candidates, and checked scalar journals.
+Modal live logs are bounded observations from the exact existing FunctionCall;
+terminal result materialization remains authoritative.
+
+## MUI workbench fidelity
+
+Decision [0004](decisions/0004-mui-original-workbench-fidelity.md) makes React/MUI
+the shared UI foundation, with a theme matching the established workbench.
+React Flow and Recharts consume only checked descriptor and telemetry
+projections. MUI/Emotion styles use a document-specific CSP nonce supplied by the
+loopback HTML adapter; script, bearer, origin and provider boundaries remain
+unchanged. Reference-based browser evidence is separate from functional tests.

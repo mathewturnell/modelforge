@@ -8,19 +8,689 @@
   "approval_status": "approved_for_apache_review_candidate",
   "bundled_runtime_dependencies": [
     {
+      "license": "SEE LICENSE",
+      "name": "@babel/code-frame",
+      "version": "7.29.7"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@babel/generator",
+      "version": "7.29.8"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@babel/helper-globals",
+      "version": "7.29.7"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@babel/helper-module-imports",
+      "version": "7.29.7"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@babel/helper-string-parser",
+      "version": "7.29.7"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@babel/helper-validator-identifier",
+      "version": "7.29.7"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@babel/parser",
+      "version": "7.29.9"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@babel/runtime",
+      "version": "7.29.7"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@babel/template",
+      "version": "7.29.7"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@babel/traverse",
+      "version": "7.29.8"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@babel/types",
+      "version": "7.29.8"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@emotion/babel-plugin",
+      "version": "11.13.5"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "convert-source-map",
+      "version": "1.9.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@emotion/cache",
+      "version": "11.14.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@emotion/hash",
+      "version": "0.9.2"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@emotion/is-prop-valid",
+      "version": "1.4.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@emotion/memoize",
+      "version": "0.9.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@emotion/react",
+      "version": "11.14.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@emotion/serialize",
+      "version": "1.3.3"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@emotion/sheet",
+      "version": "1.4.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@emotion/styled",
+      "version": "11.14.1"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@emotion/unitless",
+      "version": "0.10.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@emotion/use-insertion-effect-with-fallbacks",
+      "version": "1.2.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@emotion/utils",
+      "version": "1.4.2"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@emotion/weak-memoize",
+      "version": "0.4.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@jridgewell/gen-mapping",
+      "version": "0.3.13"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@jridgewell/resolve-uri",
+      "version": "3.1.2"
+    },
+    {
       "license": "MIT",
+      "name": "@jridgewell/sourcemap-codec",
+      "version": "1.6.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@jridgewell/trace-mapping",
+      "version": "0.3.31"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@mui/core-downloads-tracker",
+      "version": "9.4.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@mui/material",
+      "version": "9.4.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@mui/private-theming",
+      "version": "9.4.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@mui/styled-engine",
+      "version": "9.4.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@mui/system",
+      "version": "9.4.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@mui/types",
+      "version": "9.4.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@mui/utils",
+      "version": "9.4.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@popperjs/core",
+      "version": "2.11.8"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@reduxjs/toolkit",
+      "version": "2.12.0"
+    },
+    {
+      "license": "MIT",
+      "name": "@standard-schema/spec",
+      "version": "1.1.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@standard-schema/utils",
+      "version": "0.3.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@types/d3-array",
+      "version": "3.2.2"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@types/d3-color",
+      "version": "3.1.3"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@types/d3-drag",
+      "version": "3.0.7"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@types/d3-ease",
+      "version": "3.0.2"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@types/d3-interpolate",
+      "version": "3.0.4"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@types/d3-path",
+      "version": "3.1.1"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@types/d3-scale",
+      "version": "4.0.9"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@types/d3-selection",
+      "version": "3.0.12"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@types/d3-shape",
+      "version": "3.2.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@types/d3-time",
+      "version": "3.0.4"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@types/d3-timer",
+      "version": "3.0.2"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@types/d3-transition",
+      "version": "3.0.9"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@types/d3-zoom",
+      "version": "3.0.8"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@types/parse-json",
+      "version": "4.0.2"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@types/prop-types",
+      "version": "15.7.15"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@types/react",
+      "version": "19.2.18"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@types/react-dom",
+      "version": "19.2.4"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@types/react-transition-group",
+      "version": "4.4.12"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@types/use-sync-external-store",
+      "version": "0.0.6"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@xyflow/react",
+      "version": "12.11.2"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "@xyflow/system",
+      "version": "0.0.79"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "babel-plugin-macros",
+      "version": "3.1.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "callsites",
+      "version": "3.1.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "classcat",
+      "version": "5.0.5"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "clsx",
+      "version": "2.1.1"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "cosmiconfig",
+      "version": "7.1.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "yaml",
+      "version": "1.10.3"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "csstype",
+      "version": "3.2.3"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "d3-array",
+      "version": "3.2.4"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "d3-color",
+      "version": "3.1.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "d3-dispatch",
+      "version": "3.0.1"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "d3-drag",
+      "version": "3.0.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "d3-ease",
+      "version": "3.0.1"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "d3-format",
+      "version": "3.1.2"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "d3-interpolate",
+      "version": "3.0.1"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "d3-path",
+      "version": "3.1.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "d3-scale",
+      "version": "4.0.2"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "d3-selection",
+      "version": "3.0.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "d3-shape",
+      "version": "3.2.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "d3-time",
+      "version": "3.1.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "d3-time-format",
+      "version": "4.1.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "d3-timer",
+      "version": "3.0.1"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "d3-transition",
+      "version": "3.0.1"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "d3-zoom",
+      "version": "3.0.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "debug",
+      "version": "4.4.3"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "decimal.js-light",
+      "version": "2.5.1"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "dom-helpers",
+      "version": "5.2.1"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "error-ex",
+      "version": "1.3.4"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "es-errors",
+      "version": "1.3.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "es-toolkit",
+      "version": "1.52.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "escape-string-regexp",
+      "version": "4.0.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "eventemitter3",
+      "version": "5.0.4"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "find-root",
+      "version": "1.1.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "function-bind",
+      "version": "1.1.2"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "hasown",
+      "version": "2.0.4"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "hoist-non-react-statics",
+      "version": "3.3.2"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "react-is",
+      "version": "16.13.1"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "immer",
+      "version": "11.1.18"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "import-fresh",
+      "version": "3.3.1"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "internmap",
+      "version": "2.0.3"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "is-arrayish",
+      "version": "0.2.1"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "is-core-module",
+      "version": "2.17.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "js-tokens",
+      "version": "4.0.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "jsesc",
+      "version": "3.1.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "json-parse-even-better-errors",
+      "version": "2.3.1"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "lines-and-columns",
+      "version": "1.2.4"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "loose-envify",
+      "version": "1.4.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "lucide-react",
+      "version": "1.30.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "ms",
+      "version": "2.1.3"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "object-assign",
+      "version": "4.1.1"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "parent-module",
+      "version": "1.0.1"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "parse-json",
+      "version": "5.2.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "path-parse",
+      "version": "1.0.7"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "path-type",
+      "version": "4.0.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "picocolors",
+      "version": "1.1.1"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "prop-types",
+      "version": "15.8.1"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "react-is",
+      "version": "16.13.1"
+    },
+    {
+      "license": "SEE LICENSE",
       "name": "react",
       "version": "19.2.8"
     },
     {
-      "license": "MIT",
+      "license": "SEE LICENSE",
       "name": "react-dom",
       "version": "19.2.8"
     },
     {
-      "license": "MIT",
+      "license": "SEE LICENSE",
+      "name": "react-is",
+      "version": "19.3.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "react-redux",
+      "version": "9.3.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "react-resizable-panels",
+      "version": "4.12.2"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "react-transition-group",
+      "version": "4.4.5"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "recharts",
+      "version": "3.10.1"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "redux",
+      "version": "5.0.1"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "redux-thunk",
+      "version": "3.1.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "reselect",
+      "version": "5.2.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "resolve",
+      "version": "1.22.12"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "resolve-from",
+      "version": "4.0.0"
+    },
+    {
+      "license": "SEE LICENSE",
       "name": "scheduler",
       "version": "0.27.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "source-map",
+      "version": "0.5.7"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "stylis",
+      "version": "4.2.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "supports-preserve-symlinks-flag",
+      "version": "1.0.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "tiny-invariant",
+      "version": "1.3.3"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "use-sync-external-store",
+      "version": "1.7.0"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "victory-vendor",
+      "version": "37.3.6"
+    },
+    {
+      "license": "SEE LICENSE",
+      "name": "zustand",
+      "version": "4.5.7"
     }
   ],
   "direct_build_and_test_tools": [
@@ -81,7 +751,7 @@
       "sha256": "8ac84c382542df479a854204cf86ad7aff47fac57387949e435be1aebfe71b71"
     },
     {
-      "bytes": 52704,
+      "bytes": 107422,
       "disposition": "generated-lockfile",
       "license": "Apache-2.0",
       "origin": {
@@ -89,10 +759,10 @@
         "kind": "npm-generated-lockfile"
       },
       "path": "workbench/package-lock.json",
-      "sha256": "b0bb6b0bcb12232333b02638701b5dd089d9e0c8a0649003d912b167b3c344ab"
+      "sha256": "ecd24034ca084130d0fafa292d6ee4c6e08b5958df6ad7d48ebe5452da90433b"
     },
     {
-      "bytes": 508,
+      "bytes": 838,
       "disposition": "adapted",
       "license": "Apache-2.0",
       "origin": {
@@ -101,10 +771,27 @@
         "kind": "adapted-model-forge-react"
       },
       "path": "workbench/package.json",
-      "sha256": "6181aa3d5708edfbb274d0a04ed98780ab3bcd0fa31310d02653262e8bcd4dc0"
+      "sha256": "6d975018e8bf570a8cc898e4e32b27ae614ca02facb22be4d98e18d11a162f1e"
     },
     {
-      "bytes": 3170,
+      "bytes": 11446,
+      "disposition": "adapted",
+      "license": "Apache-2.0",
+      "origin": {
+        "authority": "Owner-requested original UI restoration on current public services",
+        "kind": "adapted-model-forge-react",
+        "source_files": [
+          {
+            "path": "modelforge/browser/workbench/src/styles.css",
+            "sha256": "983ba32314301f88f1f964b0d6b0615de1bcc1017f1144360540c1c9fe8ba2b1"
+          }
+        ]
+      },
+      "path": "workbench/src/AnnotationEditor.css",
+      "sha256": "af19593d1d586136dfdc53a299d66f0d9c2fe116700c094339a37cc2bd00db55"
+    },
+    {
+      "bytes": 3600,
       "disposition": "adapted",
       "license": "Apache-2.0",
       "origin": {
@@ -113,19 +800,219 @@
         "kind": "adapted-model-forge-react"
       },
       "path": "workbench/src/App.test.tsx",
-      "sha256": "66448af974658399fba9862dfb14f5dc926e84eae479de6ba4af496bc1588297"
+      "sha256": "c3ea01616d95cb451bf66b90400fa263db9444450852f94de1f4586f29f0227e"
     },
     {
-      "bytes": 28271,
+      "bytes": 37869,
       "disposition": "adapted",
       "license": "Apache-2.0",
       "origin": {
-        "donor_path": "modelforge/browser/workbench/src/App.tsx",
-        "donor_revision": "2dfeaa6564f7ce4f8a689e9800579f8c2947936e",
-        "kind": "adapted-model-forge-react"
+        "authority": "Owner-requested original UI restoration on current public services",
+        "kind": "adapted-model-forge-react",
+        "source_files": [
+          {
+            "path": "modelforge/browser/workbench/src/App.tsx",
+            "sha256": "44c9f1bbdcd5291b40a7dad367dfba0be2693ec4536c407af323ab2a3463dd42"
+          }
+        ]
       },
       "path": "workbench/src/App.tsx",
-      "sha256": "8324b59f0a2ef02d0ae8fe157468b599d4258d054aa06a06fd0bc301213228cb"
+      "sha256": "6867507f617a1f4872c97aaf92c400633f2a5d77bea32984c5ea9910a8ec1593"
+    },
+    {
+      "bytes": 4059,
+      "disposition": "new",
+      "license": "Apache-2.0",
+      "origin": {
+        "kind": "new-public-recovery-source"
+      },
+      "path": "workbench/src/JobsRegistry.tsx",
+      "sha256": "93547cc110426f368bdf643eb12dd41b8d6738d0530f77fd61e6e3027b85ad24"
+    },
+    {
+      "bytes": 2328,
+      "disposition": "new",
+      "license": "Apache-2.0",
+      "origin": {
+        "kind": "new-public-recovery-source"
+      },
+      "path": "workbench/src/LifecycleViews.test.ts",
+      "sha256": "f59f2907cb9d8afe48e6ade9499d893f4cf55829b1bfd2f697bd3f0758c39b6a"
+    },
+    {
+      "bytes": 21307,
+      "disposition": "new",
+      "license": "Apache-2.0",
+      "origin": {
+        "authority": "Owner-requested original UI restoration on current public services",
+        "kind": "adapted-model-forge-react",
+        "source_files": [
+          {
+            "path": "modelforge/browser/workbench/src/views/AnnotationEditor.tsx",
+            "sha256": "4307711a8d2b280a30ec7929fbdb384d513b99026b3b8227444d0bf48b832ad7"
+          }
+        ]
+      },
+      "path": "workbench/src/LifecycleViews.tsx",
+      "sha256": "83dfc111cef01133e9871e806ef5f3ee9ae66e3e1ab9572940157f7a01a87fd1"
+    },
+    {
+      "bytes": 22022,
+      "disposition": "adapted",
+      "license": "Apache-2.0",
+      "origin": {
+        "authority": "Owner-requested original UI restoration on current public services",
+        "kind": "adapted-model-forge-react",
+        "source_files": [
+          {
+            "path": "modelforge/browser/workbench/src/styles.css",
+            "sha256": "983ba32314301f88f1f964b0d6b0615de1bcc1017f1144360540c1c9fe8ba2b1"
+          }
+        ]
+      },
+      "path": "workbench/src/ModelArchitectureView.css",
+      "sha256": "4d22c73e35e0c41195ad3c6cdb13a0e259b055d56cdd77da526195c6abf52ec5"
+    },
+    {
+      "bytes": 3066,
+      "disposition": "new",
+      "license": "Apache-2.0",
+      "origin": {
+        "kind": "new-public-recovery-source"
+      },
+      "path": "workbench/src/ModelArchitectureView.test.ts",
+      "sha256": "13723b345b6ec789728f8d2c2d939dbdb019a5f8a2d2f660e9832b8dcb887610"
+    },
+    {
+      "bytes": 17642,
+      "disposition": "adapted",
+      "license": "Apache-2.0",
+      "origin": {
+        "authority": "Owner-requested original UI restoration on current public services",
+        "kind": "adapted-model-forge-react",
+        "source_files": [
+          {
+            "path": "modelforge/browser/workbench/src/views/ArchitectureView.tsx",
+            "sha256": "83fbcaa36a544dfcb1d577cf8c5e9d3016711ce5a03b03edc924296653eeed25"
+          },
+          {
+            "path": "modelforge/browser/workbench/src/lib/architecture-graph.ts",
+            "sha256": "39d2381e444ada76f3ad110b8cc89d613da79d06dfce045b0943134b81c2da8b"
+          }
+        ]
+      },
+      "path": "workbench/src/ModelArchitectureView.tsx",
+      "sha256": "3cce3405e6e4040fde2672033401bef3e783ba083e79ad579d156a939c7717ed"
+    },
+    {
+      "bytes": 12026,
+      "disposition": "adapted",
+      "license": "Apache-2.0",
+      "origin": {
+        "authority": "Owner-requested original UI restoration on current public services",
+        "kind": "adapted-model-forge-react",
+        "source_files": [
+          {
+            "path": "modelforge/browser/workbench/src/styles.css",
+            "sha256": "983ba32314301f88f1f964b0d6b0615de1bcc1017f1144360540c1c9fe8ba2b1"
+          }
+        ]
+      },
+      "path": "workbench/src/TrainingTelemetryView.css",
+      "sha256": "0703ba387d7e3b9d7f87be5e24d1f7f19a26ceea9704938cc70a5b62641a0438"
+    },
+    {
+      "bytes": 3872,
+      "disposition": "new",
+      "license": "Apache-2.0",
+      "origin": {
+        "kind": "new-public-recovery-source"
+      },
+      "path": "workbench/src/TrainingTelemetryView.test.ts",
+      "sha256": "262c539378f32c10ebb2b9adadeab03e0d7816bde2cf65b76c20b5a93f11036d"
+    },
+    {
+      "bytes": 13033,
+      "disposition": "adapted",
+      "license": "Apache-2.0",
+      "origin": {
+        "authority": "Owner-requested original UI restoration on current public services",
+        "kind": "adapted-model-forge-react",
+        "source_files": [
+          {
+            "path": "modelforge/browser/workbench/src/views/RunComparisonChart.tsx",
+            "sha256": "243a9c28e7eb1998e96944c99ec4388350af7a87a9bd699838d27924d5717f52"
+          },
+          {
+            "path": "modelforge/browser/workbench/src/views/RunsView.tsx",
+            "sha256": "42100ad11cbe214a660d88c59533126a034c1485606b2b04123c8a508ddb379a"
+          }
+        ]
+      },
+      "path": "workbench/src/TrainingTelemetryView.tsx",
+      "sha256": "7f40d4ed6dd1228aa20deb7f026a3ee12ab48357ec5bbc3209bc69e1a7ac7c96"
+    },
+    {
+      "bytes": 8108,
+      "disposition": "adapted",
+      "license": "Apache-2.0",
+      "origin": {
+        "authority": "Owner-requested original UI restoration on current public services",
+        "kind": "adapted-model-forge-react",
+        "source_files": [
+          {
+            "path": "modelforge/browser/workbench/src/App.tsx",
+            "sha256": "44c9f1bbdcd5291b40a7dad367dfba0be2693ec4536c407af323ab2a3463dd42"
+          },
+          {
+            "path": "modelforge/browser/workbench/src/components/BottomPanel.tsx",
+            "sha256": "fe017bb19cf451fc5f14849a428fc18387ff2136774741a4439f924535241a6c"
+          }
+        ]
+      },
+      "path": "workbench/src/WorkbenchChrome.tsx",
+      "sha256": "479bca5e11f9b8c61915a1735c2d5db31964d34d746065260113c8fc72685b75"
+    },
+    {
+      "bytes": 518,
+      "disposition": "adapted",
+      "license": "Apache-2.0",
+      "origin": {
+        "kind": "adapted-model-forge-react",
+        "path": "modelforge/browser/static/favicon.svg",
+        "sha256": "e9a4d62b08d09d8573da2e99f9c833d7be0d21f36f118016bb31005d20ee4673"
+      },
+      "path": "workbench/src/assets/favicon.svg",
+      "sha256": "e9a4d62b08d09d8573da2e99f9c833d7be0d21f36f118016bb31005d20ee4673"
+    },
+    {
+      "bytes": 37652,
+      "disposition": "adapted",
+      "license": "Apache-2.0",
+      "origin": {
+        "kind": "adapted-model-forge-react",
+        "path": "modelforge/browser/static/modalitysystems.png",
+        "sha256": "badbbb7689212cf651595ec4383a2d0808e66e48ff2b45748c5810fc625827d2"
+      },
+      "path": "workbench/src/assets/modalitysystems.png",
+      "sha256": "badbbb7689212cf651595ec4383a2d0808e66e48ff2b45748c5810fc625827d2"
+    },
+    {
+      "bytes": 322760,
+      "disposition": "adapted",
+      "license": "Apache-2.0",
+      "origin": {
+        "authority": "Owner-requested original UI restoration on current public services",
+        "kind": "adapted-model-forge-react",
+        "source_files": [
+          {
+            "path": "modelforge/browser/workbench/src/styles.css",
+            "sha256": "983ba32314301f88f1f964b0d6b0615de1bcc1017f1144360540c1c9fe8ba2b1"
+          }
+        ]
+      },
+      "path": "workbench/src/heritage.css",
+      "sha256": "936c9d26ae7686984100ff0edd38810c1fadea0a89aa6584ead889d25032381f"
     },
     {
       "bytes": 1397,
@@ -138,7 +1025,7 @@
       "sha256": "3ec70f128ca17e922ad3bbfc8a53d9b6843e4b3637f5f31e35c685a675fe3168"
     },
     {
-      "bytes": 4023,
+      "bytes": 4046,
       "disposition": "adapted",
       "license": "Apache-2.0",
       "origin": {
@@ -147,10 +1034,10 @@
         "kind": "adapted-model-forge-react"
       },
       "path": "workbench/src/lib/api.ts",
-      "sha256": "6f10e8dc70bea7a985ed67950ebfe4cdc219ce072c307da5d5fbfeae44adb123"
+      "sha256": "eed415e735bd72bcbf49f2501bb65e309165a984704f930c72c15986512747ce"
     },
     {
-      "bytes": 1006,
+      "bytes": 1502,
       "disposition": "adapted",
       "license": "Apache-2.0",
       "origin": {
@@ -159,22 +1046,37 @@
         "kind": "adapted-model-forge-react"
       },
       "path": "workbench/src/main.tsx",
-      "sha256": "6fcfeef99705f9692c5fdec4e58cc13ae9d3cf30fbb556c38fa4cb2f7a22c86e"
+      "sha256": "a6c556cc737847166bda086c3891e172ffec3e339f52301ad07852b8e8f2e8ae"
     },
     {
-      "bytes": 9751,
+      "bytes": 20743,
       "disposition": "adapted",
       "license": "Apache-2.0",
       "origin": {
-        "donor_path": "modelforge/browser/workbench/src/styles.css",
-        "donor_revision": "2dfeaa6564f7ce4f8a689e9800579f8c2947936e",
-        "kind": "adapted-model-forge-react"
+        "authority": "Owner-requested original UI restoration on current public services",
+        "kind": "adapted-model-forge-react",
+        "source_files": [
+          {
+            "path": "modelforge/browser/workbench/src/styles.css",
+            "sha256": "983ba32314301f88f1f964b0d6b0615de1bcc1017f1144360540c1c9fe8ba2b1"
+          }
+        ]
       },
       "path": "workbench/src/styles.css",
-      "sha256": "c5312c1894f8dda8396bde7cfd69eb76c9eed79a8879f42ad56e33bd49d0c480"
+      "sha256": "fa246a05310391eb9380b16b6b5f2e1fe876e46d09dd67b3d209fd228c94af24"
     },
     {
-      "bytes": 1710,
+      "bytes": 2215,
+      "disposition": "new",
+      "license": "Apache-2.0",
+      "origin": {
+        "kind": "new-public-recovery-source"
+      },
+      "path": "workbench/src/theme.ts",
+      "sha256": "93607deb3f17b1a4179ad6b1ac8af96df12237853efd5dd36e9a2d8056301eee"
+    },
+    {
+      "bytes": 1910,
       "disposition": "adapted",
       "license": "Apache-2.0",
       "origin": {
@@ -183,7 +1085,7 @@
         "kind": "adapted-model-forge-react"
       },
       "path": "workbench/src/types.ts",
-      "sha256": "45e800d0ac1efa9dc96359cc932c1deda6ce7397b8a8e0c206c10f10fc53ec63"
+      "sha256": "769979124a91547104fcb378534f61e3ac11f991b62f6afcb4339beeb2e06e09"
     },
     {
       "bytes": 38,
@@ -246,7 +1148,14 @@
       "sha256": "8ac802ceddc1e4bac2146356b154bec0fc5afb5fc30acf6608f90d5ed49ab857"
     }
   ],
-  "package_lock_sha256": "b0bb6b0bcb12232333b02638701b5dd089d9e0c8a0649003d912b167b3c344ab",
+  "maintenance_authorization": {
+    "date": "2026-09-23",
+    "instruction": "Use MUI/react as UI framework basis",
+    "owner": "Mathew Turnell",
+    "publication_instruction": "when youre done push to github with a proper release note",
+    "scope": "Restore original workbench presentation on current public architecture, with locally bundled MUI/Emotion/React Flow/Recharts and owner brand assets; preserve existing Apache source treatment."
+  },
+  "package_lock_sha256": "ecd24034ca084130d0fafa292d6ee4c6e08b5958df6ad7d48ebe5452da90433b",
   "protocol": "modelforge.react-source-inventory/v1",
   "source_rights_context": {
     "apache_labelled_reference_revision": "953e7be49a3554a9d6dea0bdbcf894133b4d1c31",

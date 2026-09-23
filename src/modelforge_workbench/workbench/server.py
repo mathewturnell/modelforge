@@ -117,12 +117,14 @@ class _Handler(BaseHTTPRequestHandler):
 
     def _headers(
         self, status: int, content_type: str, length: int | None = None,
-        *, cache_control: str = "no-store",
+        *, cache_control: str = "no-store", style_nonce: str | None = None,
     ) -> None:
         self.send_response(status)
         self.send_header("Content-Type", content_type)
         self.send_header("Cache-Control", cache_control)
         for name, value in _SECURITY_HEADERS.items():
+            if name == "Content-Security-Policy" and style_nonce is not None:
+                value = value.replace("style-src 'self';", f"style-src 'self' 'nonce-{style_nonce}';")
             self.send_header(name, value)
         if length is not None:
             self.send_header("Content-Length", str(length))
@@ -156,8 +158,19 @@ class _Handler(BaseHTTPRequestHandler):
     def _static(self, *parts: str, content_type: str, immutable: bool = False) -> None:
         payload = files("modelforge_workbench.workbench").joinpath(*parts).read_bytes()
         cache_control = "public, max-age=31536000, immutable" if immutable else "no-cache"
+        style_nonce = None
+        if content_type.startswith("text/html"):
+            # Emotion consumes this document-only nonce. It is independent of
+            # the bearer, never authorizes scripts, and is not reusable on reload.
+            style_nonce = secrets.token_urlsafe(32)
+            marker = b"<head>"
+            if marker not in payload:
+                raise ValueError("Packaged HTML document requires a head element")
+            meta = f'<meta name="modelforge-style-nonce" content="{style_nonce}">'.encode("ascii")
+            payload = payload.replace(marker, marker + meta, 1)
+            cache_control = "no-cache, no-store"
         self._headers(
-            HTTPStatus.OK, content_type, len(payload), cache_control=cache_control,
+            HTTPStatus.OK, content_type, len(payload), cache_control=cache_control, style_nonce=style_nonce,
         )
         self.end_headers()
         self.wfile.write(payload)
@@ -189,13 +202,13 @@ class _Handler(BaseHTTPRequestHandler):
         )
         return True
 
-    def _body(self) -> dict:
+    def _body(self, *, maximum: int = 128 * 1024) -> dict:
         try:
             length = int(self.headers.get("Content-Length", "0"))
         except ValueError as exc:
             raise ValueError("Request content length is invalid") from exc
-        if not 0 < length <= 128 * 1024:
-            raise ValueError("JSON request must be from 1 byte to 128 KiB")
+        if not 0 < length <= maximum:
+            raise ValueError(f"JSON request must be from 1 byte to {maximum // 1024} KiB")
         value = json.loads(self.rfile.read(length))
         if not isinstance(value, dict):
             raise ValueError("JSON request must be an object")
@@ -242,6 +255,20 @@ class _Handler(BaseHTTPRequestHandler):
             self._json(HTTPStatus.OK, {"runs": self.server.app.list_runs(project_id)})
             return
         parts = [part for part in route.split("/") if part]
+        if len(parts) == 5 and parts[:3] == ["api", "v1", "projects"] and parts[4] == "model":
+            try:
+                self._json(HTTPStatus.OK, self.server.app.model_inspection.get(parts[3]))
+            except (KeyError, OSError, ValueError):
+                self._json(HTTPStatus.BAD_REQUEST, {"error": "Checked model descriptor is unavailable or changed"})
+            return
+        if (len(parts) == 9 and parts[:3] == ["api", "v1", "projects"]
+                and parts[4] == "datasets" and parts[6] == "samples" and parts[8] == "annotations"):
+            try:
+                self._json(HTTPStatus.OK, self.server.app.annotations.get(parts[3], parts[5], parts[7]))
+            except (KeyError, OSError, ValueError) as exc:
+                error = "Checked sample or annotation storage is unavailable or changed" if isinstance(exc, OSError) else str(exc)[:300]
+                self._json(HTTPStatus.BAD_REQUEST, {"error": error})
+            return
         if len(parts) == 4 and parts[:3] == ["api", "v1", "projects"]:
             try:
                 self._json(HTTPStatus.OK, self.server.app.project(parts[3]))
@@ -358,6 +385,17 @@ class _Handler(BaseHTTPRequestHandler):
             self._json(HTTPStatus.ACCEPTED, self.server.app.get_run(execution.run_id))
             return
         parts = [part for part in route.split("/") if part]
+        if (len(parts) == 9 and parts[:3] == ["api", "v1", "projects"]
+                and parts[4] == "datasets" and parts[6] == "samples" and parts[8] == "annotations"):
+            try:
+                value = self.server.app.annotations.save(parts[3], parts[5], parts[7], self._body(maximum=4 * 1024 * 1024))
+                self._json(HTTPStatus.OK, value)
+            except (KeyError, OSError, ValueError) as exc:
+                from modelforge_workbench.application.annotations import AnnotationConflictError
+                status = HTTPStatus.CONFLICT if isinstance(exc, AnnotationConflictError) else HTTPStatus.BAD_REQUEST
+                error = "Checked sample or annotation storage is unavailable or changed" if isinstance(exc, OSError) else str(exc)[:300]
+                self._json(status, {"error": error})
+            return
         if (
             len(parts) == 7 and parts[:3] == ["api", "v1", "projects"]
             and parts[4] == "actions" and parts[6] == "runs"

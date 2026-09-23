@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import shutil
 import threading
 import uuid
 from dataclasses import dataclass
@@ -46,6 +47,7 @@ class RegisteredActionBinder:
     project: Mapping[str, Any]
     private_request: Mapping[str, Any]
     sample: ResolvedSample | None
+    validation_sample: ResolvedSample | None = None
 
     def bind(self, allocation) -> BoundManagedAction:
         action = self.project["action"]
@@ -63,6 +65,24 @@ class RegisteredActionBinder:
             "checkpoint": "",
             "model_cache": "",
         }
+        if action["kind"] == "training":
+            if self.sample is None or self.validation_sample is None:
+                raise ValueError("Training requires resolved train and validation inputs")
+            inputs = allocation.work_root / "training-inputs"
+            inputs.mkdir(mode=0o700)
+            for key, sample in (("training_sample", self.sample), ("validation_sample", self.validation_sample)):
+                if sample.path.is_symlink() or _sha256(sample.path) != sample.sha256:
+                    raise OSError("Training input changed after resolution")
+                destination = inputs / (key + sample.path.suffix)
+                shutil.copyfile(sample.path, destination)
+                destination.chmod(0o400)
+                if _sha256(destination) != sample.sha256:
+                    raise OSError("Training input changed while preparing the run")
+                values[key] = str(destination)
+            values["dataset_root"] = str(inputs)
+            values["artifact"] = values["training_sample"]
+            for key in ("epochs", "max_batches", "learning_rate", "seed"):
+                values[key] = str(self.private_request[key])
         for binding_id, binding in (self.project.get("bindings") or {}).items():
             path = Path(str(binding.get("path") or ""))
             if path:
@@ -194,6 +214,7 @@ class ProjectActionService:
             action_input = dict(payload)
             target = "local"
         sample = None
+        validation_sample = None
         if kind == "inference":
             dataset_id = str(action_input.get("dataset_id") or "")
             sample_id = str(action_input.get("sample_id") or "")
@@ -208,12 +229,38 @@ class ProjectActionService:
                 "dataset_split": sample.split,
                 "checkpoint_id": checkpoint.get("id"),
                 "checkpoint_sha256": checkpoint.get("sha256"),
+                "adaptation_sha256": (project.get("bindings", {}).get("adaptation") or {}).get("sha256"),
                 "device": action.get("parameters", {}).get("device", "auto"),
                 "max_frames": action.get("parameters", {}).get("max_frames", 0),
             }
             private_request = request
             dataset_ref = f"{dataset_id}:{sample_id}:{sample.sha256}"
             authorized = (str(sample.path), str(checkpoint.get("path") or ""))
+        elif kind == "training":
+            if set(action_input) - {"dataset_id", "sample_id", "validation_sample_id"}:
+                raise ValueError("Training input accepts only declared train and validation selections")
+            dataset_id = str(action_input.get("dataset_id") or "")
+            sample = self.datasets.resolve(project_id, dataset_id, str(action_input.get("sample_id") or ""))
+            validation_sample = self.datasets.resolve(project_id, dataset_id, str(action_input.get("validation_sample_id") or ""))
+            if sample.split != "train" or validation_sample.split not in {"val", "validation"}:
+                raise ValueError("Training requires explicit train and validation splits; held-out data is forbidden")
+            if sample.sha256 == validation_sample.sha256 or sample.path == validation_sample.path:
+                raise ValueError("Training and validation inputs must be disjoint")
+            from .training_telemetry import validate_training_parameters
+            parameters = validate_training_parameters(action.get("parameters") or {})
+            checkpoint = (project.get("bindings") or {}).get("checkpoint") or {}
+            request = {
+                "protocol": "modelforge.training-request/v1", "workflow": "training",
+                "action_id": action["id"], "dataset_id": dataset_id,
+                "dataset_sample_id": sample.sample_id, "dataset_sample_sha256": sample.sha256,
+                "dataset_split": "train", "validation_sample_id": validation_sample.sample_id,
+                "validation_sample_sha256": validation_sample.sha256, "evaluation_split": "validation",
+                "checkpoint_id": checkpoint.get("id"), "checkpoint_sha256": checkpoint.get("sha256"),
+                **parameters,
+            }
+            private_request = request
+            dataset_ref = f"{dataset_id}:{sample.sample_id}:{sample.sha256}"
+            authorized = (str(sample.path), str(validation_sample.path), str(checkpoint.get("path") or ""))
         elif kind == "prompt":
             private_request = {
                 "protocol": "modelforge.prompt-request/v1",
@@ -254,10 +301,14 @@ class ProjectActionService:
                 tuple(item for item in authorized if item), configuration,
             )
             return self.managed.start_plan(
-                plan, RegisteredActionBinder(project, private_request, sample), on_event=on_event,
+                plan, RegisteredActionBinder(project, private_request, sample, validation_sample), on_event=on_event,
             )
         if target != "modal" or not managed_envelope:
             raise ValueError("Managed action execution target is unsupported")
+        if validation_sample is not None:
+            if self.modal_bindings is None:
+                raise ValueError("Modal execution is not configured")
+            self._validate_modal_assets(project, validation_sample, self.modal_bindings.get(project["id"], action["id"]))
         return self._start_modal(
             project, request, private_request, dataset_ref, sample,
             execution_request, on_event=on_event,
@@ -415,7 +466,33 @@ class ProjectActionService:
                 raise OSError("Inference result input identity differs from the durable request")
             if expected_request.get("checkpoint_sha256") and model_identity.get("sha256") != expected_request.get("checkpoint_sha256"):
                 raise OSError("Inference result checkpoint identity differs from the durable request")
+            adaptation_identity = value.get("adaptation_artifact") or {}
+            if adaptation_identity.get("sha256") != expected_request.get("adaptation_sha256"):
+                raise OSError("Inference adaptation identity differs from the durable request")
+        if expected_request and expected_request.get("workflow") == "training":
+            for field in ("dataset_sample_sha256", "validation_sample_sha256", "checkpoint_sha256"):
+                if value.get("provenance", {}).get(field) != expected_request.get(field):
+                    raise OSError("Training result provenance differs from the durable request")
         return value
+
+    def training_telemetry(self, project_id: str, run_id: str) -> dict:
+        """Resolve telemetry only after checking project-scoped durable run ownership."""
+        from .training_telemetry import read_training_telemetry
+        run = self.managed.runs.get(RunScope(self.organization_id, project_id), run_id)
+        if run.get("configuration", {}).get("action_kind") != "training":
+            return {"status": "unavailable", "events": [], "reason": "This is not a training run"}
+        provider = run.get("provider")
+        if provider not in {"local", "modal"}:
+            raise ValueError("Training telemetry provider is unsupported")
+        root = self.managed.state_root / "runs" / provider / run_id / "evidence"
+        if root.is_symlink() or any(p.is_symlink() for p in root.parents if p != self.managed.state_root.parent):
+            raise ValueError("Training evidence directory cannot be symlinked")
+        path = root / "telemetry.jsonl"
+        if run.get("status") == "completed":
+            artifact = next((item for item in run.get("artifacts", ()) if item.get("kind") == "training-telemetry"), None)
+            if artifact is None or path.is_symlink() or not path.is_file() or _sha256(path) != artifact.get("sha256"):
+                raise OSError("Completed training telemetry differs from its registered identity")
+        return read_training_telemetry(path, complete=run.get("status") == "completed")
 
     @staticmethod
     def _execution_identity(project: Mapping[str, Any]) -> dict[str, Any]:
@@ -466,6 +543,15 @@ class ProjectActionService:
             text_path.write_text(assistant + "\n", encoding="utf-8")
             artifacts.append(self._candidate(text_path, "assistant-text", "text/plain"))
             return artifacts
+        if protocol == "modelforge.training-result/v1":
+            from .training_telemetry import read_training_telemetry
+            telemetry = read_training_telemetry(root / "telemetry.jsonl", complete=True)
+            if telemetry["status"] != "available":
+                raise ValueError("Training success requires scientific telemetry")
+            telemetry_path = root / "telemetry.jsonl"
+            if _sha256(telemetry_path) != result["telemetry"]["sha256"]:
+                raise OSError("Training telemetry digest does not match its envelope")
+            artifacts.append(self._candidate(telemetry_path, "training-telemetry", "application/x-ndjson"))
         seen = {"result.json"}
         for item in result.get("results") or ():
             for path_field, digest_field, kind, fallback_type in (

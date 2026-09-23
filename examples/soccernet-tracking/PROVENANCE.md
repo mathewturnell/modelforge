@@ -18,3 +18,10 @@ exact modification inventory and separate notice/license review.
 SoccerNet match footage/annotations require official access and no blanket
 redistribution grant was established. Checkpoint redistribution permission is
 also unestablished. Those assets are not included.
+
+The 2026-09-23 `infer_selected.py` adapter is newly authored Apache-2.0 code.
+It checks an explicit local sequence inventory and copies exactly those input
+frames into run-owned storage before invoking the existing integration. No
+upstream MOTR files, patches, checkpoints, or media are redistributed. The
+external clean MOTR tree used for current local verification matched all 129
+files at the pinned revision.

@@ -78,12 +78,14 @@ run status and cancellation, bounded logs, digest-checked artifacts, native
 video/image/text/table results, and recovery of completed run records. The
 bundled Synthetic Threshold Lab provides a small offline installation check.
 
-Scientific telemetry is unavailable for the current example actions and is not
-shown as zero. Source and Git workflows, annotation, model/architecture
-inspection, managed training and evaluation, run comparison, broader settings,
-and the local ModelForge Coding Assistant are visible product directions but
-remain planned or partial. See the exact [product boundary](docs/product-boundary.md)
-for the status of each area.
+Registered bounded training now records scientific scalar telemetry, checkpoint
+artifacts, and logs through the same lifecycle. Native image/video rectangle
+annotation, checked authored model graphs, and exact-value training comparison
+are available for configured projects. See [dataset/model review](docs/lifecycle-review.md)
+and [bounded training](docs/training.md). The real MeMOTR box-head recipe is a
+finetuning smoke, not the full temporal training recipe or tracking-quality proof.
+Source/Git, the Coding Assistant, advanced annotation, held-out evaluation, and
+model promotion remain gaps. See the [product boundary](docs/product-boundary.md).
 
 ## Quickstart
 
