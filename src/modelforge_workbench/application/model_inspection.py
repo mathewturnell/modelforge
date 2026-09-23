@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import os
 import re
 import stat
@@ -28,8 +29,91 @@ def _id(value: object) -> str:
     return value
 
 
+def _display_node(node: dict) -> None:
+    for key, maximum in (("type", 80), ("detail", 240), ("summary", 1000)):
+        if key in node:
+            _text(node[key], f"node {key}", maximum)
+    if "category" in node and node["category"] not in (
+        "input", "encoder", "transformer", "memory", "logic", "external", "component", "output",
+    ):
+        raise ValueError("Model node category is unsupported")
+    if "config" in node:
+        config = node["config"]
+        if not isinstance(config, dict) or len(config) > 32:
+            raise ValueError("Model display configuration must have at most 32 fields")
+        for key, field in config.items():
+            _text(key, "configuration field", 80)
+            if isinstance(field, str):
+                _text(field, "configuration value", 1000)
+            elif field is not None and not isinstance(field, bool):
+                if not isinstance(field, (int, float)) or abs(field) > 10**15 or not math.isfinite(field):
+                    raise ValueError("Model configuration values must be bounded display scalars")
+    if "groups" in node:
+        groups = node["groups"]
+        if not isinstance(groups, list) or len(groups) > 16:
+            raise ValueError("Model node must have at most 16 display groups")
+        for group in groups:
+            if not isinstance(group, dict) or set(group) != {"label", "items"}:
+                raise ValueError("Model display group fields are invalid")
+            _text(group["label"], "display group label")
+            items = group["items"]
+            if not isinstance(items, list) or not 1 <= len(items) <= 64:
+                raise ValueError("Model display group must contain from 1 to 64 items")
+            for item in items:
+                if not isinstance(item, dict) or "label" not in item or not set(item) <= {"label", "value"}:
+                    raise ValueError("Model display item fields are invalid")
+                _text(item["label"], "display item label")
+                if "value" in item:
+                    _text(item["value"], "display item value", 1000)
+
+
+def _display_model(value: dict, identities: set) -> None:
+    if "description" in value:
+        _text(value["description"], "description", 2000)
+    if "sources" in value:
+        sources = value["sources"]
+        if not isinstance(sources, list) or len(sources) > 32:
+            raise ValueError("Model must have at most 32 declared sources")
+        source_ids = set()
+        for source in sources:
+            if not isinstance(source, dict) or not {"id", "name", "node_ids"} <= set(source) or not set(source) <= {
+                "id", "name", "node_ids", "revision",
+            }:
+                raise ValueError("Model declared source fields are invalid")
+            identity = _id(source["id"])
+            if identity in source_ids:
+                raise ValueError("Model declared source identities must be unique")
+            source_ids.add(identity)
+            _text(source["name"], "source name")
+            if "revision" in source:
+                _text(source["revision"], "source revision", 200)
+            members = source["node_ids"]
+            if not isinstance(members, list) or not 1 <= len(members) <= len(identities):
+                raise ValueError("Model declared source requires bounded node membership")
+            checked_members = [_id(member) for member in members]
+            if len(set(checked_members)) != len(members) or not set(checked_members) <= identities:
+                raise ValueError("Model declared source must reference unique declared nodes")
+    if "brief" in value:
+        brief = value["brief"]
+        if not isinstance(brief, dict) or not set(brief) <= {
+            "description", "rationale", "key_aspects", "goals", "modifications",
+        }:
+            raise ValueError("Model brief fields are invalid")
+        for key, field in brief.items():
+            if key == "description":
+                _text(field, "brief description", 2000)
+            else:
+                if not isinstance(field, list) or len(field) > 32:
+                    raise ValueError("Model brief lists must have at most 32 items")
+                for item in field:
+                    _text(item, "brief item", 1000)
+
+
 def validate_model_descriptor(value: object) -> dict:
-    if not isinstance(value, dict) or set(value) != {"protocol", "model_id", "name", "checkpoint", "nodes", "edges"}:
+    required = {"protocol", "model_id", "name", "checkpoint", "nodes", "edges"}
+    if not isinstance(value, dict) or not required <= set(value) or not set(value) <= required | {
+        "description", "sources", "brief",
+    }:
         raise ValueError("Model descriptor fields are invalid")
     if value["protocol"] != _PROTOCOL:
         raise ValueError("Model descriptor protocol is unsupported")
@@ -50,7 +134,7 @@ def validate_model_descriptor(value: object) -> dict:
     identities = set()
     for node in nodes:
         if not isinstance(node, dict) or not {"id", "label", "kind"} <= set(node) or not set(node) <= {
-            "id", "label", "kind", "parameter_count",
+            "id", "label", "kind", "parameter_count", "type", "category", "detail", "summary", "config", "groups",
         }:
             raise ValueError("Model node fields are invalid")
         identity = _id(node["id"])
@@ -59,6 +143,7 @@ def validate_model_descriptor(value: object) -> dict:
         identities.add(identity)
         _text(node["label"], "node label")
         _text(node["kind"], "node kind", 80)
+        _display_node(node)
         if "parameter_count" in node:
             count = node["parameter_count"]
             if isinstance(count, bool) or not isinstance(count, int) or not 0 <= count <= 10**15:
@@ -75,6 +160,7 @@ def validate_model_descriptor(value: object) -> dict:
         if source == target or (source, target) in connections:
             raise ValueError("Model edges cannot be self-references or duplicates")
         connections.add((source, target))
+    _display_model(value, identities)
     return value
 
 

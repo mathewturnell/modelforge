@@ -21,14 +21,14 @@
       "sha256": "500cfe9e09e2d6bf1ab2bd629726f3c05eea56833695b135466df2667e05b9bb"
     },
     {
-      "bytes": 2406,
+      "bytes": 2801,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "CHANGELOG.md",
-      "sha256": "596249e3c55399c16d09323c07b8656237cc4212a1b503e02f859e14487ae60d"
+      "sha256": "1071cd34b7f2df9383f3b7a8e22b3d50b530fbfeb47511e29b42c889952a5e67"
     },
     {
       "bytes": 2368,
@@ -101,24 +101,24 @@
       "sha256": "90503d24b0fb6cdf97dcb87189bf408d8ad5f9dc9bd90e8ab6f7fe5d306439a4"
     },
     {
-      "bytes": 5107,
+      "bytes": 95020,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "THIRD_PARTY_NOTICES",
-      "sha256": "82af1f274606564466c4419f798a5455720a25832df59498f845660b25e69cd3"
+      "sha256": "ddcc88caf568c46948353b9ebf78e3958879266f9d6bf593013eac96ba82945f"
     },
     {
-      "bytes": 20580,
+      "bytes": 31617,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "browser-tests/fixtures/fixture_server.py",
-      "sha256": "af63e1ad7315409e6a5ffc8456ef9ed09607e2b25270452b0e8d9d3cfa1967ca"
+      "sha256": "1f9417f968dd3b67f55f4c307b6053886627fdc7d250992140ace81ff389529a"
     },
     {
       "bytes": 4348,
@@ -141,24 +141,24 @@
       "sha256": "24693424991042f2d940b488a51633c612149ceb95f74d43da2248885d0114e8"
     },
     {
-      "bytes": 4279,
+      "bytes": 4292,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "browser-tests/journeys/documentation-captures.spec.js",
-      "sha256": "8774add0228e79fa1a9033079986fcf377a79a630592c2f8ed8ebfdc6117017d"
+      "sha256": "fe5bdf7235dc5bea0e6db336294fe563f29ffad78b5e4f2eece244d8e501eb64"
     },
     {
-      "bytes": 5428,
+      "bytes": 6111,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "browser-tests/journeys/first-use.spec.js",
-      "sha256": "1676933e4ccc8e9647192427f453b47c93caa3fbe51c26414676076ed0cb4ac3"
+      "sha256": "bb58a39edb7acf22be8a27c98004d039547e2cdec5cdcb0dcac1c6af18f5e9e2"
     },
     {
       "bytes": 92745,
@@ -171,14 +171,14 @@
       "sha256": "deaf36eef02747ccaad8b6b37b149634498fb23c68e1e4e675dcf3dc44b010fb"
     },
     {
-      "bytes": 88945,
+      "bytes": 100092,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "browser-tests/journeys/first-use.spec.js-snapshots/first-use-desktop-linux.png",
-      "sha256": "5245c9b6b8cf7ad99c9c926bb69123ebd08d552ff5bf56755fd5e4fd62657d3b"
+      "sha256": "8a2d7630e3b8463e0b2c396b45173e3f695c94176c22ba7ca069177fa0f5e1d5"
     },
     {
       "bytes": 52837,
@@ -191,24 +191,24 @@
       "sha256": "c2c4e6828bbf5943d92cc3097ad29e46655cef5340e21efe0600693ccf66165f"
     },
     {
-      "bytes": 51949,
+      "bytes": 44137,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "browser-tests/journeys/first-use.spec.js-snapshots/first-use-mobile-390-linux.png",
-      "sha256": "5cccd700bf67232e8f792fa89bb9b141e09bdf513000c633b7599e52c218683f"
+      "sha256": "9f6e0b508bedd4a5acfb6533c42f84db188ce725e164608c242e5188823d0550"
     },
     {
-      "bytes": 6152,
+      "bytes": 6352,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "browser-tests/journeys/local-lifecycle.spec.js",
-      "sha256": "c49f6820921984a0a078dbf3c59a7b4e9d01a0a0fbdf9cc498dd53d4418474e4"
+      "sha256": "654e0b8f08652590c33dd1c94c4d8530fa6be4bbcc3f35ae64352ddc18b46855"
     },
     {
       "bytes": 4345,
@@ -221,24 +221,44 @@
       "sha256": "e69487d9cb812ff0df0de54232c8bd04b6f2d5c15cc749b5f58e2223f9572daf"
     },
     {
-      "bytes": 10336,
+      "bytes": 10909,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "browser-tests/journeys/restored-lifecycle.spec.js",
-      "sha256": "d35c746a2535eff8aa86584fdd34e6cbebdb6440aae2fa134e9d99e6978e0068"
+      "sha256": "862c49a4577f6fc7273e790591e5713a8a76b426f70056ae28745f00dbfc031d"
     },
     {
-      "bytes": 8801,
+      "bytes": 9115,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "browser-tests/journeys/showcase-regression.spec.js",
-      "sha256": "3d85c310e3733107aafbed6331a2c1de3e6188f1980143be9d05096e1cca5168"
+      "sha256": "80a61dd00de386b237974723b0b2e0ea630ca4451703892333e447cf58cbc8fe"
+    },
+    {
+      "bytes": 12144,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "repository-source"
+      },
+      "path": "browser-tests/journeys/visual-restoration.spec.js",
+      "sha256": "20acca7e7730fe51fd2832d6af56f56da5f06efa523d0800cad1c0b6c7281090"
+    },
+    {
+      "bytes": 708,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "repository-source"
+      },
+      "path": "browser-tests/support/visible-evidence.js",
+      "sha256": "c6aa05a136f71f33f19b6319ff9ae996f265b817cb51dafb556e26f36d9e9012"
     },
     {
       "bytes": 3829,
@@ -261,14 +281,14 @@
       "sha256": "68be60b4e26a5c9c909e61946ef7186b261738e3714c04cc14d8dc6ab7ace9e1"
     },
     {
-      "bytes": 7895,
+      "bytes": 8389,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/architecture.md",
-      "sha256": "25e04b3c163a56e703d4f4990afabadd0bab44aa9f944cb76c4e9ce6f17f2bdf"
+      "sha256": "7b8504d1cd80e9b73baf8579f89c465a2a81b0de10917034d18187d842cbff62"
     },
     {
       "bytes": 701,
@@ -381,6 +401,16 @@
       "sha256": "4fb9ea036daaf215682c5eac0b1c45569fed206123667e4bbea07f280fe7eb94"
     },
     {
+      "bytes": 4001,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "repository-source"
+      },
+      "path": "docs/decisions/0004-mui-original-workbench-fidelity.md",
+      "sha256": "2e023a9f76989123780416a135fd17a4d73fb8008ee2752c2bee000ddbd0f0dd"
+    },
+    {
       "bytes": 4403,
       "license": "Apache-2.0",
       "mode": "100644",
@@ -471,14 +501,24 @@
       "sha256": "55874918dfd1a9e6327f2674c73504c3f6e58e8fac913bb2e462a28d203317fa"
     },
     {
-      "bytes": 5913,
+      "bytes": 3285,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "repository-source"
+      },
+      "path": "docs/releases/2026-09-23-mui-workbench-restoration.md",
+      "sha256": "a3ad9bac8462609059c37955976fbccd90a1c7d1ee59992d4216c17d6b2fd158"
+    },
+    {
+      "bytes": 6924,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "docs/requirements.md",
-      "sha256": "0862a03803864908c0991e0d52d84bdd14631512d500db6656a497241bb1418d"
+      "sha256": "ea4583acde90f1426036f32b78668df5e3b1dbe94ee6e19cc1c934c79671abca"
     },
     {
       "bytes": 3919,
@@ -1187,14 +1227,14 @@
       "sha256": "6f2723ade8ca9b5639dbb4718fd01cd5774a2e8540079050dfbdfde7927f4c61"
     },
     {
-      "bytes": 9342,
+      "bytes": 31000,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "react-source-inventory.json",
-      "sha256": "7be0ac192f573e1a924b71c651787c655ec3d0f95ea2843c5e368b58770b2bbf"
+      "sha256": "f5fdf6710a729ff0eaa28a13d468522894d3957bd5343c613ce3f63d29fc0e01"
     },
     {
       "bytes": 229,
@@ -1207,14 +1247,14 @@
       "sha256": "93c90addf1603f0bb45e078dc4bff0ad0da7bbe814dfae71bdb8683c105c55af"
     },
     {
-      "bytes": 4133,
+      "bytes": 5192,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "scripts/build_react_inventory.py",
-      "sha256": "eb001aed3d69831659a4c710f5b976c13aa1dd6cbf24f23340b2cc77ba7cc7ff"
+      "sha256": "d0cf5d68cee731a23cfbd2c04de18e1da2133a5c8ad466e3b63aabe4f0bf9aeb"
     },
     {
       "bytes": 3626,
@@ -1227,14 +1267,14 @@
       "sha256": "9681168fe66f3b19bedb74561653eb049597eb8dba98cb918474e03d5e24a3e0"
     },
     {
-      "bytes": 8308,
+      "bytes": 8714,
       "license": "Apache-2.0",
       "mode": "100755",
       "origin": {
         "kind": "repository-source"
       },
       "path": "scripts/scan_public_candidate.py",
-      "sha256": "fcf632a89c760182dd249c42793bfe3342f2667cad7aaf13657dbee5974ee84b"
+      "sha256": "92c844202bc6df877b84622c131a94cc565d179e2e0524f481cf1d9059e22c9d"
     },
     {
       "bytes": 10680,
@@ -1317,14 +1357,14 @@
       "sha256": "c21723cba1fb331bce93d077244c6c816cad88971107e2649b8c27fbad6f4458"
     },
     {
-      "bytes": 9284,
+      "bytes": 9339,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "src/modelforge_workbench/application/annotations.py",
-      "sha256": "87f1db839764d74b7190e9a1f9d6e5a7b43c7b45cc7ab1f53e772cc908ef2c9a"
+      "sha256": "a345511664280be36a2b3738ff7dd5c0b6236f3c6f02285f1093a44732d477bd"
     },
     {
       "bytes": 5753,
@@ -1387,14 +1427,14 @@
       "sha256": "fa7c8bf9a941f1e36ea76b7a8b35573fff07b8042e4e88d22653d076599a4a1c"
     },
     {
-      "bytes": 6054,
+      "bytes": 10576,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "src/modelforge_workbench/application/model_inspection.py",
-      "sha256": "c0da924705b56ed6850f2234fbeebb44a448782213dc1450ef196dcbb035947c"
+      "sha256": "600a5d99c3c502e3fe44e6c67e3107a90bc578729eda8824fe44b39a787711ef"
     },
     {
       "bytes": 30602,
@@ -1717,14 +1757,14 @@
       "sha256": "2b4798387ea970a45faf5b2e6d2d0555da4873ef6e04c5e9c46bcc4c61f74157"
     },
     {
-      "bytes": 21155,
+      "bytes": 22111,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "src/modelforge_workbench/workbench/server.py",
-      "sha256": "522834bf05f5f3d01890519db55e0100011cb921f945395763b3cbd8e3a8184a"
+      "sha256": "eef6575310e9d66161d9f7183ca7709f0c250d48672bdd0f2805fa746d24542a"
     },
     {
       "bytes": 1788,
@@ -1747,7 +1787,7 @@
       "sha256": "a6b40fe22966e5b64b5445eda1edfd74ec9a1a6d4ca609e71e4da28c52e364db"
     },
     {
-      "bytes": 224736,
+      "bytes": 349874,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
@@ -1755,11 +1795,11 @@
         "provenance": "react-source-inventory.json",
         "source": "workbench/"
       },
-      "path": "src/modelforge_workbench/workbench/static/workbench/assets/index-AxQjmz77.js",
-      "sha256": "58fd3604774acbd575523271a11b907cfa543ab1fab10048228e6fee3bee4158"
+      "path": "src/modelforge_workbench/workbench/static/workbench/assets/index-DAV8vlp3.css",
+      "sha256": "3bc31e39094985e785feab0b14b47a2f902ff861ea9409dfec33641959dcac3e"
     },
     {
-      "bytes": 12104,
+      "bytes": 1165001,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
@@ -1767,8 +1807,20 @@
         "provenance": "react-source-inventory.json",
         "source": "workbench/"
       },
-      "path": "src/modelforge_workbench/workbench/static/workbench/assets/index-Jz-KiwGK.css",
-      "sha256": "9a357187dca1fc3c6a0581034645da8e7593afb47b972c24681d948cd76cc283"
+      "path": "src/modelforge_workbench/workbench/static/workbench/assets/index-DhAnozgQ.js",
+      "sha256": "615447daa797c28d091cfe942c6dcdb41229172f833daa922a6d7bd009a75040"
+    },
+    {
+      "bytes": 37652,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "compiled-react-output",
+        "provenance": "react-source-inventory.json",
+        "source": "workbench/"
+      },
+      "path": "src/modelforge_workbench/workbench/static/workbench/assets/modalitysystems-upIcUup5.png",
+      "sha256": "badbbb7689212cf651595ec4383a2d0808e66e48ff2b45748c5810fc625827d2"
     },
     {
       "bytes": 512,
@@ -1780,7 +1832,7 @@
         "source": "workbench/"
       },
       "path": "src/modelforge_workbench/workbench/static/workbench/index.html",
-      "sha256": "2ec38622cdf19128e187d394c6d0a4b48dfb52936179eed3ce721ec8c5a0a24c"
+      "sha256": "73102bcc79291d6898204fd89894c25e7ced798a0593b33d614d922ba89a092f"
     },
     {
       "bytes": 5431,
@@ -1793,14 +1845,14 @@
       "sha256": "163965483fe902ea0e97597c7f9defba60c9fdc9806fbbd8c00b8af991ca3ec9"
     },
     {
-      "bytes": 6312,
+      "bytes": 7844,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "tests/test_annotations.py",
-      "sha256": "269c988dc82871a180dead1d0ade6589182270929c6d1a4a6ce289daf4511168"
+      "sha256": "02ce6e87a0bd2d8b241c954533e021b9540fa302feaa9aa2b520ff402c2ab31a"
     },
     {
       "bytes": 2475,
@@ -1913,14 +1965,14 @@
       "sha256": "13a393d2ed84f1f0807652b6919e8c2fcc8bc8bf9b93f4ae28ee7eda6722e9f7"
     },
     {
-      "bytes": 3242,
+      "bytes": 3022,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "tests/test_modal_ui_contract.py",
-      "sha256": "a341b9bdee6f82ca9d6ae76229a379e4fa1cc8b00723f52b8bc670d3a84fd8a0"
+      "sha256": "10a57d3155b454f3a14982768e58990f943af32ade1886fa0f5870b453e72547"
     },
     {
       "bytes": 1927,
@@ -1933,14 +1985,24 @@
       "sha256": "0b8d37a72838922d434a6e9b320e0270289cb017a6ab7467946725b494e3dd2a"
     },
     {
-      "bytes": 4144,
+      "bytes": 7004,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "tests/test_model_inspection.py",
-      "sha256": "7b4e2b37e0f769b74ec9b4568e1e0a9555e829839f97075b5d6baa9ac81134d8"
+      "sha256": "40e2ec5cb78625740052b6d85d7b25fdef599310359cca07895a6b0cb599aa00"
+    },
+    {
+      "bytes": 4063,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "repository-source"
+      },
+      "path": "tests/test_mui_csp.py",
+      "sha256": "b7fc3b91a2f44cadcc4ceb15d6c1747aa5d2445eb5b45f3d7ae874869e5e4301"
     },
     {
       "bytes": 10708,
@@ -1953,14 +2015,14 @@
       "sha256": "da76618da88b7fa4a536032c0bf26ff6991febb55ae5288a96bf8e84b26ef8d3"
     },
     {
-      "bytes": 15491,
+      "bytes": 15437,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "tests/test_public_alpha.py",
-      "sha256": "ddf1e717fc8ad338964f7f876e0f182b762556d78250333e7c483dbedb9550fa"
+      "sha256": "daffdfc7f7ed06b2216b6ca312b3bffe497c21015439941f1f228fa17aaf2672"
     },
     {
       "bytes": 7443,
@@ -1993,14 +2055,14 @@
       "sha256": "335384a90edf256108a43d4309036168e5b7d3085c342db07333c54f53e09521"
     },
     {
-      "bytes": 6324,
+      "bytes": 6483,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "tests/test_react_delivery.py",
-      "sha256": "ab58780df5f2286255fdfbc0b32f548554709387dac284630506b0a65d301fb1"
+      "sha256": "110106bc52bf972918d9d41ee59bf457319943d502d1622e47110ac3323336cf"
     },
     {
       "bytes": 10531,
@@ -2023,14 +2085,14 @@
       "sha256": "c527c453375190663c299cd061d2ce9982badf4920d1ad0dc40996f1b8671dc7"
     },
     {
-      "bytes": 8074,
+      "bytes": 9506,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
         "kind": "repository-source"
       },
       "path": "tests/test_restored_workbench_services.py",
-      "sha256": "c118584b3b00ab232fdd81c1873ee910d199417fc77a941de3be0c54f99d68d3"
+      "sha256": "629add601ed6bf73d578944d0e96d1f95ef5f5027e1b7be124987d62b82b5387"
     },
     {
       "bytes": 4539,
@@ -2086,7 +2148,7 @@
       "sha256": "8ac84c382542df479a854204cf86ad7aff47fac57387949e435be1aebfe71b71"
     },
     {
-      "bytes": 52704,
+      "bytes": 107422,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
@@ -2094,10 +2156,10 @@
         "provenance": "react-source-inventory.json"
       },
       "path": "workbench/package-lock.json",
-      "sha256": "b0bb6b0bcb12232333b02638701b5dd089d9e0c8a0649003d912b167b3c344ab"
+      "sha256": "ecd24034ca084130d0fafa292d6ee4c6e08b5958df6ad7d48ebe5452da90433b"
     },
     {
-      "bytes": 508,
+      "bytes": 838,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
@@ -2105,10 +2167,21 @@
         "provenance": "react-source-inventory.json"
       },
       "path": "workbench/package.json",
-      "sha256": "6181aa3d5708edfbb274d0a04ed98780ab3bcd0fa31310d02653262e8bcd4dc0"
+      "sha256": "6d975018e8bf570a8cc898e4e32b27ae614ca02facb22be4d98e18d11a162f1e"
     },
     {
-      "bytes": 3170,
+      "bytes": 11446,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/AnnotationEditor.css",
+      "sha256": "af19593d1d586136dfdc53a299d66f0d9c2fe116700c094339a37cc2bd00db55"
+    },
+    {
+      "bytes": 3600,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
@@ -2116,10 +2189,10 @@
         "provenance": "react-source-inventory.json"
       },
       "path": "workbench/src/App.test.tsx",
-      "sha256": "66448af974658399fba9862dfb14f5dc926e84eae479de6ba4af496bc1588297"
+      "sha256": "c3ea01616d95cb451bf66b90400fa263db9444450852f94de1f4586f29f0227e"
     },
     {
-      "bytes": 30325,
+      "bytes": 37869,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
@@ -2127,10 +2200,32 @@
         "provenance": "react-source-inventory.json"
       },
       "path": "workbench/src/App.tsx",
-      "sha256": "274b288b92f6ab014c18941f87e1d7aeee00ed93ead3a31fc92700b1df377c8e"
+      "sha256": "6867507f617a1f4872c97aaf92c400633f2a5d77bea32984c5ea9910a8ec1593"
     },
     {
-      "bytes": 12262,
+      "bytes": 4059,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/JobsRegistry.tsx",
+      "sha256": "93547cc110426f368bdf643eb12dd41b8d6738d0530f77fd61e6e3027b85ad24"
+    },
+    {
+      "bytes": 2328,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/LifecycleViews.test.ts",
+      "sha256": "f59f2907cb9d8afe48e6ade9499d893f4cf55829b1bfd2f697bd3f0758c39b6a"
+    },
+    {
+      "bytes": 21307,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
@@ -2138,7 +2233,117 @@
         "provenance": "react-source-inventory.json"
       },
       "path": "workbench/src/LifecycleViews.tsx",
-      "sha256": "bfe0b8d4ecadd33e69a4472ca6deb89c167db1446e610ad39369ab2335501d49"
+      "sha256": "83dfc111cef01133e9871e806ef5f3ee9ae66e3e1ab9572940157f7a01a87fd1"
+    },
+    {
+      "bytes": 22022,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/ModelArchitectureView.css",
+      "sha256": "4d22c73e35e0c41195ad3c6cdb13a0e259b055d56cdd77da526195c6abf52ec5"
+    },
+    {
+      "bytes": 3066,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/ModelArchitectureView.test.ts",
+      "sha256": "13723b345b6ec789728f8d2c2d939dbdb019a5f8a2d2f660e9832b8dcb887610"
+    },
+    {
+      "bytes": 17642,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/ModelArchitectureView.tsx",
+      "sha256": "3cce3405e6e4040fde2672033401bef3e783ba083e79ad579d156a939c7717ed"
+    },
+    {
+      "bytes": 12026,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/TrainingTelemetryView.css",
+      "sha256": "0703ba387d7e3b9d7f87be5e24d1f7f19a26ceea9704938cc70a5b62641a0438"
+    },
+    {
+      "bytes": 3872,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/TrainingTelemetryView.test.ts",
+      "sha256": "262c539378f32c10ebb2b9adadeab03e0d7816bde2cf65b76c20b5a93f11036d"
+    },
+    {
+      "bytes": 13033,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/TrainingTelemetryView.tsx",
+      "sha256": "7f40d4ed6dd1228aa20deb7f026a3ee12ab48357ec5bbc3209bc69e1a7ac7c96"
+    },
+    {
+      "bytes": 8108,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/WorkbenchChrome.tsx",
+      "sha256": "479bca5e11f9b8c61915a1735c2d5db31964d34d746065260113c8fc72685b75"
+    },
+    {
+      "bytes": 518,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/assets/favicon.svg",
+      "sha256": "e9a4d62b08d09d8573da2e99f9c833d7be0d21f36f118016bb31005d20ee4673"
+    },
+    {
+      "bytes": 37652,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/assets/modalitysystems.png",
+      "sha256": "badbbb7689212cf651595ec4383a2d0808e66e48ff2b45748c5810fc625827d2"
+    },
+    {
+      "bytes": 322760,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/heritage.css",
+      "sha256": "936c9d26ae7686984100ff0edd38810c1fadea0a89aa6584ead889d25032381f"
     },
     {
       "bytes": 1397,
@@ -2152,7 +2357,7 @@
       "sha256": "3ec70f128ca17e922ad3bbfc8a53d9b6843e4b3637f5f31e35c685a675fe3168"
     },
     {
-      "bytes": 4023,
+      "bytes": 4046,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
@@ -2160,10 +2365,10 @@
         "provenance": "react-source-inventory.json"
       },
       "path": "workbench/src/lib/api.ts",
-      "sha256": "6f10e8dc70bea7a985ed67950ebfe4cdc219ce072c307da5d5fbfeae44adb123"
+      "sha256": "eed415e735bd72bcbf49f2501bb65e309165a984704f930c72c15986512747ce"
     },
     {
-      "bytes": 1006,
+      "bytes": 1502,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
@@ -2171,10 +2376,10 @@
         "provenance": "react-source-inventory.json"
       },
       "path": "workbench/src/main.tsx",
-      "sha256": "6fcfeef99705f9692c5fdec4e58cc13ae9d3cf30fbb556c38fa4cb2f7a22c86e"
+      "sha256": "a6c556cc737847166bda086c3891e172ffec3e339f52301ad07852b8e8f2e8ae"
     },
     {
-      "bytes": 12301,
+      "bytes": 20743,
       "license": "Apache-2.0",
       "mode": "100644",
       "origin": {
@@ -2182,7 +2387,18 @@
         "provenance": "react-source-inventory.json"
       },
       "path": "workbench/src/styles.css",
-      "sha256": "c47cf0cb454efbb7cf36fb66c42417ebb9a1e573c53b3e61e0c94685feef0b18"
+      "sha256": "fa246a05310391eb9380b16b6b5f2e1fe876e46d09dd67b3d209fd228c94af24"
+    },
+    {
+      "bytes": 2215,
+      "license": "Apache-2.0",
+      "mode": "100644",
+      "origin": {
+        "kind": "adapted-react-source",
+        "provenance": "react-source-inventory.json"
+      },
+      "path": "workbench/src/theme.ts",
+      "sha256": "93607deb3f17b1a4179ad6b1ac8af96df12237853efd5dd36e9a2d8056301eee"
     },
     {
       "bytes": 1910,

@@ -1,6 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 
 import {expect, test} from "../support/workbench.js";
+import {openRunDetails} from "../support/visible-evidence.js";
 
 
 async function openWorkbench(page, workbench, mode = "empty") {
@@ -19,7 +20,8 @@ async function openWorkbench(page, workbench, mode = "empty") {
       message: "Modal is optional and not configured. Install the Modal extra to use the remote synthetic workflow."}),
   }));
   await page.goto(await workbench.start(mode), {waitUntil: "domcontentloaded"});
-  await expect(page.getByText("Connected", {exact: true})).toBeVisible();
+  await expect(page.locator(".connection")).toContainText("Connected");
+  await expect(page.locator(".connection i.connected")).toBeVisible();
   await expect(page.getByRole("heading", {name: "Synthetic Threshold Lab"}).first()).toBeFocused();
   return errors;
 }
@@ -61,7 +63,11 @@ test("first use exposes the full local product contract without fake controls", 
 test("small viewport keeps navigation, workspace, and run inspector operable", async ({page, workbench}) => {
   await page.setViewportSize({width: 390, height: 844});
   const errors = await openWorkbench(page, workbench);
-  await page.keyboard.press("Tab");
+  // The restored bottom panel adds focusable controls after the workspace.
+  // Verify the skip link precedes the first title control, independent of
+  // where project-heading focus leaves the browser's sequential tab cursor.
+  await page.getByRole("button", {name: "ModelForge Home", exact: true}).focus();
+  await page.keyboard.press("Shift+Tab");
   const skip = page.getByRole("link", {name: "Skip to workspace"});
   await expect(skip).toBeFocused();
   await page.keyboard.press("Enter");
@@ -69,6 +75,9 @@ test("small viewport keeps navigation, workspace, and run inspector operable", a
   await page.getByRole("button", {name: /^Inference/}).click();
   await expect(page.getByRole("button", {name: "Run local inference"})).toBeVisible();
   await expect(page.getByRole("complementary", {name: "Current run"})).toBeVisible();
+  await openRunDetails(page);
+  await expect(page.locator(".run-inspector .badge")).toHaveText("No run selected");
+  await expect(page.getByRole("complementary", {name: "Current run"})).toContainText("Start or select a project run.");
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
   expect(overflow).toBeLessThanOrEqual(1);
   await expectNoSeriousAccessibilityViolations(page);

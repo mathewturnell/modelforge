@@ -73,7 +73,7 @@ test("capture current workbench journeys with redistributable fixtures", async (
   await chooseProject(page, QWEN);
   await openDestination(page, "Inference");
   const prompt = "Explain why keeping experiment results attached to saved runs is useful.";
-  await page.getByRole("textbox", {name: "Prompt"}).fill(prompt);
+  await page.getByRole("textbox", {name: "Prompt", exact: true}).fill(prompt);
   await capture(page, "04-qwen-prompt.png");
 
   await page.getByRole("button", {name: "Run synthetic prompt fixture", exact: true}).click();

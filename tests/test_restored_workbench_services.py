@@ -162,3 +162,33 @@ def test_invalid_annotation_payload_and_cross_project_reference_fail_closed(work
     assert status == 400
     assert _request(server, "GET", _ANNOTATIONS.replace("vision-fixture", "other-project"))[0] == 400
     assert _request(server, "GET", _ANNOTATIONS)[2]["revision"] == 0
+
+
+def test_authorized_annotation_body_accepts_bounded_timeline_above_default_limit(workbench):
+    server, _, _ = workbench
+    boxes = [{**_BOX, "id": f"box-{index}", "track_id": f"track-{index}"} for index in range(3000)]
+    payload = {"expected_revision": 0, "annotations": boxes}
+    assert len(json.dumps(payload).encode()) > 128 * 1024
+    status, _, saved = _request(server, "POST", _ANNOTATIONS, payload=payload)
+    assert status == 200 and saved["annotations"] == boxes
+    assert _request(server, "GET", _ANNOTATIONS)[2] == saved
+
+
+@pytest.mark.parametrize("route,maximum", [
+    (_ANNOTATIONS, 4 * 1024 * 1024),
+    ("/api/v1/projects/vision-fixture/actions/inference/runs", 128 * 1024),
+])
+def test_oversize_request_is_rejected_before_waiting_for_body(workbench, route, maximum):
+    server, _, _ = workbench
+    # Deliberately supply only headers. A body read here would block until the
+    # client's timeout instead of returning the bounded-request rejection.
+    status, _, error = _request(server, "POST", route, headers={"Content-Length": str(maximum + 1)})
+    assert status == 400
+    assert f"{maximum // 1024} KiB" in error["error"]
+
+
+def test_annotation_authorization_precedes_large_body_read(workbench):
+    server, _, _ = workbench
+    status, _, _ = _request(server, "POST", _ANNOTATIONS, token=None,
+                            headers={"Content-Length": str(4 * 1024 * 1024)})
+    assert status == 401

@@ -1,6 +1,13 @@
 # Changelog
 
-## Unreleased — native lifecycle restoration (2026-09-23)
+## Unreleased
+
+- Restore the established workbench with a shared MUI/React foundation: compact
+  shell and bottom logs, original React Flow inspection, Recharts comparisons
+  and essential curves, full-screen temporal annotation, and full-width Jobs.
+  Use document-specific style nonces without loosening script security. See
+  [UI restoration notes](docs/releases/2026-09-23-mui-workbench-restoration.md).
+ — native lifecycle restoration (2026-09-23)
 
 [Full release notes and real-run evidence](docs/releases/2026-09-23-lifecycle-restoration.md).
 

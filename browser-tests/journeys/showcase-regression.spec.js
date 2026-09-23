@@ -2,6 +2,7 @@ import crypto from "node:crypto";
 import {readFile, writeFile} from "node:fs/promises";
 
 import {expect, test} from "../support/workbench.js";
+import {openRunDetails, openOutput} from "../support/visible-evidence.js";
 
 // Record actual browser interaction, including successful runs. These authored
 // fixtures prove delivery contracts, never the historical models' quality.
@@ -45,14 +46,15 @@ async function exercise(page, scenario, testInfo, evidenceMode) {
     await expect(sample).toHaveCount(1);
     await sample.click();
     await expect(sample).toHaveAttribute("aria-selected", "true");
-    inputSha256 = await sample.locator("code").textContent();
+    await page.locator(".sample-identity summary").click();
+    inputSha256 = await page.locator(".sample-identity code").textContent();
     expect(inputSha256).toMatch(/^[a-f0-9]{64}$/);
     if (scenario.inputPreview !== false) await expect(page.locator(".preview video, .preview img")).toBeVisible();
     await page.screenshot({path: testInfo.outputPath(`${scenario.id}-dataset.png`), fullPage: true});
   }
 
   await destination(page, "Inference");
-  await page.getByLabel("Execution target").selectOption(local.target);
+  await page.getByRole("combobox", {name: /^Execution target/}).selectOption(local.target);
   if (scenario.prompt) await page.getByRole("textbox", {name: "Prompt", exact: true}).fill(scenario.prompt);
   const before = await (await authenticatedGet(page, `/api/v1/runs?project_id=${encodeURIComponent(project.id)}`)).json();
   await page.getByRole("button", {name: project.action.display_name || "Start managed action", exact: true}).click();
@@ -88,9 +90,11 @@ async function exercise(page, scenario, testInfo, evidenceMode) {
     await expect(page.locator(".result-table-scroll table")).toBeVisible();
     expect(await page.locator(".result-table-scroll tbody tr").count()).toBeGreaterThan(0);
   }
-  await expect(page.getByRole("region", {name: "Run log"})).not.toContainText("No live log attached.");
+  await openOutput(page);
+  await expect(page.getByRole("region", {name: "Run log"})).not.toContainText("Select a run to view recorded output.");
   await page.screenshot({path: testInfo.outputPath(`${scenario.id}-result.png`), fullPage: true});
   await page.reload({waitUntil: "domcontentloaded"});
+  await openRunDetails(page);
   await expect(page.locator(".run-live > code")).toHaveText(runId);
   await expect(page.locator(".run-inspector .badge")).toHaveText("completed");
   expect(errors).toEqual([]);
@@ -116,8 +120,10 @@ test("absent run telemetry remains unavailable rather than invented", async ({pa
   await page.goto(await workbench.start("full"), {waitUntil: "domcontentloaded"});
   await expect(page.getByText("Connected", {exact: true})).toBeVisible();
   await page.getByRole("combobox", {name: "Project", exact: true}).selectOption("prompt-fixture");
+  await openRunDetails(page);
   await expect(page.locator(".run-inspector .badge")).toHaveText("No run selected");
-  await expect(page.getByRole("region", {name: "Run log"})).toContainText("No live log attached.");
+  await openOutput(page);
+  await expect(page.getByRole("region", {name: "Run log"})).toContainText("Select a run to view recorded output.");
   await expect(page.locator(".run-live")).not.toContainText(/100%|completed|succeeded/i);
 });
 

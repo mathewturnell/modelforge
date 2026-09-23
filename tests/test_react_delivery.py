@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import http.client
 import json
+import re
 import threading
 from pathlib import Path
 
@@ -48,8 +49,8 @@ def compiled_client(tmp_path, monkeypatch):
     assets = client_root / "assets"
     assets.mkdir(parents=True)
     index = (
-        '<!doctype html><div id="root"></div>'
-        '<script type="module" src="/workbench/assets/index-a1b2c3.js"></script>'
+        '<!doctype html><html><head></head><body><div id="root"></div>'
+        '<script type="module" src="/workbench/assets/index-a1b2c3.js"></script></body></html>'
     )
     (client_root / "index.html").write_text(index, encoding="utf-8")
     (assets / "index-a1b2c3.js").write_text(
@@ -70,8 +71,9 @@ def test_root_and_hashed_assets_serve_with_restrictive_headers(
     try:
         status, headers, body = _request(server, "GET", "/")
         assert status == 200
-        assert body.decode("utf-8") == compiled_client
-        assert headers["Cache-Control"] == "no-cache"
+        assert re.sub(r'<meta name="modelforge-style-nonce" content="[A-Za-z0-9_-]+">', "",
+                      body.decode("utf-8")) == compiled_client
+        assert headers["Cache-Control"] == "no-cache, no-store"
         assert headers["X-Content-Type-Options"] == "nosniff"
         assert headers["X-Frame-Options"] == "DENY"
         assert "script-src 'self'" in headers["Content-Security-Policy"]

@@ -15,7 +15,8 @@ from pathlib import Path
 from .datasets import DatasetService, ResolvedSample
 
 _PROTOCOL = "modelforge.annotations/v1"
-_MAX_BYTES = 512 * 1024
+_MAX_BYTES = 4 * 1024 * 1024
+_MAX_RECTANGLES = 10_000
 _ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$")
 _EDITABLE_SPLITS = frozenset({"train", "training", "val", "validation", "unspecified", "unassigned"})
 
@@ -31,8 +32,8 @@ def _identifier(value: object, label: str) -> str:
 
 
 def _annotations(value: object, sample: ResolvedSample) -> list[dict]:
-    if not isinstance(value, list) or len(value) > 2000:
-        raise ValueError("Annotations must be a list of at most 2000 rectangles")
+    if not isinstance(value, list) or len(value) > _MAX_RECTANGLES:
+        raise ValueError(f"Annotations must be a list of at most {_MAX_RECTANGLES} rectangles")
     result, identities = [], set()
     for item in value:
         if not isinstance(item, dict) or set(item) != {

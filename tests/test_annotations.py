@@ -137,3 +137,30 @@ def test_two_service_instances_cannot_overwrite_same_revision(tmp_path):
     with concurrent.futures.ThreadPoolExecutor(2) as pool:
         outcomes = list(pool.map(save, [annotations, other]))
     assert sorted(outcomes, key=str) == [1, "conflict"]
+
+
+def test_multi_frame_timeline_above_old_limit_survives_reload(tmp_path):
+    annotations, projects = service(tmp_path)
+    original = projects.sample.read_bytes()
+    boxes = [rectangle(id=f"box-{index}", frame=index // 20 + 1, track_id=f"track-{index % 20}", label="tracked vehicle")
+             for index in range(4000)]
+    saved = annotations.save("project", "clips", "clip", {"expected_revision": 0, "annotations": boxes})
+    assert len(json.dumps(saved).encode()) > 512 * 1024
+    assert saved["annotations"] == boxes
+    assert len({box["frame"] for box in saved["annotations"]}) == 200
+    reloaded = AnnotationService(annotations.root.parent, annotations.datasets)
+    assert reloaded.get("project", "clips", "clip") == saved
+    with pytest.raises(AnnotationConflictError):
+        reloaded.save("project", "clips", "clip", {"expected_revision": 0, "annotations": boxes})
+    assert projects.sample.read_bytes() == original
+
+
+def test_timeline_rectangle_count_and_storage_remain_bounded(tmp_path):
+    annotations, _ = service(tmp_path)
+    with pytest.raises(ValueError, match="at most 10000"):
+        annotations.save("project", "clips", "clip", {"expected_revision": 0, "annotations": [rectangle()] * 10001})
+    annotations.save("project", "clips", "clip", {"expected_revision": 0, "annotations": []})
+    sidecar = next(annotations.root.glob("*.json"))
+    sidecar.write_bytes(b" " * (4 * 1024 * 1024 + 1))
+    with pytest.raises(ValueError, match="bounded"):
+        annotations.get("project", "clips", "clip")

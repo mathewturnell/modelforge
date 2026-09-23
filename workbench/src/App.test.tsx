@@ -1,6 +1,5 @@
 import {describe, expect, it} from "vitest";
-import {readFileSync} from "node:fs";
-import {activitiesFor, createLatestRequestGuard, runStatus, tableProjection} from "./App";
+import {activitiesFor, createLatestRequestGuard, runProgressMessage, runStatus, tableProjection} from "./App";
 import type {Project, Run} from "./types";
 
 const project: Project = {
@@ -57,11 +56,16 @@ describe("bounded checked table projection", () => {
   });
 });
 
-describe("responsive run access", () => {
-  it("places the run inspector after the workspace instead of hiding it", () => {
-    const css = readFileSync(new URL("./styles.css", import.meta.url), "utf-8");
-    expect(css).toContain('"rail inspector"');
-    expect(css).toContain('"inspector" "status"');
-    expect(css).not.toContain(".run-inspector{display:none}");
+// Responsive run access is exercised in first-use.spec.js and
+// visual-restoration.spec.js against the rendered browser at desktop and 390px.
+
+describe("observed progress", () => {
+  it("keeps missing progress distinct from zero", () => {
+    expect(runProgressMessage({id:"r",project_id:"p",status:"running"})).toBe("Waiting for recorded progress.");
+    expect(runProgressMessage({id:"r",project_id:"p",status:"running",live:{progress:{percent:0}}})).toBe("running · 0%");
+  });
+  it("preserves failed terminal and unavailable states", () => {
+    expect(runProgressMessage({id:"r",project_id:"p",status:"failed"})).toBe("Recorded status: failed.");
+    expect(runProgressMessage({id:"r",project_id:"p",status:"running",runtime_observation:{state:"unavailable",reason:"Disconnected"}})).toBe("Disconnected");
   });
 });

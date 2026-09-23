@@ -106,3 +106,57 @@ def test_descriptor_is_bounded_and_owner_binding_is_required(tmp_path):
     inspection.projects.value["bindings"].pop("model_descriptor")
     with pytest.raises(KeyError, match="not configured"):
         inspection.get("project")
+
+
+def rich_descriptor():
+    value = descriptor()
+    value.update(
+        description="A checked owner-authored model description.",
+        sources=[{"id": "upstream", "name": "Declared upstream", "revision": "commit-123",
+                  "node_ids": ["backbone", "head"]}],
+        brief={"description": "Architecture summary", "rationale": ["Declared model choice"],
+               "key_aspects": ["Encoded visual features"], "goals": ["Track objects"], "modifications": []},
+    )
+    value["nodes"][0].update(type="convolutional_backbone", category="encoder", detail="[B, 3, H, W]",
+                             summary="Multi-scale visual features", config={"levels": 3, "frozen": True,
+                                                                           "ratio": 0.5, "optional": None},
+                             groups=[{"label": "Scales", "items": [{"label": "P3", "value": "1/8"}]}])
+    return value
+
+
+def test_checked_display_metadata_is_preserved_without_opening_source_or_checkpoint(tmp_path):
+    value = rich_descriptor()
+    inspection, _ = service(tmp_path, value)
+    result = inspection.get("project")
+    for key in ("nodes", "sources", "brief", "description"):
+        assert result[key] == value[key]
+    assert not (tmp_path / "unsafe-checkpoint.pkl").exists()
+
+
+@pytest.mark.parametrize("mutation", [
+    lambda v: v.update(description="x" * 2001),
+    lambda v: v["nodes"][0].update(category="javascript"),
+    lambda v: v["nodes"][0].update(category=[]),
+    lambda v: v["nodes"][0].update(config={"nested": {"call": "execute"}}),
+    lambda v: v["nodes"][0].update(config={"values": []}),
+    lambda v: v["nodes"][0].update(config={"overflow": 10**400}),
+    lambda v: v["nodes"][0].update(config={"overflow": float("inf")}),
+    lambda v: v["nodes"][0].update(config={"overflow": float("nan")}),
+    lambda v: v["nodes"][0].update(config={str(i): i for i in range(33)}),
+    lambda v: v["nodes"][0].update(groups=[{"label": "g", "items": [], "html": "<script>"}]),
+    lambda v: v["nodes"][0].update(groups=[{"label": "g", "items": []}]),
+    lambda v: v["nodes"][0].update(groups=[{"label": "g", "items": [{"label": "i", "value": {}}]}]),
+    lambda v: v["sources"][0].update(path="/private/model"),
+    lambda v: v["sources"][0].update(node_ids=["unknown"]),
+    lambda v: v["sources"][0].update(node_ids=["backbone", "backbone"]),
+    lambda v: v["sources"].append(v["sources"][0]),
+    lambda v: v.update(brief={"html": "<script>"}),
+    lambda v: v.update(brief={"goals": ["ok", {"call": "execute"}]}),
+    lambda v: v.update(brief={"rationale": ["x"] * 33}),
+])
+def test_unbounded_or_executable_display_metadata_fails_closed(tmp_path, mutation):
+    value = rich_descriptor()
+    mutation(value)
+    inspection, _ = service(tmp_path, value)
+    with pytest.raises(ValueError):
+        inspection.get("project")

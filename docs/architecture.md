@@ -136,3 +136,12 @@ to checkpoint identities without loading weights. Training binds separate
 train/validation inputs, unpromoted candidates, and checked scalar journals.
 Modal live logs are bounded observations from the exact existing FunctionCall;
 terminal result materialization remains authoritative.
+
+## MUI workbench fidelity
+
+Decision [0004](decisions/0004-mui-original-workbench-fidelity.md) makes React/MUI
+the shared UI foundation, with a theme matching the established workbench.
+React Flow and Recharts consume only checked descriptor and telemetry
+projections. MUI/Emotion styles use a document-specific CSP nonce supplied by the
+loopback HTML adapter; script, bearer, origin and provider boundaries remain
+unchanged. Reference-based browser evidence is separate from functional tests.

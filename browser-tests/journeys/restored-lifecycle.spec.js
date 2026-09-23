@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import {expect, test} from "../support/workbench.js";
+import {openOutput, openExactValues} from "../support/visible-evidence.js";
 
 async function destination(page, name) {
   await page.getByRole("navigation", {name: "Workbench destinations"})
@@ -39,10 +40,10 @@ test("annotation drawing and label edits persist across reload and service resta
   await page.mouse.down();
   await page.mouse.move(bounds.x + bounds.width * 0.6, bounds.y + bounds.height * 0.7);
   await page.mouse.up();
-  await page.getByRole("textbox", {name: "Object label"}).fill("reviewed vehicle");
+  await page.getByRole("textbox", {name: "Object label", exact: true}).fill("reviewed vehicle");
   await page.getByRole("textbox", {name: "Track identity"}).fill("vehicle-7");
   await page.getByRole("button", {name: "Save annotations"}).click();
-  await expect(page.getByRole("status")).toContainText("Saved revision 1");
+  await expect(page.getByRole("dialog", {name: /Annotation editor/}).getByRole("status")).toContainText("Saved revision 1");
   const endpoint = "/api/v1/projects/vision-fixture/datasets/clips/samples/success/annotations";
   const saved = await apiJson(page, endpoint);
   expect(saved.annotations).toHaveLength(1);
@@ -54,10 +55,10 @@ test("annotation drawing and label edits persist across reload and service resta
   await selectSample(page, "Success synthetic clip");
   await destination(page, "Annotation");
   await page.getByRole("button", {name: "reviewed vehicle · vehicle-7"}).click();
-  await expect(page.getByRole("textbox", {name: "Object label"})).toHaveValue("reviewed vehicle");
-  await page.getByRole("textbox", {name: "Object label"}).fill("verified vehicle");
+  await expect(page.getByRole("textbox", {name: "Object label", exact: true})).toHaveValue("reviewed vehicle");
+  await page.getByRole("textbox", {name: "Object label", exact: true}).fill("verified vehicle");
   await page.getByRole("button", {name: "Save annotations"}).click();
-  await expect(page.getByRole("status")).toContainText("Saved revision 2");
+  await expect(page.getByRole("dialog", {name: /Annotation editor/}).getByRole("status")).toContainText("Saved revision 2");
   await page.goto(await workbench.restart());
   await selectProject(page, "vision-fixture");
   await selectSample(page, "Success synthetic clip");
@@ -78,7 +79,7 @@ test("annotation rectangles can be created, sized, and saved with the keyboard",
   await expect(page.getByRole("button", {name: "Add rectangle", exact: true})).toBeEnabled();
   await page.getByRole("button", {name: "Add rectangle", exact: true}).focus();
   await page.keyboard.press("Enter");
-  const label = page.getByRole("textbox", {name: "Object label"});
+  const label = page.getByRole("textbox", {name: "Object label", exact: true});
   await label.focus();
   await page.keyboard.press("ControlOrMeta+A");
   await page.keyboard.type("keyboard vehicle");
@@ -90,7 +91,7 @@ test("annotation rectangles can be created, sized, and saved with the keyboard",
   }
   await page.getByRole("button", {name: "Save annotations", exact: true}).focus();
   await page.keyboard.press("Enter");
-  await expect(page.getByRole("status")).toContainText("Saved revision 1");
+  await expect(page.getByRole("dialog", {name: /Annotation editor/}).getByRole("status")).toContainText("Saved revision 1");
   await page.reload();
   await selectSample(page, "Success synthetic clip");
   await destination(page, "Annotation");
@@ -120,14 +121,15 @@ test("validated model structure is inspectable by keyboard and keeps checkpoint 
   await page.goto(await workbench.start("full"));
   await selectProject(page, "vision-fixture");
   await destination(page, "Models / Architecture");
-  await expect(page.getByRole("group", {name: "Authored fixture architecture architecture graph"})).toBeVisible();
-  const encoder = page.getByRole("button", {name: "Image encoder", exact: true});
+  await expect(page.getByLabel("Authored fixture architecture architecture graph", {exact: true})).toBeVisible();
+  const encoder = page.getByRole("group", {name: "Image encoder", exact: true});
   await encoder.focus();
   await page.keyboard.press("Enter");
   await expect(page.getByRole("heading", {name: "Image encoder", exact: true})).toBeVisible();
-  await expect(page.getByText("encoder · 42 parameters", {exact: true})).toBeVisible();
+  await expect(page.locator(".architecture-inspector")).toContainText("42");
   const graph = await apiJson(page, "/api/v1/projects/vision-fixture/model");
   await expect(page.getByText(graph.checkpoint.sha256, {exact: true})).toBeVisible();
+  await page.getByText("Descriptor identity", {exact: true}).click();
   await expect(page.getByText(graph.descriptor_sha256, {exact: true})).toBeVisible();
   const accessibility = await new AxeBuilder({page}).analyze();
   expect(accessibility.violations.filter(item => ["serious", "critical"].includes(item.impact))).toEqual([]);
@@ -146,19 +148,24 @@ test("training launches from declared splits and displays exact persisted scalar
   await page.getByRole("button", {name: "Train authored scalar", exact: true}).click();
   await expect(page.locator(".run-inspector .badge")).toHaveText("completed", {timeout: 30_000});
   const runId = await page.locator(".run-live > code").textContent();
+  await destination(page, "Training");
   const metric = page.getByRole("combobox", {name: "Comparison metric", exact: true});
   await metric.selectOption("train/loss");
   const table = page.getByRole("table", {name: "Exact recorded values · train/loss"});
+  await openExactValues(page);
   await expect(table.locator("tbody tr")).toHaveCount(3);
   const values = await table.locator("tbody tr td:last-child").allTextContents();
   expect(values).toEqual(["4", "2.5600000000000005", "1.6383999999999994"]);
-  const choice = page.locator(".comparison-choices input").first();
+  const choice = page.getByRole("checkbox", {name: `Compare run ${runId}`, exact: true});
   await expect(choice).toBeChecked();
   await choice.uncheck();
+  await openExactValues(page);
   await expect(table.locator("tbody tr")).toHaveCount(0);
-  await expect(page.getByText("Select a run containing this metric to compare recorded values.")).toBeVisible();
+  await expect(page.locator(".comparison-chart-card")).toContainText(/No recorded values|Select a run/);
   await choice.check();
+  await openExactValues(page);
   await expect(table.locator("tbody tr")).toHaveCount(3);
+  await openOutput(page);
   await expect(page.getByRole("region", {name: "Run log"})).toContainText("Optimizer step 2");
   await expect(page.getByRole("button", {name: /^candidate.json/}).first()).toBeVisible();
   await metric.selectOption("validation/loss");
@@ -168,6 +175,8 @@ test("training launches from declared splits and displays exact persisted scalar
   await selectProject(page, "training-fixture");
   await destination(page, "Jobs / Runs");
   await page.getByRole("button").filter({hasText: runId}).click();
+  await destination(page, "Training");
   await page.getByRole("combobox", {name: "Comparison metric", exact: true}).selectOption("train/loss");
+  await openExactValues(page);
   await expect(page.getByRole("table", {name: "Exact recorded values · train/loss"}).locator("tbody tr td:last-child")).toHaveText(values);
 });

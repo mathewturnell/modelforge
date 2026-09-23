@@ -163,9 +163,8 @@ def test_react_client_retains_per_tab_auth_and_checked_blob_boundaries():
     assert '`${run.status} · unavailable`' in app
     index = (root / "index.html").read_text(encoding="utf-8")
     assert '<link rel="icon" href="data:," />' in index
-    styles = (root / "src" / "styles.css").read_text(encoding="utf-8")
-    assert "word-break:break-all" in styles
-    assert 'grid-template-areas:"title" "rail" "tabs" "work" "inspector" "status"' in styles
+    # Responsive overflow and inspector access are checked against real DOM
+    # geometry in the packaged browser journeys, not CSS implementation text.
 
 
 def test_live_projection_preserves_split_utf8_and_split_progress_lines():

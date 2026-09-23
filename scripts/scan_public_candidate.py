@@ -32,6 +32,11 @@ GENERATED_PARTS = {
     "dist", "html-report", "node_modules", "playwright-report", "test-results",
 }
 APPROVED_BINARY_FIXTURES = {
+    # Owner-authored product identity: exact source and digest-named Vite output,
+    # recorded in the React/public source inventories. Other binary assets remain denied.
+    "workbench/src/assets/modalitysystems.png",
+    "src/modelforge_workbench/workbench/static/workbench/assets/modalitysystems-upIcUup5.png",
+    "modelforge_workbench/workbench/static/workbench/assets/modalitysystems-upIcUup5.png",
     "browser-tests/journeys/first-use.spec.js-snapshots/first-use-desktop-github-ubuntu-24.04.png",
     "browser-tests/journeys/first-use.spec.js-snapshots/first-use-desktop-linux.png",
     "browser-tests/journeys/first-use.spec.js-snapshots/first-use-mobile-390-github-ubuntu-24.04.png",
