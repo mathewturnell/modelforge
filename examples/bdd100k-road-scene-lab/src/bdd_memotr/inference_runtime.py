@@ -123,6 +123,10 @@ def _load_model(requested_device: str, checkpoint_path: Path):
     load_result = model.load_state_dict(checkpoint["model"], strict=True)
     if load_result.missing_keys or load_result.unexpected_keys:
         raise ValueError("Official MeMOTR checkpoint did not load strictly")
+    delta_path = os.environ.get("MODELFORGE_MEMOTR_DELTA_PATH", "")
+    if delta_path:
+        from .adaptation import apply_delta
+        apply_delta(torch, model, Path(delta_path), _sha256(checkpoint_path))
     model.to(device).eval()
 
     thresholds = contract["postprocessing"]
@@ -400,6 +404,9 @@ def run_selected_video(
         "created_at": datetime.now(timezone.utc).isoformat(),
         "prediction_evidence": prediction_evidence,
     }
+    delta_path = os.environ.get("MODELFORGE_MEMOTR_DELTA_PATH", "")
+    if delta_path:
+        manifest["adaptation_sha256"] = _sha256(Path(delta_path))
     manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     envelope = {
         "format": RESULT_FORMAT,
@@ -424,6 +431,8 @@ def run_selected_video(
             }
         ],
     }
+    if delta_path:
+        envelope["adaptation_artifact"] = {"sha256": _sha256(Path(delta_path)), "parent_sha256": checkpoint_sha}
     temporary = output / ".result.json.tmp"
     temporary.write_text(json.dumps(envelope, indent=2) + "\n", encoding="utf-8")
     temporary.replace(envelope_path)

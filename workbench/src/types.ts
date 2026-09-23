@@ -11,7 +11,8 @@ export interface ExecutionTarget extends JsonObject {
 export interface Project extends JsonObject {
   id: string; name: string; description?: string; support_level?: string; capabilities?: string[];
   runtime_readiness?: string; readiness_reasons?: string[];
-  action: {id: string; kind: "inference" | "prompt"; display_name?: string};
+  action: {id: string; kind: "inference" | "prompt" | "training"; display_name?: string};
+  features?: {annotation?: boolean; training?: boolean; model_inspection?: boolean};
   dataset?: {id: string; name?: string; sample_count?: number}; execution_targets?: ExecutionTarget[];
 }
 export interface Sample extends JsonObject {
@@ -26,6 +27,7 @@ export interface Run extends JsonObject {
   live?: {progress?: {stage?: string; percent?: number}; log_tail?: string};
   runtime_observation?: {state?: string; stale?: boolean; reason?: string; recoverable?: boolean};
   recovery_available?: boolean;
+  telemetry?: {status: string; events: {step: number; split: string; name: string; value: number}[]};
 }
 export interface ModalStatus extends JsonObject {
   state: string; installed: boolean; environment: string; message: string; live_verified: boolean;

@@ -5,6 +5,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import base64
 import binascii
 import hashlib
@@ -13,6 +14,7 @@ import json
 import os
 import re
 import stat
+import threading
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -37,6 +39,8 @@ _FILE_NAME = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$")
 _MAX_TRANSPORT_BYTES = 3 * 1024 * 1024
 _MAX_ARTIFACT_BYTES = 2 * 1024 * 1024
 _MAX_ARTIFACT_COUNT = 8
+_MAX_LIVE_LOG_BYTES = 256 * 1024
+_MAX_LIVE_LOG_RECORDS = 2048
 
 
 def _load_modal(modal_module=None):
@@ -190,6 +194,100 @@ class ModalExecutionHandle:
         self._on_event = on_event
         self._output: ExecutionOutput | None = None
         self._cancellation_requested = False
+        self._log_stop = threading.Event()
+        self._log_lock = threading.RLock()
+        self._log_thread: threading.Thread | None = None
+        self._log_loop = None
+        self._log_task = None
+        self._live_event_count = 0
+        self._live_event_error = None
+        self._start_live_logs()
+
+    def _start_live_logs(self) -> None:
+        if not self._capture_output or self._on_event is None:
+            return
+        try:
+            manager = getattr(self._call, "logs", None)
+            stream = getattr(getattr(manager, "stream", None), "aio", None)
+        except Exception:
+            return
+        if not callable(stream):
+            return
+
+        async def consume():
+            if self._log_stop.is_set():
+                return
+            reader = stream()
+            remaining = min(self._output_limit_bytes, _MAX_LIVE_LOG_BYTES)
+            records = 0
+            try:
+                async for entry in reader:
+                    records += 1
+                    if self._log_stop.is_set() or records > _MAX_LIVE_LOG_RECORDS:
+                        break
+                    source = getattr(entry, "source", None)
+                    message = getattr(entry, "message", None)
+                    # System/container logs are not authored process output.
+                    if source not in {"stdout", "stderr"} or not isinstance(message, str):
+                        continue
+                    data = message[:remaining].encode("utf-8")[:remaining]
+                    if not data:
+                        continue
+                    with self._log_lock:
+                        if self._log_stop.is_set():
+                            break
+                        self._live_event_count += 1
+                        timestamp = getattr(entry, "timestamp", None)
+                        if not isinstance(timestamp, datetime) or timestamp.tzinfo is None:
+                            timestamp = datetime.now(timezone.utc)
+                        try:
+                            self._on_event(ExecutionEvent(self._live_event_count, timestamp, source, data))
+                        except Exception as exc:
+                            self._live_event_error = f"{type(exc).__name__}: {exc}"[:2_000]
+                            break
+                    remaining -= len(data)
+                    if remaining <= 0 or records >= _MAX_LIVE_LOG_RECORDS:
+                        break
+            finally:
+                close = getattr(reader, "aclose", None)
+                if callable(close):
+                    await close()
+
+        def read_logs():
+            loop = asyncio.new_event_loop()
+            self._log_loop = loop
+            task = loop.create_task(consume())
+            self._log_task = task
+            # A forgotten handle cannot observe logs beyond its execution bound.
+            limits = self._bundle.limits
+            deadline = min(float(limits.deadline_seconds or 1800) if limits else 1800, 1800)
+            try:
+                loop.run_until_complete(asyncio.wait_for(task, timeout=deadline))
+            except (Exception, asyncio.CancelledError):
+                # Observation failures never replace checked terminal evidence.
+                pass
+            finally:
+                loop.run_until_complete(loop.shutdown_asyncgens())
+                loop.close()
+
+        self._log_thread = threading.Thread(
+            target=read_logs, name="modelforge-modal-call-logs", daemon=True,
+        )
+        self._log_thread.start()
+
+    def _stop_live_logs(self) -> None:
+        self._log_stop.set()
+        with self._log_lock:
+            pass  # Finish any callback already in progress before returning.
+        loop, task = self._log_loop, self._log_task
+        if loop is not None and task is not None and not loop.is_closed():
+            try:
+                loop.call_soon_threadsafe(task.cancel)
+            except RuntimeError:
+                pass  # The optional reader finished concurrently.
+        thread = self._log_thread
+        if thread is not None and thread is not threading.current_thread():
+            thread.join(timeout=0.5)
 
     @property
     def identity(self) -> ProviderExecutionIdentity:
@@ -263,6 +361,7 @@ class ModalExecutionHandle:
                 "cancellation": CancellationDelivery(True, False, False, False, False),
             })
         self._cancellation_requested = True
+        self._stop_live_logs()
         self._call.cancel()
         try:
             output = self._collect(timeout_seconds=5)
@@ -293,12 +392,14 @@ class ModalExecutionHandle:
         except BaseException as exc:
             if self._is_timeout(exc):
                 raise ExecutionDeadlineExceeded("Modal function call is still running") from exc
+            self._stop_live_logs()
             if self._is_cancelled(exc):
                 return ExecutionOutput(
                     return_code=-15, timed_out=False,
                     cancellation=CancellationDelivery(True, False, True, False, True),
                 )
             raise
+        self._stop_live_logs()
         return self._materialize(envelope)
 
     def _materialize(self, envelope: Any) -> ExecutionOutput:
@@ -337,8 +438,10 @@ class ModalExecutionHandle:
             for path in created:
                 path.unlink(missing_ok=True)
             raise
-        event_error = None
-        if self._capture_output and self._on_event is not None:
+        event_error = self._live_event_error
+        # The checked envelope owns durable stdout/stderr. Do not append it to
+        # a live projection that has already received the provider stream.
+        if self._capture_output and self._on_event is not None and not self._live_event_count:
             sequence = 0
             for stream, value in (("stdout", stdout), ("stderr", stderr)):
                 if not value:

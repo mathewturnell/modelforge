@@ -7,7 +7,8 @@ Modal SDK, require an account, or use the network.
 
 The project functions cover BDD100K/MeMOTR selected-video inference,
 SoccerNet/MOTR selected-sequence inference, TasteMatch base-SigLIP image
-inference, and Qwen2.5-7B prompt execution. They do not train. ModelForge does
+inference, and Qwen2.5-7B prompt execution. A separate explicitly bound MeMOTR box-head training function is described in
+[bounded training](training.md). The four inference/prompt functions do not train. ModelForge does
 not download, accept terms for, or redistribute their upstream source,
 datasets, weights, checkpoints, media, prompts, or outputs. The account owner
 acquires and stages exact assets before registering a private provider binding.
@@ -192,3 +193,13 @@ Official references: [getting started](https://modal.com/docs/guide),
 [function invocation](https://modal.com/docs/guide/function-invocation-methods),
 [FunctionCall API](https://modal.com/docs/sdk/py/latest/FunctionCall), and
 [app operations](https://modal.com/docs/cli/latest/app).
+
+## Live run evidence
+
+When the installed SDK exposes per-FunctionCall logs, the executor streams
+bounded stdout/stderr into the existing run view. Observation stops at completion
+or cancellation and has independent byte, entry, and duration limits. Missing
+stream support leaves live logs unavailable and still retains validated final
+output. Scientific training events are validated before live display; completed
+charts are rebuilt from digest-checked artifact journals. The stream never
+confers run success, promotion, or provider billing authority.

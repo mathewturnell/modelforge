@@ -16,6 +16,7 @@ APACHE_REFERENCE_REVISION = "953e7be49a3554a9d6dea0bdbcf894133b4d1c31"
 NEW_PUBLIC_FILES = {
     "workbench/.gitignore",
     "workbench/src/lib/api.test.ts",
+    "workbench/src/LifecycleViews.tsx",
 }
 EXCLUDED_PARTS = {"node_modules"}
 

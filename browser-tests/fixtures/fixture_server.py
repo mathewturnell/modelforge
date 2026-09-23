@@ -190,6 +190,23 @@ def configure_projects(
         },
         "bindings": {"model": {"path": str(model), "model_id": "fixture/model", "revision": "fixture-revision"}},
     }
+    if not documentation:
+        vision_config["dataset"]["samples"].append({
+            **samples[0], "id": "protected", "name": "Protected test clip", "split": "test",
+        })
+        descriptor = root / "vision-model.json"
+        write_json(descriptor, {
+            "protocol": "modelforge.model-descriptor/v1", "model_id": "fixture-model",
+            "name": "Authored fixture architecture",
+            "checkpoint": {"sha256": digest(checkpoint)},
+            "nodes": [
+                {"id": "encoder", "label": "Image encoder", "kind": "encoder", "parameter_count": 42},
+                {"id": "head", "label": "Tracking head", "kind": "head"},
+            ],
+            "edges": [{"source": "encoder", "target": "head"}],
+        })
+        vision_config["bindings"]["model_descriptor"] = {"path": str(descriptor), "sha256": digest(descriptor)}
+
     for name, value in (("vision.json", vision_config), ("prompt.json", prompt_config)):
         config = root / name
         write_json(config, value)
@@ -274,6 +291,43 @@ def configure_projects(
         app.register_project(taste_config_path)
 
 
+
+def configure_training(app: AlphaWorkbench, root: Path) -> None:
+    project = root / "training-project"
+    project.mkdir(parents=True, exist_ok=True)
+    worker = Path(__file__).with_name("training_worker.py").resolve()
+    write_json(project / "project.json", authored_manifest(
+        "training-fixture", "Synthetic Scalar Training Lab", "training", "training_process",
+        "modelforge.training-result/v1",
+    ))
+    samples = []
+    for split, target in (("train", 2.0), ("validation", 2.1), ("test", 999)):
+        path = project / f"{split}.json"
+        write_json(path, {"target": target, "split": split})
+        samples.append({
+            "id": split, "name": f"Authored {split} target", "path": path.name,
+            "split": split, "content_type": "application/json", "sha256": digest(path),
+            "size_bytes": path.stat().st_size,
+        })
+    config = root / "training.json"
+    write_json(config, {
+        "protocol": "modelforge.local-runtime-configuration/v1", "id": "training-fixture",
+        "project_repository": str(project), "name": "Synthetic Scalar Training Lab",
+        "description": "Three actual scalar optimization steps on authored train and validation targets; no model-quality claim.",
+        "support_level": "conformance-fixture",
+        "action": {
+            "id": "training", "kind": "training", "interface": "training_process",
+            "display_name": "Train authored scalar", "result_protocol": "modelforge.training-result/v1",
+            "interpreter": sys.executable, "executable": str(worker), "working_directory": str(project),
+            "arguments": ["--request", "{request}", "--train", "{training_sample}", "--validation", "{validation_sample}", "--output", "{output}"],
+            "parameters": {"device": "cpu", "epochs": 1, "max_batches": 3, "learning_rate": 0.1, "seed": 7},
+        },
+        "dataset": {"id": "scalar-targets", "name": "Authored scalar targets", "root": str(project), "samples": samples},
+        "bindings": {},
+    })
+    app.register_project(config)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--state-root", type=Path, required=True)
@@ -290,6 +344,8 @@ def main() -> None:
             Path(__file__).with_name("managed_worker.py").resolve(),
             documentation=args.mode == "documentation",
         )
+    if args.mode == "full":
+        configure_training(app, args.fixture_root)
     server = _Server(("127.0.0.1", 0), app, TOKEN)
     port = server.server_address[1]
     print(json.dumps({"url": f"http://127.0.0.1:{port}/#token={TOKEN}", "port": port}), flush=True)

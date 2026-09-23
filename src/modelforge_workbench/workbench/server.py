@@ -242,6 +242,20 @@ class _Handler(BaseHTTPRequestHandler):
             self._json(HTTPStatus.OK, {"runs": self.server.app.list_runs(project_id)})
             return
         parts = [part for part in route.split("/") if part]
+        if len(parts) == 5 and parts[:3] == ["api", "v1", "projects"] and parts[4] == "model":
+            try:
+                self._json(HTTPStatus.OK, self.server.app.model_inspection.get(parts[3]))
+            except (KeyError, OSError, ValueError):
+                self._json(HTTPStatus.BAD_REQUEST, {"error": "Checked model descriptor is unavailable or changed"})
+            return
+        if (len(parts) == 9 and parts[:3] == ["api", "v1", "projects"]
+                and parts[4] == "datasets" and parts[6] == "samples" and parts[8] == "annotations"):
+            try:
+                self._json(HTTPStatus.OK, self.server.app.annotations.get(parts[3], parts[5], parts[7]))
+            except (KeyError, OSError, ValueError) as exc:
+                error = "Checked sample or annotation storage is unavailable or changed" if isinstance(exc, OSError) else str(exc)[:300]
+                self._json(HTTPStatus.BAD_REQUEST, {"error": error})
+            return
         if len(parts) == 4 and parts[:3] == ["api", "v1", "projects"]:
             try:
                 self._json(HTTPStatus.OK, self.server.app.project(parts[3]))
@@ -358,6 +372,17 @@ class _Handler(BaseHTTPRequestHandler):
             self._json(HTTPStatus.ACCEPTED, self.server.app.get_run(execution.run_id))
             return
         parts = [part for part in route.split("/") if part]
+        if (len(parts) == 9 and parts[:3] == ["api", "v1", "projects"]
+                and parts[4] == "datasets" and parts[6] == "samples" and parts[8] == "annotations"):
+            try:
+                value = self.server.app.annotations.save(parts[3], parts[5], parts[7], self._body())
+                self._json(HTTPStatus.OK, value)
+            except (KeyError, OSError, ValueError) as exc:
+                from modelforge_workbench.application.annotations import AnnotationConflictError
+                status = HTTPStatus.CONFLICT if isinstance(exc, AnnotationConflictError) else HTTPStatus.BAD_REQUEST
+                error = "Checked sample or annotation storage is unavailable or changed" if isinstance(exc, OSError) else str(exc)[:300]
+                self._json(status, {"error": error})
+            return
         if (
             len(parts) == 7 and parts[:3] == ["api", "v1", "projects"]
             and parts[4] == "actions" and parts[6] == "runs"

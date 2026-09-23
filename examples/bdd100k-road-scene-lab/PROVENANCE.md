@@ -23,3 +23,10 @@ acquired separately from its official repository under its MIT license. The
 BDD100K toolkit has separate BSD-3-Clause terms; those do not license BDD100K
 media or annotations. Redistribution permission for the dataset and the
 checkpoint has not been established, so neither is included.
+
+The 2026-09-23 bounded training extension adds independently authored
+`train_box_head.py`, `modal_training.py`, and `src/bdd_memotr/adaptation.py`
+under Apache-2.0. These call the separately acquired MeMOTR model API; they do
+not copy upstream implementation. The optimizer recipe and parent-bound delta
+contract are new project integration behavior. The original seven-file review
+above remains the historical intake record.

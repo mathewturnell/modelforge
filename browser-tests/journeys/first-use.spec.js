@@ -9,6 +9,15 @@ async function openWorkbench(page, workbench, mode = "empty") {
   page.on("console", message => {
     if (message.type() === "error") errors.push(`console: ${message.text()}`);
   });
+  // Visual first-use baselines describe an unconfigured installation. Keep the
+  // screenshot independent of the host SDK/profile; recovery-and-modal.spec.js
+  // separately verifies the real readiness endpoint and every provider state.
+  await page.route("**/api/v1/providers/modal", route => route.fulfill({
+    status: 200, contentType: "application/json",
+    body: JSON.stringify({provider: "modal", state: "unconfigured", installed: false,
+      environment: "", live_verified: false,
+      message: "Modal is optional and not configured. Install the Modal extra to use the remote synthetic workflow."}),
+  }));
   await page.goto(await workbench.start(mode), {waitUntil: "domcontentloaded"});
   await expect(page.getByText("Connected", {exact: true})).toBeVisible();
   await expect(page.getByRole("heading", {name: "Synthetic Threshold Lab"}).first()).toBeFocused();

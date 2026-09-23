@@ -116,7 +116,7 @@
       "sha256": "66448af974658399fba9862dfb14f5dc926e84eae479de6ba4af496bc1588297"
     },
     {
-      "bytes": 28271,
+      "bytes": 30325,
       "disposition": "adapted",
       "license": "Apache-2.0",
       "origin": {
@@ -125,7 +125,17 @@
         "kind": "adapted-model-forge-react"
       },
       "path": "workbench/src/App.tsx",
-      "sha256": "8324b59f0a2ef02d0ae8fe157468b599d4258d054aa06a06fd0bc301213228cb"
+      "sha256": "274b288b92f6ab014c18941f87e1d7aeee00ed93ead3a31fc92700b1df377c8e"
+    },
+    {
+      "bytes": 12262,
+      "disposition": "new",
+      "license": "Apache-2.0",
+      "origin": {
+        "kind": "new-public-recovery-source"
+      },
+      "path": "workbench/src/LifecycleViews.tsx",
+      "sha256": "bfe0b8d4ecadd33e69a4472ca6deb89c167db1446e610ad39369ab2335501d49"
     },
     {
       "bytes": 1397,
@@ -162,7 +172,7 @@
       "sha256": "6fcfeef99705f9692c5fdec4e58cc13ae9d3cf30fbb556c38fa4cb2f7a22c86e"
     },
     {
-      "bytes": 9751,
+      "bytes": 12301,
       "disposition": "adapted",
       "license": "Apache-2.0",
       "origin": {
@@ -171,10 +181,10 @@
         "kind": "adapted-model-forge-react"
       },
       "path": "workbench/src/styles.css",
-      "sha256": "c5312c1894f8dda8396bde7cfd69eb76c9eed79a8879f42ad56e33bd49d0c480"
+      "sha256": "c47cf0cb454efbb7cf36fb66c42417ebb9a1e573c53b3e61e0c94685feef0b18"
     },
     {
-      "bytes": 1710,
+      "bytes": 1910,
       "disposition": "adapted",
       "license": "Apache-2.0",
       "origin": {
@@ -183,7 +193,7 @@
         "kind": "adapted-model-forge-react"
       },
       "path": "workbench/src/types.ts",
-      "sha256": "45e800d0ac1efa9dc96359cc932c1deda6ce7397b8a8e0c206c10f10fc53ec63"
+      "sha256": "769979124a91547104fcb378534f61e3ac11f991b62f6afcb4339beeb2e06e09"
     },
     {
       "bytes": 38,
@@ -246,6 +256,14 @@
       "sha256": "8ac802ceddc1e4bac2146356b154bec0fc5afb5fc30acf6608f90d5ed49ab857"
     }
   ],
+  "maintenance_authorization": {
+    "baseline_approval_preserved": true,
+    "date": "2026-09-23",
+    "instruction": "when youre done push to github with a proper release note, not a bogus one like \"updated screenshots\"",
+    "owner": "Mathew Turnell",
+    "previous_inventory_sha256": "8bf584bfb420890f99aa58666bc81fb20bf1d6309715dee32e957108f9fc8c94",
+    "scope": "Requested lifecycle restoration and publication under existing Apache-2.0 repository terms; no new third-party UI dependency or legacy backend import."
+  },
   "package_lock_sha256": "b0bb6b0bcb12232333b02638701b5dd089d9e0c8a0649003d912b167b3c344ab",
   "protocol": "modelforge.react-source-inventory/v1",
   "source_rights_context": {

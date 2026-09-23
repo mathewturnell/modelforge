@@ -68,7 +68,7 @@
         },
         {
           "path": "src/bdd_memotr/inference_runtime.py",
-          "sha256": "b13872a379df94b09c1c62d2b37022711de2af76d60234f9c97fe4a03ea53242",
+          "sha256": "d02313357639a873e47270236cf6cfdaf75ef418e027cb1244667ac3df7ff86e",
           "origin": "Adapted from MeMOTR submit/model/tracker/post-processing flow.",
           "upstream_revision": "MCG-NJU/MeMOTR eb7a177b9cbcb89742ec69b2545ab3af2ea31a80",
           "upstream_reference": "submit_engine.py and related model/tracker utilities",
@@ -86,9 +86,45 @@
           "license_evidence": "Repository history plus Mathew Turnell's 2026-09-10 confirmation of sufficient publishing and Apache-2.0 relicensing authority.",
           "role": "Prediction/class/result mapping.",
           "treatment": "Retain under Apache-2.0."
+        },
+        {
+          "path": "train_box_head.py",
+          "sha256": "5b6192f1e0e007b586fd7e188fb476cb51bf72c64c36356d4c470931407e5dd9",
+          "origin": "New ModelForge integration code authored during the 2026-09-23 user-requested current-architecture showcase restoration; no upstream source bytes copied.",
+          "upstream_revision": null,
+          "modifications": "Bounded frozen-feature final box-head optimizer with separate validation and candidate delta.",
+          "license_evidence": "New repository contribution under Apache-2.0. User explicitly requested implementation and GitHub publication in this session; this is separate from the historical 2026-09-10 review.",
+          "role": "Bounded frozen-feature final box-head optimizer with separate validation and candidate delta.",
+          "treatment": "Retain independently authored integration code under Apache-2.0."
+        },
+        {
+          "path": "modal_training.py",
+          "sha256": "beb02e7ddee10a20e9228494d0437f4b9e406348fc2dbcebeadd9f200972b750",
+          "origin": "New ModelForge integration code authored during the 2026-09-23 user-requested current-architecture showcase restoration; no upstream source bytes copied.",
+          "upstream_revision": null,
+          "modifications": "Fixed resource-bounded owner-deployed box-head training function.",
+          "license_evidence": "New repository contribution under Apache-2.0. User explicitly requested implementation and GitHub publication in this session; this is separate from the historical 2026-09-10 review.",
+          "role": "Fixed resource-bounded owner-deployed box-head training function.",
+          "treatment": "Retain independently authored integration code under Apache-2.0."
+        },
+        {
+          "path": "src/bdd_memotr/adaptation.py",
+          "sha256": "1e3311d1531a155ce4eeb6ca0120470668aa54384fc869d53b6be6fe2f583eea",
+          "origin": "New ModelForge integration code authored during the 2026-09-23 user-requested current-architecture showcase restoration; no upstream source bytes copied.",
+          "upstream_revision": null,
+          "modifications": "Explicit parent-bound JSON delta validation and model application.",
+          "license_evidence": "New repository contribution under Apache-2.0. User explicitly requested implementation and GitHub publication in this session; this is separate from the historical 2026-09-10 review.",
+          "role": "Explicit parent-bound JSON delta validation and model application.",
+          "treatment": "Retain independently authored integration code under Apache-2.0."
         }
       ],
-      "excluded": ["BDD100K media and annotations", "complete MeMOTR checkout", "checkpoint", "prior outputs", "private state"]
+      "excluded": [
+        "BDD100K media and annotations",
+        "complete MeMOTR checkout",
+        "checkpoint",
+        "prior outputs",
+        "private state"
+      ]
     },
     {
       "id": "soccernet-tracking",
@@ -152,9 +188,27 @@
           "license_evidence": "Repository history plus Mathew Turnell's 2026-09-10 confirmation of sufficient publishing and Apache-2.0 relicensing authority.",
           "role": "Tracker result normalization.",
           "treatment": "Retain under Apache-2.0."
+        },
+        {
+          "path": "infer_selected.py",
+          "sha256": "b1224bf683da1b2bbc2750ae485cf7cec6a244c63c9f90753d1b9f12a5dac0ac",
+          "origin": "ModelForge-owned bounded Modal deployment wrapper authored for the public-alpha acceptance path; no upstream MOTR source bytes were copied.",
+          "upstream_revision": null,
+          "modifications": "Fixed project/action, resource, bounded dataset extraction, asset-verification, output, concurrency, retry, and timeout boundaries.",
+          "license_evidence": "Authored in this candidate under the Mathew Git identity; Mathew Turnell confirmed sufficient publishing and Apache-2.0 relicensing authority on 2026-09-10.",
+          "role": "Owner-deployed SoccerNet Modal action entry point.",
+          "treatment": "New independently authored Apache-2.0 local selection adapter; no vendored source or model data"
         }
       ],
-      "excluded": ["SoccerNet footage and annotations", "complete or modified MOTR checkout", "MOTR patch", "checkpoints", "training/provider code", "prior outputs", "private state"]
+      "excluded": [
+        "SoccerNet footage and annotations",
+        "complete or modified MOTR checkout",
+        "MOTR patch",
+        "checkpoints",
+        "training/provider code",
+        "prior outputs",
+        "private state"
+      ]
     },
     {
       "id": "tastematch",
@@ -200,7 +254,15 @@
           "treatment": "Retain under Apache-2.0; live managed-run qualification is recorded separately."
         }
       ],
-      "excluded": ["Food-101 imagery", "SigLIP weights", "trained adapters", "training/provider code", "copied web application", "prior outputs", "private state"]
+      "excluded": [
+        "Food-101 imagery",
+        "SigLIP weights",
+        "trained adapters",
+        "training/provider code",
+        "copied web application",
+        "prior outputs",
+        "private state"
+      ]
     },
     {
       "id": "qwen-prompt-lab",
@@ -233,7 +295,16 @@
           "role": "Reviewed direct dependency pins; dependencies keep their own licenses and this is not a locked transitive environment."
         }
       ],
-      "excluded": ["Qwen weights and cache", "retained prompts and results", "virtual environment", "private state"]
+      "excluded": [
+        "Qwen weights and cache",
+        "retained prompts and results",
+        "virtual environment",
+        "private state"
+      ]
     }
-  ]
+  ],
+  "additions_2026_09_23": {
+    "independently_authored_files": 4,
+    "scope": "Bounded MeMOTR box-head training and explicit candidate inference integration; original intake review preserved."
+  }
 }

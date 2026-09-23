@@ -1,5 +1,17 @@
 # Changelog
 
+## Unreleased — native lifecycle restoration (2026-09-23)
+
+[Full release notes and real-run evidence](docs/releases/2026-09-23-lifecycle-restoration.md).
+
+- Restore revisioned rectangle annotation and safe checkpoint-bound model graphs.
+- Add registered bounded training, native scalar comparison, reusable candidate
+  deltas, and exact-call live Modal log observations through the current services.
+- Re-run BDD100K, SoccerNet, and WeatherBench showcase inference; fix SoccerNet
+  worker socket failures, annotation path leaks, and model graph accessibility.
+- Retain explicit limits: full temporal training, benchmark parity, and Coding
+  Assistant restoration are incomplete; real Modal training awaits upload approval.
+
 ## 0.1.0a1 (public source, 2026-09-11)
 
 Full notes: [ModelForge 0.1.0a1 — public source alpha](docs/releases/0.1.0a1.md).

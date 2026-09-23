@@ -44,6 +44,7 @@ where = ["src"]
   "docs/getting-started.md",
   "docs/licensing.md",
   "docs/modal.md",
+  "docs/training.md",
   "docs/release-status.md",
 ]
 "share/modelforge/docs/assets" = ["docs/assets/modelforge-wordmark.svg"]
@@ -66,6 +67,11 @@ where = ["src"]
   "examples/bdd100k-road-scene-lab/setup.json",
   "examples/bdd100k-road-scene-lab/infer_memotr_video.py",
   "examples/bdd100k-road-scene-lab/modal_app.py",
+  "examples/bdd100k-road-scene-lab/train_box_head.py",
+  "examples/bdd100k-road-scene-lab/modal_training.py",
+  "examples/bdd100k-road-scene-lab/project.training.json",
+  "examples/bdd100k-road-scene-lab/project.training.local.template.json",
+  "examples/bdd100k-road-scene-lab/project.training.modal.template.json",
 ]
 "share/modelforge/examples/bdd100k-road-scene-lab/configs" = ["examples/bdd100k-road-scene-lab/configs/*.json"]
 "share/modelforge/examples/bdd100k-road-scene-lab/src/bdd_memotr" = ["examples/bdd100k-road-scene-lab/src/bdd_memotr/*.py"]
@@ -90,6 +96,7 @@ where = ["src"]
   "examples/soccernet-tracking/project.modal.template.json",
   "examples/soccernet-tracking/setup.json",
   "examples/soccernet-tracking/infer.py",
+  "examples/soccernet-tracking/infer_selected.py",
   "examples/soccernet-tracking/modal_app.py",
 ]
 "share/modelforge/examples/soccernet-tracking/src/soccernet_motr" = ["examples/soccernet-tracking/src/soccernet_motr/*.py"]
