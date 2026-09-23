@@ -14,3 +14,6 @@ recursive-include src/modelforge_workbench/workbench/static *.html *.css
 recursive-include src/modelforge_workbench/workbench/static/workbench *
 global-exclude *.py[cod]
 global-exclude *.tsbuildinfo
+
+# Reviewed showcase excerpts are repository documentation, not runtime/sample data.
+prune docs/assets/showcase

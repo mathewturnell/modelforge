@@ -1,0 +1,157 @@
+{
+  "protocol": "modelforge.showcase-evidence/v1",
+  "date": "2026-09-23",
+  "runtime_commit": "593183e4881ef79de044cf63d73096570b8d01fc",
+  "capture_context": "Current React/MUI workbench over checked actual project state. No fixture data substituted.",
+  "training_runs": [
+    "92a34ec0fd0040319ea7bcf48e098cec",
+    "1b4bd43eaf264af9be5799ef767b1297"
+  ],
+  "annotation": {
+    "frames": 203,
+    "rectangles": 3594,
+    "tracks": 79
+  },
+  "files": [
+    {
+      "path": "annotation.png",
+      "sha256": "6342f5379ef674641e22ee09be55a7794c319b604b2cbb58111773a5c79df3d2",
+      "bytes": 1376268,
+      "kind": "current-ui-capture"
+    },
+    {
+      "path": "architecture.png",
+      "sha256": "44900ec090bb79c765fac1f8b3d55f9fa54dd581a62646d44cd08ce17d53ab7d",
+      "bytes": 265761,
+      "kind": "current-ui-capture"
+    },
+    {
+      "path": "bdd100k-dataset.png",
+      "sha256": "b3cd4fd9a6c9388266d31a9c7799fef16e1a7616419f96500212dbae9a148aab",
+      "bytes": 788750,
+      "kind": "current-ui-capture"
+    },
+    {
+      "path": "bdd100k-inference.png",
+      "sha256": "8b7bf6dd22dbc729a782f884480cfdc85e91d8464b388010caff53106c3a2123",
+      "bytes": 785901,
+      "kind": "current-ui-capture"
+    },
+    {
+      "path": "bdd100k-result.mp4",
+      "sha256": "9744144895869fdb18eeeab24f06b9e2fd5c4ede6f4b606be1b97067008b70b4",
+      "bytes": 1720243,
+      "kind": "checked-model-result",
+      "run_id": "40dd4b47c9284921ae3d481768e89b1f",
+      "checked_output_sha256": "9744144895869fdb18eeeab24f06b9e2fd5c4ede6f4b606be1b97067008b70b4",
+      "presentation_transform": "none; identical checked output bytes",
+      "video": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "width": 1280,
+            "height": 720,
+            "avg_frame_rate": "5/1",
+            "nb_frames": "16"
+          }
+        ],
+        "format": {
+          "duration": "3.200000"
+        }
+      }
+    },
+    {
+      "path": "current-workbench.webm",
+      "sha256": "d79ecad2d96fd3185b2298f625979e4d5379b35c5bc6f74c37e9c8cf87922654",
+      "bytes": 655939,
+      "kind": "current-ui-tour",
+      "video": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "width": 1728,
+            "height": 1080,
+            "avg_frame_rate": "25/1"
+          }
+        ],
+        "format": {
+          "duration": "4.640000"
+        }
+      }
+    },
+    {
+      "path": "jobs.png",
+      "sha256": "a5b69d30b609b18567d88fdfa9b8c7b0e584ef5c47ec1dd12125ce289b82a443",
+      "bytes": 157759,
+      "kind": "current-ui-capture"
+    },
+    {
+      "path": "soccernet-inference.png",
+      "sha256": "ebedb4334d3fbce2ae4899b8ec02886f871ce54b04884dcf6179c7933ebc7640",
+      "bytes": 890308,
+      "kind": "current-ui-capture"
+    },
+    {
+      "path": "soccernet-result.mp4",
+      "sha256": "2e3a67a9428c59be8f286b9ce54b09b2d3bf4a4d9d81aa4129d239e4c8437d2c",
+      "bytes": 1013824,
+      "kind": "checked-model-result",
+      "run_id": "0e47b344a0314fb294d6814d3c4d9394",
+      "checked_output_sha256": "3171850108270941617a377e30b71f4220c704479a053cfd2329fd4cd939a0c7",
+      "presentation_transform": "H.264 smaller publication encode; same frame count, size and frame rate",
+      "video": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "width": 1920,
+            "height": 1080,
+            "avg_frame_rate": "25/1",
+            "nb_frames": "125"
+          }
+        ],
+        "format": {
+          "duration": "5.000000"
+        }
+      }
+    },
+    {
+      "path": "training-comparison.png",
+      "sha256": "cf65d004ebd8ab90720c8de31db372303f5bcd77ebc915e1822b1a5c80f9a68f",
+      "bytes": 189754,
+      "kind": "current-ui-capture"
+    },
+    {
+      "path": "weatherbench2-inference.png",
+      "sha256": "b4bcbe067da4e3c8d37eb8620237b3686297f87c22b7902aa141bf63173176af",
+      "bytes": 656227,
+      "kind": "current-ui-capture"
+    },
+    {
+      "path": "weatherbench2-result.mp4",
+      "sha256": "24af2f132695197b21d5728a2dc3aabb68eae245093f4eeb4e5b17e2f5164ebc",
+      "bytes": 1059148,
+      "kind": "checked-model-result",
+      "run_id": "507f34fdc8e64d6786fdbfcfeb4a8487",
+      "checked_output_sha256": "24af2f132695197b21d5728a2dc3aabb68eae245093f4eeb4e5b17e2f5164ebc",
+      "presentation_transform": "none; identical checked output bytes",
+      "video": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "width": 1280,
+            "height": 720,
+            "avg_frame_rate": "6/1",
+            "nb_frames": "54"
+          }
+        ],
+        "format": {
+          "duration": "9.000000"
+        }
+      }
+    }
+  ]
+}

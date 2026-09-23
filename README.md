@@ -32,28 +32,51 @@ runs later. Projects still own their model code, datasets, task semantics, and
 environments—ModelForge does not claim universal project compatibility or
 control how a coding agent behaves.
 
-![The current ModelForge workbench showing project selection, product navigation, readiness, and run output](docs/assets/screenshots/01-project-overview.png)
+## The workbench on real projects
 
-<p align="center"><sub>Select a registered project, move between its available workflows, and keep run evidence in view. This capture uses an explicitly labelled synthetic documentation fixture.</sub></p>
+These captures show the current **React + MUI** workbench with the original
+showcase projects and recorded model results. Click an image for full resolution.
 
-<table>
-  <tr>
-    <td width="50%">
-      <img src="docs/assets/screenshots/03-vision-result.png" alt="A completed synthetic vision-shaped run with logs, checked artifacts, and native video playback">
-      <br><sub>Follow a vision-shaped run from logs to checked native video.</sub>
-    </td>
-    <td width="50%">
-      <img src="docs/assets/screenshots/05-qwen-result.png" alt="A completed synthetic Qwen-shaped prompt run with its checked assistant response">
-      <br><sub>Enter a prompt and read the checked assistant response.</sub>
-    </td>
-  </tr>
-  <tr>
-    <td colspan="2">
-      <img src="docs/assets/screenshots/06-tastematch-result.png" alt="A completed synthetic TasteMatch-shaped run rendered as a semantic result table">
-      <br><sub>Inspect TasteMatch's implemented base-SigLIP result shape as a native table. The shown scores are authored documentation data, not model-quality evidence.</sub>
-    </td>
-  </tr>
-</table>
+[![BDD100K annotation in the current ModelForge editor](docs/assets/showcase/annotation.png)](docs/assets/showcase/annotation.png)
+
+**Dataset labelling.** The real BDD100K sequence contains 3,594 source rectangles
+across 203 frames and 79 tracks. The full-screen editor supports frame selection,
+box and label edits, undo/redo, and revisioned saves.
+
+[![MeMOTR architecture with the Long Term Memory Queries component selected](docs/assets/showcase/architecture.png)](docs/assets/showcase/architecture.png)
+
+**Model inspection.** The original six-node MeMOTR descriptor and checkpoint
+binding, with the selected memory-query component, graph controls and inspector.
+
+[![Two recorded MeMOTR box-head training runs in the current comparison view](docs/assets/showcase/training-comparison.png)](docs/assets/showcase/training-comparison.png)
+
+**Training telemetry.** Two real 20-update box-head finetuning runs, plotted from
+persisted train/validation scalar events. These curves show the bounded training
+smoke; they do not reproduce historical HOTA scores or full temporal training.
+
+[![Actual BDD100K tracking result playing in ModelForge](docs/assets/showcase/bdd100k-inference.png)](docs/assets/showcase/bdd100k-inference.png)
+
+**BDD100K / MeMOTR.** Original checkpoint, 16 frames at 5 fps.
+[Watch the 3.2-second tracking result](docs/assets/showcase/bdd100k-result.mp4).
+
+[![Actual SoccerNet tracking result playing in ModelForge](docs/assets/showcase/soccernet-inference.png)](docs/assets/showcase/soccernet-inference.png)
+
+**SoccerNet / MOTR.** SNMOT-060, 125 frames at 25 fps, including the original
+showcase excerpt. [Watch the five-second tracking result](docs/assets/showcase/soccernet-result.mp4).
+
+[![Actual WeatherBench2 result playing in ModelForge](docs/assets/showcase/weatherbench2-inference.png)](docs/assets/showcase/weatherbench2-inference.png)
+
+**WeatherBench2 / HURDAT2.** All 27 scientific timesteps rendered into a nine-second
+video. The reproduced MP4 matches the original showcase output byte-for-byte.
+[Watch the weather result](docs/assets/showcase/weatherbench2-result.mp4).
+
+[Dataset browser](docs/assets/showcase/bdd100k-dataset.png) ·
+[Jobs registry](docs/assets/showcase/jobs.png) ·
+[Current workbench tour](docs/assets/showcase/current-workbench.webm) ·
+[Run identities, capture provenance and limits](docs/showcase.md)
+
+These are real-project captures, not the synthetic fixtures used in automated
+tests. The source datasets and checkpoints must still be acquired separately.
 
 ## Why use ModelForge?
 
@@ -118,14 +141,15 @@ it again with the same state directory to reopen completed runs and outputs.
 ## Examples
 
 The repository contains ModelForge integration code and setup declarations.
-It does not redistribute upstream repositories, datasets, weights,
-checkpoints, media, prompts, or prior outputs.
+It does not bundle upstream repositories, datasets, weights or checkpoints.
+The reviewed screenshots and short result clips above are documentation
+excerpts; see their [provenance and media terms](docs/showcase.md).
 
 | Example | ML task | Input → output | Before you run |
 | --- | --- | --- | --- |
 | [**BDD100K Road Scene Lab**](examples/bdd100k-road-scene-lab/README.md) | MeMOTR road-object tracking | One selected local MP4 → checked native tracking video | Acquire BDD100K MOT data, pinned MeMOTR source/checkpoint, and a compatible CUDA environment. |
 | [**Qwen2.5-7B Prompt Lab**](examples/qwen-prompt-lab/README.md) | Bounded instruction prompting | User prompt and generation settings → checked assistant text | Acquire the exact external model snapshot (~15.2 GiB); CPU works slowly, while compatible CUDA is practical. |
-| [**SoccerNet Tracking**](examples/soccernet-tracking/README.md) | MOTR player/ball tracking | One selected sequence → checked native tracking video | Acquire gated SoccerNet data, pinned MOTR source, a compatible checkpoint, and CUDA. |
+| [**SoccerNet Tracking**](examples/soccernet-tracking/README.md) | MOTR tracking of the selected sequence | One selected sequence → checked native tracking video | Acquire gated SoccerNet data, pinned MOTR source, a compatible checkpoint, and CUDA. |
 | [**TasteMatch**](examples/tastematch/README.md) | Base-SigLIP food-image similarity | One selected image → checked five-row score table | Acquire Food-101 and the pinned SigLIP snapshot. No trained TasteMatch adapter or training path is supported. |
 
 Preview any example's setup without changing the machine:

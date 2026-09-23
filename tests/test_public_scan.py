@@ -81,6 +81,20 @@ def test_only_named_reviewed_visuals_are_accepted_as_binary_fixtures():
         "src/modelforge_workbench/workbench/static/workbench/assets/modalitysystems-upIcUup5.png",
         "modelforge_workbench/workbench/static/workbench/assets/modalitysystems-upIcUup5.png",
     })
+    expected.update({
+        "docs/assets/showcase/annotation.png",
+        "docs/assets/showcase/architecture.png",
+        "docs/assets/showcase/bdd100k-dataset.png",
+        "docs/assets/showcase/bdd100k-inference.png",
+        "docs/assets/showcase/bdd100k-result.mp4",
+        "docs/assets/showcase/current-workbench.webm",
+        "docs/assets/showcase/jobs.png",
+        "docs/assets/showcase/soccernet-inference.png",
+        "docs/assets/showcase/soccernet-result.mp4",
+        "docs/assets/showcase/training-comparison.png",
+        "docs/assets/showcase/weatherbench2-inference.png",
+        "docs/assets/showcase/weatherbench2-result.mp4",
+    })
     assert scanner.APPROVED_BINARY_FIXTURES == expected
     assert all(scanner._category_for_path(path) is None for path in expected)
     assert scanner._category_for_path("docs/unreviewed-screenshot.png") == (

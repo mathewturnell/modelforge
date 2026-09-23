@@ -37,13 +37,17 @@ derived portions, while the ModelForge changes are licensed under Apache-2.0.
 classification does not assert that the files are solely ModelForge-authored or
 that package-level Apache-2.0 metadata overrides them.
 
-External datasets, model repositories, weights, checkpoints, media, prompts,
-outputs, and user state are not distributed. The public examples use
+External dataset archives, model repositories, weights, checkpoints, prompts,
+and user state are not distributed. The repository publishes only the bounded
+owner-requested demonstration screenshots and result clips identified in
+[the showcase record](showcase.md); those media are excluded from Python
+distributions and retain their [separate attribution](assets/showcase/NOTICE.md). The public examples use
 placeholders and acquisition instructions; accepting upstream terms and
 providing local inputs remain the user's responsibility. In particular:
 
 - BDD100K data is distinct from the BSD-3-Clause toolkit, and no BDD media or
-  checkpoint is included.
+  checkpoint is included in Python distributions. The repository gallery contains
+  bounded demonstration excerpts only.
 - MeMOTR source is acquired separately. Two distributed BDD adapters contain
   adapted MeMOTR flow under the retained MIT notice.
 - MOTR revision `8690da3…` contains mixed MIT and inherited Apache-2.0 notices,
@@ -52,7 +56,8 @@ providing local inputs remain the user's responsibility. In particular:
   checkout had ModelForge-specific bounded/progress changes not present in the
   pinned upstream revision, so a fresh checkout is setup/inspection evidence,
   not qualification of the historical workflow.
-- SoccerNet footage and annotations are acquisition-only.
+- SoccerNet source footage and annotations remain acquisition-only; the repository
+  gallery contains the bounded derived SNMOT-060 demonstration excerpt.
 - Food-101 includes third-party imagery; no Food-101 image is included.
 - SigLIP and Qwen model repositories publish their own license metadata; no
   model weights or user prompts are included.
